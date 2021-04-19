@@ -1,0 +1,278 @@
+﻿@{
+    ViewBag.Icono = "fas fa-boxes";
+    ViewBag.Title = "Inhabilitados";
+
+}
+
+
+
+<section class="card">
+
+    <br />
+    <h5 class="col-12 text-center text-uppercase">Ihnabilitar formas de pago</h5>
+    <br />
+
+
+    <!--Seleccionar banco-->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label class="text-capitalize">  Banco:</label>
+        </div>
+
+        <div class=" col-12 col-md-6">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionBanco">
+                    <option value="" disabled selected>Selecciona un banco...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Numero de Cuenta:</label>
+        <span class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill" title="Numero de cuenta activa"> {T. F.}</span>
+
+    </div>
+
+
+    <br />
+
+
+    <!--Seleccionar Numero de orden-->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label>Numero de Orden:</label>
+        </div>
+
+        <div class=" col-12 col-md-6">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionOrden">
+                    <option value="" disabled selected>Selecciona un numero de orden...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Seleccionar Numero de contendor-->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label>Numero de Contenedor:</label>
+        </div>
+
+        <div class=" col-12 col-md-6">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionContenedor">
+                    <option value="" disabled selected>Selecciona un numero de Contenedor...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <br />
+
+
+
+
+
+
+
+
+
+
+    <div class="row ">
+        <label class="col-12 text-center offset-md-1 col-md-3 text-md-right">Folio Inicial:</label>
+        <input class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese Folio inicial a inhabilitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 49 && event.charCode <= 122 && event.charCode != 91 " />
+    </div>
+
+    <br />
+
+    <div class="row ">
+        <label class="col-12 text-center offset-md-1 col-md-3 text-md-right">Folio Final:</label>
+        <input class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese Folio Final a ihnabilitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 49 && event.charCode <= 122 && event.charCode != 91 " />
+    </div>
+
+    <br />
+
+    <button id="Validar" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="#InhabilitarFormas">
+        Inhabilitar formas de pago
+    </button>
+
+
+    <br />
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Generacion de tablas -->
+<section class="margenSection ">
+
+    <div class="table-responsive">
+
+        <table id="tbProducto" class="table table-striped table-bordered table-hover">
+            <caption class="text-uppercase"> Formas de pago inhabilitadas </caption>
+
+
+            <thead class="tabla">
+                <tr>
+                
+                    <th>Banco</th>
+                    <th>Cuenta</th>
+                    <th>N. Orden</th>
+                    <th>N. Contenedor</th>
+                    <th>Folio inicial</th>
+                    <th>Folio final</th>
+                    <th>Total de formas</th>
+                    <th>Fecha de la inhabilitacion</th>
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @*@foreach (var modelo in Model)
+                    {
+                        <tr>
+                            <td>@modelo.Id</td>
+                            <td>@modelo.NombreBanco</td>
+                            <td>@modelo.FormasDisponibles</td>
+                            <td>@modelo.UltimoFolioInventario</td>
+                            <td>@modelo.UltimoFolioQuincena</td>
+                            <td>@modelo.FormasQuincena1</td>
+                            <td>@modelo.FormasQuincena2</td>
+                            <td>@modelo.EstimadoMeses</td>
+                            <th>
+                                <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Agregar</button>
+                            </th>
+                            <th>
+                                <button type="button" class="agregar btn btn-primary">Inhabilitados</button>
+                            </th>
+
+                        </tr>
+
+
+                    }*@
+
+                <tr>
+                    <td>campo 1</td>
+                    <td>campo 1</td>
+                    <td>campo 1</td>
+                    <td>campo 1</td>
+                    <td>campo 1</td>
+                    <td>campo 1</td>
+                    <td>012345</td>
+                    <td>16/04/2021</td>
+
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- INICIO DE MODALES -->
+<section class="modal fade" id="InhabilitarFormas" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+                <h5 class="col-11 text-center"> Resumen de formas de pago a inhabilitar</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+
+            </div>
+
+
+
+            <div class="modal-body">
+                Formas de pago a inhabilitar
+
+                <br />
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="">Inhabilitar</button>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+

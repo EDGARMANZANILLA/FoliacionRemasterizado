@@ -284,7 +284,8 @@
     <Content Include="Views\Inventario\Index.cshtml" />
     <Content Include="Views\Inventario\Ajustar.cshtml" />
     <Content Include="Views\Inventario\Solicitar.cshtml" />
-    <Content Include="Views\Inventario\nuevoParcial.cshtml" />
+    <Content Include="Views\Inventario\Inhabilitados.cshtml" />
+    <Content Include="Views\Inventario\Agregar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

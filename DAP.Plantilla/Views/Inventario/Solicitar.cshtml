@@ -46,7 +46,7 @@
 
     <div class="row">
         <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Numero de Cuenta:</label>
-        <span class=" offset-1 col-10 text-center col-md-5  border border-primary rounded-pill" title="Numero de cuenta activa"> {T. F.}</span>
+        <span class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill" title="Numero de cuenta activa"> {T. F.}</span>
 
     </div>
     <br />
@@ -59,36 +59,23 @@
 
 
     </div>
-
-
-
     <br />
-
-</section>
-
-
-
-
-<section class="card" style="margin-top:20px; margin-bottom:20px;">
-    <!--Asignar numeros de folios -->
-
-    <br />
-    <h5 class="col-12 text-center">Pedir por numero de Folios</h5>
-    <br />
-
     <div class="row ">
         <label class="col-12 text-center offset-md-1 col-md-3 text-md-right">Folio Inicial:</label>
         <input class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese Folio inicial a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 49 && event.charCode <= 122 && event.charCode != 91 " />
-
-
     </div>
+
+    <br />
+    <button id="Validar" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="#BancoAgregado">
+        Agregar Banco a la solicitud
+    </button>
+
+
     <br />
 
-
-
-
-
 </section>
+
+
 
 
 
@@ -135,27 +122,27 @@
 
 
                 @*@foreach (var modelo in Model)
-                {
-                    <tr>
-                        <td>@modelo.Id</td>
-                        <td>@modelo.NombreBanco</td>
-                        <td>@modelo.FormasDisponibles</td>
-                        <td>@modelo.UltimoFolioInventario</td>
-                        <td>@modelo.UltimoFolioQuincena</td>
-                        <td>@modelo.FormasQuincena1</td>
-                        <td>@modelo.FormasQuincena2</td>
-                        <td>@modelo.EstimadoMeses</td>
-                        <th>
-                            <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Agregar</button>
-                        </th>
-                        <th>
-                            <button type="button" class="agregar btn btn-primary">Inhabilitados</button>
-                        </th>
+                    {
+                        <tr>
+                            <td>@modelo.Id</td>
+                            <td>@modelo.NombreBanco</td>
+                            <td>@modelo.FormasDisponibles</td>
+                            <td>@modelo.UltimoFolioInventario</td>
+                            <td>@modelo.UltimoFolioQuincena</td>
+                            <td>@modelo.FormasQuincena1</td>
+                            <td>@modelo.FormasQuincena2</td>
+                            <td>@modelo.EstimadoMeses</td>
+                            <th>
+                                <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Agregar</button>
+                            </th>
+                            <th>
+                                <button type="button" class="agregar btn btn-primary">Inhabilitados</button>
+                            </th>
 
-                    </tr>
+                        </tr>
 
 
-                }*@
+                    }*@
 
 
             </tbody>
@@ -164,3 +151,55 @@
 
 
 </section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- INICIO DE MODALES -->
+<section class="modal fade" id="BancoAgregado" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+                <h5 class="col-11 text-center"> Bancos agregados a solicitud</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+
+            </div>
+
+
+
+            <div class="modal-body">
+
+                {Mostrar lista de bancos}
+
+                <br />
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="">Descargar Solicitud</button>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+

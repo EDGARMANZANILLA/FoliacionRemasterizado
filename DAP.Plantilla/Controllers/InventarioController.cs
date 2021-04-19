@@ -52,6 +52,11 @@ namespace DAP.Plantilla.Controllers
         }
 
 
+        public ActionResult Agregar()
+        {
+            return View();
+        }
+
         public ActionResult Ajustar()
         {
             return View();
@@ -63,30 +68,19 @@ namespace DAP.Plantilla.Controllers
             return View();
         }
 
-        public ActionResult nuevoParcial() 
+        
+        public ActionResult Inhabilitados()
         {
 
-            List<InventarioModel> BancosMostrar = new List<InventarioModel>();
-
-
-
-            InventarioModel NuevoBanco = new InventarioModel();
-            NuevoBanco.Id = 1;
-            NuevoBanco.NombreBanco = "banco";
-            NuevoBanco.UltimoFolioInventario = 150;
-            NuevoBanco.UltimoFolioQuincena = 10;
-            NuevoBanco.FormasQuincena1 = 12;
-            NuevoBanco.FormasQuincena2 = 11;
-            NuevoBanco.EstimadoMeses = 5;
-
-            BancosMostrar.Add(NuevoBanco);
 
 
 
 
-            return PartialView(BancosMostrar);
-           
+
+            return View();
         }
+
+
 
 
     }

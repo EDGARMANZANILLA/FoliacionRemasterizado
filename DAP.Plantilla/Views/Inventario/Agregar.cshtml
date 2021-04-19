@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Icono = "fas fa-boxes";
+    ViewBag.Title = "Agregar";
+
+
+}
+
+
+<section>
+    <div class="col-12 text-center">
+        <h5 class=" text-uppercase"> Ingresar Nuevos Folios de Formas de Pagos: </h5>
+    </div>
+
+    <div class="col-12">
+        <div class="text-center">
+            <h3 class="text-capitalize" id="Banco">{NombreBanco}</h3>
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<section class="card margenSection">
+    <br />
+    <div class="col-12 text-center">
+        <h5 class=" text-uppercase"> Ingrese los siguientes campos: </h5>
+    </div>
+
+    <div class="offset-1 col-10" style="background:#E6E6E6">
+        <br />
+        <div class="row">
+
+
+            <label class="col-12          col-sm-5 text-sm-right">Numero de orden: </label>
+            <input class="offset-1 col-10 col-sm-6 offset-sm-0" placeholder="Ingresa el Numero de orden" />
+
+        </div>
+        <br />
+        <div class="row">
+
+            <label class="         col-12 col-sm-5 text-sm-right">Numero de contenedores: </label>
+            <input class="offset-1 col-10 col-sm-6 offset-sm-0" placeholder="Ingresa el Numero de contenedores" />
+
+        </div>
+        <br />
+    </div>
+    <br />
+</section>
+
+
+
+<section class="card margenSection">
+    <br />
+    <div class="col-12 text-center">
+        <label class=" text-uppercase text-justify"> Ingrese los datos correspondientes a cada contenedor de la orden ingresada en la seccion de arriba </label>
+    </div>
+
+
+
+    <!--Datos del contenedor -->
+    <div class=" offset-1 col-10" style="background:#E6E6E6;">
+        <br />
+        <h4 class="col-12 text-center">Nuevo Contenedor</h4>
+        <h4 class="col-12 text-center">{1} de 3</h4>
+        <div class="row ">
+            <label class="offset-1 col-10             col-sm-2">Folio Inicial:</label>
+            <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" />
+            <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
+            <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" />
+
+        </div>
+        <br />
+        <div class="row">
+            <label class="offset-1 col-5 text-right">Total de formas:</label>
+            <label class="col-4 text-left" title="Calculo del total de formas"> {Total de formas}</label>
+        </div>
+
+
+    </div>
+    <br />
+    <button id="Agregar" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="#AgregarContenedor">
+        Agregar Contenedor
+    </button>
+    <br />
+
+</section>
+
+
+
+<section class="card margenSection">
+    <div class="row text-left">
+        <label class="col-9">Contenedores agregados al numero de orden: {numeroOrden}  </label>
+
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal de confirmacion -->
+<section class="modal fade" id="AgregarContenedor" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+
+
+                <section class="col-11">
+                    <div class="row text-center">
+                        <div class="offset-1 col-10  text-center">
+                            <h5 class="modal-title" id="staticBackdropLabel"> Resumen de nuevas formas de pago </h5>
+                        </div>
+                    </div>
+
+
+
+
+
+                </section>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+
+
+
+
+            </div>
+
+
+
+            <div id="TextoConfrimacion" class="modal-body">
+
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="GuardarFolios()">Guardar</button>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
