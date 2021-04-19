@@ -78,8 +78,8 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div class="sidebar" style="margin-bottom: 60px;">
+        <nav id="sidebar" style="border:double;" >
+            <div class="sidebar" style="margin-bottom: 50px; ">
 
                 <!--Inicio de los datos del usuario -->
                 <p></p>
@@ -126,13 +126,13 @@
                     </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu2">
                         <li>
-                            <a href="#">Inventario</a>
+                            <a href="@Url.Action("Index", "Inventario")">Inventario</a>
                         </li>
                         <li>
                             <a href="#">Foliar</a>
                         </li>
                         <li>
-                            <a href="#">Refoliar</a>
+                            <a href="@Url.Action("nuevoParcial","Inventario")">Refoliar</a>nuevoParcial
                         </li>
                     </ul>
                 </li>
@@ -230,8 +230,8 @@
 
             @*<div class="row-cols-6 nombreSistema" style="margin-bottom: 0px;">
 
-                    <em class="fa fa-cube" style="font-size: 1.4em; color:#74BC7C;">&nbsp Foliación v01</em>
-                </div>*@
+            <em class="fa fa-cube" style="font-size: 1.4em; color:#74BC7C;">&nbsp Foliación v01</em>
+        </div>*@
 
 
             <!-- Fin del Nombre del sistema-->
@@ -246,8 +246,9 @@
             </div>
 
 
-
-
+            <br />
+            <br />
+            <br />
         </div>
 
 
@@ -321,7 +322,7 @@
 
 
     </script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  
 </body>
 
 

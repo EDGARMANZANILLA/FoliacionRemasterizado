@@ -1,0 +1,294 @@
+﻿@{
+    ViewBag.Icono = "fas fa-boxes";
+    ViewBag.Title = "Ajustar";
+
+
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/InventarioStyle.css">
+</head>
+
+
+<section class="card">
+    <br />
+    <h5 class="col-12 text-center"> Asignar Formas de Cheques</h5>
+    <br />
+
+
+    <!--Seleccionar banco-->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label class="text-capitalize"> Asignar banco:</label>
+        </div>
+
+        <div class=" col-12 col-md-7">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionBanco">
+                    <option value="" disabled selected>Selecciona un banco...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--Seleccionar por numero de orden activa -->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label class="text-capitalize">Numero de orden:</label>
+        </div>
+
+        <div class=" col-12 col-md-7 ">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionarOrden">
+                    <option value="" disabled selected>Selecciona un numero de orden...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--Seleccionar contenedor activo -->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
+            <label class="text-capitalize">Contenedor:</label>
+        </div>
+
+        <div class=" col-12 col-md-7 ">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionarOrden">
+                    <option value="" disabled selected>Selecciona un contenedor...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Seleccionar nombre de personal -->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
+            <label class="text-capitalize">Asignar a:</label>
+        </div>
+
+        <div class=" col-12 col-md-7 ">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionarOrden">
+                    <option value="" disabled selected>Selecciona personal a asignar...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
+
+
+    <button id="Validar" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="#AsignarFolios">
+        Continuar con la asignacion
+    </button>
+
+    <br />
+
+</section>
+
+
+
+<!--<section class="card" style="margin-top:20px; margin-bottom:20px;">-->
+    <!--Asignar numeros de folios -->
+
+    <!--<br />
+    <h5 class="col-12 text-center"> Asignar numero de Folios</h5>
+    <br />
+
+    <div class="row ">
+        <label class="offset-1 col-10             col-sm-2 text-sm-right">Folio Inicial:</label>
+        <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" />
+        <label class="offset-1 col-10 offset-sm-0 col-sm-2 text-sm-right">Folio Final:</label>
+        <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" />
+
+    </div>
+    <br />
+
+
+    <div class="row">
+        <label class="col-6 text-right">Total de formas:</label>
+        <span class="col-5 text-left col-md-2 border border-primary rounded-pill" title="Calculo del total de formas"> {T. F.}</span>
+
+    </div>
+    <br />
+
+
+
+</section>-->
+
+<!-- Modal de confirmacion -->
+<section class="modal fade" id="AsignarFolios" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+              <h5 class="col-11 text-center"> Asignar numero de Folios</h5>
+
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+              </button>
+
+
+            </div>
+
+
+
+            <div class="modal-body">
+
+                <div class="row ">
+                    <label class="offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right">Folio Inicial:</label>
+                    <input class="offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. inicial" />
+
+                </div>
+                <br />
+
+                <div class="row">
+                    <label class=" offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right ">Folio Final:</label>
+                    <input class=" offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. Final" />
+                </div>
+                <br />
+
+
+                <div class="row">
+                    <label class="col-6 text-right">Total de formas:</label>
+                    <span class="col-5 text-left col-md-2 border border-primary rounded-pill" title="Calculo del total de formas"> {T. F.}</span>
+
+                </div>
+                <br />
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="GuardarFolios()">Guardar</button>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- Generacion de tablas (La tabla se debe filtrar por año)-->
+<section class="margenSection">
+
+    <div class="table-responsive card">
+
+        <table id="tbProducto" class="table table-striped table-bordered table-hover">
+            <caption>FORMAS DE PAGO ASIGNADOS A EMPLEADOS</caption>
+
+            <thead class="tabla">
+
+                <tr>
+
+                    <th>Id</th>
+                    <th>Nombre Banco</th>
+                    <th>Nombre de Persona</th>
+                    <th>Folios Asignados</th>
+                    <th>Folio Inicial</th>
+                    <th>Folio Final</th>
+                    <th>Fecha Asignacion</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @*@foreach (var modelo in Model)
+                    {
+                        <tr>
+                            <td>@modelo.Id</td>
+                            <td>@modelo.NombreBanco</td>
+                            <td>@modelo.NombrePersona</td>
+                            <td>@modelo.FoliosAsignados</td>
+                            <td>@modelo.FolioInicial</td>
+                            <td>@modelo.FolioFinal</td>
+                            <td>@modelo.FechaAsignacion</td>
+
+                        </tr>
+
+
+                    }*@
+
+
+            <td>prueba</td>
+            <td>prueba</td>
+            <td>prueba</td>
+            <td>prueba</td>
+            <td>prueba</td>
+            <td>prueba</td>
+            <td>prueba</td>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
+
+

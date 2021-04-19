@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Icono = "fas fa-boxes";
+    ViewBag.Title = "Solicitar";
+
+}
+
+
+
+<section class="card">
+
+    <br />
+    <h5 class="col-12 text-center text-uppercase">Llene los siguientes campos para realizar la solicitud de formas de pago</h5>
+    <br />
+
+
+    <!--Seleccionar banco-->
+    <div class="row">
+
+        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+            <label class="text-capitalize">  Banco:</label>
+        </div>
+
+        <div class=" col-12 col-md-6">
+            <div class="form-group">
+                <select class="form-control" id="SeleccionBanco">
+                    <option value="" disabled selected>Selecciona un banco...</option>
+                    @*@foreach (var banco in ViewBag.NombreBancos)
+                        {
+
+
+                            <option>@banco  </option>
+
+
+                        }*@
+
+                    <option>1     </option>
+                    <option>2  </option>
+                </select>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="row">
+        <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Numero de Cuenta:</label>
+        <span class=" offset-1 col-10 text-center col-md-5  border border-primary rounded-pill" title="Numero de cuenta activa"> {T. F.}</span>
+
+    </div>
+    <br />
+
+    <div class="row">
+
+        <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right">Cantidad a solicitar:</label>
+
+        <input class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese cantidad de formas a solicitar" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" name="itemConsumption" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+
+
+    </div>
+
+
+
+    <br />
+
+</section>
+
+
+
+
+<section class="card" style="margin-top:20px; margin-bottom:20px;">
+    <!--Asignar numeros de folios -->
+
+    <br />
+    <h5 class="col-12 text-center">Pedir por numero de Folios</h5>
+    <br />
+
+    <div class="row ">
+        <label class="col-12 text-center offset-md-1 col-md-3 text-md-right">Folio Inicial:</label>
+        <input class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese Folio inicial a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 49 && event.charCode <= 122 && event.charCode != 91 " />
+
+
+    </div>
+    <br />
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Generacion de tablas -->
+<section class="margenSection ">
+
+    <div class="table-responsive">
+
+        <table id="tbProducto" class="table table-striped table-bordered table-hover">
+            <caption class="text-uppercase">Solicitudes creadas recientemente</caption>
+
+
+            <thead class="tabla">
+                <tr>
+                    <th>Id</th>
+                    <th>Cuenta Bancaria</th>
+                    <th>dato1</th>
+                    <th>dato2</th>
+                    <th>dato3</th>
+                    <th>dato4</th>
+                    <th>dato5</th>
+                    <th>dato6</th>
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @*@foreach (var modelo in Model)
+                {
+                    <tr>
+                        <td>@modelo.Id</td>
+                        <td>@modelo.NombreBanco</td>
+                        <td>@modelo.FormasDisponibles</td>
+                        <td>@modelo.UltimoFolioInventario</td>
+                        <td>@modelo.UltimoFolioQuincena</td>
+                        <td>@modelo.FormasQuincena1</td>
+                        <td>@modelo.FormasQuincena2</td>
+                        <td>@modelo.EstimadoMeses</td>
+                        <th>
+                            <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Agregar</button>
+                        </th>
+                        <th>
+                            <button type="button" class="agregar btn btn-primary">Inhabilitados</button>
+                        </th>
+
+                    </tr>
+
+
+                }*@
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
