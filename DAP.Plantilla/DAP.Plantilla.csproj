@@ -299,6 +299,16 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAP.Foliacion.Entidades\DAP.Foliacion.Entidades.csproj">
+      <Project>{cff98cbf-8f54-4bc0-bb78-2c64a0ca1ce7}</Project>
+      <Name>DAP.Foliacion.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAP.Foliacion.Negocios\DAP.Foliacion.Negocios.csproj">
+      <Project>{51ffb4e9-a784-4f0d-a897-df58ce995d10}</Project>
+      <Name>DAP.Foliacion.Negocios</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
