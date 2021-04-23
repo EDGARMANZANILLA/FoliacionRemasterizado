@@ -1,0 +1,14 @@
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CoreCompileInputs.cache
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Negocios.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Negocios.pdb
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Datos.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\EntityFramework.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Datos.pdb
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Datos.dll.config
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\EntityFramework.xml
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csprojAssemblyReference.cache
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CopyComplete
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.pdb

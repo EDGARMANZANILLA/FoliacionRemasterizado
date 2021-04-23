@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Icono = "fas fa-boxes";
+    ViewBag.Title = "Detalle del banco";
+
+
+}
+
+
+<section>
+
+    <div class="col-12">
+        <div class="text-center">
+            <h3 class="text-capitalize" id="Banco">BANCO: @ViewBag.NombreBancoSeleccionado</h3>
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+
+
+
+<!-- Generacion de tablas -->
+<section class="margenSection ">
+
+    <div class="table-responsive">
+
+        <table id="tbProducto" class="table table-striped table-bordered table-hover">
+            <caption>CONTROL DEL DETALLE DEL BANCO  @ViewBag.NombreBancoSeleccionado</caption>
+
+
+            <thead class="tabla">
+                <tr>
+                    <th>Id</th>
+                    <th>Numero de Orden</th>
+                    <th>Numero de Contenedor</th>
+                    <th>Folio Inicial</th>
+                    <th>Folio Final</th>
+                    <th>Total de formas en el contenedor</th>
+                    <th>Formas disponibles Actuales</th>
+                    <th>Fecha de alta</th>
+                
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @*@foreach (var modelo in Model)
+                {
+                    <tr>
+                        <td>@modelo.Id</td>
+                        <td>@modelo.NombreBanco</td>
+                        <td>@modelo.FormasDisponibles</td>
+                        <td>@modelo.UltimoFolioInventario</td>
+                        <td>@modelo.UltimoFolioQuincena</td>
+                        <td>@modelo.FormasQuincena1</td>
+                        <td>@modelo.FormasQuincena2</td>
+                        <td>@modelo.EstimadoMeses</td>
+                        <th>
+                            <a type="button" class="agregar btn btn-success" href="@Url.Action("DetalleBanco", "Inventario", new { NombreBanco = modelo.NombreBanco })">Ver Detalle </a>
+                        </th>
+                        <th>
+                            <a type="button" class="agregar btn btn-success" href="@Url.Action("Agregar", "Inventario", new { NombreBanco = modelo.NombreBanco })">Agregar</a>
+                        </th>
+                        <th>
+                            <a type="button" class="agregar btn btn-primary" href="@Url.Action("Inhabilitados", "Inventario")">Inhabilitados</a>
+                        </th>
+
+                    </tr>
+
+
+                }*@
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</section>
+
+
+

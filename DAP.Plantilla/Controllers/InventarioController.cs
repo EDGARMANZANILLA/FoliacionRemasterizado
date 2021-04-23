@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DAP.Foliacion.Negocios;
 
 
-namespace DAP.Plantilla.Controllers
+namespace DAP.Foliacion.Plantilla.Controllers
 {
     public class InventarioController : Controller
     {
@@ -16,46 +17,49 @@ namespace DAP.Plantilla.Controllers
 
             List<InventarioModel> BancosMostrar = new List<InventarioModel>();
 
-            // var InventariosActivos = Negocios.FoliacionNegocios.ObtenerInventarioActivo();
+            var InventariosActivos = Negocios.InventarioNegocios.ObtenerInventarioActivo();  
+            foreach (var inventarioBanco in InventariosActivos)
+            {
+                InventarioModel NuevoBanco = new InventarioModel();
 
-            // foreach (var inventarioBanco in InventariosActivos)
-            // {
-            //InventarioModel NuevoBanco = new InventarioModel();
-            //NuevoBanco.Id = inventarioBanco.Id;
-            //NuevoBanco.NombreBanco = inventarioBanco.Tbl_CuentasBancarias.NombreBanco;
-            //NuevoBanco.FormasDisponibles = inventarioBanco.FormasDisponibles;
-            //NuevoBanco.UltimoFolioInventario = inventarioBanco.UltimoFolioInventario;
-            //NuevoBanco.UltimoFolioQuincena = inventarioBanco.UltimoFolioQuincena;
-            //NuevoBanco.FormasQuincena1 = inventarioBanco.FormasQuincena1;
-            //NuevoBanco.FormasQuincena2 = inventarioBanco.FormasQuincena2;
-            //NuevoBanco.EstimadoMeses = inventarioBanco.EstimadoMeses;
+                NuevoBanco.Id = inventarioBanco.Id;
+                NuevoBanco.NombreBanco = inventarioBanco.Tbl_CuentasBancarias.NombreBanco;
+                NuevoBanco.FormasDisponibles = inventarioBanco.FormasDisponibles;
+                NuevoBanco.UltimoFolioInventario = inventarioBanco.UltimoFolioInventario;
+                NuevoBanco.UltimoFolioQuincena = inventarioBanco.UltimoFolioQuincena;
+                NuevoBanco.FormasQuincena1 = inventarioBanco.FormasQuincena1;
+                NuevoBanco.FormasQuincena2 = inventarioBanco.FormasQuincena2;
+                NuevoBanco.EstimadoMeses = inventarioBanco.EstimadoMeses;
 
-            //BancosMostrar.Add(NuevoBanco);
+                BancosMostrar.Add(NuevoBanco);
 
-            // }
-
-            InventarioModel NuevoBanco = new InventarioModel();
-            NuevoBanco.Id = 1;
-            NuevoBanco.NombreBanco = "banco";
-            NuevoBanco.UltimoFolioInventario = 150;
-            NuevoBanco.UltimoFolioQuincena = 10;
-            NuevoBanco.FormasQuincena1 = 12;
-            NuevoBanco.FormasQuincena2 = 11;
-            NuevoBanco.EstimadoMeses = 5;
-
-            BancosMostrar.Add(NuevoBanco);
-
-
+             }
 
 
             return View(BancosMostrar);
         }
 
 
-        public ActionResult Agregar()
+        public ActionResult Agregar(string NombreBanco)
         {
+
+            ViewBag.NombreBancoSeleccionado = NombreBanco;
+
             return View();
         }
+
+
+        public ActionResult DetalleBanco(string NombreBanco)
+        {
+
+            ViewBag.NombreBancoSeleccionado = NombreBanco;
+
+            return View();
+        }
+
+
+
+
 
         public ActionResult Ajustar()
         {
@@ -73,13 +77,38 @@ namespace DAP.Plantilla.Controllers
         {
 
 
-
-
-
-
             return View();
         }
 
+
+
+
+        //metodos por post
+
+        [HttpPost]
+        public JsonResult GuardarInventarioAgregado(List<AgregarInventarioModel> listaDeContenedores,string NumOrden, string banco)
+        {
+            bool bandera = false;
+
+            var contenedores = listaDeContenedores;
+            try
+            {
+                int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(banco);
+
+                foreach (AgregarInventarioModel nuevoContenedor in listaDeContenedores) 
+                {
+                    bandera = Negocios.InventarioNegocios.GuardarInventarioContenedores(idBanco, NumOrden, nuevoContenedor.IteradorDeContenedores, nuevoContenedor.FInicial, nuevoContenedor.FFinal, nuevoContenedor.TotalFormas);
+                }
+
+
+              }
+            catch (Exception e)
+            {
+                bandera = false;
+            }
+
+            return Json(bandera, JsonRequestBehavior.AllowGet);
+        }
 
 
 

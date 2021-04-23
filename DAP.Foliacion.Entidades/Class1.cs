@@ -8,5 +8,12 @@ namespace DAP.Foliacion.Entidades
 {
     public class Class1
     {
+        public int IteradorDeContenedores { get; set; }
+
+        public string FInicial { get; set; }
+
+        public string FFinal { get; set; }
+
+        public int TotalFormas { get; set; }
     }
 }

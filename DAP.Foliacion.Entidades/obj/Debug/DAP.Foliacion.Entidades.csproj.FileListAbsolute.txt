@@ -1,0 +1,6 @@
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\bin\Debug\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\bin\Debug\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.csprojAssemblyReference.cache
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.csproj.CoreCompileInputs.cache
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.pdb

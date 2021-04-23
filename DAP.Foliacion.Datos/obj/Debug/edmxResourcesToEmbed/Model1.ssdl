@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoliacionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tbl_CuentaBancarias_TipoPagoCuenta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TipoPago" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_CuentasBancarias">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Abreviatura" Type="nvarchar" MaxLength="5" />
+    <Property Name="Cuenta" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="int" Nullable="false" />
+    <Property Name="FechaCreacion" Type="date" Nullable="false" />
+    <Property Name="FechaBaja" Type="date" />
+    <Property Name="Activo" Type="bit" />
+  </EntityType>
+  <EntityType Name="Tbl_Inventario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
+    <Property Name="FormasDisponibles" Type="int" Nullable="false" />
+    <Property Name="UltimoFolioInventario" Type="int" Nullable="false" />
+    <Property Name="UltimoFolioQuincena" Type="int" Nullable="false" />
+    <Property Name="FormasQuincena1" Type="int" />
+    <Property Name="FormasQuincena2" Type="int" />
+    <Property Name="EstimadoMeses" Type="decimal" Precision="4" Scale="2" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Inventario_Asignacion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdAsignacion" Type="int" Nullable="false" />
+    <Property Name="IdNombrePersona" Type="int" Nullable="false" />
+    <Property Name="FoliosAsignados" Type="int" Nullable="false" />
+    <Property Name="FolioInicial" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="FolioFinal" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="FechaAsignacion" Type="date" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Inventario_AsignacionPersonal">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdEmpleado" Type="int" Nullable="false" />
+    <Property Name="NombrePersonal" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Inventario_Detalle">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdInventario" Type="int" Nullable="false" />
+    <Property Name="NumOrden" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="NumContenedor" Type="int" Nullable="false" />
+    <Property Name="FolioInicial" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="FolioFinal" Type="nchar" MaxLength="30" Nullable="false" />
+    <Property Name="TotalFormasContenedor" Type="int" Nullable="false" />
+    <Property Name="FormasDisponiblesActuales" Type="int" Nullable="false" />
+    <Property Name="FechaAlta" Type="date" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Inventario_Inhabilitados">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdInhabilitado" Type="int" Nullable="false" />
+    <Property Name="FolioInicial" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="FolioFinal" Type="nvarchar" MaxLength="30" />
+    <Property Name="TotalFormas" Type="int" Nullable="false" />
+    <Property Name="FechaDetalle" Type="date" Nullable="false" />
+    <Property Name="activo" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Tbl_AsignacionInventario_Tbl_AsignacionPersonal">
+    <End Role="Tbl_Inventario_AsignacionPersonal" Type="Self.Tbl_Inventario_AsignacionPersonal" Multiplicity="1" />
+    <End Role="Tbl_Inventario_Asignacion" Type="Self.Tbl_Inventario_Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Inventario_AsignacionPersonal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Inventario_Asignacion">
+        <PropertyRef Name="IdNombrePersona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta">
+    <End Role="Tbl_CuentaBancarias_TipoPagoCuenta" Type="Self.Tbl_CuentaBancarias_TipoPagoCuenta" Multiplicity="1" />
+    <End Role="Tbl_CuentasBancarias" Type="Self.Tbl_CuentasBancarias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_CuentaBancarias_TipoPagoCuenta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_CuentasBancarias">
+        <PropertyRef Name="IdCuentaBancaria_TipoPagoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Inventario_Asignacion_Tbl_Inventario_Detalle">
+    <End Role="Tbl_Inventario_Detalle" Type="Self.Tbl_Inventario_Detalle" Multiplicity="1" />
+    <End Role="Tbl_Inventario_Asignacion" Type="Self.Tbl_Inventario_Asignacion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Inventario_Detalle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Inventario_Asignacion">
+        <PropertyRef Name="IdAsignacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Inventario_Detalle_Tbl_Inventario">
+    <End Role="Tbl_Inventario" Type="Self.Tbl_Inventario" Multiplicity="1" />
+    <End Role="Tbl_Inventario_Detalle" Type="Self.Tbl_Inventario_Detalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Inventario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Inventario_Detalle">
+        <PropertyRef Name="IdInventario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Inventario_Inhabilitados_Tbl_Inventario_Detalle">
+    <End Role="Tbl_Inventario_Detalle" Type="Self.Tbl_Inventario_Detalle" Multiplicity="1" />
+    <End Role="Tbl_Inventario_Inhabilitados" Type="Self.Tbl_Inventario_Inhabilitados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Inventario_Detalle">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Inventario_Inhabilitados">
+        <PropertyRef Name="IdInhabilitado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Inventario_Tbl_CuentasBancarias">
+    <End Role="Tbl_CuentasBancarias" Type="Self.Tbl_CuentasBancarias" Multiplicity="1" />
+    <End Role="Tbl_Inventario" Type="Self.Tbl_Inventario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_CuentasBancarias">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Inventario">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoliacionModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_CuentaBancarias_TipoPagoCuenta" EntityType="Self.Tbl_CuentaBancarias_TipoPagoCuenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_CuentasBancarias" EntityType="Self.Tbl_CuentasBancarias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Inventario" EntityType="Self.Tbl_Inventario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Inventario_Asignacion" EntityType="Self.Tbl_Inventario_Asignacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Inventario_AsignacionPersonal" EntityType="Self.Tbl_Inventario_AsignacionPersonal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Inventario_Detalle" EntityType="Self.Tbl_Inventario_Detalle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Inventario_Inhabilitados" EntityType="Self.Tbl_Inventario_Inhabilitados" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Tbl_AsignacionInventario_Tbl_AsignacionPersonal" Association="Self.FK_Tbl_AsignacionInventario_Tbl_AsignacionPersonal">
+      <End Role="Tbl_Inventario_AsignacionPersonal" EntitySet="Tbl_Inventario_AsignacionPersonal" />
+      <End Role="Tbl_Inventario_Asignacion" EntitySet="Tbl_Inventario_Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" Association="Self.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta">
+      <End Role="Tbl_CuentaBancarias_TipoPagoCuenta" EntitySet="Tbl_CuentaBancarias_TipoPagoCuenta" />
+      <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Inventario_Asignacion_Tbl_Inventario_Detalle" Association="Self.FK_Tbl_Inventario_Asignacion_Tbl_Inventario_Detalle">
+      <End Role="Tbl_Inventario_Detalle" EntitySet="Tbl_Inventario_Detalle" />
+      <End Role="Tbl_Inventario_Asignacion" EntitySet="Tbl_Inventario_Asignacion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Inventario_Detalle_Tbl_Inventario" Association="Self.FK_Tbl_Inventario_Detalle_Tbl_Inventario">
+      <End Role="Tbl_Inventario" EntitySet="Tbl_Inventario" />
+      <End Role="Tbl_Inventario_Detalle" EntitySet="Tbl_Inventario_Detalle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Inventario_Inhabilitados_Tbl_Inventario_Detalle" Association="Self.FK_Tbl_Inventario_Inhabilitados_Tbl_Inventario_Detalle">
+      <End Role="Tbl_Inventario_Detalle" EntitySet="Tbl_Inventario_Detalle" />
+      <End Role="Tbl_Inventario_Inhabilitados" EntitySet="Tbl_Inventario_Inhabilitados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Inventario_Tbl_CuentasBancarias" Association="Self.FK_Tbl_Inventario_Tbl_CuentasBancarias">
+      <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
+      <End Role="Tbl_Inventario" EntitySet="Tbl_Inventario" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

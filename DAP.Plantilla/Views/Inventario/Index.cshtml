@@ -92,6 +92,9 @@
                     <th>
 
                     </th>
+                    <th>
+
+                    </th>
 
 
 
@@ -103,23 +106,26 @@
 
                 @foreach (var modelo in Model)
                 {
-                    <tr>
-                        <td>@modelo.Id</td>
-                        <td>@modelo.NombreBanco</td>
-                        <td>@modelo.FormasDisponibles</td>
-                        <td>@modelo.UltimoFolioInventario</td>
-                        <td>@modelo.UltimoFolioQuincena</td>
-                        <td>@modelo.FormasQuincena1</td>
-                        <td>@modelo.FormasQuincena2</td>
-                        <td>@modelo.EstimadoMeses</td>
-                        <th>
-                            <a type="button" class="agregar btn btn-success" href="@Url.Action("Agregar", "Inventario")">Agregar</a>
-                        </th>
-                        <th>
-                            <a type="button" class="agregar btn btn-primary" href="@Url.Action("Inhabilitados", "Inventario")">Inhabilitados</a>
-                        </th>
+                <tr>
+                    <td>@modelo.Id</td>
+                    <td>@modelo.NombreBanco</td>
+                    <td>@modelo.FormasDisponibles</td>
+                    <td>@modelo.UltimoFolioInventario</td>
+                    <td>@modelo.UltimoFolioQuincena</td>
+                    <td>@modelo.FormasQuincena1</td>
+                    <td>@modelo.FormasQuincena2</td>
+                    <td>@modelo.EstimadoMeses</td>
+                    <th>
+                        <a type="button" class="agregar btn btn-success" href="@Url.Action("DetalleBanco", "Inventario", new { NombreBanco = modelo.NombreBanco })">Ver Detalle </a>
+                    </th>
+                    <th>
+                        <a type="button" class="agregar btn btn-success" href="@Url.Action("Agregar", "Inventario", new { NombreBanco = modelo.NombreBanco })">Agregar</a>
+                    </th>
+                    <th>
+                        <a type="button" class="agregar btn btn-primary" href="@Url.Action("Inhabilitados", "Inventario")">Inhabilitados</a>
+                    </th>
 
-                    </tr>
+                </tr>
 
 
                 }
@@ -147,7 +153,7 @@
 
 <script>
     let numeroOrden = 4545;
- @*   let banco = null;
+    let banco = null;
     //
     let primerFolio = null;
     let segundoFolio = null;
@@ -156,38 +162,57 @@
     $(document).ready(function () {
 
 
-        $(".agregar").click(function () {
+        //$(".agregar").click(function () {
 
-            //valores obtendra el dato del td por posciones [0]
-            banco = $(this).parents("tr").find("td")[1].innerHTML;
+        //    //valores obtendra el dato del td por posciones [0]
+        //    banco = $(this).parents("tr").find("td")[1].innerHTML;
+            
+        //    console.log(`hola ${banco}`);
 
-            primerFolio = $(this).parents("tr").find("td")[3].innerHTML;
-
-            primerFolio = parseInt(primerFolio) + 1;
-            segundoFolio = primerFolio + 1;
-
-            document.getElementById("Banco").innerHTML = banco.toString();
-
-
-            document.getElementById("ConfirmacionBanco").innerHTML = banco.toString();
-
-
+        //    // alert(valores);
+        //    let $x = $("a");
+        //    //let a = $x.prop("href").split("#")[0];
+        //    let a = $x.prop("href").split("?")[0];
+           
+        //    console.log(a);
+       
 
 
+        //        //let  $a = $(this);
+        //        //let url = $a.prop('href').split("?")[0];
+
+        //        //console.log(url);
+        //        //// http://localhost/MiControlador/MiAccion/1
+
+        //        var parametro = {
+        //            nombreBanco: banco
+        //        };
+
+        //        //console.log($.param(banco));
+        //        //// tipo=1
+
+        //        console.log(a + "?" + $.param(parametro));
+        //        //// http://localhost/MiControlador/MiAccion/1?tipo=1
+
+        //        //e.preventDefault();
+
+        //        $x.prop('href', a + "?" + $.param(parametro));
+          
 
 
 
 
-           // alert(valores);
 
-        });
+
+
+        //});
 
     });
 
 
 
 
-
+@*
 
     //Verifica que el usuario escriba en los inputs de los folios
 

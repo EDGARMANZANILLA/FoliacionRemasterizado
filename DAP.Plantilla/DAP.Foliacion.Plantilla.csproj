@@ -125,6 +125,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AgregarInventarioModel.cs" />
     <Compile Include="Models\InventarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -286,6 +287,7 @@
     <Content Include="Views\Inventario\Solicitar.cshtml" />
     <Content Include="Views\Inventario\Inhabilitados.cshtml" />
     <Content Include="Views\Inventario\Agregar.cshtml" />
+    <Content Include="Views\Inventario\DetalleBanco.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
