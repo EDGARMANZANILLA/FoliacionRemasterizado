@@ -12,16 +12,13 @@ namespace DAP.Foliacion.Entidades
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Inventario_Inhabilitados
+    public partial class Tbl_InventarioInhabilitado
     {
         public int Id { get; set; }
-        public int IdInhabilitado { get; set; }
-        public string FolioInicial { get; set; }
-        public string FolioFinal { get; set; }
-        public int TotalFormas { get; set; }
-        public System.DateTime FechaDetalle { get; set; }
-        public bool activo { get; set; }
+        public int IdInventarioDetalle { get; set; }
+        public System.DateTime FechaInhabilitacion { get; set; }
+        public bool Activo { get; set; }
     
-        public virtual Tbl_Inventario_Detalle Tbl_Inventario_Detalle { get; set; }
+        public virtual Tbl_InventarioDetalle Tbl_InventarioDetalle { get; set; }
     }
 }

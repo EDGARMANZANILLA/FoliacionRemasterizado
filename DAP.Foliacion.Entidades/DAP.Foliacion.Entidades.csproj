@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTO\InventarioDetalleDTO.cs" />
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,16 +61,22 @@
     <Compile Include="Tbl_Inventario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Tbl_Inventario_Asignacion.cs">
+    <Compile Include="Tbl_inventarioAsignacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Tbl_Inventario_AsignacionPersonal.cs">
+    <Compile Include="Tbl_InventarioAsignacionPersonal.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Tbl_Inventario_Detalle.cs">
+    <Compile Include="Tbl_InventarioContenedores.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Tbl_Inventario_Inhabilitados.cs">
+    <Compile Include="Tbl_InventarioDetalle.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_InventarioInhabilitado.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_InventarioTipoIncidencia.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
   </ItemGroup>

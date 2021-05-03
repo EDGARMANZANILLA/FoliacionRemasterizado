@@ -12,18 +12,17 @@ namespace DAP.Foliacion.Entidades
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Inventario_Asignacion
+    public partial class Tbl_InventarioTipoIncidencia
     {
+        public Tbl_InventarioTipoIncidencia()
+        {
+            this.Tbl_InventarioDetalle = new HashSet<Tbl_InventarioDetalle>();
+        }
+    
         public int Id { get; set; }
-        public int IdAsignacion { get; set; }
-        public int IdNombrePersona { get; set; }
-        public int FoliosAsignados { get; set; }
-        public string FolioInicial { get; set; }
-        public string FolioFinal { get; set; }
-        public System.DateTime FechaAsignacion { get; set; }
+        public string Descrip_Incidencia { get; set; }
         public bool Activo { get; set; }
     
-        public virtual Tbl_Inventario_AsignacionPersonal Tbl_Inventario_AsignacionPersonal { get; set; }
-        public virtual Tbl_Inventario_Detalle Tbl_Inventario_Detalle { get; set; }
+        public virtual ICollection<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
     }
 }

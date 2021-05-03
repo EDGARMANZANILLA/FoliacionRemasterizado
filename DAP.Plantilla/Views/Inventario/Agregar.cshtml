@@ -22,7 +22,7 @@
 </section>
 
 
-<section class="card margenSection" id="PrimerosDatos">
+<section class="card col-12 offset-md-2 col-md-8 margenSection" id="PrimerosDatos">
     <br />
     <div class="col-12 text-center">
         <h5 class=" text-uppercase"> Ingrese los siguientes campos: </h5>
@@ -55,7 +55,7 @@
 
 
 
-<section class="card margenSection" id="Contenedores">
+<section class="card col-12 offset-md-2 col-md-8 margenSection" id="Contenedores">
     <br />
     <div class="col-12 text-center">
         <label class=" text-uppercase text-justify"> Ingrese los datos correspondientes a cada contenedor de la orden ingresada en la seccion anterior </label>
@@ -531,10 +531,10 @@
                         text: `Se han agregado nuevos contenedores a ${banco}`
 
                     }).then((result) => {
-                            if (result.value) {
-                               location.reload();
+                        if (result.value) {
+                            location.reload();
 
-                            }
+                        }
                     })
 
                 } else {
@@ -543,7 +543,7 @@
 
                         allowEnterKey: false,
                         icon: 'error',
-                        title: 'No se pudo guardar correctamente',
+                        title: `No se guardaron los nuevos contenedores para el banco ${banco}`,
 
 
                     })

@@ -39,9 +39,9 @@
         <MappingFragment StoreEntitySet="Tbl_Inventario">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="EstimadoMeses" ColumnName="EstimadoMeses" />
-          <ScalarProperty Name="FormasQuincena2" ColumnName="FormasQuincena2" />
-          <ScalarProperty Name="FormasQuincena1" ColumnName="FormasQuincena1" />
-          <ScalarProperty Name="UltimoFolioQuincena" ColumnName="UltimoFolioQuincena" />
+          <ScalarProperty Name="FormasUsadasQuincena2" ColumnName="FormasUsadasQuincena2" />
+          <ScalarProperty Name="FormasUsadasQuincena1" ColumnName="FormasUsadasQuincena1" />
+          <ScalarProperty Name="UltimoFolioUtilizado" ColumnName="UltimoFolioUtilizado" />
           <ScalarProperty Name="UltimoFolioInventario" ColumnName="UltimoFolioInventario" />
           <ScalarProperty Name="FormasDisponibles" ColumnName="FormasDisponibles" />
           <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
@@ -49,23 +49,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tbl_Inventario_Asignacion">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Inventario_Asignacion">
-        <MappingFragment StoreEntitySet="Tbl_Inventario_Asignacion">
+    <EntitySetMapping Name="Tbl_inventarioAsignacion">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_inventarioAsignacion">
+        <MappingFragment StoreEntitySet="Tbl_inventarioAsignacion">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
-          <ScalarProperty Name="FolioFinal" ColumnName="FolioFinal" />
-          <ScalarProperty Name="FolioInicial" ColumnName="FolioInicial" />
-          <ScalarProperty Name="FoliosAsignados" ColumnName="FoliosAsignados" />
-          <ScalarProperty Name="IdNombrePersona" ColumnName="IdNombrePersona" />
-          <ScalarProperty Name="IdAsignacion" ColumnName="IdAsignacion" />
+          <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+          <ScalarProperty Name="IdInventarioDetalle" ColumnName="IdInventarioDetalle" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tbl_Inventario_AsignacionPersonal">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Inventario_AsignacionPersonal">
-        <MappingFragment StoreEntitySet="Tbl_Inventario_AsignacionPersonal">
+    <EntitySetMapping Name="Tbl_InventarioAsignacionPersonal">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioAsignacionPersonal">
+        <MappingFragment StoreEntitySet="Tbl_InventarioAsignacionPersonal">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="NombrePersonal" ColumnName="NombrePersonal" />
           <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -73,13 +70,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tbl_Inventario_Detalle">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Inventario_Detalle">
-        <MappingFragment StoreEntitySet="Tbl_Inventario_Detalle">
+    <EntitySetMapping Name="Tbl_InventarioContenedores">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
+        <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+          <ScalarProperty Name="FormasAsignadas" ColumnName="FormasAsignadas" />
+          <ScalarProperty Name="FormasInhabilitadas" ColumnName="FormasInhabilitadas" />
           <ScalarProperty Name="FormasDisponiblesActuales" ColumnName="FormasDisponiblesActuales" />
-          <ScalarProperty Name="TotalFormasContenedor" ColumnName="TotalFormasContenedor" />
+          <ScalarProperty Name="FormasTotalesContenedor" ColumnName="FormasTotalesContenedor" />
           <ScalarProperty Name="FolioFinal" ColumnName="FolioFinal" />
           <ScalarProperty Name="FolioInicial" ColumnName="FolioInicial" />
           <ScalarProperty Name="NumContenedor" ColumnName="NumContenedor" />
@@ -89,15 +88,31 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tbl_Inventario_Inhabilitados">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Inventario_Inhabilitados">
-        <MappingFragment StoreEntitySet="Tbl_Inventario_Inhabilitados">
-          <ScalarProperty Name="activo" ColumnName="activo" />
-          <ScalarProperty Name="FechaDetalle" ColumnName="FechaDetalle" />
-          <ScalarProperty Name="TotalFormas" ColumnName="TotalFormas" />
-          <ScalarProperty Name="FolioFinal" ColumnName="FolioFinal" />
-          <ScalarProperty Name="FolioInicial" ColumnName="FolioInicial" />
-          <ScalarProperty Name="IdInhabilitado" ColumnName="IdInhabilitado" />
+    <EntitySetMapping Name="Tbl_InventarioDetalle">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioDetalle">
+        <MappingFragment StoreEntitySet="Tbl_InventarioDetalle">
+          <ScalarProperty Name="IdIncidencia" ColumnName="IdIncidencia" />
+          <ScalarProperty Name="NumFolio" ColumnName="NumFolio" />
+          <ScalarProperty Name="IdContenedor" ColumnName="IdContenedor" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_InventarioInhabilitado">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioInhabilitado">
+        <MappingFragment StoreEntitySet="Tbl_InventarioInhabilitado">
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="FechaInhabilitacion" ColumnName="FechaInhabilitacion" />
+          <ScalarProperty Name="IdInventarioDetalle" ColumnName="IdInventarioDetalle" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_InventarioTipoIncidencia">
+      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioTipoIncidencia">
+        <MappingFragment StoreEntitySet="Tbl_InventarioTipoIncidencia">
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="Descrip_Incidencia" ColumnName="Descrip_Incidencia" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

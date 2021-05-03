@@ -37,14 +37,14 @@
 
 
                     <tr class="text-center">
-                        <td>   <button type="button" class="btn btn-success " title="Descargar Reporte del inventario en P">Descargar</button> </td>
+                        <td>   <button type="button" class="btn btn-success btn-lg" title="Descargar Reporte del inventario en P">Descargar</button> </td>
 
                         <td>
                             <a type="button" class="btn btn-success" href="@Url.Action("Ajustar", "Inventario")" title="Realizar un ajuste al inventario">&nbsp  Ajustar  &nbsp</a>
                         </td>
 
                         <td>
-                            <a type="button" class="btn btn-success" href="@Url.Action("Solicitar", "Inventario")" title="Crear Nueva Solicitud">&nbsp  Solicitar  &nbsp</a>
+                            <a type="button" class="btn btn-success btn-lg" href="@Url.Action("Solicitar", "Inventario")" title="Crear Nueva Solicitud">&nbsp  Solicitar  &nbsp</a>
                         </td>
 
 
@@ -82,10 +82,16 @@
                     <th>Cuenta Bancaria</th>
                     <th>Formas disponibles</th>
                     <th>Ultimo folio de inventario</th>
-                    <th>Ultimo folio de quincena</th>
+                    <th>Ultimo folio usado</th>
                     <th>Formas usadas en quincena 1</th>
                     <th>Formas usadas en quincena 2</th>
                     <th>Estimado de meses</th>
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
                     <th>
 
                     </th>
@@ -111,18 +117,26 @@
                     <td>@modelo.NombreBanco</td>
                     <td>@modelo.FormasDisponibles</td>
                     <td>@modelo.UltimoFolioInventario</td>
-                    <td>@modelo.UltimoFolioQuincena</td>
-                    <td>@modelo.FormasQuincena1</td>
-                    <td>@modelo.FormasQuincena2</td>
+                    <td>@modelo.UltimoFolioUtilizado</td>
+                    <td>@modelo.FormasUsadasQuincena1</td>
+                    <td>@modelo.FormasUsadasQuincena2</td>
                     <td>@modelo.EstimadoMeses</td>
-                    <th>
-                        <a type="button" class="agregar btn btn-success" href="@Url.Action("DetalleBanco", "Inventario", new { NombreBanco = modelo.NombreBanco })">Ver Detalle </a>
-                    </th>
+
                     <th>
                         <a type="button" class="agregar btn btn-success" href="@Url.Action("Agregar", "Inventario", new { NombreBanco = modelo.NombreBanco })">Agregar</a>
                     </th>
                     <th>
-                        <a type="button" class="agregar btn btn-primary" href="@Url.Action("Inhabilitados", "Inventario")">Inhabilitados</a>
+                        <a type="button" class="agregar btn btn-primary" href="@Url.Action("Inhabilitar", "Inventario", new  { NombreBanco = modelo.NombreBanco })">Inhabilitar</a>
+                    </th>
+
+                    <th>
+                        <a type="button" class="agregar btn btn-primary " href="@Url.Action("Ajustar", "Inventario",  new  { NombreBanco = modelo.NombreBanco })" title="Realizar un ajuste al inventario">  Asignar </a>
+                    </th>
+                    <th>
+                        <a type="button" class="agregar btn btn-primary" href="@Url.Action("Incidencias", "Inventario", new  { NombreBanco = modelo.NombreBanco })">Incidencias</a>
+                    </th>
+                    <th>
+                        <a type="button" class="agregar btn btn-success" href="@Url.Action("DetalleBanco", "Inventario", new { NombreBanco = modelo.NombreBanco })">Detalle </a>
                     </th>
 
                 </tr>

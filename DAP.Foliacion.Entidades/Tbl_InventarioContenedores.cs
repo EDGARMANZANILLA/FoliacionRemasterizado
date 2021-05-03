@@ -12,12 +12,11 @@ namespace DAP.Foliacion.Entidades
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Inventario_Detalle
+    public partial class Tbl_InventarioContenedores
     {
-        public Tbl_Inventario_Detalle()
+        public Tbl_InventarioContenedores()
         {
-            this.Tbl_Inventario_Asignacion = new HashSet<Tbl_Inventario_Asignacion>();
-            this.Tbl_Inventario_Inhabilitados = new HashSet<Tbl_Inventario_Inhabilitados>();
+            this.Tbl_InventarioDetalle = new HashSet<Tbl_InventarioDetalle>();
         }
     
         public int Id { get; set; }
@@ -26,13 +25,14 @@ namespace DAP.Foliacion.Entidades
         public int NumContenedor { get; set; }
         public string FolioInicial { get; set; }
         public string FolioFinal { get; set; }
-        public int TotalFormasContenedor { get; set; }
+        public int FormasTotalesContenedor { get; set; }
         public int FormasDisponiblesActuales { get; set; }
+        public Nullable<int> FormasInhabilitadas { get; set; }
+        public Nullable<int> FormasAsignadas { get; set; }
         public System.DateTime FechaAlta { get; set; }
         public bool Activo { get; set; }
     
         public virtual Tbl_Inventario Tbl_Inventario { get; set; }
-        public virtual ICollection<Tbl_Inventario_Asignacion> Tbl_Inventario_Asignacion { get; set; }
-        public virtual ICollection<Tbl_Inventario_Inhabilitados> Tbl_Inventario_Inhabilitados { get; set; }
+        public virtual ICollection<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
     }
 }

@@ -1,6 +1,7 @@
-﻿@{
+﻿@model List<DAP.Plantilla.Models.InventarioAsignarAjustarModel>
+@{
     ViewBag.Icono = "fas fa-boxes";
-    ViewBag.Title = "Ajustar";
+    ViewBag.Title = "Asignar";
 
 
 }
@@ -10,116 +11,71 @@
 </head>
 
 
-<section class="card">
+<!-- Nueva plantilla de Asignacion-->
+<section>
+
     <br />
-    <h5 class="col-12 text-center"> Asignar Formas de Cheques</h5>
+    <h5 class="col-12 text-center text-uppercase">Asignar formas de pago para:</h5>
+    <h3 class="col-12 text-center text-uppercase">@ViewBag.NombreBanco</h3>
+    <h5 id="NumeroCuenta" class=" col-12 text-center" title="Numero de cuenta activa">@ViewBag.NumeroCuentaBanco</h5>
+
+</section>
+
+
+<seccion class="card col-12  offset-md-2 col-md-8 text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+
+
+    <div class="margenSection row" style="margin-bottom: 60px; ">
+
+        <div class="btn-block">
+            <h5 class="text-center">Seleccione la opcion deseada:</h5>
+        </div>
+
+        <div class="col-12 col-md-6  btn-block">
+            <button id="InhabilitarFolios" type="button" class="btn btn-primary btn-lg  btn-block" title="Realiza la asignacion por folios al inventario" onclick="InhabilitarFolios()">&nbsp Asignar un Folio o Folios &nbsp</button>
+        </div>
+
+        <div class="col-12 col-md-6  btn-block">
+            <button id="InhabilitarContenedor" type="button" class="btn btn-primary btn-lg  btn-block" title="Realiza la asignacion por contrenedor al inventario" onclick="InhabilitarContenedor()">Asignar Contenedor</button>
+        </div>
+
+        <div class="col-12  btn-block">
+            <button id="Detalle" type="button" class="btn btn-primary btn-lg  btn-block" title="Realiza la inhabilitacoin por contrenedor al inventario" onclick="Detalle()">Ver detalle de Asignaciones</button>
+        </div>
+
+    </div>
+
+</seccion>
+
+
+
+<!--  secciones par Inhabilitar un Folio o Folios-->
+<section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
     <br />
-
-
-    <!--Seleccionar banco-->
-    <div class="row">
-
-        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
-            <label class="text-capitalize"> Asignar banco:</label>
-        </div>
-
-        <div class=" col-12 col-md-7">
-            <div class="form-group">
-                <select class="form-control" id="SeleccionBanco">
-                    <option value="" disabled selected>Selecciona un banco...</option>
-                    @*@foreach (var banco in ViewBag.NombreBancos)
-                        {
-
-
-                            <option>@banco  </option>
-
-
-                        }*@
-
-                    <option>1     </option>
-                    <option>2  </option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!--Seleccionar por numero de orden activa -->
-    <div class="row">
-
-        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
-            <label class="text-capitalize">Numero de orden:</label>
-        </div>
-
-        <div class=" col-12 col-md-7 ">
-            <div class="form-group">
-                <select class="form-control" id="SeleccionarOrden">
-                    <option value="" disabled selected>Selecciona un numero de orden...</option>
-                    @*@foreach (var banco in ViewBag.NombreBancos)
-                        {
-
-
-                            <option>@banco  </option>
-
-
-                        }*@
-
-                    <option>1     </option>
-                    <option>2  </option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!--Seleccionar contenedor activo -->
-    <div class="row">
-
-        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
-            <label class="text-capitalize">Contenedor:</label>
-        </div>
-
-        <div class=" col-12 col-md-7 ">
-            <div class="form-group">
-                <select class="form-control" id="SeleccionarOrden">
-                    <option value="" disabled selected>Selecciona un contenedor...</option>
-                    @*@foreach (var banco in ViewBag.NombreBancos)
-                        {
-
-
-                            <option>@banco  </option>
-
-
-                        }*@
-
-                    <option>1     </option>
-                    <option>2  </option>
-                </select>
-            </div>
-        </div>
-    </div>
-
+    <h4 class="col-12 text-center">Asignar Folios</h4>
+    <br />
 
     <!--Seleccionar nombre de personal -->
     <div class="row">
 
-        <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
+        <div class=" col-12 text-center  col-md-3 text-md-right ">
             <label class="text-capitalize">Asignar a:</label>
         </div>
 
         <div class=" col-12 col-md-7 ">
             <div class="form-group">
-                <select class="form-control" id="SeleccionarOrden">
-                    <option value="" disabled selected>Selecciona personal a asignar...</option>
-                    @*@foreach (var banco in ViewBag.NombreBancos)
+                <select class="form-control" id="SeleccionarPersonal" required>
+                    <option value="">Selecciona personal a asignar...</option>
+                    @foreach (var nuevoNombre in ViewBag.ListaNombrePersonal)
                         {
 
 
-                            <option>@banco  </option>
+                            <option>@nuevoNombre </option>
 
 
-                        }*@
+                        }
 
-                    <option>1     </option>
-                    <option>2  </option>
                 </select>
             </div>
         </div>
@@ -127,43 +83,163 @@
     <br />
 
 
-    <button id="Validar" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="#AsignarFolios">
-        Continuar con la asignacion
-    </button>
+    <div class="row ">
+        <label class="offset-1 col-10             col-sm-2">Folio Inicial:</label>
+        <input id="FolioInicial" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
+        <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
+        <input id="FolioFinal" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
+
+    </div>
+
+
+    <br />
+    <div class="row offset-1 col-10 text-center">
+        <button id="ValidarFolios" class="btn btn-success btn-lg  btn-block" title="valida la disponibilidad de folios">Validar folios</button>
+
+    </div>
+
+    <br />
+</section>
+
+<!-- Termina secciones par Inhabilitar un Folio o Folios -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="card col-12 offset-md-2 col-md-7" style="box-shadow:initial">
+    <br />
+    <h5 class="col-12 text-center"> Asignar Formas de Cheques</h5>
+    <br />
+
+    <form>
+        <!--Seleccionar banco-->
+        <div class="row">
+
+            <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+                <label class="text-capitalize"> Asignar banco:</label>
+            </div>
+
+            <div class=" col-12 col-md-7">
+                <div class="form-group">
+                    <select class="form-control" id="SeleccionBanco" required>
+                        <option value="">Selecciona un banco...</option>
+                        @*@foreach (var banco in ViewBag.ListaNombreBancos)
+                            {
+
+
+                                <option>@banco  </option>
+
+
+                            }*@
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!--Seleccionar por numero de orden activa -->
+        <div class="row">
+
+            <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+                <label class="text-capitalize">Numero de orden:</label>
+            </div>
+
+            <div class=" col-12 col-md-7 ">
+                <div class="form-group">
+                    <select class="form-control" id="SeleccionarOrden" required>
+                        <option value="" id="NumeroOrden" selected>Selecciona un numero de orden...</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!--Seleccionar contenedor activo -->
+        <div class="row">
+
+            <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
+                <label class="text-capitalize">Contenedor:</label>
+            </div>
+
+            <div class=" col-12 col-md-7 ">
+                <div class="form-group">
+                    <select class="form-control" id="SeleccionarContenedor" required>
+                        <option value="" id="NumeroContenedor">Selecciona un contenedor...</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Seleccionar nombre de personal -->
+        <div class="row">
+
+            <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">
+                <label class="text-capitalize">Asignar a:</label>
+            </div>
+
+            <div class=" col-12 col-md-7 ">
+                <div class="form-group">
+                    <select class="form-control" id="SeleccionarPersonal" required>
+                        <option value="">Selecciona personal a asignar...</option>
+                        @*@foreach (var nuevoNombre in ViewBag.ListaNombrePersonal)
+                            {
+
+
+                                <option>@nuevoNombre </option>
+
+
+                            }*@
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row ">
+            <label class="offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right">Folio Inicial:</label>
+            <input id="FolioInicial" class="offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. inicial" required />
+
+        </div>
+        <br />
+
+        <div class="row">
+            <label class=" offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right ">Folio Final:</label>
+            <input id="FolioFinal" class=" offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. Final" required />
+        </div>
+        <br />
+
+
+        <button id="Validar" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success" data-toggle="modal" data-target="">
+            Continuar con la asignacion
+        </button>
+
+    </form>
 
     <br />
 
 </section>
 
 
-
-<!--<section class="card" style="margin-top:20px; margin-bottom:20px;">-->
-    <!--Asignar numeros de folios -->
-
-    <!--<br />
-    <h5 class="col-12 text-center"> Asignar numero de Folios</h5>
-    <br />
-
-    <div class="row ">
-        <label class="offset-1 col-10             col-sm-2 text-sm-right">Folio Inicial:</label>
-        <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" />
-        <label class="offset-1 col-10 offset-sm-0 col-sm-2 text-sm-right">Folio Final:</label>
-        <input class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" />
-
-    </div>
-    <br />
-
-
-    <div class="row">
-        <label class="col-6 text-right">Total de formas:</label>
-        <span class="col-5 text-left col-md-2 border border-primary rounded-pill" title="Calculo del total de formas"> {T. F.}</span>
-
-    </div>
-    <br />
-
-
-
-</section>-->
 
 <!-- Modal de confirmacion -->
 <section class="modal fade" id="AsignarFolios" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -172,46 +248,27 @@
             <div class="modal-header">
 
 
-              <h5 class="col-11 text-center"> Asignar numero de Folios</h5>
+                <h5 class="col-11 text-center"> Asignar numero de Folios</h5>
 
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-              </button>
+                </button>
 
 
             </div>
 
 
 
-            <div class="modal-body">
-
-                <div class="row ">
-                    <label class="offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right">Folio Inicial:</label>
-                    <input class="offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. inicial" />
-
-                </div>
-                <br />
-
-                <div class="row">
-                    <label class=" offset-1 col-10 offset-sm-0 col-sm-4 text-sm-right ">Folio Final:</label>
-                    <input class=" offset-1 col-10 offset-sm-0 col-sm-7" placeholder="Ingresa el F. Final" />
-                </div>
-                <br />
+            <div id="ResumenGuardado" class="modal-body text-center text-uppercase">
 
 
-                <div class="row">
-                    <label class="col-6 text-right">Total de formas:</label>
-                    <span class="col-5 text-left col-md-2 border border-primary rounded-pill" title="Calculo del total de formas"> {T. F.}</span>
-
-                </div>
-                <br />
 
             </div>
 
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" onclick="GuardarFolios()">Guardar</button>
+                <button id="GuardarAjuste" type="button" class="btn btn-success">Guardar</button>
 
 
 
@@ -243,10 +300,11 @@
             <thead class="tabla">
 
                 <tr>
-
-                    <th>Id</th>
-                    <th>Nombre Banco</th>
                     <th>Nombre de Persona</th>
+                    <th>Nombre Banco</th>
+                    <th>Cuenta</th>
+                    <th>Numero de Orden</th>
+                    <th>Contenedor</th>
                     <th>Folios Asignados</th>
                     <th>Folio Inicial</th>
                     <th>Folio Final</th>
@@ -259,30 +317,22 @@
 
 
 
-                @*@foreach (var modelo in Model)
+                @*@foreach (var inventarioAsigando in Model)
                     {
                         <tr>
-                            <td>@modelo.Id</td>
-                            <td>@modelo.NombreBanco</td>
-                            <td>@modelo.NombrePersona</td>
-                            <td>@modelo.FoliosAsignados</td>
-                            <td>@modelo.FolioInicial</td>
-                            <td>@modelo.FolioFinal</td>
-                            <td>@modelo.FechaAsignacion</td>
+                            <td>@inventarioAsigando.NombrePersona</td>
+                            <td>@inventarioAsigando.NombreBanco</td>
+                            <td>@inventarioAsigando.Cuenta</td>
+                            <td>@inventarioAsigando.NumeroOrden</td>
+                            <td>@inventarioAsigando.Contenedor</td>
+                            <td>@inventarioAsigando.FoliosAsignados</td>
+                            <td>@inventarioAsigando.FolioInicial</td>
+                            <td>@inventarioAsigando.FolioFinal</td>
+                            <td>@inventarioAsigando.FechaAsignacion.ToString("MM/dd/yyyy")</td>
 
                         </tr>
 
-
                     }*@
-
-
-            <td>prueba</td>
-            <td>prueba</td>
-            <td>prueba</td>
-            <td>prueba</td>
-            <td>prueba</td>
-            <td>prueba</td>
-            <td>prueba</td>
 
             </tbody>
         </table>
@@ -292,3 +342,353 @@
 </section>
 
 
+<script>
+    $(document).ready(function () {
+        //detecta cambios en el banco
+        let bancoSeleccionado = null;
+        const seleccionBanco = document.getElementById("SeleccionBanco");
+        seleccionBanco.addEventListener("change",
+            function () {
+
+                bancoSeleccionado = this.options[seleccionBanco.selectedIndex];
+                console.log(bancoSeleccionado.value);
+
+
+                var DatosEnviar = "{'BancoSeleccionado': '" + bancoSeleccionado.value + "' }";
+
+
+               $.ajax({
+                   url: '@Url.Action("ObtenerNumerosOrden", "Inventario")',
+                   data: DatosEnviar,
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
+
+                   success: function (msg)
+                   {
+                       console.log("msg", msg);
+                       console.log("msg", msg.length);
+
+
+                       $("#SeleccionarOrden").find('option').not(':first').remove();
+
+
+
+                       const opciones = document.getElementById("NumeroOrden");
+
+                      // console.log(opciones.childElementCount);
+
+                       for (let i = 0; i < msg.length ; i++ )
+                       {
+                       // opciones.setAttribute('id', i);
+                        opciones.insertAdjacentHTML('afterend', `<option> ${msg[i]} </option>`);
+
+                       }
+
+
+
+                   },error: function (msg) {
+                          Swal.fire({
+                              backdrop: true,
+
+                              allowEnterKey: false,
+                              icon: 'info',
+                              title: 'No se pudo cargar los numeros de orden intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                          })
+                   }
+               });
+
+
+            }
+        );
+
+
+
+
+
+        // detecta cambios en el numero de orden
+        let ordenSeleccionado = null;
+        const numeroDeOrden = document.getElementById("SeleccionarOrden");
+        numeroDeOrden.addEventListener("change",
+            function () {
+
+                ordenSeleccionado = this.options[numeroDeOrden.selectedIndex];
+                console.log(ordenSeleccionado.value);
+
+
+                var DatosEnviar = "{'BancoSeleccionado': '" + bancoSeleccionado.value + "','ordenSeleccionado': '" + ordenSeleccionado.value + "' }";
+
+
+               $.ajax({
+                   url: '@Url.Action("ObtenerNumerosOrden", "Inventario")',
+                   data: DatosEnviar,
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
+
+                   success: function (msg)
+                   {
+                       console.log("msg", msg);
+                       console.log("msg", msg.length);
+
+
+                       $("#SeleccionarContenedor").find('option').not(':first').remove();
+
+
+
+                       const opciones = document.getElementById("NumeroContenedor");
+
+                      // console.log(opciones.childElementCount);
+
+                       for (let i = 0; i < msg.length ; i++ )
+                       {
+                       // opciones.setAttribute('id', i);
+                        opciones.insertAdjacentHTML('afterend', `<option> ${msg[i]} </option>`);
+
+                       }
+
+
+
+                   },error: function (msg) {
+                          Swal.fire({
+                              backdrop: true,
+
+                              allowEnterKey: false,
+                              icon: 'info',
+                              title: 'No se pudo cargar los numeros de orden intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                          })
+                   }
+               });
+
+
+
+
+            }
+        );
+
+
+
+
+
+
+
+
+
+        // detecta cambios en el numero del contenedor
+        let idContenedor = null;
+        let contenedorSeleccionado = null;
+        const numeroDeContenedor = document.getElementById("SeleccionarContenedor");
+        numeroDeContenedor.addEventListener("change",
+            function () {
+
+                contenedorSeleccionado = this.options[numeroDeContenedor.selectedIndex];
+                console.log(contenedorSeleccionado.value);
+
+
+                var DatosEnviar = "{'BancoSeleccionado': '" + bancoSeleccionado.value + "','OrdenSeleccionado': '" + ordenSeleccionado.value + "','ContenedorSeleccionado': '" + contenedorSeleccionado.value + "' }";
+
+
+               $.ajax({
+                   url: '@Url.Action("ObtenerNumerosOrden", "Inventario")',
+                   data: DatosEnviar,
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
+
+                   success: function (msg) {
+                       console.log("msg", msg);
+                       console.log("msg", msg.length);
+
+                       idContenedor = msg[0];
+                       console.log(idContenedor);
+
+                       Swal.fire({
+                           backdrop: true,
+
+                           allowEnterKey: false,
+                           icon: 'info',
+                           title: `Ingrese folios a partir del <br/>
+                                   ${msg[1]} al ${msg [2]}`,
+
+
+                       })
+
+
+
+                   },error: function (msg) {
+                          Swal.fire({
+                              backdrop: true,
+
+                              allowEnterKey: false,
+                              icon: 'info',
+                              title: 'No se pudo cargar los numeros de orden intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                          })
+                   }
+               });
+
+
+
+
+            }
+        );
+
+
+
+
+
+        // detecta cambios en el nombre del personal
+        let personalSeleccionado = null;
+        const nombrePersonal = document.getElementById("SeleccionarPersonal");
+        nombrePersonal.addEventListener("change",
+            function () {
+
+                personalSeleccionado = this.options[nombrePersonal.selectedIndex];
+                console.log(personalSeleccionado.value);
+
+
+            }
+        );
+
+
+
+
+
+        let FInicial = null;
+        let FFinal = null;
+        let TotalFormasAsignadas = null;
+
+        const Validar = document.getElementById("Validar");
+        Validar.addEventListener("click",
+            function ()
+            {
+
+
+                FInicial = document.getElementById('FolioInicial');
+                FFinal = document.getElementById('FolioFinal');
+
+                if (bancoSeleccionado.value != "" && ordenSeleccionado.value != "" && contenedorSeleccionado.value != "" && personalSeleccionado.value != "" && FInicial.value != "" && FFinal.value != "")
+                {
+
+                    //console.log("entre");
+                    //console.log(bancoSeleccionado.value);
+                    //console.log(ordenSeleccionado.value);
+                    //console.log(contenedorSeleccionado.value);
+                    //console.log(personalSeleccionado.value);
+                    //console.log(FInicial.value);
+                    //console.log(FFinal.value);
+                    TotalFormasAsignadas = (FFinal.value - FInicial.value) + 1;
+
+
+                    document.getElementById('ResumenGuardado').innerHTML = `Esta Seguro de asignar ${TotalFormasAsignadas} formas de pago <br/> del banco ${bancoSeleccionado.value} <br/>
+                                                                            con Folio inicial ${FInicial.value} al Folio Final ${FFinal.value} <br/>
+                                                                            dentro del contenedor: ${contenedorSeleccionado.value} <br/> de la orden ${ordenSeleccionado.value} <br/>
+                                                                            a la persona: ${personalSeleccionado.value}`;
+
+
+                    $('#AsignarFolios').modal('show');
+                }
+
+
+            }
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Enviar Datos al SERVER
+        var GuardarDatos = document.getElementById("GuardarAjuste");
+        GuardarDatos.addEventListener("click",
+            function () {
+
+
+                //idContenedor
+                           //     int IdContenedor,           string PersonalSeleccionado, string FolioInicial, string FolioFinal, int TotalFormasAsignadas)
+                var DatosEnviar = "{'IdContenedor':'"+idContenedor+"','PersonalSeleccionado':'"+personalSeleccionado.value+"','FolioInicial':'"+FInicial.value+"','FolioFinal':'"+FFinal.value+"','TotalFormasAsignadas':'"+TotalFormasAsignadas+"'}";
+
+                console.log(DatosEnviar);
+
+
+                // console.log(DatosEnviar);
+
+
+                 $.ajax({
+                    url: '@Url.Action("GuardarAjuste", "Inventario")',
+                    data: DatosEnviar,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    success: function (msg) {
+                        console.log("msg", msg);
+                        console.log("msg", msg.length);
+
+                        $('#AsignarFolios').modal('hide');
+
+                        Swal.fire({
+                            backdrop: true,
+
+                            allowEnterKey: false,
+                            icon: 'success',
+                            title: 'Guardado exitoso',
+                            text : 'Folios Asignados Correctamente'
+
+
+
+                        }).then((result) => {
+                            if (result.value) {
+
+                                location.reload();
+
+                                //$('#Confirmar').modal('hide')
+                            }
+                        })
+
+
+                    },
+                    error: function (msg) {
+                        Swal.fire({
+                            backdrop: true,
+
+                            allowEnterKey: false,
+                            icon: 'error',
+                            title: 'No se pudo Asignar las formas de pago correctamente intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                        })
+                    }
+                });
+
+            }
+        );
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+</script>

@@ -14,13 +14,13 @@ namespace DAP.Plantilla.Models
 
         public int FormasDisponibles { get; set; }
 
-        public int UltimoFolioInventario { get; set; }
+        public string UltimoFolioInventario { get; set; }
 
-        public int UltimoFolioQuincena { get; set; }
+        public string UltimoFolioUtilizado { get; set; }
 
-        public Nullable<int> FormasQuincena1 { get; set; }
+        public Nullable<int> FormasUsadasQuincena1 { get; set; }
 
-        public Nullable<int> FormasQuincena2 { get; set; }
+        public Nullable<int> FormasUsadasQuincena2 { get; set; }
 
         public Nullable<decimal> EstimadoMeses { get; set; }
 
