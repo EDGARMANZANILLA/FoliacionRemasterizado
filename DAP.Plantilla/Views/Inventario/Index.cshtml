@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th> <p> Reporte de Inventario</p></th>
-                        <th>  <p> Inventario de Formas</p> </th>
+       
                         <th> <p>Solicitar Nuevas Formas</p> </th>
 
 
@@ -38,11 +38,6 @@
 
                     <tr class="text-center">
                         <td>   <button type="button" class="btn btn-success btn-lg" title="Descargar Reporte del inventario en P">Descargar</button> </td>
-
-                        <td>
-                            <a type="button" class="btn btn-success" href="@Url.Action("Ajustar", "Inventario")" title="Realizar un ajuste al inventario">&nbsp  Ajustar  &nbsp</a>
-                        </td>
-
                         <td>
                             <a type="button" class="btn btn-success btn-lg" href="@Url.Action("Solicitar", "Inventario")" title="Crear Nueva Solicitud">&nbsp  Solicitar  &nbsp</a>
                         </td>
@@ -78,8 +73,9 @@
    
             <thead class="tabla">
                 <tr>
-                    <th>Id</th>
+                  
                     <th>Cuenta Bancaria</th>
+                    <th>Cuenta</th>
                     <th>Formas disponibles</th>
                     <th>Ultimo folio de inventario</th>
                     <th>Ultimo folio usado</th>
@@ -113,8 +109,9 @@
                 @foreach (var modelo in Model)
                 {
                 <tr>
-                    <td>@modelo.Id</td>
+
                     <td>@modelo.NombreBanco</td>
+                    <td>@modelo.Cuenta</td>
                     <td>@modelo.FormasDisponibles</td>
                     <td>@modelo.UltimoFolioInventario</td>
                     <td>@modelo.UltimoFolioUtilizado</td>
@@ -158,292 +155,5 @@
 
 
 
-
-
-
-
-
-
-
-<script>
-    let numeroOrden = 4545;
-    let banco = null;
-    //
-    let primerFolio = null;
-    let segundoFolio = null;
-
-    //Le envia datos a los modales con su respectiva informacion
-    $(document).ready(function () {
-
-
-        //$(".agregar").click(function () {
-
-        //    //valores obtendra el dato del td por posciones [0]
-        //    banco = $(this).parents("tr").find("td")[1].innerHTML;
-            
-        //    console.log(`hola ${banco}`);
-
-        //    // alert(valores);
-        //    let $x = $("a");
-        //    //let a = $x.prop("href").split("#")[0];
-        //    let a = $x.prop("href").split("?")[0];
-           
-        //    console.log(a);
-       
-
-
-        //        //let  $a = $(this);
-        //        //let url = $a.prop('href').split("?")[0];
-
-        //        //console.log(url);
-        //        //// http://localhost/MiControlador/MiAccion/1
-
-        //        var parametro = {
-        //            nombreBanco: banco
-        //        };
-
-        //        //console.log($.param(banco));
-        //        //// tipo=1
-
-        //        console.log(a + "?" + $.param(parametro));
-        //        //// http://localhost/MiControlador/MiAccion/1?tipo=1
-
-        //        //e.preventDefault();
-
-        //        $x.prop('href', a + "?" + $.param(parametro));
-          
-
-
-
-
-
-
-
-        //});
-
-    });
-
-
-
-
-@*
-
-    //Verifica que el usuario escriba en los inputs de los folios
-
-    let FolioInicial = null;
-    let FolioFinal = null;
-    let TotalFolios = null;
-
-
-
-    let $FIncial = document.getElementById("FInicial")
-    let $FFinal = document.getElementById("FFinal")
-
-    let timeout
-
-    //El evento lo puedes reemplazar con keyup, keypress y el tiempo a tu necesidad
-    //Escuchador para el input de Folio de inicio
-    $FIncial.addEventListener('keypress', () => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-
-            FolioInicial = null;
-            FolioFinal = null;
-            FolioInicial = document.getElementById("FInicial").value;
-            FolioFinal = document.getElementById("FFinal").value;
-            //console.log(FolioInicial);
-
-
-            //Aplica para cuando el usuario cambie solo el Folio inicial
-            TotalFolios = (FolioFinal - FolioInicial) + 1;
-            //console.log("inicial" +FolioInicial);
-            //console.log(FolioFinal);
-
-            if (FolioInicial == primerFolio && FolioFinal >= segundoFolio) {
-                document.getElementById("Validar").style.display = "block"
-
-
-
-                document.getElementById("TextoConfrimacion").innerHTML = "Se Insertaran " + " " + TotalFolios + " " + "Nuevos Folios" + "<br/>" + "Donde el Folio Inicial es:" + " " + FolioInicial + " " + "y" + " " + "Folio Final es" + " " + FolioFinal + "<br/>" + "¿ESTA SEGURO DE ELLO?";
-
-
-
-            } else {
-                document.getElementById("Validar").style.display = "none"
-
-                Swal.fire({
-                    backdrop: true,
-                    allowEnterKey: true,
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Introduzca un numero IGUAL a: ' + primerFolio + ' en el FOLIO INICIAL Y                un numero IGUAL O MAYOR a: ' + segundoFolio + ' en el FOLIO FINAL'
-
-                })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-
-
-
-
-            clearTimeout(timeout)
-        }, 2500)
-    })
-
-
-
-
-     //Escuchador para el input de FolioFinal
-    $FFinal.addEventListener('keypress', () => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-
-            FolioInicial = null;
-            FolioFinal = null;
-            FolioInicial = document.getElementById("FInicial").value;
-            FolioFinal = document.getElementById("FFinal").value;
-            //console.log(FolioFinal);
-
-
-            TotalFolios = (FolioFinal - FolioInicial) + 1;
-           // console.log(TotalFolios);
-
-            if (FolioInicial == primerFolio &&  FolioFinal >= segundoFolio) {
-                document.getElementById("Validar").style.display = "block"
-
-
-
-
-                document.getElementById("TextoConfrimacion").innerHTML = "Se Insertaran " + " " + TotalFolios + " " + "Nuevos Folios" + "<br/>" + "Donde el Folio Inicial es:" + " " + FolioInicial + " " + "y" + " " + "Folio Final es" + " "+FolioFinal + "<br/>" + "¿ESTA SEGURO DE ELLO?";
-
-
-
-            } else
-            {
-                document.getElementById("Validar").style.display = "none"
-
-                Swal.fire({
-                    backdrop: true,
-
-                    allowEnterKey: false,
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Introduzca un numero IGUAL a: ' + primerFolio + ' en el FOLIO INICIAL Y                un numero IGUAL O MAYOR a: ' + segundoFolio + ' en el FOLIO FINAL'
-
-                })
-
-
-
-            }
-
-
-
-            clearTimeout(timeout)
-        }, 2500)
-    })
-
-
-
-
-    function GuardarFolios() {
-
-        console.log("Total folio" + " " + TotalFolios);
-
-        if (TotalFolios > 1) {
-
-
-
-            let EnviarDatos = "{'Banco': '" + banco + "','finicial': '" + FolioInicial + "', 'ffinal': '" + FolioFinal + "', 'ftotal': '" + TotalFolios +"' }";
-
-
-            console.log(EnviarDatos);
-
-
-            $.ajax({
-
-                url: '@Url.Action("GuardarInventario", "Foliacion")',
-                data: EnviarDatos,
-                dataType: "json",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                success: function (msg) {
-                    //uso del cdn sweetalert2 para los popo ups de confirmacion y error
-
-                    if (msg == true) {
-                        Swal.fire({
-                            backdrop: true,
-                            icon: 'success',
-                            title: 'CORRECTO!',
-                            allowEnterKey: true,
-                            html: "<h3 class=text-uppercase > se guardo con exito el inventario para " + banco + "</h3>"
-
-
-                        }).then((result) => {
-                            if (result.value) {
-                                location.reload();
-                            }
-                        })
-
-
-
-
-                    }
-                    else
-                    {
-                        Swal.fire({
-                            backdrop: "true",
-                            allowEnterKey: "true",
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Hubo un problema intente mas tarde!'
-
-                        })
-                    }
-
-
-
-                },
-                error: function (result)
-                {
-                           alert("ERROR " + result.status);
-                }
-            });
-
-
-
-
-
-        } else {
-            alert(" Ingresa un numero de folio mayor a 1 o <br/> Ingresa un numero de folio mayor al ultimo ya existente ");
-        }
-
-    }
-
-
-    function Cerrar()
-    {
-
-
-        $('#FInicial').val('');
-        $('#FFinal').val('');
-
-    }*@
-
-
-
-
-</script>
 
 

@@ -14,20 +14,16 @@ namespace DAP.Foliacion.Entidades
     
     public partial class Tbl_InventarioDetalle
     {
-        public Tbl_InventarioDetalle()
-        {
-            this.Tbl_inventarioAsignacion = new HashSet<Tbl_inventarioAsignacion>();
-            this.Tbl_InventarioInhabilitado = new HashSet<Tbl_InventarioInhabilitado>();
-        }
-    
         public int Id { get; set; }
         public int IdContenedor { get; set; }
         public string NumFolio { get; set; }
         public Nullable<int> IdIncidencia { get; set; }
+        public Nullable<System.DateTime> FechaIncidencia { get; set; }
+        public Nullable<int> IdEmpleado { get; set; }
+        public bool Activo { get; set; }
     
-        public virtual ICollection<Tbl_inventarioAsignacion> Tbl_inventarioAsignacion { get; set; }
+        public virtual Tbl_InventarioAsignacionPersonal Tbl_InventarioAsignacionPersonal { get; set; }
         public virtual Tbl_InventarioContenedores Tbl_InventarioContenedores { get; set; }
         public virtual Tbl_InventarioTipoIncidencia Tbl_InventarioTipoIncidencia { get; set; }
-        public virtual ICollection<Tbl_InventarioInhabilitado> Tbl_InventarioInhabilitado { get; set; }
     }
 }

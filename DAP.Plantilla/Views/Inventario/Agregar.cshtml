@@ -504,6 +504,8 @@
     function EnviarDatos()
     {
 
+        MensajeCargando();
+
         console.log(listaDeContenedores);
         let banco = " @ViewBag.NombreBancoSeleccionado ";
 
@@ -521,6 +523,7 @@
                 console.log("msg", msg);
                 if (msg == true) {
 
+                    OcultarMensajeCargando();
 
                     Swal.fire({
                         backdrop: true,
@@ -538,6 +541,7 @@
                     })
 
                 } else {
+                    OcultarMensajeCargando();
                     Swal.fire({
                         backdrop: true,
 
@@ -550,6 +554,7 @@
                 }
               },
               error: function (msg) {
+                  OcultarMensajeCargando();
                   Swal.fire({
                       backdrop: true,
 

@@ -5,31 +5,25 @@
     <EntitySet Name="Tbl_CuentaBancarias_TipoPagoCuenta" EntityType="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta" />
     <EntitySet Name="Tbl_CuentasBancarias" EntityType="FoliacionModel.Tbl_CuentasBancarias" />
     <EntitySet Name="Tbl_Inventario" EntityType="FoliacionModel.Tbl_Inventario" />
-    <EntitySet Name="Tbl_inventarioAsignacion" EntityType="FoliacionModel.Tbl_inventarioAsignacion" />
     <EntitySet Name="Tbl_InventarioAsignacionPersonal" EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" />
     <EntitySet Name="Tbl_InventarioContenedores" EntityType="FoliacionModel.Tbl_InventarioContenedores" />
     <EntitySet Name="Tbl_InventarioDetalle" EntityType="FoliacionModel.Tbl_InventarioDetalle" />
-    <EntitySet Name="Tbl_InventarioInhabilitado" EntityType="FoliacionModel.Tbl_InventarioInhabilitado" />
     <EntitySet Name="Tbl_InventarioTipoIncidencia" EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" />
     <AssociationSet Name="FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta">
       <End Role="Tbl_CuentaBancarias_TipoPagoCuenta" EntitySet="Tbl_CuentaBancarias_TipoPagoCuenta" />
       <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
     </AssociationSet>
-    <AssociationSet Name="FK_Tbl_Inventario_Tbl_CuentasBancarias1" Association="FoliacionModel.FK_Tbl_Inventario_Tbl_CuentasBancarias1">
-      <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
+    <AssociationSet Name="FK_Tbl_CuentasBancarias_Tbl_Inventario" Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario">
       <End Role="Tbl_Inventario" EntitySet="Tbl_Inventario" />
+      <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
     </AssociationSet>
     <AssociationSet Name="FK_Tbl_InventarioContenedores_Tbl_Inventario" Association="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario">
       <End Role="Tbl_Inventario" EntitySet="Tbl_Inventario" />
       <End Role="Tbl_InventarioContenedores" EntitySet="Tbl_InventarioContenedores" />
     </AssociationSet>
-    <AssociationSet Name="FK_Tbl_inventarioAsignacion_Tbl_InventarioAsignacionPersonal" Association="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioAsignacionPersonal">
+    <AssociationSet Name="FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal">
       <End Role="Tbl_InventarioAsignacionPersonal" EntitySet="Tbl_InventarioAsignacionPersonal" />
-      <End Role="Tbl_inventarioAsignacion" EntitySet="Tbl_inventarioAsignacion" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Tbl_inventarioAsignacion_Tbl_InventarioDetalle" Association="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioDetalle">
       <End Role="Tbl_InventarioDetalle" EntitySet="Tbl_InventarioDetalle" />
-      <End Role="Tbl_inventarioAsignacion" EntitySet="Tbl_inventarioAsignacion" />
     </AssociationSet>
     <AssociationSet Name="FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores">
       <End Role="Tbl_InventarioContenedores" EntitySet="Tbl_InventarioContenedores" />
@@ -38,10 +32,6 @@
     <AssociationSet Name="FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia" Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia">
       <End Role="Tbl_InventarioTipoIncidencia" EntitySet="Tbl_InventarioTipoIncidencia" />
       <End Role="Tbl_InventarioDetalle" EntitySet="Tbl_InventarioDetalle" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Tbl_InventarioInhabilitado_Tbl_InventarioDetalle" Association="FoliacionModel.FK_Tbl_InventarioInhabilitado_Tbl_InventarioDetalle">
-      <End Role="Tbl_InventarioDetalle" EntitySet="Tbl_InventarioDetalle" />
-      <End Role="Tbl_InventarioInhabilitado" EntitySet="Tbl_InventarioInhabilitado" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="sysdiagrams">
@@ -71,18 +61,18 @@
     <Property Name="Abreviatura" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
     <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="Int32" Nullable="false" />
+    <Property Name="IdInventario" Type="Int32" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="FechaBaja" Type="DateTime" Precision="0" />
     <Property Name="Activo" Type="Boolean" />
     <NavigationProperty Name="Tbl_CuentaBancarias_TipoPagoCuenta" Relationship="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_CuentaBancarias_TipoPagoCuenta" />
-    <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionModel.FK_Tbl_Inventario_Tbl_CuentasBancarias1" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Inventario" />
+    <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Inventario" />
   </EntityType>
   <EntityType Name="Tbl_Inventario">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" />
     <Property Name="FormasDisponibles" Type="Int32" Nullable="false" />
     <Property Name="UltimoFolioInventario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UltimoFolioUtilizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -90,20 +80,8 @@
     <Property Name="FormasUsadasQuincena2" Type="Int32" />
     <Property Name="EstimadoMeses" Type="Decimal" Precision="4" Scale="2" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Tbl_CuentasBancarias" Relationship="FoliacionModel.FK_Tbl_Inventario_Tbl_CuentasBancarias1" FromRole="Tbl_Inventario" ToRole="Tbl_CuentasBancarias" />
+    <NavigationProperty Name="Tbl_CuentasBancarias" Relationship="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_Inventario" ToRole="Tbl_CuentasBancarias" />
     <NavigationProperty Name="Tbl_InventarioContenedores" Relationship="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario" FromRole="Tbl_Inventario" ToRole="Tbl_InventarioContenedores" />
-  </EntityType>
-  <EntityType Name="Tbl_inventarioAsignacion">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdInventarioDetalle" Type="Int32" Nullable="false" />
-    <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-    <Property Name="FechaAsignacion" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Activo" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Tbl_InventarioAsignacionPersonal" Relationship="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_inventarioAsignacion" ToRole="Tbl_InventarioAsignacionPersonal" />
-    <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioDetalle" FromRole="Tbl_inventarioAsignacion" ToRole="Tbl_InventarioDetalle" />
   </EntityType>
   <EntityType Name="Tbl_InventarioAsignacionPersonal">
     <Key>
@@ -113,7 +91,7 @@
     <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
     <Property Name="NombrePersonal" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Tbl_inventarioAsignacion" Relationship="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_InventarioAsignacionPersonal" ToRole="Tbl_inventarioAsignacion" />
+    <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_InventarioAsignacionPersonal" ToRole="Tbl_InventarioDetalle" />
   </EntityType>
   <EntityType Name="Tbl_InventarioContenedores">
     <Key>
@@ -142,20 +120,12 @@
     <Property Name="IdContenedor" Type="Int32" Nullable="false" />
     <Property Name="NumFolio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="IdIncidencia" Type="Int32" />
-    <NavigationProperty Name="Tbl_inventarioAsignacion" Relationship="FoliacionModel.FK_Tbl_inventarioAsignacion_Tbl_InventarioDetalle" FromRole="Tbl_InventarioDetalle" ToRole="Tbl_inventarioAsignacion" />
+    <Property Name="FechaIncidencia" Type="DateTime" Precision="0" />
+    <Property Name="IdEmpleado" Type="Int32" />
+    <Property Name="Activo" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Tbl_InventarioAsignacionPersonal" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_InventarioDetalle" ToRole="Tbl_InventarioAsignacionPersonal" />
     <NavigationProperty Name="Tbl_InventarioContenedores" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" FromRole="Tbl_InventarioDetalle" ToRole="Tbl_InventarioContenedores" />
     <NavigationProperty Name="Tbl_InventarioTipoIncidencia" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia" FromRole="Tbl_InventarioDetalle" ToRole="Tbl_InventarioTipoIncidencia" />
-    <NavigationProperty Name="Tbl_InventarioInhabilitado" Relationship="FoliacionModel.FK_Tbl_InventarioInhabilitado_Tbl_InventarioDetalle" FromRole="Tbl_InventarioDetalle" ToRole="Tbl_InventarioInhabilitado" />
-  </EntityType>
-  <EntityType Name="Tbl_InventarioInhabilitado">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdInventarioDetalle" Type="Int32" Nullable="false" />
-    <Property Name="FechaInhabilitacion" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Activo" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioInhabilitado_Tbl_InventarioDetalle" FromRole="Tbl_InventarioInhabilitado" ToRole="Tbl_InventarioDetalle" />
   </EntityType>
   <EntityType Name="Tbl_InventarioTipoIncidencia">
     <Key>
@@ -178,15 +148,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Tbl_Inventario_Tbl_CuentasBancarias1">
-    <End Type="FoliacionModel.Tbl_CuentasBancarias" Role="Tbl_CuentasBancarias" Multiplicity="1" />
-    <End Type="FoliacionModel.Tbl_Inventario" Role="Tbl_Inventario" Multiplicity="*" />
+  <Association Name="FK_Tbl_CuentasBancarias_Tbl_Inventario">
+    <End Type="FoliacionModel.Tbl_Inventario" Role="Tbl_Inventario" Multiplicity="0..1" />
+    <End Type="FoliacionModel.Tbl_CuentasBancarias" Role="Tbl_CuentasBancarias" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Tbl_CuentasBancarias">
+      <Principal Role="Tbl_Inventario">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Tbl_Inventario">
-        <PropertyRef Name="IdCuentaBancaria" />
+      <Dependent Role="Tbl_CuentasBancarias">
+        <PropertyRef Name="IdInventario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -202,27 +172,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Tbl_inventarioAsignacion_Tbl_InventarioAsignacionPersonal">
-    <End Type="FoliacionModel.Tbl_InventarioAsignacionPersonal" Role="Tbl_InventarioAsignacionPersonal" Multiplicity="1" />
-    <End Type="FoliacionModel.Tbl_inventarioAsignacion" Role="Tbl_inventarioAsignacion" Multiplicity="*" />
+  <Association Name="FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal">
+    <End Type="FoliacionModel.Tbl_InventarioAsignacionPersonal" Role="Tbl_InventarioAsignacionPersonal" Multiplicity="0..1" />
+    <End Type="FoliacionModel.Tbl_InventarioDetalle" Role="Tbl_InventarioDetalle" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Tbl_InventarioAsignacionPersonal">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Tbl_inventarioAsignacion">
+      <Dependent Role="Tbl_InventarioDetalle">
         <PropertyRef Name="IdEmpleado" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Tbl_inventarioAsignacion_Tbl_InventarioDetalle">
-    <End Type="FoliacionModel.Tbl_InventarioDetalle" Role="Tbl_InventarioDetalle" Multiplicity="1" />
-    <End Type="FoliacionModel.Tbl_inventarioAsignacion" Role="Tbl_inventarioAsignacion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tbl_InventarioDetalle">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Tbl_inventarioAsignacion">
-        <PropertyRef Name="IdInventarioDetalle" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -247,18 +205,6 @@
       </Principal>
       <Dependent Role="Tbl_InventarioDetalle">
         <PropertyRef Name="IdIncidencia" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Tbl_InventarioInhabilitado_Tbl_InventarioDetalle">
-    <End Type="FoliacionModel.Tbl_InventarioDetalle" Role="Tbl_InventarioDetalle" Multiplicity="1" />
-    <End Type="FoliacionModel.Tbl_InventarioInhabilitado" Role="Tbl_InventarioInhabilitado" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Tbl_InventarioDetalle">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Tbl_InventarioInhabilitado">
-        <PropertyRef Name="IdInventarioDetalle" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

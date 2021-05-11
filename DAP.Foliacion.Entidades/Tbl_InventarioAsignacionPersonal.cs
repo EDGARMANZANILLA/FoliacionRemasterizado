@@ -16,7 +16,7 @@ namespace DAP.Foliacion.Entidades
     {
         public Tbl_InventarioAsignacionPersonal()
         {
-            this.Tbl_inventarioAsignacion = new HashSet<Tbl_inventarioAsignacion>();
+            this.Tbl_InventarioDetalle = new HashSet<Tbl_InventarioDetalle>();
         }
     
         public int Id { get; set; }
@@ -24,6 +24,6 @@ namespace DAP.Foliacion.Entidades
         public string NombrePersonal { get; set; }
         public bool Activo { get; set; }
     
-        public virtual ICollection<Tbl_inventarioAsignacion> Tbl_inventarioAsignacion { get; set; }
+        public virtual ICollection<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
     }
 }

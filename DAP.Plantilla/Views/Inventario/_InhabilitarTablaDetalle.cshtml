@@ -1,0 +1,61 @@
+﻿@model List<DAP.Plantilla.Models.InventarioInhabilitadoModel>
+
+<section id="DetalleInhabilitacion" class="margenSection " style="display:none;">
+
+    <div class="table-responsive">
+
+        <table id="Detalle" class="table table-striped table-bordered table-hover">
+            <caption class="text-uppercase"> Formas de pago inhabilitadas </caption>
+
+
+            <thead class="tabla">
+                <tr>
+
+                    <th>Banco</th>
+                    <th>Cuenta</th>
+                    <th>Num. Orden</th>
+                    <th>Num. Contenedor</th>
+                    <th>Folio Inicial</th>
+                    <th>Folio Final</th>
+                    <th>Formas del contenedor</th>
+                    <th>Total de Formas Actuales</th>
+                    <th>Formas Inhabilitadas</th>
+                    <th>Fecha Alta de Contenedor</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                @foreach (var modelo in Model)
+                {
+                    <tr>
+
+                        <td>@modelo.Banco</td>
+                        <td>@modelo.Cuenta</td>
+                        <td>@modelo.Orden</td>
+                        <td>@modelo.Contenedor</td>
+                        <td>@modelo.FolioInicial</td>
+                        <td>@modelo.FolioFinal</td>
+                        <td>@modelo.FormasTotalesContenedor</td>
+                        <td>@modelo.FormasDisponiblesActuales</td>
+                        <td>@modelo.FormasInhabilitadas</td>
+                        <td>@modelo.FechaAlta.ToString("MM/dd/yyyy")</td>
+
+
+
+                    </tr>
+
+
+                }
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</section>

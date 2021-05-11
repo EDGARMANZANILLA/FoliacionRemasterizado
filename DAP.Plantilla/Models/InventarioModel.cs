@@ -8,9 +8,9 @@ namespace DAP.Plantilla.Models
     public class InventarioModel
     {
 
-        public int Id { get; set; }
 
         public string NombreBanco { get; set; }
+        public string Cuenta { get; set; }
 
         public int FormasDisponibles { get; set; }
 

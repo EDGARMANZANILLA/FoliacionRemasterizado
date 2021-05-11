@@ -30,11 +30,9 @@ namespace DAP.Foliacion.Datos
         public DbSet<Tbl_CuentaBancarias_TipoPagoCuenta> Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
         public DbSet<Tbl_CuentasBancarias> Tbl_CuentasBancarias { get; set; }
         public DbSet<Tbl_Inventario> Tbl_Inventario { get; set; }
-        public DbSet<Tbl_inventarioAsignacion> Tbl_inventarioAsignacion { get; set; }
         public DbSet<Tbl_InventarioAsignacionPersonal> Tbl_InventarioAsignacionPersonal { get; set; }
         public DbSet<Tbl_InventarioContenedores> Tbl_InventarioContenedores { get; set; }
         public DbSet<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
-        public DbSet<Tbl_InventarioInhabilitado> Tbl_InventarioInhabilitado { get; set; }
         public DbSet<Tbl_InventarioTipoIncidencia> Tbl_InventarioTipoIncidencia { get; set; }
     }
 }

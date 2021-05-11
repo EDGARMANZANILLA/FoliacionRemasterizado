@@ -16,11 +16,11 @@ namespace DAP.Foliacion.Entidades
     {
         public Tbl_Inventario()
         {
+            this.Tbl_CuentasBancarias = new HashSet<Tbl_CuentasBancarias>();
             this.Tbl_InventarioContenedores = new HashSet<Tbl_InventarioContenedores>();
         }
     
         public int Id { get; set; }
-        public int IdCuentaBancaria { get; set; }
         public int FormasDisponibles { get; set; }
         public string UltimoFolioInventario { get; set; }
         public string UltimoFolioUtilizado { get; set; }
@@ -29,7 +29,7 @@ namespace DAP.Foliacion.Entidades
         public Nullable<decimal> EstimadoMeses { get; set; }
         public bool Activo { get; set; }
     
-        public virtual Tbl_CuentasBancarias Tbl_CuentasBancarias { get; set; }
+        public virtual ICollection<Tbl_CuentasBancarias> Tbl_CuentasBancarias { get; set; }
         public virtual ICollection<Tbl_InventarioContenedores> Tbl_InventarioContenedores { get; set; }
     }
 }

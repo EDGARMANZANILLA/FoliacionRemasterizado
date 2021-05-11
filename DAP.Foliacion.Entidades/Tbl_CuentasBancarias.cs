@@ -14,21 +14,17 @@ namespace DAP.Foliacion.Entidades
     
     public partial class Tbl_CuentasBancarias
     {
-        public Tbl_CuentasBancarias()
-        {
-            this.Tbl_Inventario = new HashSet<Tbl_Inventario>();
-        }
-    
         public int Id { get; set; }
         public string NombreBanco { get; set; }
         public string Abreviatura { get; set; }
         public string Cuenta { get; set; }
         public int IdCuentaBancaria_TipoPagoCuenta { get; set; }
+        public Nullable<int> IdInventario { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public Nullable<System.DateTime> FechaBaja { get; set; }
         public Nullable<bool> Activo { get; set; }
     
         public virtual Tbl_CuentaBancarias_TipoPagoCuenta Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
-        public virtual ICollection<Tbl_Inventario> Tbl_Inventario { get; set; }
+        public virtual Tbl_Inventario Tbl_Inventario { get; set; }
     }
 }
