@@ -65,39 +65,39 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
             ViewBag.NombreBancoSeleccionado = NombreBanco;
 
-            List<InventarioContenedorModel> motrarContenedores = new List<InventarioContenedorModel>();
+            ViewBag.NumeroCuentaBanco = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
 
-            int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
-           // int idInventario = Negocios.InventarioNegocios.ObtenerIdInventario(idBanco);
-           // var inventarioDetallesObtenidos = Negocios.InventarioNegocios.ObtenerContenedoresBanco(idInventario);
-
-            //foreach (var detalle in inventarioDetallesObtenidos)
-            //{
-            //    InventarioContenedorModel nuevoDetalle = new InventarioContenedorModel();
-
-            //    nuevoDetalle.Banco = detalle.Tbl_Inventario.Tbl_CuentasBancarias.NombreBanco;
-            //    nuevoDetalle.Cuenta = detalle.Tbl_Inventario.Tbl_CuentasBancarias.Cuenta;
-            //    nuevoDetalle.Orden = detalle.NumOrden;
-            //    nuevoDetalle.Contenedor = detalle.NumContenedor;
-            //    nuevoDetalle.FolioInicial = detalle.FolioInicial;
-            //    nuevoDetalle.FolioFinal = detalle.FolioFinal;
-            //    nuevoDetalle.FormasTotalesContenedor = detalle.FormasTotalesContenedor;
-            //    nuevoDetalle.FormasDisponiblesActuales = detalle.FormasDisponiblesActuales;
-            //    nuevoDetalle.FormasInhabilitadas = detalle.FormasInhabilitadas;
-            //    nuevoDetalle.FormasAsignadas = detalle.FormasAsignadas;
-            //    nuevoDetalle.FechaAlta = detalle.FechaAlta.ToString("dd/MM/yyyy");
-
-            //    motrarContenedores.Add(nuevoDetalle);
-            //}
+             int IdInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
+            ViewBag.IdInventario = IdInventario;
 
 
+           var detallesObtenidos = Negocios.InventarioNegocios.obtenerDetallesTabla(IdInventario).ToList();
+
+            List<DetalleBancoModel> listaDetalle = new List<DetalleBancoModel>();
+
+            foreach (var detalle in detallesObtenidos)
+            {
+                DetalleBancoModel nuevoDetalle = new DetalleBancoModel();
+
+                nuevoDetalle.NumeroOrden = detalle.Tbl_InventarioContenedores.NumOrden;
+                nuevoDetalle.NumeroContenedor = detalle.Tbl_InventarioContenedores.NumContenedor;
+                nuevoDetalle.NumeroFolio = detalle.NumFolio;
+
+                if (detalle.IdIncidencia != null)
+                    nuevoDetalle.Incidencia = detalle.Tbl_InventarioTipoIncidencia.Descrip_Incidencia;
+
+                if(detalle.IdEmpleado != null)
+                nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
+
+                if (detalle.FechaIncidencia != null)
+                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia.ToString();
+
+                listaDetalle.Add(nuevoDetalle);
+            }
 
 
-            return View(motrarContenedores);
+            return View(listaDetalle);
         }
-
-
-
 
 
         public ActionResult Ajustar(string NombreBanco)
@@ -133,14 +133,14 @@ namespace DAP.Foliacion.Plantilla.Controllers
             List<string> nombresBancos = new List<string>();
 
             var bancosActivos = Negocios.InventarioNegocios.ObtenerBancosConChequera();
-
+            int numeroBancos = 0;
             foreach (var banco in bancosActivos)
             {
-
+                numeroBancos += 1;
                 nombresBancos.Add(banco.NombreBanco);
             }
 
-
+            ViewBag.NumeroBancos = numeroBancos;
             ViewBag.ListaNombreBancos = nombresBancos;
 
             return View();
@@ -201,11 +201,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
         //metodos por post
-
         [HttpPost]
-
-
-
 
         //Metodo Para Agregar contenedores 
         //Revisado
@@ -419,15 +415,13 @@ namespace DAP.Foliacion.Plantilla.Controllers
         //Metodos para Solicitar Formas de pago para uno o mas de un banco
         public JsonResult ObtenerCuentaBancaria(string BancoSeleccionado) 
         {
-           bool bandera = false;
-           int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(BancoSeleccionado);
-           //string cuentaBancaria = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(idBanco);
-
-            //if(cuentaBancaria != "")
-            //    return Json(cuentaBancaria, JsonRequestBehavior.AllowGet);
+          // bool bandera = false;
 
 
-            return Json(bandera, JsonRequestBehavior.AllowGet);
+            string cuentaBancaria = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(BancoSeleccionado);
+          
+
+            return Json(cuentaBancaria, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -470,7 +464,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
-        public JsonResult CrearIncidenciasContenedor(int IdContenedor, string FolioInicial, string FolioFinal, int IdIncidencia, string NombreEmpleado)
+        public JsonResult CrearIncidenciasContenedor(int IdInventario, string NumeroOrden, int IdContenedor, string FolioInicial, string FolioFinal, int IdIncidencia, string NombreEmpleado)
         {//si el NombreEmpleado es null es por que es una inhabilitacion y no se necesita
             int IdEmpleado = 0;
             if (NombreEmpleado != null)
@@ -479,9 +473,59 @@ namespace DAP.Foliacion.Plantilla.Controllers
             }
 
 
-            List<string> foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFoliosContenedor(IdContenedor, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado);
+            List<string> foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFoliosContenedor(IdInventario, NumeroOrden, IdContenedor, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado);
 
             return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
         }
+
+
+
+
+
+        //crear tabla del detalle banco 
+        public JsonResult CargarDetalleBanco(int IdInventario) 
+        {
+            var detallesObtenidos = Negocios.InventarioNegocios.obtenerDetallesTabla(IdInventario);
+
+            List<DetalleBancoModel> listaDetalle = new List<DetalleBancoModel>();
+
+            foreach (var detalle  in detallesObtenidos) 
+            {
+                DetalleBancoModel nuevoDetalle = new DetalleBancoModel();
+
+                nuevoDetalle.NumeroOrden = detalle.Tbl_InventarioContenedores.NumOrden;
+                nuevoDetalle.NumeroContenedor = detalle.Tbl_InventarioContenedores.NumContenedor;
+                nuevoDetalle.NumeroFolio = detalle.NumFolio;
+
+                if (detalle.IdIncidencia != null)
+                    nuevoDetalle.Incidencia = detalle.Tbl_InventarioTipoIncidencia.Descrip_Incidencia;
+
+                if (detalle.IdEmpleado != null)
+                    nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
+
+                if (detalle.FechaIncidencia != null)
+                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia.ToString();
+
+                listaDetalle.Add(nuevoDetalle);
+            }
+
+
+            return Json(listaDetalle, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
 }

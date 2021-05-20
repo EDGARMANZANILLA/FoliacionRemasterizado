@@ -129,6 +129,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AgregarInventarioModel.cs" />
+    <Compile Include="Models\DetalleBancoModel.cs" />
     <Compile Include="Models\InventarioAsignarAjustarModel.cs" />
     <Compile Include="Models\InventarioContenedorModel.cs" />
     <Compile Include="Models\InventarioDetalleModel.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Scripts\jquery-3.5.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.dynamicTable-1.0.0.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

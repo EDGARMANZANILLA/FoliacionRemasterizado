@@ -40,7 +40,7 @@
     <h5 class="col-12 text-center text-uppercase">Llene los siguientes campos para realizar la solicitud de formas de pago</h5>
     <br />
 
-    <form >
+    <form>
         <!--Seleccionar banco-->
         <div class="row">
 
@@ -50,16 +50,16 @@
 
             <div class=" col-12 col-md-6">
                 <div class="form-group">
-                    <select class="form-control" id="SeleccionBanco" name="SeleccionBanco" required >
+                    <select class="form-control" id="SeleccionBanco" name="SeleccionBanco" required>
                         <option value="" disabled selected>Selecciona un banco...</option>
                         @foreach (var banco in ViewBag.ListaNombreBancos)
-                        {
+                         {
 
 
                             <option>@banco  </option>
 
 
-                        }
+                         }
 
                     </select>
                 </div>
@@ -75,23 +75,23 @@
             <span id="NumeroDeCuenta" class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill h4" title="Numero de cuenta activa"></span>
 
         </div>
-        <br />
 
         <!--Input para la cantidad de formas que desea solicitar el usuario-->
         <div class="row">
             <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right">Cantidad:</label>
-            <input id="CantidadFormas" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese C. de formas a solicitar" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" name="itemConsumption" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required />
+            <input id="CantidadFormas" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese C. de formas a solicitar" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" name="itemConsumption" onkeypress="return event.charCode >= 48 && event.charCode <= 57 " />
+
         </div>
         <br />
 
         <!--- Input para el folio inicial -->
         <div class="row ">
-            <label class="col-12 text-center offset-md-1 col-md-3 text-md-right">Folio Inicial:</label>
-            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese F. inicial a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
+            <label class="col-12 text-center offset-md-0 col-md-4 text-md-right">A partir del folio:</label>
+            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="text"  pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 "  />
         </div>
 
         <br />
-        <a type="submit" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success">
+        <a id="AgregarBancoSolicitud" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success">
             Agregar Banco a la solicitud
         </a>
 
@@ -107,54 +107,45 @@
 
 <!-- Genera la tabla para que se puedan editar los datos que se van agregando antes de poderlos agregar al historico -->
 
-<section class="margenSection table-responsive" id="TablaDeContenedores">
+<div class="margenSection">
+    <div class="table-responsive">
 
-    <table class="table table-striped table-bordered table-hover">
-        <caption id="TituloDeCaption"></caption>
-        <thead>
-            <tr>
-                <th>Banco</th>
-                <th>cuenta</th>
-                <th>Cantidad</th>
-                <th>Folio Inicial</th>
-                <th></th>
-
-
-            </tr>
-        </thead>
-
-        <tbody id="prueba">
-
-            <template id="temp">
-                <tr>
-
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-
-            </template>
+        <div id="divTablaCrud">
+            <table id="tablaAgregados" class="table table-striped table-bordered table-hover">
+                <caption id="TituloDeCaption"></caption>
+                <thead>
+                    <tr class="text-center text-uppercase">
+                        <th>Id</th>
+                        <th>Banco</th>
+                        <th>cuenta</th>
+                        <th>Folio Inicial</th>
+                        <th>Cantidad</th>
+                        <th></th>
 
 
 
-        </tbody>
-    </table>
+                    </tr>
+                </thead>
+
+
+            </table>
+
+        </div>
+
+    </div>
 
 
 
 
-
-</section>
+</div>
 
 <br />
 <br />
-<button type="button" id="Guardar" class="btn btn-primary col-10 offset-1" onclick="EnviarDatos()">Guardar Contenedores Existentes</button>
-<br />
-<br />
+<button type="button" id="GuardarSolicitud" class="btn btn-primary col-10 offset-1 " onclick="">Crear nueva solicitud</button>
 
 
+<br />
+<br />
 
 
 
@@ -226,30 +217,6 @@
 
 
 
-                @*@foreach (var modelo in Model)
-                    {
-                        <tr>
-                            <td>@modelo.Id</td>
-                            <td>@modelo.NombreBanco</td>
-                            <td>@modelo.FormasDisponibles</td>
-                            <td>@modelo.UltimoFolioInventario</td>
-                            <td>@modelo.UltimoFolioQuincena</td>
-                            <td>@modelo.FormasQuincena1</td>
-                            <td>@modelo.FormasQuincena2</td>
-                            <td>@modelo.EstimadoMeses</td>
-                            <th>
-                                <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Agregar</button>
-                            </th>
-                            <th>
-                                <button type="button" class="agregar btn btn-primary">Inhabilitados</button>
-                            </th>
-
-                        </tr>
-
-
-                    }*@
-
-
             </tbody>
         </table>
     </div>
@@ -268,13 +235,14 @@
 
 
 <!-- INICIO DE MODALES -->
-<section class="modal fade" id="BancoAgregado" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal de Edicion -->
+<section class="modal fade" id="EditarSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
 
 
-                <h5 class="col-11 text-center"> Bancos agregados a solicitud</h5>
+                <h5 class="col-11 text-center">Editar banco seleccionado</h5>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -287,7 +255,78 @@
 
             <div class="modal-body">
 
-                {Mostrar lista de bancos}
+                <div class="row">
+                    <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Id:</label>
+                    <label id="IdEdicion" class=" offset-1 col-10 text-center offset-md-0 col-md-6 h5" title="Id de solicutud a modificar"></label>
+
+                </div>
+
+
+                <!--Seleccionar banco-->
+                <div class="row">
+
+                    <div class=" col-12 text-center offset-md-1 col-md-3 text-md-right">
+                        <label class="text-capitalize">  Banco:</label>
+                    </div>
+
+                    <div class=" col-12 col-md-6">
+                        <div class="form-group">
+                            <select class="form-control" id="EditarSeleccionNombreBanco" name="EditSeleccionBanco" required>
+                                <option value="" selected>Selecciona un banco...</option>
+                                @foreach (var banco in ViewBag.ListaNombreBancos)
+                                {
+
+
+                                    <option value="@banco">@banco  </option>
+
+
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <!-- Muestra el numero de la cuenta filtrado por el banco seleccionado-->
+                <div class="row">
+                    <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Cuenta:</label>
+                    <label id="EditarNumeroDeCuenta" class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill h4" title="Numero de cuenta activa"></label>
+
+                </div>
+
+                <!--Input para la cantidad de formas que desea solicitar el usuario-->
+                <div class="row">
+                    <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right">Cantidad:</label>
+                    <input id="EditarCantidadFormas" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese C. de formas a solicitar" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" name="itemConsumption" onkeypress="" required />
+                </div>
+                <br />
+
+                <!--- Input para el folio inicial -->
+                <div class="row ">
+                    <label class="col-12 text-center offset-md-0 col-md-4 text-md-right">A partir del folio:</label>
+                    <input id="EditarFInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="" required />
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <br />
 
@@ -296,10 +335,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" onclick="">Descargar Solicitud</button>
-
-
-
+                <button id="GuardarEdicion" type="button" class="btn btn-success">Guardar Edicion</button>
 
             </div>
 
@@ -320,54 +356,95 @@
 
 
 <script>
-      $(document).ready(function () {
-        //detecta cambios en el banco
-          let bancoSeleccionado = null;
-          let cuentaBanco = null;
-            
-        const seleccionBanco = document.getElementById("SeleccionBanco");
+
+    function DibujarTablaAjax() {
+        $("#divTablaCrud").append(
+
+            "<table id='tablaAgregados'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Detalle general de formas de pago inhabilitadas </caption>"
+            + "<thead class='tabla'>" +
+
+            "<tr>" +
+            "<th>Id </th>" +
+            "<th>Banco </th>" +
+            "<th>Cuenta</th>" +
+            "<th>Folio Inicial</th>" +
+            "<th>Cantidad</th>" +
+            "<th></th>" +
+
+            "</tr>" +
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+    let listar;
+    function PintarConsultas(datos) {
+
+        listar = $('#tablaAgregados').DataTable({       
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "paging": true,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+                { "data": "Id" },
+                { "data": "nombreBanco" },
+                { "data": "cuentaBanco" },
+                { "data": "fInicial" },
+                { "data": "cantidadFormas" },
+                { "defaultContent": "<a class='editar btn btn-success' data-toggle='modal' data-target='#EditarSolicitud'  > <i class='fas fa-edit'></i></a> <a class='eliminar btn btn-danger'> <i class='fas fa-trash-alt'></i></a>" }
+
+
+            ]
+
+        });
+    };
+
+
+
+
+    $(document).ready(function () {
+
+        let bancoSeleccionado;
+        let cuentaBanco;
+
+        var seleccionBanco = document.getElementById("SeleccionBanco");
+     //   console.log(seleccionBanco);
         seleccionBanco.addEventListener("change",
             function () {
-
                 bancoSeleccionado = this.options[seleccionBanco.selectedIndex];
-                console.log(bancoSeleccionado.value);
-
-
-               var DatosEnviar = "{'BancoSeleccionado': '" + bancoSeleccionado.value + "' }";
-
-
+               // console.log(bancoSeleccionado.value);
+               var DatosEnviar = "{'BancoSeleccionado': '"+bancoSeleccionado.value+"' }";
                $.ajax({
                    url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
                    data: DatosEnviar,
                   type: "POST",
                   contentType: "application/json; charset=utf-8",
-
                    success: function (msg)
                    {
-                       console.log("msg", msg);
-                       console.log("msg", msg.length);
 
-                       //se msg es falso es porque la variable cuenta bancaria esta vacia
-                       if (msg === false) {
-                           Swal.fire({
-                               backdrop: true,
-
-                               allowEnterKey: false,
-                               icon: 'error',
-                               title: 'Problema al obtener la cuenta del banco seleccionado',
-                               text: 'No se pudo cargar el numero de la cuenta intentelo mas tarde o pongase en contacto con el administrador del sistema',
-
-                           })
-
-                       } else
-                       {
+                       //    console.log(msg);
                            cuentaBanco = msg;
-                           document.getElementById('NumeroDeCuenta').innerHTML = msg;
-
-                       }
-
-                
-
+                       document.getElementById('NumeroDeCuenta').innerHTML = msg;
 
                    },error: function (msg) {
                        Swal.fire({
@@ -378,47 +455,429 @@
                        })
                    }
                });
+            }
+        );
 
+
+
+
+        listaBancosSolicitados = new Array();
+
+
+        let cantidadFormas = null;
+        let fInicial = null;
+        let Id = 0;
+
+        const agregarBancoSolicitud = document.getElementById("AgregarBancoSolicitud");
+        agregarBancoSolicitud.addEventListener("click",
+            function () {
+                cantidadFormas = document.getElementById("CantidadFormas").value;
+                fInicial = document.getElementById("FInicial").value;
+
+
+                if (bancoSeleccionado != null)
+                {
+                    if (cantidadFormas != null && cantidadFormas != "")
+                    {
+                        Id += 1;
+                        let nombreBanco = bancoSeleccionado.value;
+
+                        listaBancosSolicitados.push({ Id, nombreBanco, cuentaBanco, cantidadFormas, fInicial });
+
+                        // console.log(Id, seleccionBanco.value, cuentaBanco, cantidadFormas, fInicial);
+
+
+                        $("#divTablaCrud").empty();
+
+                        DibujarTablaAjax();
+
+                        PintarConsultas(listaBancosSolicitados);
+
+                        //OcultarMensajeCargando();
+
+                       // console.log(listaBancosSolicitados);
+
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops...',
+                            text: 'Ingrese una cantidad de formas'
+                        })
+                    }
+
+                } else
+                {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Seleccione un banco!'
+                    })
+                }
 
             }
         );
 
 
-          let cantidadFormas = null;
-          let FolioInicial = null;
-
-        //  const Validacion = document.getElementById("Validar");
-        //Validacion.addEventListener("click",
-        //  function () {
-
-        //      //bancoSeleccionado.value
-        //      //cuentaBanco.value
-        //      //CantidadFormas
-        //      //FInicial
-
-        //      cantidadFormas = document.getElementById('CantidadFormas');
-        //      FolioInicial = document.getElementById('FInicial');
-
-        //      console.log(bancoSeleccionado.value);
-        //      console.log(cuentaBanco.value);
-        //      console.log(cantidadFormas.value);
-        //      console.log(FolioInicial.value);
-
-        //      //doc
-         
-              
-        //  }
-        //);
 
 
 
 
 
 
+    //Inicio CRUD
+        //Click para eliminar el elemento seleccionado de la tabla
+        $(document).on("click", ".eliminar", function () {
+
+
+
+            console.log("vieja" + listaBancosSolicitados);
+
+            let datoAEliminar = listar.row($(this).parents("tr")).data();
+            var i = listaBancosSolicitados.indexOf(datoAEliminar);
+            listaBancosSolicitados.splice(i, 1);
+
+
+
+           // console.log(listaBancosSolicitados);
+
+
+            let eliminado = listar.row($(this).parents("tr")).remove().draw();
+        });
+
+
+
+        let datoAEditar;
+        //Click para editar el elemento seleccionado de la tabla
+        $(document).on("click", ".editar", function () {
+
+            datoAEditar = listar.row($(this).parents("tr")).data();
+            var i = listaBancosSolicitados.indexOf(datoAEditar);
+
+           // console.log(listaBancosSolicitados[i].nombreBanco);
+
+            let nBanco = listaBancosSolicitados[i].nombreBanco;
+
+            document.getElementById("IdEdicion").innerHTML = listaBancosSolicitados[i].Id;
+            $("#EditarSeleccionNombreBanco").val(listaBancosSolicitados[i].nombreBanco);
+           //$('#EditarSeleccionNombreBanco').change();
+            document.getElementById("EditarNumeroDeCuenta").innerHTML = listaBancosSolicitados[i].cuentaBanco;
+            document.getElementById("EditarCantidadFormas").value = listaBancosSolicitados[i].cantidadFormas;
+            document.getElementById("EditarFInicial").value = listaBancosSolicitados[i].fInicial;
 
 
 
 
+
+
+
+            //metodo para cambiar la seleccion del banco
+            let editarnombreBancoSeleccionado = null;
+            let editarcuentaBanco = null;
+
+            const editarseleccionBanco = document.getElementById("EditarSeleccionNombreBanco");
+                editarseleccionBanco.addEventListener("change",
+                function () {
+
+                let bancoSeleccionadoEdit = this.options[editarseleccionBanco.selectedIndex];
+                editarnombreBancoSeleccionado = bancoSeleccionadoEdit.value;
+
+
+                var datoEnviar = "{'BancoSeleccionado':'" + bancoSeleccionadoEdit.value + "'}";
+
+
+                    $.ajax({
+                        url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
+                        data: datoEnviar,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+
+                        success: function (msg) {
+
+
+                            //se msg es falso es porque la variable cuenta bancaria esta vacia
+                            if (msg.length == 0) {
+                                Swal.fire({
+                                    backdrop: true,
+
+                                    allowEnterKey: false,
+                                    icon: 'error',
+                                    title: 'Problema al obtener la cuenta del banco seleccionado',
+                                    text: 'No se pudo cargar el numero de la cuenta intentelo mas tarde o pongase en contacto con el administrador del sistema',
+
+                                })
+
+                            } else {
+
+                                document.getElementById('EditarNumeroDeCuenta').innerHTML = msg;
+
+                            }
+
+
+
+
+                        }, error: function (msg) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Esto no deberia pasar intentelo de nuevo por favor!',
+                                footer: '<a>Si necesita ayuda pongase en contacto con el administrador</a>'
+                            })
+                        }
+                    });
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //obtner datos dela edicion del banco
+            const GuardarEdicion = document.getElementById("GuardarEdicion");
+            GuardarEdicion.addEventListener("click",
+                function () {
+                    //se muestra el mensaje cargando para bloquear la pantalla
+                    MensajeCargando();
+                   /// Editar(datoAEditar.Id);
+               
+
+                    let indice = listaBancosSolicitados.findIndex(y => y.Id == datoAEditar.Id);
+                    console.log("asdf");
+                    console.log(indice);
+
+                    //Obtiene los datos modificados del modal 
+                    let bancoSeleccionadoEdicion = document.getElementById("EditarSeleccionNombreBanco").value;
+                    let cuentaEdicion = document.getElementById("EditarNumeroDeCuenta").innerText;
+                    let cantidadFormasEdicion = document.getElementById('EditarCantidadFormas').value;
+                    let folioInicialEdicion = document.getElementById('EditarFInicial').value;
+
+                    //se actualizan los varlores dentro del arreglo
+                    listaBancosSolicitados[indice].nombreBanco = bancoSeleccionadoEdicion;
+                    listaBancosSolicitados[indice].cuentaBanco = cuentaEdicion;
+                    listaBancosSolicitados[indice].cantidadFormas = cantidadFormasEdicion;
+                    listaBancosSolicitados[indice].fInicial = folioInicialEdicion;
+
+
+                    //se vacia la tabla
+                    $("#divTablaCrud").empty();
+
+                    DibujarTablaAjax();
+
+                    PintarConsultas(listaBancosSolicitados);
+
+                    OcultarMensajeCargando();
+
+                    $('#EditarSolicitud').modal('hide');
+
+                  //  console.log(listaBancosSolicitados);
+                }
+            );
+
+
+        });
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+        //Click para editar el elemento seleccionado de la tabla
+        $(document).on("click", ".editar", function () {
+
+
+
+            document.getElementById("IdEdicion").innerHTML = datoEncontradoArray.Id;
+            $("#EditarSeleccionBanco").val(datoEncontradoArray.nombreBancoSeleccionado);
+            $('#EditarSeleccionBanco').change();
+            document.getElementById("EditarNumeroDeCuenta").innerHTML = datoEncontradoArray.cuentaBanco;
+            document.getElementById("EditarCantidadFormas").value = datoEncontradoArray.cantidadFormas;
+            document.getElementById("EditarFInicial").value = datoEncontradoArray.FolioInicial;
+
+
+
+
+
+
+
+                  //metodo para cambiar la seleccion del banco
+                 let editarnombreBancoSeleccionado = null;
+                 let editarcuentaBanco = null;
+
+                const editarseleccionBanco = document.getElementById("EditarSeleccionBanco");
+                editarseleccionBanco.addEventListener("change",
+                function () {
+
+                let bancoSeleccionadoEdit = this.options[editarseleccionBanco.selectedIndex];
+                editarnombreBancoSeleccionado = bancoSeleccionadoEdit.value;
+
+
+                var datoEnviar = "{'BancoSeleccionado':'" + bancoSeleccionadoEdit.value + "'}";
+
+
+                    $.ajax({
+                        url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
+                        data: datoEnviar,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+
+                        success: function (msg) {
+
+
+                            //se msg es falso es porque la variable cuenta bancaria esta vacia
+                            if (msg.length == 0) {
+                                Swal.fire({
+                                    backdrop: true,
+
+                                    allowEnterKey: false,
+                                    icon: 'error',
+                                    title: 'Problema al obtener la cuenta del banco seleccionado',
+                                    text: 'No se pudo cargar el numero de la cuenta intentelo mas tarde o pongase en contacto con el administrador del sistema',
+
+                                })
+
+                            } else {
+
+                                document.getElementById('EditarNumeroDeCuenta').innerHTML = msg;
+
+                            }
+
+
+
+
+                        }, error: function (msg) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Esto no deberia pasar intentelo de nuevo por favor!',
+                                footer: '<a>Si necesita ayuda pongase en contacto con el administrador</a>'
+                            })
+                        }
+                    });
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //obtner datos dela edicion del banco
+            const GuardarEdicion = document.getElementById("GuardarEdicion");
+            GuardarEdicion.addEventListener("click",
+                function () {
+                    MensajeCargando();
+
+                    let bancoSeleccionadoEdicion = document.getElementById("EditarSeleccionBanco").value;
+                    let cuentaEdicion = document.getElementById("EditarNumeroDeCuenta").innerText;
+                    let cantidadFormasEdicion = document.getElementById('EditarCantidadFormas').value;
+                    let folioInicialEdicion = document.getElementById('EditarFInicial').value;
+
+                    console.log(bancoSeleccionadoEdicion, cuentaEdicion, cantidadFormasEdicion, folioInicialEdicion)
+
+                    //datoEncontradoArray.nombreBancoSeleccionado =
+                    console.log(i);
+
+                    listaSolicitudBancos[datoEncontradoArray.Id].nombreBancoSeleccionado = bancoSeleccionadoEdicion;
+                    listaSolicitudBancos[datoEncontradoArray.Id].cuentaBanco = cuentaEdicion;
+                    listaSolicitudBancos[datoEncontradoArray.Id].FolioInicial = folioInicialEdicion;
+                    listaSolicitudBancos[datoEncontradoArray.Id].cantidadFormas = cantidadFormasEdicion;
+
+
+
+                    $("#divTablaSubir").empty();
+
+                    DibujarTablaAjax();
+
+                    PintarConsultas(listaSolicitudBancos);
+
+                    OcultarMensajeCargando();
+
+                    $('#EditarSolicitud').modal('hide');
+
+                    console.log(listaSolicitudBancos);
+                }
+            );
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //click para obtener los datos de la tabla y cargarlos a uno arreglo y enviarlos al server
+         const GuardarSolicitudBanco = document.getElementById("GuardarSolicitud");
+         GuardarSolicitudBanco.addEventListener("click", function () {
+             listar.data().each(function (d) {
+
+                 console.log(d);
+             });
+
+
+
+             console.log(listaSolicitudBancos);
+
+
+
+
+         });
 
 
 
@@ -506,12 +965,5 @@
 
 
 
-      });
 
 
-
-
-
-
-
-</script>

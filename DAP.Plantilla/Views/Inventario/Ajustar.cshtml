@@ -250,6 +250,8 @@
     <br />
 </section>
 <!-- Termina Inhabilitacion por contenedores -->
+
+
 <!-- Modal de confirmacion para Asignar Formas de pago -->
 <section id="AsignarFormasContenedor" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -278,10 +280,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button id="GuardarAsignados" type="button" class="btn btn-success">Asignar</button>
-
-
-
+                <button id="GuardarAsignados" type="button" class="btn btn-success" style="display:none;">Asignar Folios</button>
+                <button id="GuardarfoliosContenedorAsignado" type="button" class="btn btn-success" style="display:none;">Asignar Folios de Contenedor</button>
 
             </div>
 
@@ -359,9 +359,11 @@
         document.getElementById("IFolios").style.display = "block";
 
 
-
+        document.getElementById("GuardarfoliosContenedorAsignado").style.display = "none";
+        document.getElementById("GuardarAsignados").style.display = "block";
 
     }
+
     function AsignarContenedor() {
         let inhabilitarContenedor = document.getElementById('AsignarContenedor').classList.remove('btn-outline-primary');
         inhabilitarContenedor = document.getElementById('AsignarContenedor').classList.add('btn-primary');
@@ -376,7 +378,12 @@
         document.getElementById("DetalleAsignacion").style.display = "none";
         document.getElementById("AsignacionContenedor").style.display = "block";
 
+
+        document.getElementById("GuardarAsignados").style.display = "none";
+        document.getElementById("GuardarfoliosContenedorAsignado").style.display = "block";
+
     }
+
     function Detalle() {
 
         let detalle = document.getElementById('DetalleAsignados').classList.remove('btn-outline-primary');
@@ -534,8 +541,7 @@
     $(document).ready(function () {
 
 
-
-
+     //******* Metodos para validar por folios *******//
 
         // detecta cambios en el nombre del personal
         let personalSeleccionado = null;
@@ -544,7 +550,7 @@
             function () {
 
                 personalSeleccionado = this.options[nombrePersonal.selectedIndex];
-                console.log(personalSeleccionado.value);
+               // console.log(personalSeleccionado.value);
 
 
             }
@@ -587,18 +593,15 @@
                                     contentType: "application/json; charset=utf-8",
 
                                     success: function (msg) {
-                                        console.log("msg", msg);
-                                        console.log("msg", msg.length);
 
-                                        //setTimeout("", 3000)
 
                                         if (msg.length == 1) {
                                             OcultarMensajeCargando();
 
                                             Swal.fire({
                                                 backdrop: true,
-
                                                 allowEnterKey: false,
+                                                allowOutsideClick: false,
                                                 icon: 'success',
                                                 title: 'Folios Disponibles correctamente',
                                                 text: ``
@@ -627,10 +630,10 @@
 
                                             Swal.fire({
                                                 backdrop: true,
-
                                                 allowEnterKey: false,
-                                                icon: 'success',
-                                                title: 'Folios Disponibles correctamente',
+                                                allowOutsideClick: false,
+                                                icon: 'warning',
+                                                title: 'Folios no disponibles: ¡VERIFIQUE!',
                                                 text: ``
 
 
@@ -653,10 +656,10 @@
 
                                             Swal.fire({
                                                 backdrop: true,
-
                                                 allowEnterKey: false,
-                                                icon: 'warning',
-                                                title: 'Folios no disponibles',
+                                                allowOutsideClick: false,
+                                                icon: 'error',
+                                                title: 'Folios Inexistente',
                                                 text: `${msg.length - 1} folios tienen problemas; Verifiquelos`
 
 
@@ -678,8 +681,8 @@
                                         OcultarMensajeCargando();
                                         Swal.fire({
                                             backdrop: true,
-
                                             allowEnterKey: false,
+                                            allowOutsideClick: false,
                                             icon: 'info',
                                             title: 'No se pudo verificar la disponibilidad de folios intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
 
@@ -692,8 +695,8 @@
 
                                 Swal.fire({
                                     backdrop: true,
-
                                     allowEnterKey: false,
+                                    allowOutsideClick: false,
                                     icon: 'warning',
                                     title: 'Introduzca un Folio Final Mayor al Inicial',
 
@@ -703,8 +706,8 @@
 
                             Swal.fire({
                                 backdrop: true,
-
                                 allowEnterKey: false,
+                                allowOutsideClick: false,
                                 icon: 'warning',
                                 title: 'Introduzca un Folio Final',
 
@@ -717,8 +720,8 @@
 
                         Swal.fire({
                             backdrop: true,
-
                             allowEnterKey: false,
+                            allowOutsideClick: false,
                             icon: 'warning',
                             title: 'Ingrese un Folio inicial',
 
@@ -730,8 +733,8 @@
 
                     Swal.fire({
                         backdrop: true,
-
                         allowEnterKey: false,
+                        allowOutsideClick: false,
                         icon: 'warning',
                         title: 'Seleccione un Nombre de Personal',
 
@@ -752,8 +755,8 @@
 
 
 
+     //******* Metodos para crear tabla con datos actualizados *******//
 
-        //crea tabla con datos actualizados
         const VerDetalle = document.getElementById("DetalleAsignados");
         VerDetalle.addEventListener("click",
             function () {
@@ -768,8 +771,8 @@
                                 contentType: "application/json; charset=utf-8",
 
                                 success: function (msg) {
-                                    console.log("msg", msg);
-                                    console.log("msg", msg.length);
+                                  //  console.log("msg", msg);
+                                  //  console.log("msg", msg.length);
 
                                     $("#TablaActualizada").empty();
 
@@ -801,49 +804,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ////////////******************************************************/////////////////////////////////
+       //******* Metodos para Validar por contenedor *******//
 
         // detecta cambios en el nombre del personal del contenedor
         let personalSeleccionadoContenedor = null;
@@ -862,19 +823,18 @@
 
         let ordenSeleccionada = null;
         let contenedorSelecionado = null;
-
         var seleccionOrden = document.getElementById("SeleccionOrden");
         seleccionOrden.addEventListener("change",
             function () {
                 contenedorSelecionado = null;
                 ordenSeleccionada = this.options[seleccionOrden.selectedIndex];
-                console.log(ordenSeleccionada.value);
+               // console.log(ordenSeleccionada.value);
                // console.log(personalSeleccionado.value);
 
                 var DatosEnviar = "{'IdInventario': '" + "@ViewBag.IdInventario" + "' ,'OrdenSeleccionada': '" + ordenSeleccionada.value + "' }";
 
 
-                console.log(DatosEnviar);
+                //console.log(DatosEnviar);
                $.ajax({
                    url: '@Url.Action("ObtenerNumerosContenedores", "Inventario")',
                    data: DatosEnviar,
@@ -882,19 +842,12 @@
                   contentType: "application/json; charset=utf-8",
 
                    success: function (msg) {
-                       console.log("msg", msg);
-                       console.log("msg", msg.length);
-
-
-
+                      // console.log("msg", msg);
+                      // console.log("msg", msg.length);
 
                        $("#SeleccionContenedor").find('option').not(':first').remove();
 
-
-
                        const opciones = document.getElementById("opcionesDeContenedores");
-
-
 
                        for (let i = 0; i < msg.length ; i++ )
                        {
@@ -905,7 +858,7 @@
 
 
 
-            },
+                    },
                       error: function (msg) {
                           Swal.fire({
                               backdrop: true,
@@ -927,13 +880,8 @@
 
 
 
-
-
-
         // detecta cambios en el numero del contenedor
-
         let idDelContenedorEncontrado = null;
-
         let folioInicialDelContenedorDB = null;
         let folioFinalDelContenedorDB = null;
 
@@ -943,7 +891,7 @@
             function () {
 
                 contenedorSelecionado = this.options[numeroDeContenedor.selectedIndex];
-                console.log(contenedorSelecionado.value);
+                //console.log(contenedorSelecionado.value);
 
 
              var DatosEnviar = "{'IdInventario':'"+"@ViewBag.IdInventario"+"','OrdenSeleccionada':'"+ordenSeleccionada.value+"','ContenedorSeleccionado':'"+contenedorSelecionado.value+"' }";
@@ -957,12 +905,12 @@
 
                    success: function (msg)
                    {
-                       console.log("msg", msg);
-                       console.log("msg", msg.length);
+                     //  console.log("msg", msg);
+                      // console.log("msg", msg.length);
 
                        idDelContenedorEncontrado = msg[0];
 
-                       console.log(idDelContenedorEncontrado);
+                     //  console.log(idDelContenedorEncontrado);
 
                        document.getElementById('FInicialContenedor').value = msg[1];
                        document.getElementById('FFinalContenedor').value = msg[2];
@@ -1007,10 +955,9 @@
 
 
 
-
+        //Valida el contenedor
         FolioInicialContenedor = null;
         FolioFinalContenedor = null;
-
         document.getElementById('ValidarContenedor').addEventListener('click', () => {
 
 
@@ -1022,7 +969,7 @@
             if (personalSeleccionadoContenedor != null) {
 
                 if (ordenSeleccionada != null) {
-                    console.log(ordenSeleccionada.value);
+                   // console.log(ordenSeleccionada.value);
                     if (contenedorSelecionado != null) {
 
 
@@ -1070,7 +1017,7 @@
 
                                                  document.getElementById('ResumenAAsignar').innerHTML = `Se asignaran ${(FolioFinalContenedor - FolioInicialContenedor) + 1} formas de pago <br/>
                                                                     a: ${personalSeleccionadoContenedor.value} <br/>
-                                                            del folio : ${FolioInicialContenedor}  al folio final : ${folioFinalDelContenedorDB}    <br/>
+                                                            del folio : ${FolioInicialContenedor}  al folio final : ${FolioFinalContenedor}    <br/>
                                                                         ${"@ViewBag.NombreBanco"} <br/>
                                                                      ${"@ViewBag.NumeroCuentaBanco"}`;
 
@@ -1104,11 +1051,7 @@
 
                                                     PintarTablaFoliosInvalidosEnModal(msg);
 
-
-
                                                     $('#ErrorEnFormasPago').modal('show');
-
-
 
                                                   }
 
@@ -1219,92 +1162,201 @@
 
 
 
+    //******* Envia Datos al servidor *******//
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        @*//Enviar Datos al SERVER
-        var GuardarDatos = document.getElementById("GuardarAjuste");
-        GuardarDatos.addEventListener("click",
+        const GuardarAsignacion = document.getElementById("GuardarAsignados");
+        GuardarAsignacion.addEventListener("click",
             function () {
 
+                
+                //IdIncidencia = 1 es por que esta inhabilitado
+                let enviarFolios = "{'IdInventario':'"+"@ViewBag.IdInventario"+"','FolioInicial':'"+FInicial+"','FolioFinal':'"+FFinal+"','IdIncidencia':'2','NombreEmpleado':'"+personalSeleccionado.value+"'}";
+                console.log(enviarFolios);
 
-                //idContenedor
-                           //     int IdContenedor,           string PersonalSeleccionado, string FolioInicial, string FolioFinal, int TotalFormasAsignadas)
-                var DatosEnviar = "{'IdContenedor':'"+idContenedor+"','PersonalSeleccionado':'"+personalSeleccionado.value+"','FolioInicial':'"+FInicial.value+"','FolioFinal':'"+FFinal.value+"','TotalFormasAsignadas':'"+TotalFormasAsignadas+"'}";
+                MensajeCargando();
+               $.ajax({
+                   url: '@Url.Action("CrearIncidencias", "Inventario")',
+                   data: enviarFolios,
+                  type: "POST",
+                  contentType: "application/json; charset=utf-8",
 
-                console.log(DatosEnviar);
+                   success: function (msg) {
+                       console.log("msg", msg);
+                       console.log("msg", msg.length);
 
+                       if (msg.length == 1)
+                       {
+                           OcultarMensajeCargando();
+                           Swal.fire({
+                               backdrop: true,
+                               allowEnterKey: false,
+                               allowOutsideClick: false,
+                               icon: 'success',
+                               title: 'Correcto',
+                               text: 'Incidencias modificadas correctamente'
+                           }).then((result) => {
+                               if (result.value) {
 
-                // console.log(DatosEnviar);
+                                   location.reload();
 
+                                   //$('#Confirmar').modal('hide')
+                               }
+                           })
 
-                 $.ajax({
-                    url: '@Url.Action("GuardarAjuste", "Inventario")',
-                    data: DatosEnviar,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
+                       }
 
-                    success: function (msg) {
-                        console.log("msg", msg);
-                        console.log("msg", msg.length);
+                       if (msg[0] === "Folios Sin Guardar Incidencia" && msg.length > 1)
+                       {
+                           OcultarMensajeCargando();
+                           Swal.fire({
+                               backdrop: true,
 
-                        $('#AsignarFolios').modal('hide');
-
-                        Swal.fire({
-                            backdrop: true,
-
-                            allowEnterKey: false,
-                            icon: 'success',
-                            title: 'Guardado exitoso',
-                            text : 'Folios Asignados Correctamente'
-
-
-
-                        }).then((result) => {
-                            if (result.value) {
-
-                                location.reload();
-
-                                //$('#Confirmar').modal('hide')
-                            }
-                        })
-
-
-                    },
-                    error: function (msg) {
-                        Swal.fire({
-                            backdrop: true,
-
-                            allowEnterKey: false,
-                            icon: 'error',
-                            title: 'No se pudo Asignar las formas de pago correctamente intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+                               allowEnterKey: false,
+                               icon: 'error',
+                               title: 'Pongase en contacto con el administrador del sistema',
 
 
-                        })
-                    }
-                });
+                           })
+
+
+                           PintarTablaFoliosInvalidosEnModal(msg);
+
+
+
+                           $('#ErrorEnFormasPago').modal('show');
+                       }
+                   },
+                   error: function (msg) {
+                       OcultarMensajeCargando();
+                          Swal.fire({
+                              backdrop: true,
+
+                              allowEnterKey: false,
+                              icon: 'info',
+                              title: 'No se pudo cargar los numeros de orden intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                          })
+                   }
+               });
 
             }
-        );*@
+        );
+
+
+
+        const AsignarContenedor = document.getElementById("GuardarfoliosContenedorAsignado");
+        AsignarContenedor.addEventListener("click",
+            function () {
+                MensajeCargando();
+                let DatosContenedor = "{'IdInventario':'"+"@ViewBag.IdInventario"+"','NumeroOrden':'"+ordenSeleccionada.value+"','IdContenedor':'"+idDelContenedorEncontrado+"','FolioInicial':'"+FolioInicialContenedor+"','FolioFinal':'"+FolioFinalContenedor+"','IdIncidencia':'2','NombreEmpleado':'"+personalSeleccionadoContenedor.value+"'}";
+
+                              $.ajax({
+                                  url: '@Url.Action("CrearIncidenciasContenedor", "Inventario")',
+                                  data: DatosContenedor,
+                                    type: "POST",
+                                    contentType: "application/json; charset=utf-8",
+
+                                  success: function (msg) {
+                                        console.log("msg", msg);
+                                        console.log("msg", msg.length);
+
+
+
+                                            //si retorna 0 es que todos los folios estan disponibles
+                                     if (msg.length == 1)
+                                     {
+                                        OcultarMensajeCargando();
+
+                                         Swal.fire({
+                                             backdrop: true,
+                                             allowEnterKey: false,
+                                             allowOutsideClick: false,
+                                             allowEscapeKey: false,
+                                             icon: 'success',
+                                             title: 'Correcto',
+                                             text: 'Incidencias modificadas correctamente'
+                                         }).then((result) => {
+                                             if (result.value) {
+
+                                                 location.reload();
+
+                                                 //$('#Confirmar').modal('hide')
+                                             }
+                                         })
+
+
+
+                                     }
+
+
+
+
+                                        //hay folios que se han ocupado anteriormente y no se pueden reocupar
+                                      if (msg[0] === "Folios No Disponibles" && msg.length > 1)
+                                      {
+
+                                            OcultarMensajeCargando();
+
+                                            Swal.fire({
+                                                backdrop: true,
+
+                                                allowEnterKey: false,
+                                                icon: 'warning',
+                                                title: 'Folios no disponibles',
+                                                text: `${msg.length - 1} folios ya fueron ocupados`
+
+
+                                            });
+
+                                            PintarTablaFoliosInvalidosEnModal(msg);
+
+                                            $('#ErrorEnFormasPago').modal('show');
+
+                                      }
+
+
+                                  },
+                                    error: function (msg) {
+                                        OcultarMensajeCargando();
+                                        Swal.fire({
+                                            backdrop: true,
+
+                                            allowEnterKey: false,
+                                            icon: 'info',
+                                            title: 'No se pudo verificar la disponibilidad de folios intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
+
+
+                                        })
+                                    }
+                              });
+
+
+
+
+
+            }
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
