@@ -135,6 +135,7 @@
     <Compile Include="Models\InventarioDetalleModel.cs" />
     <Compile Include="Models\InventarioInhabilitadoModel.cs" />
     <Compile Include="Models\InventarioModel.cs" />
+    <Compile Include="Models\SolicitudFormasPagoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes\Crystal\SolicitarFormasDePagoBancos.cs">
       <AutoGen>True</AutoGen>
@@ -208,7 +209,9 @@
     <Content Include="Imagenes\Perfil.png" />
     <Content Include="Imagenes\posesion.png" />
     <Content Include="Imagenes\Reportes.png" />
+    <Content Include="Imagenes\SAIG HORIZONTALB.png" />
     <Content Include="Imagenes\SAIG.png" />
+    <Content Include="Imagenes\VERTICAL poder ejecutivo.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />

@@ -90,6 +90,18 @@
     <Property Name="Descrip_Incidencia" Type="nchar" MaxLength="15" Nullable="false" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Tbl_Solicitudes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NumeroMemo" Type="int" Nullable="false" />
+    <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
+    <Property Name="Cantidad" Type="int" Nullable="false" />
+    <Property Name="FolioInicial" Type="nvarchar" MaxLength="50" />
+    <Property Name="FechaSolicitud" Type="date" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+  </EntityType>
   <Association Name="FK_Tbl_CuentasBancarias_Tbl_Inventario">
     <End Role="Tbl_Inventario" Type="Self.Tbl_Inventario" Multiplicity="0..1" />
     <End Role="Tbl_CuentasBancarias" Type="Self.Tbl_CuentasBancarias" Multiplicity="*" />
@@ -162,6 +174,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tbl_Solicitudes_Tbl_CuentasBancarias">
+    <End Role="Tbl_CuentasBancarias" Type="Self.Tbl_CuentasBancarias" Multiplicity="1" />
+    <End Role="Tbl_Solicitudes" Type="Self.Tbl_Solicitudes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_CuentasBancarias">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tbl_Solicitudes">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="FoliacionModelStoreContainer">
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_CuentaBancarias_TipoPagoCuenta" EntityType="Self.Tbl_CuentaBancarias_TipoPagoCuenta" Schema="dbo" store:Type="Tables" />
@@ -171,6 +195,7 @@
     <EntitySet Name="Tbl_InventarioContenedores" EntityType="Self.Tbl_InventarioContenedores" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_InventarioDetalle" EntityType="Self.Tbl_InventarioDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tbl_InventarioTipoIncidencia" EntityType="Self.Tbl_InventarioTipoIncidencia" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Solicitudes" EntityType="Self.Tbl_Solicitudes" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Tbl_CuentasBancarias_Tbl_Inventario" Association="Self.FK_Tbl_CuentasBancarias_Tbl_Inventario">
       <End Role="Tbl_Inventario" EntitySet="Tbl_Inventario" />
       <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
@@ -194,6 +219,10 @@
     <AssociationSet Name="FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia" Association="Self.FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia">
       <End Role="Tbl_InventarioTipoIncidencia" EntitySet="Tbl_InventarioTipoIncidencia" />
       <End Role="Tbl_InventarioDetalle" EntitySet="Tbl_InventarioDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Solicitudes_Tbl_CuentasBancarias" Association="Self.FK_Tbl_Solicitudes_Tbl_CuentasBancarias">
+      <End Role="Tbl_CuentasBancarias" EntitySet="Tbl_CuentasBancarias" />
+      <End Role="Tbl_Solicitudes" EntitySet="Tbl_Solicitudes" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

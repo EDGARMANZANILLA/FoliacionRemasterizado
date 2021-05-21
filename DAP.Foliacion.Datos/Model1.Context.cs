@@ -34,5 +34,6 @@ namespace DAP.Foliacion.Datos
         public DbSet<Tbl_InventarioContenedores> Tbl_InventarioContenedores { get; set; }
         public DbSet<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
         public DbSet<Tbl_InventarioTipoIncidencia> Tbl_InventarioTipoIncidencia { get; set; }
+        public DbSet<Tbl_Solicitudes> Tbl_Solicitudes { get; set; }
     }
 }

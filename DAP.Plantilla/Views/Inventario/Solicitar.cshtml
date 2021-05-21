@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<DAP.Plantilla.Models.SolicitudFormasPagoModel>
+@{
     ViewBag.Icono = "fas fa-boxes";
     ViewBag.Title = "Solicitar";
 
@@ -17,12 +18,12 @@
 
 
         <div class="col-12 col-md-6  btn-block">
-            <button type="button" class="btn btn-primary btn-lg  btn-block">Crear Nueva Solicitud</button>
+            <button id="NuevaSolicitud" type="button" class="btn btn-primary btn-lg  btn-block">Crear Nueva Solicitud</button>
 
         </div>
 
         <div class="col-12 col-md-6  btn-block">
-            <button type="button" class="btn btn-primary btn-lg  btn-block">Historico de Solicitudes</button>
+            <button id="Historico" type="button" class="btn btn-primary btn-lg  btn-block">Historico de Solicitudes</button>
 
         </div>
 
@@ -53,13 +54,13 @@
                     <select class="form-control" id="SeleccionBanco" name="SeleccionBanco" required>
                         <option value="" disabled selected>Selecciona un banco...</option>
                         @foreach (var banco in ViewBag.ListaNombreBancos)
-                         {
+                        {
 
 
                             <option>@banco  </option>
 
 
-                         }
+                        }
 
                     </select>
                 </div>
@@ -87,7 +88,7 @@
         <!--- Input para el folio inicial -->
         <div class="row ">
             <label class="col-12 text-center offset-md-0 col-md-4 text-md-right">A partir del folio:</label>
-            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="text"  pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 "  />
+            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
         </div>
 
         <br />
@@ -110,8 +111,8 @@
 <div class="margenSection">
     <div class="table-responsive">
 
-        <div id="divTablaCrud">
-            <table id="tablaAgregados" class="table table-striped table-bordered table-hover">
+        <div id="divTablaCrud" >
+            <table id="tablaAgregados" class="table table-striped table-bordered table-hover" style="display:none;">
                 <caption id="TituloDeCaption"></caption>
                 <thead>
                     <tr class="text-center text-uppercase">
@@ -141,7 +142,8 @@
 
 <br />
 <br />
-<button type="button" id="GuardarSolicitud" class="btn btn-primary col-10 offset-1 " onclick="">Crear nueva solicitud</button>
+<button type="button" id="CrearSolicitud" class="btn btn-primary col-10 offset-1 " onclick="">Crear nueva solicitud</button>
+
 
 
 <br />
@@ -187,39 +189,34 @@
 <section class="margenSection ">
 
     <div class="table-responsive">
+        <div id="TablaHistorica">
+            <table id="tbHistoricoSolicitudesCreadas" class="table table-striped table-bordered table-hover">
+                <caption class="text-uppercase">Solicitudes creadas recientemente</caption>
 
-        <table id="tbProducto" class="table table-striped table-bordered table-hover">
-            <caption class="text-uppercase">Solicitudes creadas recientemente</caption>
 
+                <thead class="tabla">
+                    <tr>
+                        <th>Numero Memo</th>
+                        <th>Fecha Solicitud</th>
+                        <th>
 
-            <thead class="tabla">
-                <tr>
-                    <th>Id</th>
-                    <th>Cuenta Bancaria</th>
-                    <th>dato1</th>
-                    <th>dato2</th>
-                    <th>dato3</th>
-                    <th>dato4</th>
-                    <th>dato5</th>
-                    <th>dato6</th>
-                    <th>
-
-                    </th>
-                    <th>
-
-                    </th>
+                        </th>
 
 
 
-                </tr>
-            </thead>
-            <tbody>
 
+                    </tr>
+                </thead>
 
+                <tfoot>
+                    <th class="Filtro">No. Memo</th>
+                    <th class="Filtro">Fecha</th>
+                    
+                </tfoot>
+              
+            </table>
 
-            </tbody>
-        </table>
-    </div>
+        </div>
 
 
 </section>
@@ -312,22 +309,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <br />
 
             </div>
@@ -343,6 +324,41 @@
         </div>
     </div>
 </section>
+
+
+<!-- Modal para descarga -->
+<section class="modal fade" id="Descargar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+
+                <h5 class="col-11 text-center text-uppercase">Solitud creada correctamente</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+
+            </div>
+
+
+
+            <div class="modal-body text-center">
+                <a class="btn btn-success btn-lg text-center" id="DlReport" href="@Url.Action("GenerarReporteSolicitud", "Inventario")">Descargar solicitud creada</a>
+
+            </div>
+
+
+            <div class="modal-footer text-center">
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
 
 
 
@@ -368,8 +384,8 @@
             "<th>Id </th>" +
             "<th>Banco </th>" +
             "<th>Cuenta</th>" +
-            "<th>Folio Inicial</th>" +
             "<th>Cantidad</th>" +
+            "<th>Folio Inicial</th>" +
             "<th></th>" +
 
             "</tr>" +
@@ -381,7 +397,7 @@
     let listar;
     function PintarConsultas(datos) {
 
-        listar = $('#tablaAgregados').DataTable({       
+        listar = $('#tablaAgregados').DataTable({
             "ordering": false,
             "info": false,
             "searching": false,
@@ -409,8 +425,8 @@
                 { "data": "Id" },
                 { "data": "nombreBanco" },
                 { "data": "cuentaBanco" },
-                { "data": "fInicial" },
                 { "data": "cantidadFormas" },
+                { "data": "fInicial" },
                 { "defaultContent": "<a class='editar btn btn-success' data-toggle='modal' data-target='#EditarSolicitud'  > <i class='fas fa-edit'></i></a> <a class='eliminar btn btn-danger'> <i class='fas fa-trash-alt'></i></a>" }
 
 
@@ -419,6 +435,80 @@
         });
     };
 
+    function DibujarTablaSolicitudesCreadasAjax() {
+        $("#TablaHistorica").append(
+
+            "<table id='tbHistoricoSolicitudesCreadas'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Solicitudes creadas recientemente</caption>"
+            + "<thead class='tabla'>" +
+            "<tr>" +
+            "<th>Numero Memorandum </th>" +
+            "<th>Fecha Solicitud </th>" +
+            "<th>  </th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tfoot>" +
+            "<tr>" +
+            "<th class='Filtro'>No. Memo</th>" +
+            "<th class='Filtro'>Fecha</th>" +
+            "<th></th>" +
+            "</tr>" +
+            "</tfoot>" +
+            "</table>"
+        );
+    };
+
+    function PintarConsultaTablaSolicitud(datos) {
+
+        $('#tbHistoricoSolicitudesCreadas').find(".Filtro").each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" style="width:100%" onkeypress="return event.keyCode != 13;"  class="form-control input-sm" placeholder="'+title+'" />');
+        });
+        $('#tbHistoricoSolicitudesCreadas').DataTable({
+            "ordering": true,
+            "info": false,
+            "searching": true,
+            "paging": true,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": [[1, 'asc']],
+            "data": datos,
+            "columns": [
+                { "data": "NumeroMemo" },
+                { "data": "FechaSolicitud" },
+                { "defaultContent": "<a class='editar btn btn-success' data-toggle='modal' data-target='#EditarSolicitud'  > <i class='fas fa-edit'></i></a> <a class='eliminar btn btn-danger'> <i class='fas fa-trash-alt'></i></a>" }
+
+            ]
+
+        }).columns().every(function () {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function (e) {
+                var keyCode = e.keyCode || e.which;
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+        $(".dataTable").find("tfoot tr").appendTo($(".dataTable").find("thead"));
+    };
 
 
 
@@ -530,7 +620,7 @@
 
 
 
-            console.log("vieja" + listaBancosSolicitados);
+            //console.log("vieja" + listaBancosSolicitados);
 
             let datoAEliminar = listar.row($(this).parents("tr")).data();
             var i = listaBancosSolicitados.indexOf(datoAEliminar);
@@ -647,13 +737,13 @@
                     //se muestra el mensaje cargando para bloquear la pantalla
                     MensajeCargando();
                    /// Editar(datoAEditar.Id);
-               
+
 
                     let indice = listaBancosSolicitados.findIndex(y => y.Id == datoAEditar.Id);
                     console.log("asdf");
                     console.log(indice);
 
-                    //Obtiene los datos modificados del modal 
+                    //Obtiene los datos modificados del modal
                     let bancoSeleccionadoEdicion = document.getElementById("EditarSeleccionNombreBanco").value;
                     let cuentaEdicion = document.getElementById("EditarNumeroDeCuenta").innerText;
                     let cantidadFormasEdicion = document.getElementById('EditarCantidadFormas').value;
@@ -688,6 +778,135 @@
 
 
 
+
+
+        ///verificar metodo hasta despues de asegurar que el pdf este correcto
+
+
+        //click en "Crear Nueva solicitud" para enviar los datos de la solicitud
+        const CrearSolicitudBanco = document.getElementById("CrearSolicitud");
+        CrearSolicitudBanco.addEventListener("click", function () {
+
+           // console.log("dff");
+
+
+            if (listaBancosSolicitados.length > 0) {
+                MensajeCargando();
+                $.ajax({
+                    url: '@Url.Action("CrearNuevaSolicitud", "Inventario")',
+                    data: JSON.stringify(listaBancosSolicitados),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        OcultarMensajeCargando();
+                        //console.log("msg", msg);
+                        if (msg == true) {
+                            $('#Descargar').modal('show');
+
+                        } else {
+                            Swal.fire({
+                                backdrop: true,
+                                allowEnterKey: false,
+                                allowOutsideClick: false,
+                                icon: 'error',
+                                title: 'No se pudo crear la solicitud; Intente de nuevo!',
+
+                            })
+                        }
+
+
+
+                    },
+                    error: function (msg) {
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ocurrio un problema intente de nuevo',
+
+                        })
+                    }
+                });
+
+
+
+            } else
+            {
+
+                Swal.fire({
+                    backdrop: true,
+                    allowEnterKey: false,
+                    allowOutsideClick: false,
+                    icon: 'warning',
+                    title: 'Agregue un banco a la solicitud',
+
+                })
+            }
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+        //Metodos para mostrar el historico de las solicitudes creadas
+        const historico = document.getElementById("Historico");
+        historico.addEventListener("click", function () {
+
+                MensajeCargando();
+                $.ajax({
+                    url: '@Url.Action("ObtenerHistoricoSolicitudes", "Inventario")',
+                    data: JSON.stringify(listaBancosSolicitados),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (resultado) {
+                        OcultarMensajeCargando();
+
+                        $("#TablaHistorica").empty();
+
+                        DibujarTablaSolicitudesCreadasAjax();
+                        PintarConsultaTablaSolicitud(resultado);
+
+
+                    },
+                    error: function (msg) {
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ocurrio un problema intente de nuevo',
+
+                        })
+                    }
+                });
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
     });
 
 
@@ -709,243 +928,8 @@
 
 
 
-    
 
 
-
-
-
-
-
-
-        //Click para editar el elemento seleccionado de la tabla
-        $(document).on("click", ".editar", function () {
-
-
-
-            document.getElementById("IdEdicion").innerHTML = datoEncontradoArray.Id;
-            $("#EditarSeleccionBanco").val(datoEncontradoArray.nombreBancoSeleccionado);
-            $('#EditarSeleccionBanco').change();
-            document.getElementById("EditarNumeroDeCuenta").innerHTML = datoEncontradoArray.cuentaBanco;
-            document.getElementById("EditarCantidadFormas").value = datoEncontradoArray.cantidadFormas;
-            document.getElementById("EditarFInicial").value = datoEncontradoArray.FolioInicial;
-
-
-
-
-
-
-
-                  //metodo para cambiar la seleccion del banco
-                 let editarnombreBancoSeleccionado = null;
-                 let editarcuentaBanco = null;
-
-                const editarseleccionBanco = document.getElementById("EditarSeleccionBanco");
-                editarseleccionBanco.addEventListener("change",
-                function () {
-
-                let bancoSeleccionadoEdit = this.options[editarseleccionBanco.selectedIndex];
-                editarnombreBancoSeleccionado = bancoSeleccionadoEdit.value;
-
-
-                var datoEnviar = "{'BancoSeleccionado':'" + bancoSeleccionadoEdit.value + "'}";
-
-
-                    $.ajax({
-                        url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
-                        data: datoEnviar,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-
-                        success: function (msg) {
-
-
-                            //se msg es falso es porque la variable cuenta bancaria esta vacia
-                            if (msg.length == 0) {
-                                Swal.fire({
-                                    backdrop: true,
-
-                                    allowEnterKey: false,
-                                    icon: 'error',
-                                    title: 'Problema al obtener la cuenta del banco seleccionado',
-                                    text: 'No se pudo cargar el numero de la cuenta intentelo mas tarde o pongase en contacto con el administrador del sistema',
-
-                                })
-
-                            } else {
-
-                                document.getElementById('EditarNumeroDeCuenta').innerHTML = msg;
-
-                            }
-
-
-
-
-                        }, error: function (msg) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Esto no deberia pasar intentelo de nuevo por favor!',
-                                footer: '<a>Si necesita ayuda pongase en contacto con el administrador</a>'
-                            })
-                        }
-                    });
-
-
-                });
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //obtner datos dela edicion del banco
-            const GuardarEdicion = document.getElementById("GuardarEdicion");
-            GuardarEdicion.addEventListener("click",
-                function () {
-                    MensajeCargando();
-
-                    let bancoSeleccionadoEdicion = document.getElementById("EditarSeleccionBanco").value;
-                    let cuentaEdicion = document.getElementById("EditarNumeroDeCuenta").innerText;
-                    let cantidadFormasEdicion = document.getElementById('EditarCantidadFormas').value;
-                    let folioInicialEdicion = document.getElementById('EditarFInicial').value;
-
-                    console.log(bancoSeleccionadoEdicion, cuentaEdicion, cantidadFormasEdicion, folioInicialEdicion)
-
-                    //datoEncontradoArray.nombreBancoSeleccionado =
-                    console.log(i);
-
-                    listaSolicitudBancos[datoEncontradoArray.Id].nombreBancoSeleccionado = bancoSeleccionadoEdicion;
-                    listaSolicitudBancos[datoEncontradoArray.Id].cuentaBanco = cuentaEdicion;
-                    listaSolicitudBancos[datoEncontradoArray.Id].FolioInicial = folioInicialEdicion;
-                    listaSolicitudBancos[datoEncontradoArray.Id].cantidadFormas = cantidadFormasEdicion;
-
-
-
-                    $("#divTablaSubir").empty();
-
-                    DibujarTablaAjax();
-
-                    PintarConsultas(listaSolicitudBancos);
-
-                    OcultarMensajeCargando();
-
-                    $('#EditarSolicitud').modal('hide');
-
-                    console.log(listaSolicitudBancos);
-                }
-            );
-
-
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //click para obtener los datos de la tabla y cargarlos a uno arreglo y enviarlos al server
-         const GuardarSolicitudBanco = document.getElementById("GuardarSolicitud");
-         GuardarSolicitudBanco.addEventListener("click", function () {
-             listar.data().each(function (d) {
-
-                 console.log(d);
-             });
-
-
-
-             console.log(listaSolicitudBancos);
-
-
-
-
-         });
-
-
-
-
-        @*//Enviar Datos al SERVER-->
-        var GuardarDatos = document.getElementById("GuardarAjuste");
-        GuardarDatos.addEventListener("click",
-            function () {
-
-
-                //idContenedor
-                           //     int IdContenedor,           string PersonalSeleccionado, string FolioInicial, string FolioFinal, int TotalFormasAsignadas)
-                var DatosEnviar = "{'IdContenedor':'"+idContenedor+"','PersonalSeleccionado':'"+personalSeleccionado.value+"','FolioInicial':'"+FInicial.value+"','FolioFinal':'"+FFinal.value+"','TotalFormasAsignadas':'"+TotalFormasAsignadas+"'}";
-
-                console.log(DatosEnviar);
-
-
-                // console.log(DatosEnviar);
-
-
-                 $.ajax({
-                    url: '@Url.Action("GuardarAjuste", "Inventario")',
-                    data: DatosEnviar,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-
-                    success: function (msg) {
-                        console.log("msg", msg);
-                        console.log("msg", msg.length);
-
-                        $('#AsignarFolios').modal('hide');
-
-                        Swal.fire({
-                            backdrop: true,
-
-                            allowEnterKey: false,
-                            icon: 'success',
-                            title: 'Guardado exitoso',
-                            text : 'Folios Asignados Correctamente'
-
-
-
-                        }).then((result) => {
-                            if (result.value) {
-
-                                location.reload();
-
-                                //$('#Confirmar').modal('hide')
-                            }
-                        })
-
-
-                    },
-                    error: function (msg) {
-                        Swal.fire({
-                            backdrop: true,
-
-                            allowEnterKey: false,
-                            icon: 'error',
-                            title: 'No se pudo Asignar las formas de pago correctamente intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
-
-
-                        })
-                    }
-                });
-
-            }
-        );*@
 
 
 

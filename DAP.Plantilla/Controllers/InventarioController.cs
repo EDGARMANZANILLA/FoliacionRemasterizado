@@ -6,7 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using DAP.Foliacion.Negocios;
 using DAP.Foliacion.Entidades.DTO;
-
+using DAP.Plantilla.Reportes;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using System.Runtime.Remoting.Contexts;
 
 namespace DAP.Foliacion.Plantilla.Controllers
 {
@@ -142,6 +145,8 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
             ViewBag.NumeroBancos = numeroBancos;
             ViewBag.ListaNombreBancos = nombresBancos;
+
+
 
             return View();
         }
@@ -514,8 +519,190 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
+        //crea y Guarda la solicitud en la base de datos 
+        public ActionResult CrearNuevaSolicitud(List<SolicitudCreadaDTO> listaBancosSolicitados) 
+        {
+            bool bandera= false;
+            Session["ListaBancosSolicitados"] = null;
+            Session["NumeroMemo"] = null;
+
+            int numMemoDevuelto = Negocios.InventarioNegocios.GuardarSolicitudCreada(listaBancosSolicitados);
 
 
+            if (numMemoDevuelto > 0)
+            {
+                Session["ListaBancosSolicitados"] = listaBancosSolicitados;
+                Session["NumeroMemo"] = numMemoDevuelto;
+                bandera = true;
+            }
+
+            return Json(bandera, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //obtiene las solicitudes para el historico de las solicitudes
+        public ActionResult ObtenerHistoricoSolicitudes() 
+        {
+            var solicitudesObtenidas = Negocios.InventarioNegocios.ObtenerSolicitudes().Select(p => new { p.NumeroMemo, p.FechaSolicitud }).Distinct().ToList();
+            List<SolicitudFormasPagoModel> solicitudes = new List<SolicitudFormasPagoModel>();
+
+            foreach (var solicitud in solicitudesObtenidas)
+            {
+                SolicitudFormasPagoModel nuevaSolicitud = new SolicitudFormasPagoModel();
+
+                nuevaSolicitud.NumeroMemo = solicitud.NumeroMemo;
+                nuevaSolicitud.FechaSolicitud = solicitud.FechaSolicitud.ToString("dd/MM/yyyy");
+
+                solicitudes.Add(nuevaSolicitud);
+
+            }
+
+            return Json(solicitudes, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #region metododos para descargar PDF de la solicitud y el reporte del inventario
+        //exporta el pfd que se guardo anteriormente usando sessiones para guardar datos 
+        public FileResult GenerarReporteSolicitud()
+        {
+           // List<SolicitudFormasPagoModel> listaBancosSolicitadosSolictudReciente = new List<SolicitudFormasPagoModel>();
+            DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago dtsSolicitusFormasPago = new DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago();
+
+            if (Session["ListaBancosSolicitados"] != null && Session["NumeroMemo"] != null)
+            {
+                List<SolicitudCreadaDTO> listaBancosSolicitadosSolictudReciente = (List<SolicitudCreadaDTO>)Session["ListaBancosSolicitados"];
+                int numeroMemoRegistrado = (int)Session["NumeroMemo"];
+
+                //Cargar el numero del memo
+                dtsSolicitusFormasPago.NumeroMemo.AddNumeroMemoRow(Convert.ToString(numeroMemoRegistrado));
+
+
+                //cargar datos al dataset para el reporte
+                foreach (var solicitudRecuperada in listaBancosSolicitadosSolictudReciente)
+                {
+
+                    dtsSolicitusFormasPago.FormaPago.AddFormaPagoRow(solicitudRecuperada.nombreBanco, solicitudRecuperada.cuentaBanco, solicitudRecuperada.cantidadFormas, solicitudRecuperada.fInicial);
+                }
+
+                //  C: \Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\ReportesSolicitarFormasDePagoBancos.rpt
+
+                Session.Remove("ListaBancosSolicitados");
+            }
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/SolicitarFormasDePagoBancos.rpt"));
+
+            rd.SetDataSource(dtsSolicitusFormasPago);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf", "Solicitud.pdf");
+        }
+
+
+
+        //public ActionResult GenerarReporteInventarioGeneral(/*DateTime fechaInicio, DateTime fechaFin, int tipoNomina , List<string>ConceptosSelecionados*/)
+        //{
+
+        //    DateTime fechaInicio = (DateTime)Session["fechaInicial"];
+        //    DateTime fechaFin = (DateTime)Session["fechaFinal"];
+        //    int promedioMensual = 10;
+        //    int porcentaje = 20;
+        //    int numeroDeTrabajadores = 30;
+        //    int promedioMensualTrabajador = 40;
+        //    //sustituir por lista del parametro Todo en Mayusculas
+        //    List<string> conceptosSeleccionados = new List<string>();
+        //    conceptosSeleccionados = (List<string>)Session["listaDeConceptosUsuario"];
+
+
+
+
+
+        //    var centrosCostos = ObtenerMontosPorCentroCosto(fechaInicio, fechaFin);
+        //    var centroCostosConfianza = ObtenerMontosPorCentroCostoDeConFianza(fechaInicio, fechaFin);
+        //    var centroCostosBase = ObtenerMontosPorCentroCostoDeBase(fechaInicio, fechaFin);
+        //    var centroCostosContrato = ObtenerMontosPorCentroCostoDeContrato(fechaInicio, fechaFin);
+
+        //    ///obtiene todos los conceptos que contengan montos guardados y los suma.
+        //    ///en el metodo 2 envia esos conceptos y montos y se filtran por los elegidos por el usuario
+        //    Dictionary<string, decimal> conceptoMonto = new Dictionary<string, decimal>();
+        //    conceptoMonto = ObtenerMontosPorConceptos(fechaInicio, fechaFin);
+        //    var conceptosFiltrados = FiltradoDeConceptosPorElUsuario(conceptoMonto, conceptosSeleccionados);
+
+
+
+        //    Datasets.dtsReporteGastosSueldosSalarios dts = new Datasets.dtsReporteGastosSueldosSalarios();
+
+
+
+        //    //dts.ggh.AddgghRow("","",
+        //    foreach (var centroCosto in centrosCostos)
+        //    {
+        //        dts.CentroCostoTotal.AddCentroCostoTotalRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
+        //    }
+
+
+        //    ////dts.ggh.AddgghRow("","",
+        //    ////agrega filas con datos al data set antes creado
+        //    foreach (var centroCosto in centroCostosConfianza)
+        //    {
+        //        dts.CentroCostoTotalConfianza.AddCentroCostoTotalConfianzaRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
+        //    }
+
+
+        //    foreach (var centroCosto in centroCostosBase)
+        //    {
+        //        dts.CentroCostoTotalBase.AddCentroCostoTotalBaseRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
+        //    }
+
+
+        //    foreach (var centroCosto in centroCostosContrato)
+        //    {
+        //        dts.CentroCostoTotalContrato.AddCentroCostoTotalContratoRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
+
+        //    }
+
+
+        //    foreach (var concepto in conceptosFiltrados)
+        //    {
+        //        dts.ConceptosTotal.AddConceptosTotalRow(concepto.Key, concepto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
+
+        //    }
+
+
+
+
+
+
+
+
+
+
+        //    ReportDocument rd = new ReportDocument();
+        //    rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "GastosSueldosSalarios.rpt"));
+
+        //    rd.SetDataSource(dts);
+
+        //    Response.Buffer = false;
+        //    Response.ClearContent();
+        //    Response.ClearHeaders();
+
+
+        //    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //    stream.Seek(0, SeekOrigin.Begin);
+        //    return File(stream, "application/pdf", "GastosSueldosSalarios.pdf");
+
+        //}
+
+
+
+        #endregion
 
 
 

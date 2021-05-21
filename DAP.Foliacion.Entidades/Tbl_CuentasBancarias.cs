@@ -14,6 +14,11 @@ namespace DAP.Foliacion.Entidades
     
     public partial class Tbl_CuentasBancarias
     {
+        public Tbl_CuentasBancarias()
+        {
+            this.Tbl_Solicitudes = new HashSet<Tbl_Solicitudes>();
+        }
+    
         public int Id { get; set; }
         public string NombreBanco { get; set; }
         public string Abreviatura { get; set; }
@@ -26,5 +31,6 @@ namespace DAP.Foliacion.Entidades
     
         public virtual Tbl_CuentaBancarias_TipoPagoCuenta Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
         public virtual Tbl_Inventario Tbl_Inventario { get; set; }
+        public virtual ICollection<Tbl_Solicitudes> Tbl_Solicitudes { get; set; }
     }
 }

@@ -722,7 +722,72 @@ namespace DAP.Foliacion.Negocios
 
 
 
+        /// <summary>
+        /// Guarda las solicitud con n cantidad de bancos creadas en la DB y devuelve el numero de memorandum con el que se asigno  
+        /// </summary>
+        /// <param name="solicitudCreada"></param>
+        /// <returns></returns>
+        public static int GuardarSolicitudCreada(List<SolicitudCreadaDTO> solicitudCreada /*,string CuentaBanco, string CantidadFormas, string FInicial*/)
+        {
+            bool bandera = false;
 
+            var transaccion = new Transaccion();
+            var repositorioCuentaBancaria = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            var repositorioSolicitud = new Repositorio<Tbl_Solicitudes>(transaccion);
+
+
+
+
+            var solicitudesEncontrada = repositorioSolicitud.ObtenerPorFiltro(x => x.Activo == true).ToList();
+
+
+            List<int> numMemosEncontrados = new List<int>();
+            foreach (Tbl_Solicitudes solicitud in solicitudesEncontrada)
+            {
+                numMemosEncontrados.Add(solicitud.NumeroMemo);
+            }
+
+           // int numMemo;
+
+            int numMemo = solicitudesEncontrada.Count() == 0 ? 0 : numMemosEncontrados.Max();
+
+      //      int numMemoGuardar = numMemo == 0 ? 1 : numMemosEncontrados.Max();
+
+            numMemo += 1;
+
+            int valorADevolver= 0;
+            foreach (SolicitudCreadaDTO solicitud in solicitudCreada) 
+            {
+                Tbl_CuentasBancarias cuentaEncontrada = repositorioCuentaBancaria.Obtener(x => x.Cuenta.Trim() == solicitud.cuentaBanco.Trim());
+
+                Tbl_Solicitudes nuevoBancoSolicitud = new Tbl_Solicitudes();
+
+                nuevoBancoSolicitud.NumeroMemo = numMemo;
+                nuevoBancoSolicitud.IdCuentaBancaria = cuentaEncontrada.Id;
+                nuevoBancoSolicitud.Cantidad = Convert.ToInt32(solicitud.cantidadFormas);
+                nuevoBancoSolicitud.FolioInicial = solicitud.fInicial;
+                nuevoBancoSolicitud.FechaSolicitud = DateTime.Now.Date;
+                nuevoBancoSolicitud.Activo = true;
+
+               var entidadGuardada = repositorioSolicitud.Agregar(nuevoBancoSolicitud);
+
+                if (entidadGuardada != null)
+                   valorADevolver = numMemo;
+            }
+
+            return valorADevolver;
+        }
+
+
+
+        public static IEnumerable<Tbl_Solicitudes> ObtenerSolicitudes() 
+        {
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_Solicitudes>(transaccion);
+
+            return repositorio.ObtenerPorFiltro(x => x.Activo == true);
+
+        }
 
 
     }

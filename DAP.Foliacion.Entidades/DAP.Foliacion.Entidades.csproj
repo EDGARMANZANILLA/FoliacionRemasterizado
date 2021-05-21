@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DTO\InventarioContenedoresDTO.cs" />
     <Compile Include="DTO\InventarioDetalleDTO.cs" />
+    <Compile Include="DTO\SolicitudCreadaDTO.cs" />
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -72,6 +73,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_InventarioTipoIncidencia.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_Solicitudes.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
   </ItemGroup>
