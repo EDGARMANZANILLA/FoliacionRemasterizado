@@ -394,7 +394,10 @@ namespace DAP.Foliacion.Negocios
                     ListafoliosNoDisponiblesp.Add(FolioInicial);
 
                 if (folioFinalEncontrado == null)
-                    ListafoliosNoDisponiblesp.Add(FolioFinal);
+                {
+                    if (!ListafoliosNoDisponiblesp.Contains(FolioFinal))
+                        ListafoliosNoDisponiblesp.Add(FolioFinal);
+                }
             }
 
 
@@ -479,7 +482,7 @@ namespace DAP.Foliacion.Negocios
 
 
         //metodo para crear una incidencia
-        public static List<string> CrearIncidenciasFolios(int IdInventario, string FolioInicial, string FolioFinal, int IdIncidencia, int IdEmpleado)
+        public static List<string> CrearIncidenciasFolios(int IdInventario, string FolioInicial, string FolioFinal, int IdIncidencia, int IdEmpleado, DateTime fechaServerExterno)
         {
             var transaccion = new Transaccion();
 
@@ -541,7 +544,13 @@ namespace DAP.Foliacion.Negocios
                         {
                             //se modifica el tipo de incidencia
                             detalle.IdIncidencia = IdIncidencia;
-                            detalle.FechaIncidencia = DateTime.Now.Date;
+
+                            //if(fechaServerExterno != null)
+                            //    detalle.FechaIncidencia = DateTime.Now.Date;
+
+                            detalle.FechaIncidencia = fechaServerExterno != null ?  fechaServerExterno.Date : DateTime.Now.Date ;
+
+
 
                             if (IdEmpleado > 0)
                                 detalle.IdEmpleado = IdEmpleado;
@@ -553,7 +562,7 @@ namespace DAP.Foliacion.Negocios
                             if (entidadDevuleta != null)
                             {
                                 //entonces obtenemos el contenedor donde se encuentra el registro que se modifico para restarle a sus formas disponibles
-                                var contenedorRestar = repositorio.Obtener(x => x.NumContenedor == entidadDevuleta.IdContenedor);
+                                var contenedorRestar = repositorio.Obtener(x => x.Id == entidadDevuleta.IdContenedor);
 
                                 //traemos el inventario donde se debe de restar tambien
                                 var inventarioRepositorio = new Repositorio<Tbl_Inventario>(transaccion);
@@ -586,11 +595,26 @@ namespace DAP.Foliacion.Negocios
                                     inventarioRepositorio.Modificar(inventarioRestar);
 
                                 }
+
+                           
+                                //Si se AJUSTO por que un folio fue foliado correctament se le resta uno a las formas disponibles y se le suma 1
+                                if (IdIncidencia == 3)
+                                {
+                                    //se modifica el contenedor con resta y suma 
+                                    contenedorRestar.FormasDisponiblesActuales -= 1;
+                                    contenedorRestar.FormasFoliadas += 1;
+                                    repositorio.Modificar(contenedorRestar);
+
+                                    //se modifica el inventario
+                                    inventarioRestar.FormasDisponibles -= 1;
+                                    inventarioRepositorio.Modificar(inventarioRestar);
+
+                                }
                             }
 
                         }
                         else
-                        {
+                        { 
                             ListafoliosNoDisponibles.Add(detalle.NumFolio);
                         }
                     }
@@ -787,6 +811,75 @@ namespace DAP.Foliacion.Negocios
 
             return repositorio.ObtenerPorFiltro(x => x.Activo == true);
 
+        }
+
+
+
+        public static IEnumerable<Tbl_Solicitudes> ObtenerSolicitudesPorNumeroMemo(int NumMemorandum)
+        {
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_Solicitudes>(transaccion);
+
+            return repositorio.ObtenerPorFiltro(x => x.NumeroMemo == NumMemorandum && x.Activo == true);
+        }
+
+
+        public static List<ReporteInventarioGeneralDTO> ObtenerInventarioGeneralDatosReporte()
+        {
+            var transaccion = new Transaccion();
+            var repositorioCuentaBancaria = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            var repositorioBanco = new Repositorio<Tbl_Inventario>(transaccion);
+            var repositorioContenedor = new Repositorio<Tbl_InventarioContenedores>(transaccion);
+            var repositorioDetalle = new Repositorio<Tbl_InventarioDetalle>(transaccion);
+
+
+            var inventarioEncontrado = repositorioBanco.ObtenerPorFiltro(x => x.FormasDisponibles > 0 && x.Activo == true);
+
+     
+
+            List<ReporteInventarioGeneralDTO> datosReporteInventarioGeneral = new List<ReporteInventarioGeneralDTO>();
+           // List<int> IdContenedor;
+
+            foreach (var inventario in inventarioEncontrado)
+            {
+                var contenedoresEncontradosPorIdInventario = repositorioContenedor.ObtenerPorFiltro(x => x.IdInventario == inventario.Id).ToList();
+
+                var idsContenedoresEncontrados = contenedoresEncontradosPorIdInventario.Select(x => x.Id).ToList();
+
+                    var detellesEncontrados = repositorioDetalle.ObtenerPorFiltro(x => x.IdContenedor >= idsContenedoresEncontrados.Min() && x.IdContenedor <= idsContenedoresEncontrados.Max()  && x.IdIncidencia == null && x.Activo == true).Select( y => y.Id).ToList();
+                    //var seleccionIdsDetallesEncontrados = 
+                    Tbl_CuentasBancarias cuentaEncontrada = repositorioCuentaBancaria.Obtener(x => x.IdInventario == inventario.Id && x.Activo == true); 
+                    ReporteInventarioGeneralDTO nuevoDato = new ReporteInventarioGeneralDTO();
+
+                // var a =  repositorioDetalle.Obtener(x => x.Id == detellesEncontrados.Min()).NumFolio;
+                int idMinimo = detellesEncontrados.Min();
+                int idMaximo = detellesEncontrados.Max();
+                //Tbl_InventarioDetalle detalleminimo = repositorioDetalle.Obtener(x => x.Id == idMinimo);
+               
+
+                    nuevoDato.NombreBanco = cuentaEncontrada.NombreBanco;
+                    nuevoDato.Cuenta = cuentaEncontrada.Cuenta;
+                    nuevoDato.FolioInicialExistente = repositorioDetalle.Obtener(x => x.Id == idMinimo).NumFolio;
+                    nuevoDato.FolioFinalExistente   = repositorioDetalle.Obtener(x => x.Id == idMaximo).NumFolio;
+                    nuevoDato.TotalFormasPago = detellesEncontrados.Count();
+
+                    if (inventario.FormasUsadasQuincena1 != null && inventario.FormasUsadasQuincena2 != null) 
+                    {
+                        nuevoDato.ConsumoMensualAproximado = Convert.ToString( inventario.FormasDisponibles / (inventario.FormasUsadasQuincena1 + inventario.FormasUsadasQuincena2));
+                    }
+                    if (inventario.FormasUsadasQuincena1 != null )
+                    {
+                        nuevoDato.ConsumoMensualAproximado = Convert.ToString(inventario.FormasDisponibles / (inventario.FormasUsadasQuincena1 *2 ));
+                    }
+
+                 if (nuevoDato.ConsumoMensualAproximado != null)
+                     nuevoDato.SolicitarFormas = Convert.ToDecimal(nuevoDato.ConsumoMensualAproximado) <= 4 ? nuevoDato.SolicitarFormas = "si" : nuevoDato.SolicitarFormas = "No";
+
+
+                    datosReporteInventarioGeneral.Add(nuevoDato); 
+
+            }
+            return datosReporteInventarioGeneral;
         }
 
 

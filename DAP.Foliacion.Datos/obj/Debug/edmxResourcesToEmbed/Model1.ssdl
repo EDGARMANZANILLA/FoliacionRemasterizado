@@ -67,6 +67,7 @@
     <Property Name="FormasDisponiblesActuales" Type="int" Nullable="false" />
     <Property Name="FormasInhabilitadas" Type="int" />
     <Property Name="FormasAsignadas" Type="int" />
+    <Property Name="FormasFoliadas" Type="int" />
     <Property Name="FechaAlta" Type="date" Nullable="false" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>

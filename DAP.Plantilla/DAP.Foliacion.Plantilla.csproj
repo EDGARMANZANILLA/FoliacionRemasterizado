@@ -135,13 +135,25 @@
     <Compile Include="Models\InventarioDetalleModel.cs" />
     <Compile Include="Models\InventarioInhabilitadoModel.cs" />
     <Compile Include="Models\InventarioModel.cs" />
+    <Compile Include="Models\SolicitudDetalleModel.cs" />
     <Compile Include="Models\SolicitudFormasPagoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\Crystal\FormasDeChequesExistentes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormasDeChequesExistentes.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reportes\Crystal\SolicitarFormasDePagoBancos.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SolicitarFormasDePagoBancos.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\Datasets\FormasChequesExistentes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormasChequesExistentes.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Datasets\SolicitudFormasPago.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -216,6 +228,39 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.bootstrap.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.bootstrap.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.foundation.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.foundation.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.jqueryui.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.jqueryui.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.semanticui.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\dataTables.semanticui.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\jquery.dataTables.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\css\jquery.dataTables.min.css" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\images\sort_asc.png" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\images\sort_asc_disabled.png" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\images\sort_both.png" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\images\sort_desc.png" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\images\sort_desc_disabled.png" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.bootstrap.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.foundation.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.foundation.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.jqueryui.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.semanticui.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables\DataTables-1.10.24\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables\datatables.css" />
+    <Content Include="Scripts\DataTables\datatables.js" />
+    <Content Include="Scripts\DataTables\datatables.min.css" />
+    <Content Include="Scripts\DataTables\datatables.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -248,6 +293,17 @@
     <Content Include="Content\vendor\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
     <Content Include="Content\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
     <Content Include="Content\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Reportes\Datasets\FormasChequesExistentes.xsc">
+      <DependentUpon>FormasChequesExistentes.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\FormasChequesExistentes.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FormasChequesExistentes.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reportes\Datasets\FormasChequesExistentes.xss">
+      <DependentUpon>FormasChequesExistentes.xsd</DependentUpon>
+    </Content>
     <None Include="Reportes\Datasets\SolicitudFormasPago.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -272,6 +328,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Mensajes.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -366,7 +423,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Inventario\Index.cshtml" />
-    <Content Include="Views\Inventario\Ajustar.cshtml" />
+    <Content Include="Views\Inventario\Asignar.cshtml" />
     <Content Include="Views\Inventario\Solicitar.cshtml" />
     <Content Include="Views\Inventario\Inhabilitados.cshtml" />
     <Content Include="Views\Inventario\Agregar.cshtml" />
@@ -374,6 +431,7 @@
     <Content Include="Views\Inventario\Inhabilitar.cshtml" />
     <Content Include="Views\Inventario\Incidencias.cshtml" />
     <Content Include="Views\Inventario\_InhabilitarTablaDetalle.cshtml" />
+    <Content Include="Views\Inventario\Ajustar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -399,6 +457,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\Crystal\FormasDeChequesExistentes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FormasDeChequesExistentes.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Crystal\SolicitarFormasDePagoBancos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SolicitarFormasDePagoBancos.cs</LastGenOutput>

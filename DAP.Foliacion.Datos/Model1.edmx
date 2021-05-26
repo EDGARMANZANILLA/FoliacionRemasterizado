@@ -72,6 +72,7 @@
           <Property Name="FormasDisponiblesActuales" Type="int" Nullable="false" />
           <Property Name="FormasInhabilitadas" Type="int" />
           <Property Name="FormasAsignadas" Type="int" />
+          <Property Name="FormasFoliadas" Type="int" />
           <Property Name="FechaAlta" Type="date" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
@@ -351,6 +352,7 @@
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_Inventario" />
           <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_InventarioDetalle" />
+          <Property Name="FormasFoliadas" Type="Int32" />
         </EntityType>
         <EntityType Name="Tbl_InventarioDetalle">
           <Key>
@@ -540,6 +542,7 @@
           <EntitySetMapping Name="Tbl_InventarioContenedores">
             <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
               <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
+                <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
                 <ScalarProperty Name="FormasAsignadas" ColumnName="FormasAsignadas" />

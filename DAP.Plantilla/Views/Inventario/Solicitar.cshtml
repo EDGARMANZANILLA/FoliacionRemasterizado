@@ -18,7 +18,7 @@
 
 
         <div class="col-12 col-md-6  btn-block">
-            <button id="NuevaSolicitud" type="button" class="btn btn-primary btn-lg  btn-block">Crear Nueva Solicitud</button>
+            <button id="NuevaSolicitud" type="button" class="btn btn-primary btn-lg  btn-block" >Crear Nueva Solicitud</button>
 
         </div>
 
@@ -35,7 +35,7 @@
 
 
 <!-- Seccion para llenar los campos de la solicitud de uno o mas bancos  -->
-<section class="card margenSection col-12 offset-md-2 col-md-7">
+<section id="AgregarBancosASolicitud" class="card margenSection col-12 offset-md-2 col-md-7" style="display:none">
 
     <br />
     <h5 class="col-12 text-center text-uppercase">Llene los siguientes campos para realizar la solicitud de formas de pago</h5>
@@ -111,7 +111,7 @@
 <div class="margenSection">
     <div class="table-responsive">
 
-        <div id="divTablaCrud" >
+        <div id="divTablaCrud">
             <table id="tablaAgregados" class="table table-striped table-bordered table-hover" style="display:none;">
                 <caption id="TituloDeCaption"></caption>
                 <thead>
@@ -142,17 +142,7 @@
 
 <br />
 <br />
-<button type="button" id="CrearSolicitud" class="btn btn-primary col-10 offset-1 " onclick="">Crear nueva solicitud</button>
-
-
-
-<br />
-<br />
-
-
-
-
-
+<button type="button" id="CrearSolicitud" class="btn btn-primary col-10 offset-1" style="display:none" >Crear nueva solicitud</button>
 
 
 
@@ -186,11 +176,11 @@
 
 
 <!-- Generacion de tabla del Historico de las solicitudes de formas de pago  -->
-<section class="margenSection ">
+<section>
 
     <div class="table-responsive">
         <div id="TablaHistorica">
-            <table id="tbHistoricoSolicitudesCreadas" class="table table-striped table-bordered table-hover">
+            <table id="tbHistoricoSolicitudesCreadas" class="table table-striped table-bordered table-hover" style="display:none">
                 <caption class="text-uppercase">Solicitudes creadas recientemente</caption>
 
 
@@ -209,11 +199,11 @@
                 </thead>
 
                 <tfoot>
-                    <th class="Filtro">No. Memo</th>
-                    <th class="Filtro">Fecha</th>
-                    
+                <th class="Filtro">No. Memo</th>
+                <th class="Filtro">Fecha</th>
+
                 </tfoot>
-              
+
             </table>
 
         </div>
@@ -345,7 +335,67 @@
 
 
             <div class="modal-body text-center">
-                <a class="btn btn-success btn-lg text-center" id="DlReport" href="@Url.Action("GenerarReporteSolicitud", "Inventario")">Descargar solicitud creada</a>
+                <a class="btn btn-success btn-lg text-center" id="DlReport" href="@Url.Action("GenerarReporteSolicitud", "Inventario", new {NumMemorandum = "0"})">Descargar solicitud creada</a>
+
+            </div>
+
+
+            <div class="modal-footer text-center">
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal para mostrar los detalles de la solicitud por el memorandum -->
+<section class="modal fade " id="DetalleSolicitud" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content ">
+            <div class="modal-header">
+
+
+                <h5 class="col-11 text-center text-uppercase">Detalles</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+
+            </div>
+
+
+
+            <div class="modal-body text-center">
+
+                <section>
+
+                    <div class="table-responsive">
+                        <div id="TablaDetalleSolicitud">
+                            <table id="tbDetalleSolicitud" class="table table-striped table-bordered table-hover">
+                                <caption class="text-uppercase">Detalle de la Solicitud</caption>
+
+
+                                <thead class="tabla">
+                                    <tr>
+                                        <th>Numero de Solicitud</th>
+                                        <th>Banco</th>
+                                        <th>Cuenta</th>
+                                        <th>Folio Inicial</th>
+                                       
+
+                                    </tr>
+                                </thead>
+
+                               
+                            </table>
+
+                        </div>
+
+
+                </section>
 
             </div>
 
@@ -371,8 +421,19 @@
 
 
 
+
+
 <script>
 
+    //funcionalidad de los primeros botones de crea solicitud y historico de solicitudes
+ 
+
+
+
+
+
+
+     //El siguiente par es para el CRUD de los bancos agregados a la solicitud
     function DibujarTablaAjax() {
         $("#divTablaCrud").append(
 
@@ -393,7 +454,6 @@
             "</table>"
         );
     };
-
     let listar;
     function PintarConsultas(datos) {
 
@@ -435,15 +495,16 @@
         });
     };
 
+      //El siguiente par es para el historico de las solicitudes
     function DibujarTablaSolicitudesCreadasAjax() {
         $("#TablaHistorica").append(
 
             "<table id='tbHistoricoSolicitudesCreadas'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
-            " <caption class='text-uppercase'>Solicitudes creadas recientemente</caption>"
+            " <caption class='text-uppercase'>Historico de solicitudes creadas </caption>"
             + "<thead class='tabla'>" +
             "<tr>" +
-            "<th>Numero Memorandum </th>" +
-            "<th>Fecha Solicitud </th>" +
+            "<th>Numero Memorandum</th>" +
+            "<th>Fecha Solicitud</th>" +
             "<th>  </th>" +
             "</tr>" +
             "</thead>" +
@@ -457,17 +518,80 @@
             "</table>"
         );
     };
-
+    let historioSolicitudes;
     function PintarConsultaTablaSolicitud(datos) {
 
-        $('#tbHistoricoSolicitudesCreadas').find(".Filtro").each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" style="width:100%" onkeypress="return event.keyCode != 13;"  class="form-control input-sm" placeholder="'+title+'" />');
-        });
-        $('#tbHistoricoSolicitudesCreadas').DataTable({
+        historioSolicitudes = $('#tbHistoricoSolicitudesCreadas').DataTable({
             "ordering": true,
             "info": false,
             "searching": true,
+            "paging": true,
+            "lengthMenu": [10, 15],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": [[0, 'desc']],
+            "data": datos,
+            "columns": [
+                { "data": "NumeroMemo" },
+                { "data": "FechaSolicitud" },
+                {
+
+                    "render": function (data, type, row) {
+                        let da = row.NumeroMemo;
+                        return '<a  class="detalles btn btn-success" data-toggle="modal" data-target="#DetalleSolicitud">Ver detalles </a> <a class="descargar btn btn-danger" href="/Inventario/GenerarReporteSolicitud?NumMemorandum=' + da + '"> <i class="fas fa-cloud-download-alt"></i></a>';
+                    }
+
+
+                }
+
+            ]
+
+        });
+    };
+
+
+    //funciones para los detalles de las solicitudes filtrados por cadaMemorandum
+    function DibujarTablaDetalleSolicitudAjax() {
+           $("#TablaDetalleSolicitud").append(
+
+            "<table id='tbDetalleSolicitud'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Detalle de la Solicitud </caption>"
+            + "<thead class='tabla'>" +
+            "<tr>" +
+            "<th>Numero Memorandum</th>" +
+            "<th>Banco</th>" +
+            "<th>Cuenta</th>" +
+            "<th>Cantidad  </th>" +
+            "<th>Folio Inicial  </th>" +
+            "</tr>" +
+            "</thead>" +
+           
+            "</table>"
+        );
+    };
+
+    function PintarConsultaDetalleSolicitud(datos) {
+
+
+        $('#tbDetalleSolicitud').DataTable({
+            "ordering": false,
+            "info": false,
+            "searching": false,
             "paging": true,
             "lengthMenu": [5, 10],
             "language":
@@ -491,28 +615,56 @@
             "data": datos,
             "columns": [
                 { "data": "NumeroMemo" },
-                { "data": "FechaSolicitud" },
-                { "defaultContent": "<a class='editar btn btn-success' data-toggle='modal' data-target='#EditarSolicitud'  > <i class='fas fa-edit'></i></a> <a class='eliminar btn btn-danger'> <i class='fas fa-trash-alt'></i></a>" }
-
+                { "data": "NombreBanco" },
+                { "data": "NumeroCuenta" },
+                { "data": "Cantidad" },
+                { "data": "FolioInicial" },
             ]
 
-        }).columns().every(function () {
-            var that = this;
-            $('input', this.footer()).on('keyup change', function (e) {
-                var keyCode = e.keyCode || e.which;
-                if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
         });
-        $(".dataTable").find("tfoot tr").appendTo($(".dataTable").find("thead"));
     };
 
 
 
+    
+
     $(document).ready(function () {
+
+        listaBancosSolicitados = new Array();
+        const MenuCrearNuevaSolicitud = document.getElementById("NuevaSolicitud");
+        MenuCrearNuevaSolicitud.addEventListener("click",
+            function () {
+
+              ///////
+                $("#TablaHistorica").empty();
+                //pintar de nuevo la tabla +
+
+                DibujarTablaAjax();
+
+                PintarConsultas(listaBancosSolicitados);
+
+                let nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.remove('btn-outline-primary');
+                nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.add('btn-primary');
+
+                let inhabilitarContenedor = document.getElementById('Historico').classList.remove('btn-primary');
+                inhabilitarContenedor = document.getElementById('Historico').classList.add('btn-outline-primary');
+
+                //let InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.remove('btn-primary');
+                //InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.add('btn-outline-primary');
+
+
+                //document.getElementById("IFolios").style.display = "none";
+                document.getElementById("AgregarBancosASolicitud").style.display = "block";
+                document.getElementById("CrearSolicitud").style.display = "block";
+
+
+            }
+        );
+
+
+       
+
+
 
         let bancoSeleccionado;
         let cuentaBanco;
@@ -551,7 +703,7 @@
 
 
 
-        listaBancosSolicitados = new Array();
+
 
 
         let cantidadFormas = null;
@@ -863,6 +1015,17 @@
         const historico = document.getElementById("Historico");
         historico.addEventListener("click", function () {
 
+            $("#divTablaCrud").empty();
+            let nuevaSolicitud = document.getElementById('Historico').classList.remove('btn-outline-primary');
+            nuevaSolicitud = document.getElementById('Historico').classList.add('btn-primary');
+
+            let inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.remove('btn-primary');
+            inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.add('btn-outline-primary');
+
+            document.getElementById("AgregarBancosASolicitud").style.display = "none";
+            document.getElementById("CrearSolicitud").style.display = "none";
+
+
                 MensajeCargando();
                 $.ajax({
                     url: '@Url.Action("ObtenerHistoricoSolicitudes", "Inventario")',
@@ -901,7 +1064,71 @@
 
 
 
+        $(document).on("click", ".detalles", function () {
 
+            let datosFilaSeleccionada = historioSolicitudes.row($(this).parents("tr")).data();
+
+            console.log(datosFilaSeleccionada);
+
+            MensajeCargando();
+
+
+            let EnviarNumeroMemo = "{'NumeroMemo':'"+datosFilaSeleccionada.NumeroMemo+"'}";
+                $.ajax({
+                    url: '@Url.Action("ObtenerSolicitudPorMemo", "Inventario")',
+                    data: EnviarNumeroMemo,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (resultado) {
+                        OcultarMensajeCargando();
+                        console.log(resultado);
+                  
+
+                        $("#TablaDetalleSolicitud").empty();
+
+                        DibujarTablaDetalleSolicitudAjax();
+
+                        ////cambia
+                        PintarConsultaDetalleSolicitud(resultado);
+
+
+
+                    },
+                    error: function (msg) {
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ocurrio un problema intente de nuevo',
+
+                        })
+                    }
+                });
+
+
+
+
+
+
+            //DibujarTablaSolicitudesCreadasAjax();
+           // PintarConsultaTablaSolicitud(resultado);
+
+            //console.log("vieja" + listaBancosSolicitados);
+
+            //let datoAEliminar = listar.row($(this).parents("tr")).data();
+            //var i = listaBancosSolicitados.indexOf(datoAEliminar);
+            //listaBancosSolicitados.splice(i, 1);
+
+
+
+            //// console.log(listaBancosSolicitados);
+
+
+            //let eliminado = listar.row($(this).parents("tr")).remove().draw();
+        });
 
 
 

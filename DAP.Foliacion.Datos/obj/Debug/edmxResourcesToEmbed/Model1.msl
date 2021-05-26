@@ -62,6 +62,7 @@
     <EntitySetMapping Name="Tbl_InventarioContenedores">
       <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
         <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
+          <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
           <ScalarProperty Name="FormasAsignadas" ColumnName="FormasAsignadas" />

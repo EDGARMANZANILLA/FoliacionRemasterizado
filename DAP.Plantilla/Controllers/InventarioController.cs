@@ -10,6 +10,7 @@ using DAP.Plantilla.Reportes;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Runtime.Remoting.Contexts;
+using System.Net.Http;
 
 namespace DAP.Foliacion.Plantilla.Controllers
 {
@@ -103,7 +104,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
-        public ActionResult Ajustar(string NombreBanco)
+        public ActionResult Asignar(string NombreBanco)
         {
 
             ViewBag.NombreBanco = NombreBanco;
@@ -177,6 +178,29 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
             //ViewBag.ListaNombreBancos = nombresBancos;
+
+            return View();
+        }
+
+        public ActionResult Ajustar(string NombreBanco)
+        {
+
+            ViewBag.NombreBanco = NombreBanco;
+
+
+            // int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
+
+            string numeroCuenta = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
+
+            
+            ViewBag.NumeroCuentaBanco = numeroCuenta;
+
+
+            int idInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
+
+            ViewBag.IdInventario = idInventario;
+
+
 
             return View();
         }
@@ -460,10 +484,15 @@ namespace DAP.Foliacion.Plantilla.Controllers
             {
                 IdEmpleado = Negocios.InventarioNegocios.ObtenerIdPersonal(NombreEmpleado);
             }
-         
-           
 
-           List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado);
+           
+            string  fechaServerExterno =  Convert.ToString(ObtenerFechaServerGoogle());
+
+           // DateTime A = Convert.ToDateTime(fechaServerExterno);
+
+
+
+            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado, Convert.ToDateTime(fechaServerExterno));
 
             return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
         }
@@ -509,7 +538,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
                     nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
 
                 if (detalle.FechaIncidencia != null)
-                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia.ToString();
+                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia?.ToString("dd/MM/yyyy");
 
                 listaDetalle.Add(nuevoDetalle);
             }
@@ -561,10 +590,74 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
+
+        //obtiene la solicitud realizada por el numero de memorandum
+        public ActionResult ObtenerSolicitudPorMemo(int NumeroMemo)
+        {
+            var solicitudEncontrada = Negocios.InventarioNegocios.ObtenerSolicitudesPorNumeroMemo(NumeroMemo);
+
+            List<SolicitudDetalleModel> detalleSolicitud = new List<SolicitudDetalleModel>();
+
+            foreach (var solicitud in solicitudEncontrada )
+            {
+                SolicitudDetalleModel nuevaCuenta = new SolicitudDetalleModel(); 
+
+                nuevaCuenta.NumeroMemo = solicitud.NumeroMemo;
+                nuevaCuenta.NombreBanco = solicitud.Tbl_CuentasBancarias.NombreBanco;
+                nuevaCuenta.NumeroCuenta = solicitud.Tbl_CuentasBancarias.Cuenta ;
+                nuevaCuenta.Cantidad = solicitud.Cantidad;
+                nuevaCuenta.FolioInicial = solicitud.FolioInicial;
+                nuevaCuenta.FechaSolicitud = solicitud.FechaSolicitud.ToString("dd/MM/yyyy");
+
+                detalleSolicitud.Add(nuevaCuenta);
+
+            }
+
+            return Json(detalleSolicitud, JsonRequestBehavior.AllowGet);
+        }
+
+
         #region metododos para descargar PDF de la solicitud y el reporte del inventario
         //exporta el pfd que se guardo anteriormente usando sessiones para guardar datos 
-        public FileResult GenerarReporteSolicitud()
+        public FileResult GenerarReporteSolicitud(int NumMemorandum)
         {
+
+            if (NumMemorandum > 0) 
+            {
+                var solicitudesMemoEncontradas =  Negocios.InventarioNegocios.ObtenerSolicitudesPorNumeroMemo(NumMemorandum).ToList();
+
+                if (solicitudesMemoEncontradas.Count() > 0)
+                {
+                    Session["ListaBancosSolicitados"] = null;
+                    Session["NumeroMemo"] = null;
+
+                    List<SolicitudCreadaDTO> solicitudDescargar = new List<SolicitudCreadaDTO>();
+
+                    foreach (var solicitud in solicitudesMemoEncontradas) {
+                        SolicitudCreadaDTO nuevaSolicitud = new SolicitudCreadaDTO();
+
+                        nuevaSolicitud.nombreBanco = solicitud.Tbl_CuentasBancarias.NombreBanco;
+                        nuevaSolicitud.cuentaBanco = solicitud.Tbl_CuentasBancarias.Cuenta;
+                        nuevaSolicitud.fInicial = solicitud.FolioInicial;
+                        nuevaSolicitud.cantidadFormas = Convert.ToString( solicitud.Cantidad);
+
+                        solicitudDescargar.Add(nuevaSolicitud);
+                    }
+
+
+
+                    Session["ListaBancosSolicitados"] = solicitudDescargar;
+                    Session["NumeroMemo"] = NumMemorandum;
+                }
+
+
+            }
+
+
+
+
+
+
            // List<SolicitudFormasPagoModel> listaBancosSolicitadosSolictudReciente = new List<SolicitudFormasPagoModel>();
             DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago dtsSolicitusFormasPago = new DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago();
 
@@ -580,9 +673,11 @@ namespace DAP.Foliacion.Plantilla.Controllers
                 //cargar datos al dataset para el reporte
                 foreach (var solicitudRecuperada in listaBancosSolicitadosSolictudReciente)
                 {
+                   // solicitudRecuperada.fInicial = solicitudRecuperada.fInicial != null ? solicitudRecuperada.fInicial : " . ";
+                 
+                    dtsSolicitusFormasPago.FormaPago.AddFormaPagoRow(solicitudRecuperada.nombreBanco, solicitudRecuperada.cuentaBanco, solicitudRecuperada.fInicial, solicitudRecuperada.cantidadFormas);
 
-                    dtsSolicitusFormasPago.FormaPago.AddFormaPagoRow(solicitudRecuperada.nombreBanco, solicitudRecuperada.cuentaBanco, solicitudRecuperada.cantidadFormas, solicitudRecuperada.fInicial);
-                }
+                 }
 
                 //  C: \Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\ReportesSolicitarFormasDePagoBancos.rpt
 
@@ -604,6 +699,60 @@ namespace DAP.Foliacion.Plantilla.Controllers
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "application/pdf", "Solicitud.pdf");
         }
+
+
+
+
+
+
+        public FileResult GenerarReporteFormasChequesExistentes()
+        {
+
+            var datosReporte = Negocios.InventarioNegocios.ObtenerInventarioGeneralDatosReporte();
+
+
+            DAP.Plantilla.Reportes.Datasets.FormasChequesExistentes dtsFormasExistentes = new DAP.Plantilla.Reportes.Datasets.FormasChequesExistentes();
+
+            if (datosReporte.Count() > 0)
+            {
+                //Cargar el numero del memo
+                dtsFormasExistentes.Fecha.AddFechaRow( DateTime.Now.ToString("dddd, dd MMMM yyyy").ToUpper());
+
+
+                //cargar datos al dataset para el reporte
+                foreach (var inventarioBanco in datosReporte)
+                {
+                   
+                    dtsFormasExistentes.FormasExistentes.AddFormasExistentesRow(inventarioBanco.NombreBanco, inventarioBanco.Cuenta, inventarioBanco.FolioInicialExistente, inventarioBanco.FolioFinalExistente, Convert.ToString(inventarioBanco.TotalFormasPago), inventarioBanco.ConsumoMensualAproximado, inventarioBanco.SolicitarFormas);
+                }
+
+            }
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/FormasDeChequesExistentes.rpt"));
+
+            rd.SetDataSource(dtsFormasExistentes);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf", "FormasChequesExistentes.pdf");
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -703,6 +852,30 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
         #endregion
+
+
+
+
+
+
+        public static DateTimeOffset? ObtenerFechaServerGoogle()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var result = client.GetAsync("https://google.com/",
+                          HttpCompletionOption.ResponseHeadersRead).Result;
+                    return result.Headers.Date;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+
 
 
 

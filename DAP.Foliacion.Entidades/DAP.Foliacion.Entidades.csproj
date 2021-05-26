@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DTO\InventarioContenedoresDTO.cs" />
     <Compile Include="DTO\InventarioDetalleDTO.cs" />
+    <Compile Include="DTO\ReporteInventarioGeneralDTO.cs" />
     <Compile Include="DTO\SolicitudCreadaDTO.cs" />
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
