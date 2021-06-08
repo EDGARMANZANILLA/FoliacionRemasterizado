@@ -24,8 +24,6 @@ namespace DAP.Foliacion.Entidades
         public int FormasDisponibles { get; set; }
         public string UltimoFolioInventario { get; set; }
         public string UltimoFolioUtilizado { get; set; }
-        public Nullable<int> FormasUsadasQuincena1 { get; set; }
-        public Nullable<int> FormasUsadasQuincena2 { get; set; }
         public Nullable<decimal> EstimadoMeses { get; set; }
         public bool Activo { get; set; }
     

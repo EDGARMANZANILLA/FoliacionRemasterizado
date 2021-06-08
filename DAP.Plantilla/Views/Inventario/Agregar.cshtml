@@ -45,9 +45,10 @@
 
         </div>
         <br />
-        <button type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-success" onclick="Continuar()">
+        <button id="selectNumOrdenYNumContenedor" type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-success">
             Continuar
         </button>
+     
         <br />
     </div>
     <br />
@@ -55,7 +56,7 @@
 
 
 
-<section class="card col-12 offset-md-2 col-md-8 margenSection" id="Contenedores">
+<section class="card col-12 offset-lg-1 col-lg-10 margenSection" id="Contenedores">
     <br />
     <div class="col-12 text-center">
         <label class=" text-uppercase text-justify"> Ingrese los datos correspondientes a cada contenedor de la orden ingresada en la seccion anterior </label>
@@ -68,83 +69,67 @@
         <br />
         <h4 class="col-12 text-center">Nuevo Contenedor</h4>
         <h4 id="IteradorContenedor" class="col-12 text-center"></h4>
-        <div class="row ">
-            <label class="offset-1 col-10             col-sm-2">Folio Inicial:</label>
-            <input id="FolioI" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
-            <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
-            <input id="FolioF" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
+        <div class="row">
+            <label class="offset-1 col-10  col-sm-2 text-md-right">Folio Inicial:</label>
+            <input id="FolioInicialAgregar" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
+            <label class="offset-1 col-10 offset-sm-0 col-sm-2   text-md-right">Folio Final:</label>
+            <input id="FolioFinalAgregar" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
 
         </div>
         <br />
-        <div class="row">
-            <label class="offset-1 col-5 text-right">Total de formas:</label>
-          <!--  <label class="col-4 text-left" title="Calculo del total de formas"> {Total de formas}</label> -->
-        </div>
+
 
 
     </div>
     <br />
-    <button type="button" class="col-12 text-center offset-md-4 col-md-4 btn btn-outline-warning" onclick="Atras();">
+    <button id="Regresar" type="button" class="col-12 text-center offset-md-4 col-md-4 btn btn-outline-warning">
         Atras
     </button>
     <br />
-    <button id="Agregar" type="button" class="col-12 text-center offset-md-4 col-md-4 btn btn-outline-success" onclick="AgregarContenedor()">
+    <button id="Agregar" type="button" class="col-12 text-center offset-md-4 col-md-4 btn btn-success">
         Agregar Contenedor
     </button>
+
+    <br />
+
     <br />
 
 </section>
 
 
+<!--Tabla dinamica con los contenedores que va introduciendo el usuario y no se carga hasta que se ingresa un primer contenedor -->
+<div class="margenSection">
+    <div class="table-responsive">
+
+        <div id="divTablaCrud">
+            <table id="tablaAgregados" class="table table-striped table-bordered table-hover" style="display:none;">
+                <caption id="TituloDeCaption"></caption>
+                <thead>
+                    <tr class="text-center text-uppercase">
+                        <th>Id</th>
+                        <th>Banco</th>
+                        <th>cuenta</th>
+                        <th>Folio Inicial</th>
+                        <th>Cantidad</th>
+                        <th></th>
 
 
 
-
-<br />
-<br />
-<section class="margenSection table-responsive" id="TablaDeContenedores">
-
-    <table class="table table-striped table-bordered table-hover">
-        <caption id="TituloDeCaption"></caption>
-        <thead>
-            <tr>
-                <th>Contenedor</th>
-                <th>Folio Inicial</th>
-                <th>Folio Final</th>
-                <th>Total de Formas de pago</th>
+                    </tr>
+                </thead>
 
 
-            </tr>
-        </thead>
+            </table>
 
-        <tbody id="prueba">
+        </div>
 
-            <template id="temp">
-                <tr>
+    </div>
 
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-
-                </tr>
-
-            </template>
-
-
-
-        </tbody>
-    </table>
-
-
-
-
-
-</section>
+</div>
 
 <br />
 <br />
-<button type="button" id="Guardar" class="btn btn-primary col-10 offset-1" onclick="EnviarDatos()">Guardar Contenedores Existentes</button>
+<button type="button" id="GuardarFoliosContenedor" class="btn btn-primary col-10 offset-1" >Guardar Contenedores Existentes</button>
 <br />
 <br />
 
@@ -159,21 +144,6 @@
         <div class="modal-content">
             <div class="modal-header">
 
-
-
-
-                <section class="col-11">
-                    <div class="row text-center">
-                        <div class="offset-1 col-10  text-center">
-                            <h5 class="modal-title"> Editar contenedor </h5>
-                        </div>
-                    </div>
-
-
-
-
-
-                </section>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -192,19 +162,24 @@
                     <br />
                     <h4 class="col-12 text-center">Editar Contenedor</h4>
                     <h4 class="col-12 text-center" id="NumeroContenedor"></h4>
-                    <div class="row ">
-                        <label class="offset-1 col-10             col-sm-2">Folio Inicial:</label>
-                        <input id="FolioInicial" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. inicial" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
-                        <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
-                        <input id="FolioFinal" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Ingresa el F. Final" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
 
+
+                    <div class="row">
+                        <label class="offset-sm-0  col-sm-4  offset-md-1  ">Numero Contenedor:</label>
+                        <input id="NumeroContenedorEditar" class="col-sm-5 text-center" placeholder="Ingresa el numer del contenedor" type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
                     </div>
                     <br />
                     <div class="row">
-                        <label class="offset-1 col-5 text-right">Total de formas:</label>
-                     <!--   <label class="col-4 text-left" title="Calculo del total de formas"> {Total de formas}</label> -->
+                        <label class="offset-sm-0  col-sm-4  offset-md-1  ">Folio Inicial:</label>
+                        <input id="FolioInicialEditar" class="col-sm-5 text-center" placeholder="Ingresa el F. inicial" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
                     </div>
+                    <br />
+                    <div class="row ">
+                        <label class="offset-sm-0  col-sm-4  offset-md-1 ">Folio Final:</label>
+                        <input id="FolioFinalEditar" class="col-sm-5 text-center" placeholder="Ingresa el F. Final" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
 
+                    </div>
+                    <br />
 
                 </div>
 
@@ -214,7 +189,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" onclick="GuardarEdicion()">Guardar</button>
+                <button id="GuardarEdicionContenedor" type="button" class="btn btn-success">Guardar</button>
 
 
 
@@ -234,8 +209,85 @@
 
 
 
+
+
+
 <script>
-    document.getElementById("TablaDeContenedores").style.display = "none"
+
+    //El siguiente par es para el CRUD de los bancos agregados a la solicitud
+    function DibujarTablaCrudAjax(NumeroOrden) {
+        $("#divTablaCrud").append(
+
+            "<table id='tablaAgregados'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Contenedores agregados al numero de orden  "+NumeroOrden+" </caption>"
+            + "<thead class='tabla'>" +
+
+            "<tr>" +
+            "<th>Numero Contenedor </th>" +
+            "<th>Folio Inicial</th>" +
+            "<th>Folio Final</th>" +
+            "<th>Total Formas de Pago</th>" +
+            "<th></th>" +
+
+            "</tr>" +
+            "</thead>" +
+            "</table>"
+        );
+    };
+    let listaContenedoresAgregados;
+    function PintarConsultasTablaCrud(datos) {
+
+        listaContenedoresAgregados = $('#tablaAgregados').DataTable({
+            "ordering": true,
+            "info": false,
+            "searching": false,
+            "paging": true,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+                { "data": "iteradorContenedor" },
+                { "data": "folioInicial" },
+                { "data": "folioFinal" },
+                { "data": "TotalFormas" },
+                { "defaultContent": "<a class='editar btn btn-success' data-toggle='modal' data-target='#EditarContenedor'  > <i class='fas fa-edit'></i></a> <a class='eliminar btn btn-danger'> <i class='fas fa-trash-alt'></i></a>" }
+
+
+            ],
+            "order": [[1, 'asc']]
+
+        });
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*document.getElementById("TablaDeContenedores").style.display = "none"
     document.getElementById("Contenedores").style.display = "none"
     document.getElementById("Guardar").style.display = "none"
 
@@ -430,11 +482,6 @@
     }
 
 
-
-
-
-
-
     function AgregarContenedor() {
         if (input != null || input != "") {
 
@@ -569,13 +616,524 @@
 
 
 
+    }*@
+
+
+
+
+
+    $(document).ready(function () {
+
+       // document.getElementById("TablaDeContenedores").style.display = "none"
+        document.getElementById("Contenedores").style.display = "none"
+        document.getElementById("GuardarFoliosContenedor").style.display = "none"
 
 
 
 
 
 
-    }
+        //Agregar numero de order
+        let NumOrden;
+        let NumContenedor;
+        let iteradorContenedor = 1;
+        let id = 1;
+
+
+
+        const NumeroOrdenYNumContenedor = document.getElementById("selectNumOrdenYNumContenedor");
+        NumeroOrdenYNumContenedor.addEventListener("click",
+            function () {
+
+                NumOrden = document.getElementById("NumOrden").value;
+
+                NumContenedor = document.getElementById("NumContenedor").value;
+
+                console.log(NumOrden);
+                console.log(NumContenedor);
+
+                if (NumOrden != null && NumOrden != "" && NumContenedor != null && NumContenedor != "") {
+
+                    document.getElementById("PrimerosDatos").style.display = "none"
+                    document.getElementById("Contenedores").style.display = "block"
+
+
+
+                   // document.getElementById("TituloDeCaption").value = `Contenedores agregados al numero de orden :  ${NumOrden}`;
+                    //agrega el numero uno de N cantidad de contenedores
+                    document.getElementById("IteradorContenedor").innerHTML = `${iteradorContenedor}` + ` ` + `de` + ` ` + NumContenedor;
+
+
+                } else {
+                    Swal.fire({
+                        backdrop: true,
+
+                        allowEnterKey: false,
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'llene los datos faltantes para continuar'
+
+                    });
+                }
+
+
+            }
+        );
+
+
+
+
+
+
+
+        const Regresar = document.getElementById("Regresar");
+        Regresar.addEventListener("click",
+            function () {
+
+                NumContenedor = null;
+                document.getElementById("PrimerosDatos").style.display = "block"
+                //document.getElementById("TablaDeContenedores").style.display = "none"
+                document.getElementById("Contenedores").style.display = "none"
+
+
+            }
+        );
+
+
+
+
+
+             //**************   Inicio CRUD   ******************///////////
+
+
+        let listaContenedores = new Array();
+
+        let folioInicial= null;
+        let folioFinal = null;
+
+        const Agregar = document.getElementById("Agregar");
+        Agregar.addEventListener("click",
+            function () {
+
+                folioInicial = document.getElementById("FolioInicialAgregar").value;
+                folioFinal = document.getElementById("FolioFinalAgregar").value;
+
+
+
+
+                //iteradorContenedor += 1;
+
+                if (iteradorContenedor <= NumContenedor) {
+
+                    document.getElementById("IteradorContenedor").innerHTML = `${iteradorContenedor}` + ` ` + `de` + ` ` + NumContenedor;
+
+
+                    if (folioInicial != null) {
+
+                        if (folioFinal != null) {
+
+
+                            if (parseInt(folioFinal) > parseInt(folioInicial) || parseInt(folioFinal) == parseInt(folioInicial)) {
+
+
+                                    //console.log("entreee ff es mayor igual");
+                                let TotalFormas = (folioFinal - folioInicial) + 1;
+                                listaContenedores.push({ id , iteradorContenedor, folioInicial, folioFinal, TotalFormas });
+                                    //ContenedoresAgregados(IteradorDeContenedores, FInicial, FFinal, TotalFormas);
+
+                                    $('#FolioInicialAgregar').val('');
+                                    $('#FolioFinalAgregar').val('');
+
+
+                                console.log(listaContenedores);
+
+                                $("#divTablaCrud").empty();
+
+                                //DibujarTablaAjax();
+                                DibujarTablaCrudAjax(NumOrden);
+
+                                //PintarConsultas(listaBancosSolicitados);
+                                PintarConsultasTablaCrud(listaContenedores);
+                                document.getElementById("GuardarFoliosContenedor").style.display = "block";
+
+
+                                id += 1;
+                                iteradorContenedor += 1;
+                                document.getElementById("IteradorContenedor").innerHTML = `${iteradorContenedor}` + ` ` + `de` + ` ` + NumContenedor;
+
+
+                                //if (iteradorContenedor <= NumContenedor) {
+                                //    document.getElementById("IteradorContenedor").innerHTML = `${iteradorContenedor}` + ` ` + `de` + ` ` + NumContenedor;
+                                //}
+
+
+
+                                } else {
+                                    Swal.fire({
+                                        backdrop: true,
+
+                                        allowEnterKey: false,
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Verifique los datos del contenedor! EL Folio Final debe de ser mayor al Folio Inicial'
+
+                                    })
+
+                            }
+
+
+
+
+
+                        } else {
+                            //ingrese un folio inicial
+                            Swal.fire({
+                                backdrop: true,
+                                allowEnterKey: false,
+                                allowOutsideClick: false,
+                                icon: 'error',
+                                title: 'Ingrese un folio final',
+
+                            });
+                        }
+
+
+
+
+
+
+
+                    } else {
+                        //ingrese un folio inicial
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ingrese un folio inicial',
+
+                        })
+                    }
+
+
+
+
+                } else {
+                    Swal.fire({
+                        backdrop: true,
+
+                        allowEnterKey: false,
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'No se pueden agregar mas contenedores. Cambie el numero de contenedores al inicio'
+
+                    })
+                }
+
+
+
+            }
+        );
+
+
+
+
+
+
+    /****  Funciones para editar  y Eliminar  ******* */
+
+        //Click para eliminar el elemento seleccionado de la tabla
+        $(document).on("click", ".eliminar", function () {
+
+
+
+            //console.log("vieja" + listaBancosSolicitados);
+
+            let datoAEliminar = listaContenedoresAgregados.row($(this).parents("tr")).data();
+            let i = listaContenedores.indexOf(datoAEliminar);
+            listaContenedores.splice(i, 1);
+
+
+
+           // console.log(listaBancosSolicitados);
+
+            listaContenedoresAgregados.row($(this).parents("tr")).remove().draw();
+
+            iteradorContenedor -= 1;
+            document.getElementById("IteradorContenedor").innerHTML = `${iteradorContenedor}` + ` ` + `de` + ` ` + NumContenedor;
+
+            console.log(listaContenedores);
+        });
+
+
+
+        let datoAEditar;
+        //Click para editar el elemento seleccionado de la tabla
+        $(document).on("click", ".editar", function () {
+
+            datoAEditar = listaContenedoresAgregados.row($(this).parents("tr")).data();
+            let i = listaContenedores.indexOf(datoAEditar);
+
+            console.log(listaContenedores[i]);
+            console.log(datoAEditar);
+
+
+
+            document.getElementById("NumeroContenedor").innerHTML = listaContenedores[i].iteradorContenedor;
+
+            //FolioFinalEditar FolioInicialEditar
+            // $("#EditarSeleccionNombreBanco").val(listaBancosSolicitados[i].nombreBanco);
+            ////$('#EditarSeleccionNombreBanco').change();
+            document.getElementById("NumeroContenedorEditar").value = listaContenedores[i].iteradorContenedor;
+            document.getElementById("FolioInicialEditar").value = listaContenedores[i].folioInicial;
+            document.getElementById("FolioFinalEditar").value = listaContenedores[i].folioFinal;
+
+
+
+
+
+            //obtner datos dela edicion del banco
+            const GuardarEdicion = document.getElementById("GuardarEdicionContenedor");
+            GuardarEdicion.addEventListener("click",
+                function () {
+                    //let indice = listaBancosSolicitados.findIndex(y => y.Id == datoAEditar.Id);
+                    //console.log("asdf");
+                    //console.log(indice);
+
+                    //Obtiene los datos modificados del modal
+                    let folioInicialEdicion = document.getElementById('FolioInicialEditar').value;
+                    let folioFinalEdicion = document.getElementById('FolioFinalEditar').value;
+                    let numeroContenedorEdicion = document.getElementById('NumeroContenedorEditar').value;
+
+                    if (parseInt(folioFinalEdicion) > parseInt(folioInicialEdicion) || parseInt(folioFinalEdicion ) == parseInt(folioInicialEdicion)) {
+
+                        //se muestra el mensaje cargando para bloquear la pantalla
+                        MensajeCargando();
+                        /// Editar(datoAEditar.Id);
+
+
+                        let indice = listaContenedores.findIndex(y => y.id == datoAEditar.id);
+                        console.log("asdf");
+                        console.log(indice);
+
+                        //se actualizan los varlores dentro del arreglo
+                        listaContenedores[indice].iteradorContenedor = parseInt( numeroContenedorEdicion);
+                        listaContenedores[indice].folioInicial = folioInicialEdicion;
+                        listaContenedores[indice].folioFinal = folioFinalEdicion;
+                        listaContenedores[indice].TotalFormas = (folioFinalEdicion - folioInicialEdicion) + 1;
+
+                        //se vacia la tabla
+                        $("#divTablaCrud").empty();
+
+                        //DibujarTablaAjax();
+                        DibujarTablaCrudAjax(NumOrden);
+
+                        //PintarConsultas(listaBancosSolicitados);
+                        PintarConsultasTablaCrud(listaContenedores);
+
+                        //se oculta el modal
+                        $('#EditarContenedor').modal('hide');
+
+                        OcultarMensajeCargando();
+                        console.log(listaContenedores);
+
+
+
+                    } else {
+                        Swal.fire({
+                            backdrop: true,
+
+                            allowEnterKey: false,
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Verifique los datos del contenedor! EL folio final debe de ser mayor al folio fnicial o iguales'
+
+                        })
+
+                    }
+
+
+
+
+                }
+            );
+
+
+        });
+
+
+
+
+
+
+
+    /***************** metodo para guardar la tabla en la DB **********///////////
+
+
+        //Metodos para mostrar el historico de las solicitudes creadas
+        const GuardarFolios = document.getElementById("GuardarFoliosContenedor");
+        GuardarFolios.addEventListener("click", function () {
+
+            console.log("listo para enviar " + listaContenedores);
+
+            let banco = "@ViewBag.NombreBancoSeleccionado";
+
+      
+
+                MensajeCargando();
+                $.ajax({
+                    url: '@Url.Action("GuardarInventarioAgregado", "Inventario")',
+                    data:   JSON.stringify({ listaContenedores, NumOrden, banco }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (resultado) {
+                     
+
+                        if (resultado == true) {
+
+                            OcultarMensajeCargando();
+
+                            Swal.fire({
+                                backdrop: true,
+                                allowOutsideClick: false,
+                                allowEnterKey: false,
+                                icon: 'success',
+                                title: 'Correcto',
+                                text: `Se han agregado nuevos contenedores a ${banco}`
+
+                            }).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+
+                                }
+                            })
+
+                        } else {
+                            OcultarMensajeCargando();
+                            Swal.fire({
+                                backdrop: true,
+                                allowEnterKey: false,
+                                allowOutsideClick: false,
+                                icon: 'error',
+                                title: `No se guardaron los nuevos contenedores para el banco ${banco}`,
+
+
+                            })
+                        }
+
+
+
+
+                    },
+                    error: function (msg) {
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ocurrio un problema intente de nuevo',
+
+                        })
+                    }
+                });
+
+
+        });
+
+
+
+
+
+
+
+            function EnviarDatos()
+            {
+
+                MensajeCargando();
+
+                console.log(listaDeContenedores);
+                let banco = " @ViewBag.NombreBancoSeleccionado ";
+
+               //NumOrden = document.getElementById("NumOrden").value;
+
+                console.log(NumOrden);
+                console.log(banco);
+                  $.ajax({
+                      url: '@Url.Action("GuardarInventarioAgregado", "Inventario")',
+                      data: JSON.stringify({ listaDeContenedores, NumOrden, banco }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    success: function (msg) {
+                        console.log("msg", msg);
+                        if (msg == true) {
+
+                            OcultarMensajeCargando();
+
+                            Swal.fire({
+                                backdrop: true,
+
+                                allowEnterKey: false,
+                                icon: 'success',
+                                title: 'Correcto',
+                                text: `Se han agregado nuevos contenedores a ${banco}`
+
+                            }).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+
+                                }
+                            })
+
+                        } else {
+                            OcultarMensajeCargando();
+                            Swal.fire({
+                                backdrop: true,
+
+                                allowEnterKey: false,
+                                icon: 'error',
+                                title: `No se guardaron los nuevos contenedores para el banco ${banco}`,
+
+
+                            })
+                        }
+                      },
+                      error: function (msg) {
+                          OcultarMensajeCargando();
+                          Swal.fire({
+                              backdrop: true,
+
+                              allowEnterKey: false,
+                              icon: 'info',
+                              title: 'Verifique su coneccion',
+
+
+                          })
+                      }
+                  });
+
+
+
+            }
+
+
+
+
+
+
+
+
+    });
+
+
+
+
 
 
 </script>
+
+
+
+

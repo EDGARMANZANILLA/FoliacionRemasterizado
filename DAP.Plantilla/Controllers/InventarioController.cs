@@ -11,6 +11,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using System.Runtime.Remoting.Contexts;
 using System.Net.Http;
+using DAP.Plantilla.ObjetosExtras;
 
 namespace DAP.Foliacion.Plantilla.Controllers
 {
@@ -33,8 +34,6 @@ namespace DAP.Foliacion.Plantilla.Controllers
                 NuevoBanco.FormasDisponibles = inventarioBanco.Tbl_Inventario.FormasDisponibles;
                 NuevoBanco.UltimoFolioInventario = inventarioBanco.Tbl_Inventario.UltimoFolioInventario;
                 NuevoBanco.UltimoFolioUtilizado = inventarioBanco.Tbl_Inventario.UltimoFolioUtilizado;
-                NuevoBanco.FormasUsadasQuincena1 = inventarioBanco.Tbl_Inventario.FormasUsadasQuincena1;
-                NuevoBanco.FormasUsadasQuincena2 = inventarioBanco.Tbl_Inventario.FormasUsadasQuincena2;
                 NuevoBanco.EstimadoMeses = inventarioBanco.Tbl_Inventario.EstimadoMeses;
 
                 BancosMostrar.Add(NuevoBanco);
@@ -234,7 +233,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
         //Metodo Para Agregar contenedores 
         //Revisado
-        public JsonResult GuardarInventarioAgregado(List<AgregarInventarioModel> listaDeContenedores,string NumOrden, string banco)
+        public JsonResult GuardarInventarioAgregado(List<AgregarInventarioModel> listaContenedores, string NumOrden, string banco)
         {
             bool bandera = false;
 
@@ -243,12 +242,15 @@ namespace DAP.Foliacion.Plantilla.Controllers
             {
                 //int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(banco);
 
-                //nuevo
+             //   string fechaExterna = Convert.ToString(ObtenerFechaServerGoogle());
+               
+
+
                 int idInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(banco);
 
-                foreach (AgregarInventarioModel nuevoContenedor in listaDeContenedores) 
+                foreach (AgregarInventarioModel nuevoContenedor in listaContenedores.OrderBy( x => x.iteradorContenedor)) 
                 {
-                    bandera = Negocios.InventarioNegocios.GuardarInventarioContenedores(idInventario, NumOrden, nuevoContenedor.IteradorDeContenedores, nuevoContenedor.FInicial, nuevoContenedor.FFinal, nuevoContenedor.TotalFormas);
+                    bandera = Negocios.InventarioNegocios.GuardarInventarioContenedores(idInventario, NumOrden, nuevoContenedor.iteradorContenedor, nuevoContenedor.folioInicial, nuevoContenedor.folioFinal, nuevoContenedor.TotalFormas, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
                 }
 
 
@@ -486,13 +488,13 @@ namespace DAP.Foliacion.Plantilla.Controllers
             }
 
            
-            string  fechaServerExterno =  Convert.ToString(ObtenerFechaServerGoogle());
+            //string  fechaServerExterno =  Convert.ToString(ObtenerFechaServerGoogle());
 
            // DateTime A = Convert.ToDateTime(fechaServerExterno);
 
 
 
-            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado, Convert.ToDateTime(fechaServerExterno));
+            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
 
             return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
         }
@@ -588,6 +590,18 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
             return Json(solicitudes, JsonRequestBehavior.AllowGet);
         }
+
+        //Eliminar una solicitud recibiendo un numero de memorandum
+        public ActionResult RemoverSolicitudCreada(int NumeroMemorandum)
+        {
+            bool bandera = Negocios.InventarioNegocios.EliminarMemorandum(NumeroMemorandum);
+           
+
+            return Json(bandera, JsonRequestBehavior.AllowGet);
+        }
+
+
+
 
 
 
@@ -705,10 +719,58 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
-        public FileResult GenerarReporteFormasChequesExistentes()
+        public FileResult GenerarReporteFormasChequesExistentes(int MesSelecionado)
         {
+            ////Obtener y convertir a 
+            //string fechaExterna = Convert.ToString(ObtenerFechaServerGoogle());
+            DateTime AnioCurso = ObtenerHoraReal.ObtenerDateTimeFechaReal();/*Convert.ToDateTime(fechaExterna);*/
 
-            var datosReporte = Negocios.InventarioNegocios.ObtenerInventarioGeneralDatosReporte();
+
+            string nombreMes = "";
+
+            switch (MesSelecionado)
+            {
+                case 1:
+                    nombreMes = "ENERO";
+                    break;
+                case 2:
+                    nombreMes = "FEBRERO";
+                    break;
+                case 3:
+                    nombreMes = "MARZO";
+                    break;
+                case 4:
+                    nombreMes = "ABRIL";
+                    break;
+                case 5:
+                    nombreMes = "MAYO";
+                    break;
+                case 6:
+                    nombreMes = "JUNIO";
+                    break;
+                case 7:
+                    nombreMes = "JULIO";
+                    break;
+                case 8:
+                    nombreMes = "AGOSTO";
+                    break;
+                case 9:
+                    nombreMes = "SEPTIEMBRE";
+                    break;
+                case 10:
+                    nombreMes = "OCTUBRE";
+                    break;
+                case 11:
+                    nombreMes = "NOVIEMBRE";
+                    break;
+                case 12:
+                    nombreMes = "DICIEMBRE";
+                    break;
+            }
+
+
+
+            var datosReporte = Negocios.InventarioNegocios.ObtenerInventarioGeneralDatosReporte(MesSelecionado, AnioCurso.Year);
 
 
             DAP.Plantilla.Reportes.Datasets.FormasChequesExistentes dtsFormasExistentes = new DAP.Plantilla.Reportes.Datasets.FormasChequesExistentes();
@@ -716,13 +778,13 @@ namespace DAP.Foliacion.Plantilla.Controllers
             if (datosReporte.Count() > 0)
             {
                 //Cargar el numero del memo
-                dtsFormasExistentes.Fecha.AddFechaRow( DateTime.Now.ToString("dddd, dd MMMM yyyy").ToUpper());
+                dtsFormasExistentes.Fecha.AddFechaRow(DateTime.Now.ToString("dddd, dd MMMM yyyy").ToUpper());
 
 
                 //cargar datos al dataset para el reporte
                 foreach (var inventarioBanco in datosReporte)
                 {
-                   
+
                     dtsFormasExistentes.FormasExistentes.AddFormasExistentesRow(inventarioBanco.NombreBanco, inventarioBanco.Cuenta, inventarioBanco.FolioInicialExistente, inventarioBanco.FolioFinalExistente, Convert.ToString(inventarioBanco.TotalFormasPago), inventarioBanco.ConsumoMensualAproximado, inventarioBanco.SolicitarFormas);
                 }
 
@@ -741,113 +803,8 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf", "FormasChequesExistentes.pdf");
+            return File(stream, "application/pdf", "REPORTE INVENTARIO "+nombreMes+" "+AnioCurso.Year+".pdf");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public ActionResult GenerarReporteInventarioGeneral(/*DateTime fechaInicio, DateTime fechaFin, int tipoNomina , List<string>ConceptosSelecionados*/)
-        //{
-
-        //    DateTime fechaInicio = (DateTime)Session["fechaInicial"];
-        //    DateTime fechaFin = (DateTime)Session["fechaFinal"];
-        //    int promedioMensual = 10;
-        //    int porcentaje = 20;
-        //    int numeroDeTrabajadores = 30;
-        //    int promedioMensualTrabajador = 40;
-        //    //sustituir por lista del parametro Todo en Mayusculas
-        //    List<string> conceptosSeleccionados = new List<string>();
-        //    conceptosSeleccionados = (List<string>)Session["listaDeConceptosUsuario"];
-
-
-
-
-
-        //    var centrosCostos = ObtenerMontosPorCentroCosto(fechaInicio, fechaFin);
-        //    var centroCostosConfianza = ObtenerMontosPorCentroCostoDeConFianza(fechaInicio, fechaFin);
-        //    var centroCostosBase = ObtenerMontosPorCentroCostoDeBase(fechaInicio, fechaFin);
-        //    var centroCostosContrato = ObtenerMontosPorCentroCostoDeContrato(fechaInicio, fechaFin);
-
-        //    ///obtiene todos los conceptos que contengan montos guardados y los suma.
-        //    ///en el metodo 2 envia esos conceptos y montos y se filtran por los elegidos por el usuario
-        //    Dictionary<string, decimal> conceptoMonto = new Dictionary<string, decimal>();
-        //    conceptoMonto = ObtenerMontosPorConceptos(fechaInicio, fechaFin);
-        //    var conceptosFiltrados = FiltradoDeConceptosPorElUsuario(conceptoMonto, conceptosSeleccionados);
-
-
-
-        //    Datasets.dtsReporteGastosSueldosSalarios dts = new Datasets.dtsReporteGastosSueldosSalarios();
-
-
-
-        //    //dts.ggh.AddgghRow("","",
-        //    foreach (var centroCosto in centrosCostos)
-        //    {
-        //        dts.CentroCostoTotal.AddCentroCostoTotalRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
-        //    }
-
-
-        //    ////dts.ggh.AddgghRow("","",
-        //    ////agrega filas con datos al data set antes creado
-        //    foreach (var centroCosto in centroCostosConfianza)
-        //    {
-        //        dts.CentroCostoTotalConfianza.AddCentroCostoTotalConfianzaRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
-        //    }
-
-
-        //    foreach (var centroCosto in centroCostosBase)
-        //    {
-        //        dts.CentroCostoTotalBase.AddCentroCostoTotalBaseRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
-        //    }
-
-
-        //    foreach (var centroCosto in centroCostosContrato)
-        //    {
-        //        dts.CentroCostoTotalContrato.AddCentroCostoTotalContratoRow(centroCosto.Key, centroCosto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
-
-        //    }
-
-
-        //    foreach (var concepto in conceptosFiltrados)
-        //    {
-        //        dts.ConceptosTotal.AddConceptosTotalRow(concepto.Key, concepto.Value, promedioMensual, porcentaje, numeroDeTrabajadores, promedioMensualTrabajador);
-
-        //    }
-
-
-
-
-
-
-
-
-
-
-        //    ReportDocument rd = new ReportDocument();
-        //    rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "GastosSueldosSalarios.rpt"));
-
-        //    rd.SetDataSource(dts);
-
-        //    Response.Buffer = false;
-        //    Response.ClearContent();
-        //    Response.ClearHeaders();
-
-
-        //    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-        //    stream.Seek(0, SeekOrigin.Begin);
-        //    return File(stream, "application/pdf", "GastosSueldosSalarios.pdf");
-
-        //}
 
 
 

@@ -28,8 +28,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Abreviatura" Type="nvarchar" MaxLength="5" />
-          <Property Name="Cuenta" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Abreviatura" Type="nvarchar" MaxLength="10" />
+          <Property Name="Cuenta" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="int" Nullable="false" />
           <Property Name="IdInventario" Type="int" />
           <Property Name="FechaCreacion" Type="date" Nullable="false" />
@@ -44,8 +44,6 @@
           <Property Name="FormasDisponibles" Type="int" Nullable="false" />
           <Property Name="UltimoFolioInventario" Type="nvarchar" MaxLength="50" />
           <Property Name="UltimoFolioUtilizado" Type="nvarchar" MaxLength="50" />
-          <Property Name="FormasUsadasQuincena1" Type="int" />
-          <Property Name="FormasUsadasQuincena2" Type="int" />
           <Property Name="EstimadoMeses" Type="decimal" Precision="4" Scale="2" />
           <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
@@ -56,6 +54,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdEmpleado" Type="int" Nullable="false" />
           <Property Name="NombrePersonal" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FechaHabilitacion" Type="date" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Tbl_InventarioContenedores">
@@ -298,8 +297,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NombreBanco" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Abreviatura" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Abreviatura" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="Int32" Nullable="false" />
           <Property Name="IdInventario" Type="Int32" />
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
@@ -317,8 +316,6 @@
           <Property Name="FormasDisponibles" Type="Int32" Nullable="false" />
           <Property Name="UltimoFolioInventario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UltimoFolioUtilizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FormasUsadasQuincena1" Type="Int32" />
-          <Property Name="FormasUsadasQuincena2" Type="Int32" />
           <Property Name="EstimadoMeses" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Tbl_CuentasBancarias" Relationship="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_Inventario" ToRole="Tbl_CuentasBancarias" />
@@ -331,6 +328,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
           <Property Name="NombrePersonal" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FechaHabilitacion" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_InventarioAsignacionPersonal" ToRole="Tbl_InventarioDetalle" />
         </EntityType>
@@ -348,11 +346,11 @@
           <Property Name="FormasDisponiblesActuales" Type="Int32" Nullable="false" />
           <Property Name="FormasInhabilitadas" Type="Int32" />
           <Property Name="FormasAsignadas" Type="Int32" />
+          <Property Name="FormasFoliadas" Type="Int32" />
           <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_Inventario" />
           <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_InventarioDetalle" />
-          <Property Name="FormasFoliadas" Type="Int32" />
         </EntityType>
         <EntityType Name="Tbl_InventarioDetalle">
           <Key>
@@ -520,8 +518,6 @@
               <MappingFragment StoreEntitySet="Tbl_Inventario">
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="EstimadoMeses" ColumnName="EstimadoMeses" />
-                <ScalarProperty Name="FormasUsadasQuincena2" ColumnName="FormasUsadasQuincena2" />
-                <ScalarProperty Name="FormasUsadasQuincena1" ColumnName="FormasUsadasQuincena1" />
                 <ScalarProperty Name="UltimoFolioUtilizado" ColumnName="UltimoFolioUtilizado" />
                 <ScalarProperty Name="UltimoFolioInventario" ColumnName="UltimoFolioInventario" />
                 <ScalarProperty Name="FormasDisponibles" ColumnName="FormasDisponibles" />
@@ -533,6 +529,7 @@
             <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioAsignacionPersonal">
               <MappingFragment StoreEntitySet="Tbl_InventarioAsignacionPersonal">
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="FechaHabilitacion" ColumnName="FechaHabilitacion" />
                 <ScalarProperty Name="NombrePersonal" ColumnName="NombrePersonal" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -542,9 +539,9 @@
           <EntitySetMapping Name="Tbl_InventarioContenedores">
             <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
               <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
-                <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
                 <ScalarProperty Name="FormasAsignadas" ColumnName="FormasAsignadas" />
                 <ScalarProperty Name="FormasInhabilitadas" ColumnName="FormasInhabilitadas" />
                 <ScalarProperty Name="FormasDisponiblesActuales" ColumnName="FormasDisponiblesActuales" />

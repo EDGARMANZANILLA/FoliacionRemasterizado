@@ -30,10 +30,9 @@ namespace DAP.Foliacion.Entidades
         public Nullable<int> FormasInhabilitadas { get; set; }
         public Nullable<int> FormasAsignadas { get; set; }
         public Nullable<int> FormasFoliadas { get; set; }
-    
         public System.DateTime FechaAlta { get; set; }
         public bool Activo { get; set; }
-
+    
         public virtual Tbl_Inventario Tbl_Inventario { get; set; }
         public virtual ICollection<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
     }

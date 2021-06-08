@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bf43d12d519e429db9d0e71c246327cd" Name="Diagram1" ZoomLevel="88">
-        <EntityTypeShape EntityType="FoliacionModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="1.25" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentasBancarias" Width="1.5" PointX="3" PointY="2.875" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_Inventario" Width="1.5" PointX="0.75" PointY="4.125" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" Width="1.5" PointX="8.5" PointY="11.75" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioContenedores" Width="1.5" PointX="3" PointY="7.75" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="1.5" PointX="5.25" PointY="8.125" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" Width="1.5" PointX="3.375" PointY="13" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_Solicitudes" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="FoliacionModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentasBancarias" Width="1.5" PointX="3" PointY="2.5" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_Inventario" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" Width="1.5" PointX="3" PointY="15.5" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioContenedores" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="1.5" PointX="5.25" PointY="7.875" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" Width="1.5" PointX="3" PointY="12.875" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_Solicitudes" Width="1.5" PointX="5.25" PointY="2.875" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_Solicitudes_Tbl_CuentasBancarias" />

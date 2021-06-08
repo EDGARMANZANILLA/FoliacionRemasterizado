@@ -23,8 +23,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NombreBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Abreviatura" Type="nvarchar" MaxLength="5" />
-    <Property Name="Cuenta" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Abreviatura" Type="nvarchar" MaxLength="10" />
+    <Property Name="Cuenta" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="int" Nullable="false" />
     <Property Name="IdInventario" Type="int" />
     <Property Name="FechaCreacion" Type="date" Nullable="false" />
@@ -39,8 +39,6 @@
     <Property Name="FormasDisponibles" Type="int" Nullable="false" />
     <Property Name="UltimoFolioInventario" Type="nvarchar" MaxLength="50" />
     <Property Name="UltimoFolioUtilizado" Type="nvarchar" MaxLength="50" />
-    <Property Name="FormasUsadasQuincena1" Type="int" />
-    <Property Name="FormasUsadasQuincena2" Type="int" />
     <Property Name="EstimadoMeses" Type="decimal" Precision="4" Scale="2" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
@@ -51,6 +49,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdEmpleado" Type="int" Nullable="false" />
     <Property Name="NombrePersonal" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="FechaHabilitacion" Type="date" Nullable="false" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Tbl_InventarioContenedores">

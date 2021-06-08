@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
+    <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
     <Compile Include="DTO\InventarioContenedoresDTO.cs" />
     <Compile Include="DTO\InventarioDetalleDTO.cs" />
     <Compile Include="DTO\ReporteInventarioGeneralDTO.cs" />

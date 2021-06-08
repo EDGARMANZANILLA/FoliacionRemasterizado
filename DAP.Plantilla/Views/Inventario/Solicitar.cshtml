@@ -426,7 +426,7 @@
 <script>
 
     //funcionalidad de los primeros botones de crea solicitud y historico de solicitudes
- 
+
 
 
 
@@ -496,6 +496,7 @@
     };
 
       //El siguiente par es para el historico de las solicitudes
+
     function DibujarTablaSolicitudesCreadasAjax() {
         $("#TablaHistorica").append(
 
@@ -553,7 +554,7 @@
 
                     "render": function (data, type, row) {
                         let da = row.NumeroMemo;
-                        return '<a  class="detalles btn btn-success" data-toggle="modal" data-target="#DetalleSolicitud">Ver detalles </a> <a class="descargar btn btn-danger" href="/Inventario/GenerarReporteSolicitud?NumMemorandum=' + da + '"> <i class="fas fa-cloud-download-alt"></i></a>';
+                        return '<a  class="detalles btn btn-success" data-toggle="modal" data-target="#DetalleSolicitud">Ver detalles </a> <a class="descargar btn btn-primary" href="/Inventario/GenerarReporteSolicitud?NumMemorandum=' + da + '"> <i class="fas fa-cloud-download-alt"></i></a>   <a class="eliminarMemorandum btn btn-danger"> <i class="fas fa-trash-alt"></i></a>';
                     }
 
 
@@ -580,7 +581,7 @@
             "<th>Folio Inicial  </th>" +
             "</tr>" +
             "</thead>" +
-           
+
             "</table>"
         );
     };
@@ -626,7 +627,7 @@
 
 
 
-    
+
 
     $(document).ready(function () {
 
@@ -662,7 +663,7 @@
         );
 
 
-       
+
 
 
 
@@ -1082,7 +1083,7 @@
                     success: function (resultado) {
                         OcultarMensajeCargando();
                         console.log(resultado);
-                  
+
 
                         $("#TablaDetalleSolicitud").empty();
 
@@ -1128,6 +1129,70 @@
 
 
             //let eliminado = listar.row($(this).parents("tr")).remove().draw();
+        });
+
+
+
+
+
+
+
+
+
+
+        $(document).on("click", ".eliminarMemorandum", function () {
+
+            MensajeCargando();
+
+            //console.log("vieja" + listaBancosSolicitados);
+
+            let filaHistoricoEliminar = historioSolicitudes.row($(this).parents("tr")).data();
+
+            historioSolicitudes.row($(this).parents("tr")).remove().draw();
+       
+            console.log(filaHistoricoEliminar.NumeroMemo);
+
+
+            let NumeroMemoEliminar = "{'NumeroMemorandum':'" + filaHistoricoEliminar.NumeroMemo +"'}";
+
+     
+                $.ajax({
+                    url: '@Url.Action("RemoverSolicitudCreada", "Inventario")',
+                    data: NumeroMemoEliminar,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (resultado) {
+                        OcultarMensajeCargando();
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'success',
+                            title: `Memorandum numero ${filaHistoricoEliminar.NumeroMemo} eliminado`,
+
+                        })
+
+                    },
+                    error: function (msg) {
+
+                        OcultarMensajeCargando();
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            icon: 'error',
+                            title: 'Ocurrio un problema intente de nuevo',
+
+                        })
+                    }
+                });
+
+
+
+
+
         });
 
 

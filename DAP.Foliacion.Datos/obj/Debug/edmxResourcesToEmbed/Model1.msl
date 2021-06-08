@@ -40,8 +40,6 @@
         <MappingFragment StoreEntitySet="Tbl_Inventario">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="EstimadoMeses" ColumnName="EstimadoMeses" />
-          <ScalarProperty Name="FormasUsadasQuincena2" ColumnName="FormasUsadasQuincena2" />
-          <ScalarProperty Name="FormasUsadasQuincena1" ColumnName="FormasUsadasQuincena1" />
           <ScalarProperty Name="UltimoFolioUtilizado" ColumnName="UltimoFolioUtilizado" />
           <ScalarProperty Name="UltimoFolioInventario" ColumnName="UltimoFolioInventario" />
           <ScalarProperty Name="FormasDisponibles" ColumnName="FormasDisponibles" />
@@ -53,6 +51,7 @@
       <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioAsignacionPersonal">
         <MappingFragment StoreEntitySet="Tbl_InventarioAsignacionPersonal">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="FechaHabilitacion" ColumnName="FechaHabilitacion" />
           <ScalarProperty Name="NombrePersonal" ColumnName="NombrePersonal" />
           <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -62,9 +61,9 @@
     <EntitySetMapping Name="Tbl_InventarioContenedores">
       <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
         <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
-          <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+          <ScalarProperty Name="FormasFoliadas" ColumnName="FormasFoliadas" />
           <ScalarProperty Name="FormasAsignadas" ColumnName="FormasAsignadas" />
           <ScalarProperty Name="FormasInhabilitadas" ColumnName="FormasInhabilitadas" />
           <ScalarProperty Name="FormasDisponiblesActuales" ColumnName="FormasDisponiblesActuales" />

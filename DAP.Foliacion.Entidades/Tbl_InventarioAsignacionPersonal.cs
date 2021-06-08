@@ -22,6 +22,7 @@ namespace DAP.Foliacion.Entidades
         public int Id { get; set; }
         public int IdEmpleado { get; set; }
         public string NombrePersonal { get; set; }
+        public System.DateTime FechaHabilitacion { get; set; }
         public bool Activo { get; set; }
     
         public virtual ICollection<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }

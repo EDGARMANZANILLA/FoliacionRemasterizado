@@ -226,6 +226,7 @@ button {
 
 
 
+
 .tabla {
     text-align: center;
     background: #74BC7C;
@@ -235,5 +236,12 @@ button {
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #74BC7C;
+}
+
+
+
+.texto-azul {
+    text-align: center;
+    color: blue;
 }
 

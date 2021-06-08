@@ -63,8 +63,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="NombreBanco" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Abreviatura" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-    <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Abreviatura" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="Int32" Nullable="false" />
     <Property Name="IdInventario" Type="Int32" />
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
@@ -82,8 +82,6 @@
     <Property Name="FormasDisponibles" Type="Int32" Nullable="false" />
     <Property Name="UltimoFolioInventario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="UltimoFolioUtilizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="FormasUsadasQuincena1" Type="Int32" />
-    <Property Name="FormasUsadasQuincena2" Type="Int32" />
     <Property Name="EstimadoMeses" Type="Decimal" Precision="4" Scale="2" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Tbl_CuentasBancarias" Relationship="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_Inventario" ToRole="Tbl_CuentasBancarias" />
@@ -96,6 +94,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
     <Property Name="NombrePersonal" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FechaHabilitacion" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" FromRole="Tbl_InventarioAsignacionPersonal" ToRole="Tbl_InventarioDetalle" />
   </EntityType>
@@ -113,11 +112,11 @@
     <Property Name="FormasDisponiblesActuales" Type="Int32" Nullable="false" />
     <Property Name="FormasInhabilitadas" Type="Int32" />
     <Property Name="FormasAsignadas" Type="Int32" />
+    <Property Name="FormasFoliadas" Type="Int32" />
     <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_Inventario" />
     <NavigationProperty Name="Tbl_InventarioDetalle" Relationship="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" FromRole="Tbl_InventarioContenedores" ToRole="Tbl_InventarioDetalle" />
-    <Property Name="FormasFoliadas" Type="Int32" />
   </EntityType>
   <EntityType Name="Tbl_InventarioDetalle">
     <Key>
