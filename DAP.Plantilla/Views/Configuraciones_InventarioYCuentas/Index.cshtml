@@ -158,8 +158,14 @@
         <ul class="submenu">
             <li><a id="VerificaAgregaCuenta">Agregar y/o Verificar cuenta bancaria</a></li>
             <li><a id="ModificarCuenta">Modificar cuenta bancaria</a></li>
-            <li><a href="#">Quitar cuenta bancaria</a></li>
+            <li><a id="EliminarCuenta">Quitar cuenta bancaria</a></li>
 
+        </ul>
+    </li>
+    <li>
+        <div class="link"><i class="fas fa-money-check-alt"></i>Formas de pago excepcionales<i class="fa fa-chevron-down"></i></div>
+        <ul class="submenu">
+            <li><a id="FormasExepcionales">Crear nueva Exepcion</a></li>
         </ul>
     </li>
 
@@ -297,6 +303,33 @@
 
 
 
+        /* Formas de pago exepcionales*/
+        /* Retorna la vista parcial de exepciones */
+        const Exepciones = document.getElementById("FormasExepcionales");
+        Exepciones.addEventListener("click",
+            function () {
+
+
+                let URLDeLaVista = '@Url.Action("FormasPagoExcepcionales", "Configuraciones_InventarioYCuentas")';
+                $.ajax({
+                    cache: false,
+                    async: true,
+                    type: "GET",
+                    url: URLDeLaVista,
+                    data: {},
+                    success: function (response) {
+                        $('#RenderVistaParcial').html('');
+                        $('#RenderVistaParcial').html(response);
+                    }
+                });
+
+
+
+
+            }
+        );
+
+
 
 
     /************************* Cuentas Bancarias  **********************************/
@@ -345,6 +378,34 @@
 
             }
         );
+
+
+        /*Retorna la vista de eliminacion de cuenta*/
+        const EliminarCuenta = document.getElementById("EliminarCuenta");
+        EliminarCuenta.addEventListener("click",
+            function () {
+
+
+                let URLDeLaVista = '@Url.Action("CuentaBancaria_EliminacionCuenta", "Configuraciones_InventarioYCuentas")';
+                $.ajax({
+                    cache: false,
+                    async: true,
+                    type: "GET",
+                    url: URLDeLaVista,
+                    data: {},
+                    success: function (response) {
+                        $('#RenderVistaParcial').html('');
+                        $('#RenderVistaParcial').html(response);
+                    }
+                });
+
+            }
+        );
+
+
+
+
+
 
 
 

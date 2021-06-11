@@ -18,9 +18,6 @@ namespace DAP.Plantilla.Models
 
         public string UltimoFolioUtilizado { get; set; }
 
-        public Nullable<int> FormasUsadasQuincena1 { get; set; }
-
-        public Nullable<int> FormasUsadasQuincena2 { get; set; }
 
         public Nullable<decimal> EstimadoMeses { get; set; }
 

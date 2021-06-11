@@ -13,7 +13,7 @@ namespace DAP.Foliacion.Negocios
     public class Configuraciones_InventarioYCuentasNegocios
     {
         //Metodos para las asignaciones
-        #region  Metodos para agregar un nuevo personal para la asignacion
+        #region  Metodos el personal de asignaciones
 
         public static string ObtnerNombreNumEmpleado(string NumEmpleado)
         {
@@ -49,11 +49,9 @@ namespace DAP.Foliacion.Negocios
             return bandera;
         }
 
-        #endregion
 
 
 
-        #region Metodos para la edicion del personal de asignacion
 
         public static List<Configuracion_EditarPersonalDTO> ObtenerPersonalActivo()
         {
@@ -116,10 +114,9 @@ namespace DAP.Foliacion.Negocios
 
 
 
-        #endregion
+      
 
 
-        #region Metodos para la inhabilitacion de asignacion
         public static bool InhabilitarPersonaPorID(int Id)
         {
             bool bandera = false;
@@ -148,7 +145,8 @@ namespace DAP.Foliacion.Negocios
 
 
 
-        //Metodos para las cuentas bancarias
+        #region Metodos de Negocios para las cuentas bancarias
+
 
         public static List<String> VerificarNuevasCuentasBancarias()
         {
@@ -175,15 +173,10 @@ namespace DAP.Foliacion.Negocios
         }
 
 
-
-
-
         public static List<DetallesDeCuentaDTO> ObtenerNombreCuenta(string CuentaNombre)
         {
             return ConsultasDBSinEntity.ObtenerNombresCuenta(CuentaNombre);
         }
-
-
 
 
         public static bool AgregarCuentaBancariaEInventario(string NombreCuenta, string NumeroCuenta, string Abreviatura, int TipoPago, DateTime fechaActual)
@@ -243,7 +236,7 @@ namespace DAP.Foliacion.Negocios
                 NuevaCuenta.IdInventario = inventarioAgregado.Id;
                 NuevaCuenta.FechaCreacion = fechaActual;
                 NuevaCuenta.FechaBaja = null;
-                nuevoInventario.Activo = true;
+                NuevaCuenta.Activo = true;
 
                 Tbl_CuentasBancarias cuentaAgregada = repositorioCuentaBancaria.Agregar(NuevaCuenta);
 
@@ -253,14 +246,8 @@ namespace DAP.Foliacion.Negocios
             }
 
 
-
-
-
-
-
             return bandera;
         }
-
 
 
         public static List<string> ObtenerCuentasBancariasActivas()
@@ -291,7 +278,7 @@ namespace DAP.Foliacion.Negocios
             var bancoEncontrado = repositorio.Obtener(x => x.Id == IdCuenta && x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
             bool bandera = false;
 
-         
+            var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
 
             //depende del tipo de pago que pase como parametro el usuario
 
@@ -301,50 +288,118 @@ namespace DAP.Foliacion.Negocios
                 //y el banco encontrado no ah tenido inventario solo se modifica los nombres 
                 if (bancoEncontrado.IdInventario == null)
                 {
-                    bancoEncontrado.NombreBanco = NombreCuenta;
-                    bancoEncontrado.Abreviatura = Abreviatura;
-                    bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                    //Nace como tarjeta y se quiere mover a cheque o (tarjeta y cheque)
+                    if (TipoPago > 1)
+                    {
+                        Tbl_Inventario nuevoInventario = new Tbl_Inventario();
+                        nuevoInventario.FormasDisponibles = 0;
+                        nuevoInventario.UltimoFolioInventario = null;
+                        nuevoInventario.Activo = true;
 
-                    var entidadAgregada = repositorio.Modificar(bancoEncontrado);
-                    if (entidadAgregada.Id > 0)
-                        bandera = true;
+                        var registroInventarioAgregado = repositorioInventario.Agregar(nuevoInventario);
 
-                    return bandera;
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        bancoEncontrado.IdInventario = registroInventarioAgregado.Id;
+
+                        var entidadAgregada2 = repositorio.Modificar(bancoEncontrado);
+
+                        if (entidadAgregada2.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+
+                    //nace como tarjeta y quiere seguir como tarjeta solo se modifica el nombre y su abreviatura
+                    if (TipoPago == 1)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                      
+
+                        var entidadAgregada = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregada.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
                 }
 
                 //y el banco ya tuvo inventario se inactiva su inventario 
                 if (bancoEncontrado.IdInventario != null)
                 {
-                    bancoEncontrado.NombreBanco = NombreCuenta;
-                    bancoEncontrado.Abreviatura = Abreviatura;
-                    bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
 
-                    var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
-                    Tbl_Inventario inventarioEncontrado = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario && x.Activo == true);
+                    //caso uno si que el tipo de pago se quiera cambiar a cheque, provenga de una cheque y que ya haya tenido cheques entonces
+                    //se cambia el tipo de pago del banco y se habilita su inventario existente en Tbl_CuentasBancarias  / ya que decidio la misma opcion en la que estaba actualmente su inventario del banco
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 1)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
 
-                    inventarioEncontrado.Activo = false;
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
 
-                    var entidadAgregada = repositorioInventario.Modificar(inventarioEncontrado);
-                    var entidadAgregada2 = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
 
 
-                    if (entidadAgregada.Id > 0 && entidadAgregada2.Id > 0)
-                        bandera = true;
+                    //caso uno si que el tipo de pago se quiera cambiar a tarjeta, provenga de un cheque y que ya haya tenido cheques entonces
+                    //solo se cambia el (nombre del banco, su abreviatura si se requiere) y se activa su inventario
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 2)
+                    {
 
-                    return bandera;
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+
+
+                        
+                        var InventarioModificar = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario);
+                        InventarioModificar.Activo = false;
+                        var registroInventarioAgregado = repositorioInventario.Modificar(InventarioModificar);
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+                    //caso uno si que el tipo de pago se quiera cambiar a  tarjeta, provenga de (tarjeta y cheques opcion 3) y que ya haya tenido cheques entonces
+                    //solo se cambia el nombre del banco, su abreviatura,tipo de pago en Tbl_CuentasBancarias y se habilita su inventario
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 3)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+
+
+                        var InventarioModificar = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario);
+                        InventarioModificar.Activo = false;
+                        var registroInventarioAgregado = repositorioInventario.Modificar(InventarioModificar);
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+
+
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
                 }
-
-
 
             }
 
-            //si el tipo de pago es cheque o para tarjeta y cheque (ambos)
-            if (TipoPago > 1)
+
+            if (TipoPago == 2)
             {
-                //y nunca a tenido un inventario, se crea su inventario y se modifica y guarda el resgistro del banco encontrado
+                //nace como tarjeta y se quiere mover a cheque
                 if (bancoEncontrado.IdInventario == null)
                 {
-                    var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
 
                     Tbl_Inventario nuevoInventario = new Tbl_Inventario();
                     nuevoInventario.FormasDisponibles = 0;
@@ -366,58 +421,147 @@ namespace DAP.Foliacion.Negocios
                     return bandera;
                 }
 
-
-
-                //y si ya tuvo inventario pero se deshabilito y se quiere habilitar despues
+                //y el banco ya tuvo inventario se inactiva su inventario 
                 if (bancoEncontrado.IdInventario != null)
                 {
-                    bancoEncontrado.NombreBanco = NombreCuenta;
-                    bancoEncontrado.Abreviatura = Abreviatura;
-                    //
-
-                    //si ya tuvo inventario y ahora solo quiere que se pague con cheques  se modifica y se limpia su inventario para su uso futuro
-                    if (TipoPago == 2)
+                   
+                    //caso uno si que el tipo de pago se quiera cambiar a cheque, provenga de una tarjeta y que ya haya tenido cheques entonces
+                    //se cambia el tipo de pago del banco y se habilita su inventario existente en Tbl_CuentasBancarias
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 1)
                     {
-                        //y si proviene en especifico de un pago tanto con tarjetas como cheques en cuenta bancarias se conservan sus registros del inventario por que seguiera usando las formas de pago actuales 
-                        if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 3) 
-                        {
-                            bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
-                            var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
-                            if (entidadAgregadaCuentaBancaria.Id > 0)
-                                bandera = true;
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
 
-                            return bandera;
-                        }
-
-                        if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == TipoPago)
-                        {
-                            //bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
-                            var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
-                            if (entidadAgregadaCuentaBancaria.Id > 0)
-                                bandera = true;
-
-                            return bandera;
-                        }
-
-
-                        var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
-                        var InventarioModificar  = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario);
-
-                        InventarioModificar.FormasDisponibles = 0;
-                        InventarioModificar.UltimoFolioInventario = null;
-                        InventarioModificar.UltimoFolioUtilizado = null;
-                        InventarioModificar.EstimadoMeses = null;
+                       //modifica el inventario
+                        var InventarioModificar = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario);
                         InventarioModificar.Activo = true;
-
                         var registroInventarioAgregado = repositorioInventario.Modificar(InventarioModificar);
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
 
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
                     }
 
-                    var entidadAgregada =  repositorio.Modificar(bancoEncontrado);
+
+                    //caso uno si que el tipo de pago se quiera cambiar a cheque, provenga de un cheque y que ya haya tenido cheques entonces
+                    //solo se cambia el nombre del banco y su abreviatura en Tbl_CuentasBancarias / ya que decidio la misma opcion en la que estaba actualmente su inventario del banco
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 2)
+                    {
+
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        //bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                            if (entidadAgregadaCuentaBancaria.Id > 0)
+                                bandera = true;
+
+                            return bandera;
+                    }
+
+                    //caso uno si que el tipo de pago se quiera cambiar a cheque, provenga de (tarjeta y cheques opcion 3)  y que ya haya tenido cheques entonces
+                    //solo se cambia el nombre del banco, su abreviatura  y tipo de pago en Tbl_CuentasBancarias
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 3)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+
+                }
+
+            }
+
+            //si el tipo de pago es cheque o para tarjeta y cheque (ambos)
+            if (TipoPago == 3)
+            {
+                //nace como tarjeta y se quiere cambiar a (cheque/ tarjeta)
+                if (bancoEncontrado.IdInventario == null)
+                {
+                    Tbl_Inventario nuevoInventario = new Tbl_Inventario();
+                    nuevoInventario.FormasDisponibles = 0;
+                    nuevoInventario.UltimoFolioInventario = null;
+                    nuevoInventario.Activo = true;
+                    var registroInventarioAgregado = repositorioInventario.Agregar(nuevoInventario);
+
+                    bancoEncontrado.NombreBanco = NombreCuenta;
+                    bancoEncontrado.Abreviatura = Abreviatura;
+                    bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                    bancoEncontrado.IdInventario = registroInventarioAgregado.Id;
+                    var entidadAgregada = repositorio.Modificar(bancoEncontrado);
+
                     if (entidadAgregada.Id > 0)
                         bandera = true;
 
                     return bandera;
+                }
+
+
+                if (bancoEncontrado.IdInventario != null)
+                {
+
+                    //caso uno si que el tipo de pago se quiera cambiar a (tarjeta/cheque) y provenga de tarjeta  y que ya haya tenido cheques entonces
+                    //se cambia el tipo de pago del banco (si es necesario nombre y abreviatura) y se habilita su inventario existente en Tbl_CuentasBancarias
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 1)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        
+                     
+                        var InventarioModificar = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario);
+                        InventarioModificar.Activo = true;
+
+                        var registroInventarioAgregado = repositorioInventario.Modificar(InventarioModificar);
+
+
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+
+                    //caso uno si que el tipo de pago se quiera cambiar a (tarjeta/cheque) , provenga de cheque y que ya haya tenido cheques entonces
+                    //solo se cambia el nombre del banco y su abreviatura en Tbl_CuentasBancarias
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 2)
+                    {
+
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        //bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+                    //caso uno si que el tipo de pago se quiera cambiar a (tarjeta y cheques opcion 3), provenga de (tarjeta y cheques opcion 3)  y que ya haya tenido cheques entonces
+                    //solo se cambia el nombre del banco, su abreviatura en Tbl_CuentasBancarias / ya que decidio la misma opcion en la que estaba actualmente su inventario del banco
+                    if (bancoEncontrado.IdCuentaBancaria_TipoPagoCuenta == 3)
+                    {
+                        bancoEncontrado.NombreBanco = NombreCuenta;
+                        bancoEncontrado.Abreviatura = Abreviatura;
+                        var entidadAgregadaCuentaBancaria = repositorio.Modificar(bancoEncontrado);
+                        if (entidadAgregadaCuentaBancaria.Id > 0)
+                            bandera = true;
+
+                        return bandera;
+                    }
+
+
+
                 }
 
 
@@ -429,8 +573,93 @@ namespace DAP.Foliacion.Negocios
         }
 
 
+        public static bool EliminarCuentaBancariaActiva(string NumeroCuenta , DateTime FechaBaja)
+        {
+            bool bandera = false;
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
+            var repositorioContenedores = new Repositorio<Tbl_InventarioContenedores>(transaccion);
+            var repositorioDetalles = new Repositorio<Tbl_InventarioDetalle>(transaccion);
 
-        
+            var bancoEncontrado = repositorio.Obtener(x =>  x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
+            bancoEncontrado.Activo = false;
+            bancoEncontrado.FechaBaja = FechaBaja;
+            var entidadModificada =repositorio.Modificar(bancoEncontrado);
+
+            if (entidadModificada != null) {
+                var inventarioEncontrado = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario && x.Activo == true);
+                inventarioEncontrado.Activo = false;
+                var entidadInventarioModificada = repositorioInventario.Modificar(inventarioEncontrado);
+
+
+                if (entidadInventarioModificada != null)
+                {
+                    var inventarioContenedores = repositorioContenedores.ObtenerPorFiltro(x => x.IdInventario == inventarioEncontrado.Id && x.Activo == true).ToList();
+
+                    foreach (Tbl_InventarioContenedores contenedor in inventarioContenedores)
+                    {
+                        contenedor.Activo = false;
+                        repositorioContenedores.Modificar(contenedor);
+
+
+                        var detallesEncontrados = repositorioDetalles.ObtenerPorFiltro(x => x.IdContenedor == contenedor.Id && x.Activo == true).ToList();
+
+                        foreach (Tbl_InventarioDetalle detalle in detallesEncontrados)
+                        {
+                            detalle.Activo = false;
+                           var entidadDetalleModificada = repositorioDetalles.Modificar(detalle);
+
+                            if (entidadInventarioModificada != null)
+                                bandera = true;
+                            
+                        }
+
+
+                    }
+
+                }
+               
+
+            }
+     
+
+            return bandera;
+        }
+
+        #endregion
+
+
+
+        #region Metodos de Negocios para las exepciones de formas de pago 
+
+        public static List<string> ObtenerCuentasBancariasConPagoTarjetaEInventario()
+        {
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+
+
+            return repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta == 1 && x.IdInventario != null && x.Activo == true).Select(y => y.Cuenta).ToList();
+        }
+
+
+
+        public static Tbl_CuentasBancarias ObtenerDetallesCuentaConPagoTarjetaEInventario(string NumeroCuenta)
+        {
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+
+
+            return repositorio.Obtener(x => x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
+        }
+
+
+
+
+
+
+
+        #endregion
 
 
 

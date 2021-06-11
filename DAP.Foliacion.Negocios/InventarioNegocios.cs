@@ -323,7 +323,13 @@ namespace DAP.Foliacion.Negocios
         #endregion
 
 
-        //Valida folios para saber si estan disponibles
+        /// <summary>
+        /// Valida folios para saber si estan disponibles sirve en el controlador de inventario como en el controlador de configuraciones Exepciones de formas de pago
+        /// </summary>
+        /// <param name="IdInventario"></param>
+        /// <param name="FolioInicial"></param>
+        /// <param name="FolioFinal"></param>
+        /// <returns></returns>
         public static List<string> ValidarFoliosDisponibles(int IdInventario, string FolioInicial, string FolioFinal)
         {
             var transaccion = new Transaccion();

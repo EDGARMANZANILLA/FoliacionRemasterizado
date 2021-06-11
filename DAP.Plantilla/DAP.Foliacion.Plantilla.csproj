@@ -443,6 +443,10 @@
     <Content Include="Views\Configuraciones_InventarioYCuentas\Inventario_InhabilitarPersonal.cshtml" />
     <Content Include="Views\Configuraciones_InventarioYCuentas\CuentaBancaria_VerificarAgregar.cshtml" />
     <Content Include="Views\Configuraciones_InventarioYCuentas\CuentaBancaria_MostrarEdicionBanco.cshtml" />
+    <Content Include="Views\Configuraciones_InventarioYCuentas\CuentaBancaria_EliminacionCuenta.cshtml" />
+    <Content Include="Views\Configuraciones_InventarioYCuentas\FormasPagoExcepcionales.cshtml" />
+    <Content Include="Views\Configuraciones_InventarioYCuentas\FormasPagoExcepcionales_Asignar.cshtml" />
+    <Content Include="Views\Configuraciones_InventarioYCuentas\FormasPagoExcepcionales_Inhabilitar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

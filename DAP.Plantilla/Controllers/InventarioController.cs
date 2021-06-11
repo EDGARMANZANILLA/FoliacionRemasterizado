@@ -458,7 +458,8 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
-        //Metodos para verificar disponibilidad de folios para poder saber si se puede inhabilitar o Asignar 
+        //Metodos para verificar disponibilidad de folios para poder saber si se puede inhabilitar o Asignar PD: se utiliza tambien en configuraciones para 
+        //las cuentas bancarias que alguna vez tuvieron cheques pero ahora solo se paga con tarjetas
         public JsonResult VerificarDisponibilidadFolios(int IdInventario,string FolioInicial, string FolioFinal) 
         {
             List<String> foliosNoDisponibles = Negocios.InventarioNegocios.ValidarFoliosDisponibles(IdInventario, FolioInicial.Trim(), FolioFinal.Trim());
