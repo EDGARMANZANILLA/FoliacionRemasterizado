@@ -44,10 +44,15 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\DatosReporteRevisionNominaDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\NombreNominasDTO.cs" />
     <Compile Include="DTO\InventarioContenedoresDTO.cs" />
     <Compile Include="DTO\InventarioDetalleDTO.cs" />
     <Compile Include="DTO\ReporteInventarioGeneralDTO.cs" />
     <Compile Include="DTO\SolicitudCreadaDTO.cs" />
+    <Compile Include="LOG_EXCEPCIONES.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

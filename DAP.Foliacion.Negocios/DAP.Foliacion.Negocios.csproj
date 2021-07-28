@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Configuraciones_InventarioYCuentasNegocios.cs" />
+    <Compile Include="FoliarNegocios.cs" />
     <Compile Include="InventarioNegocios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

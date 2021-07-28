@@ -163,3 +163,39 @@ function MensajeCargando() {
 function OcultarMensajeCargando() {
     $.unblockUI();
 }
+
+
+
+
+
+
+
+//Mensajes Con Sweet alert V9.X
+
+function MensajeErrorSweet(Texto)
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: Texto,
+        footer: '<a href="#">Contactar al desarrollador?</a>'
+    });
+}
+
+
+function MensajeWarningSweet(Texto)
+{
+    Swal.fire({
+        backdrop: true,
+        allowEnterKey: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        icon: 'warning',
+        title: '',
+        text: Texto,
+        footer: '<a href="#">Contactar al desarrollador?</a>'
+    });
+}
+
+
+

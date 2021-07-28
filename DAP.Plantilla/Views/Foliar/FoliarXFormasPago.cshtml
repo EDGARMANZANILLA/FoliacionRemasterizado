@@ -1,0 +1,358 @@
+﻿@model  Dictionary<int, string>
+
+
+<!-- Vista de Formas de pago-->
+<seccion id="FormasPago" class="margenSection  card col-12  offset-md-1 col-md-10 text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+
+    <div class="btn-block">
+        <br />
+        <h5>QUINCENA A FOLIAR CON FORMAS DE PAGO</h5>
+        <h5 id="QuincenaFormasPago" class="azul">@ViewBag.NumeroQuincena </h5>
+        <br />
+    </div>
+
+
+    <div class="row">
+
+        <!-- Selecciona una nomina-->
+        <div class="col-12 col-lg-6">
+
+            <div class="offset-1 col-10 text-left margenSection">
+                <h5>Nominas</h5>
+                <div class="form-group">
+                    <select class="form-control " id="SeleccionarNominaFoliar" required>
+                        <option value="" disabled selected>Selecciona una Nomina...</option>
+                        @foreach (var nuevaNomina in Model)
+                        {
+
+                            <option value="@nuevaNomina.Key">@nuevaNomina.Value </option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-md-12 text-center">
+                <form>
+                    <div>
+                        <label class="btn  btn-outline-primary">
+                            <input id="checkSindicalizado" type="checkbox" autocomplete="off"> Sindicalizado
+                        </label>
+                        <label class="btn  btn-outline-primary">
+                            <input id="checkConfianza" type="checkbox" autocomplete="off"> De Confianza
+                        </label>
+                    </div>
+                </form>
+                <br />
+            </div>
+
+            <div class="col-md-12 text-center">
+                <form>
+                    <div>
+                        <label class="btn  btn-outline-primary">
+                            <input id="checkAdicional" type="checkbox" autocomplete="off"> Adicional
+                        </label>
+                    </div>
+                </form>
+                <br />
+            </div>
+
+        </div>
+
+        <!-- Selecciona una nomina-->
+        <div class="col-12 col-lg-6">
+
+            <div class="offset-1 col-10 text-left margenSection">
+                <h5>Cuentas Bancarias </h5>
+                <div class="form-group">
+                    <select class="form-control " id="SeleccionarCuentaBancaria" required style=" white-space:pre-wrap; ">
+                        <option value="" disabled selected>Selecciona una cuenta bancaria...</option>
+                        @foreach (var nuevoBanco in ViewBag.BancosConTarjeta)
+                        {
+
+                            <option value="@nuevoBanco.Key">@nuevoBanco.Value </option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- inserta una rango de foliacion-->
+        <div class="col-12 col-lg-6">
+
+
+            <section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); ">
+                <br />
+                <h4 class="col-12 text-center">Rango de Foliacion</h4>
+                <br />
+
+
+                <div class="row text-center">
+                    <label class="offset-1 col-10            col-sm-3">Folio Inicial:</label>
+                    <input id="rangoInicial" class="offset-1 col-10 offset-sm-0 col-sm-3 " placeholder="Del" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
+                    <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
+                    <h3 id="rangoFinal" class="offset-1 col-10 offset-sm-0 col-sm-3 text-sm-left">{12}</h3>
+                </div>
+
+
+                <br />
+                <div class="row offset-1 col-10 text-center">
+                    <h3 id="registrosFoliados" class=" btn-lg  btn-block" title="Numero de Registros Foliados">{Numero de Registros Foliados}</h3>
+
+                </div>
+
+                <br class="margensection" />
+            </section>
+
+        </div>
+
+
+        <div class="col-12 col-lg-6">
+            <section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <br />
+                <h4 class="col-12 text-center">Folios a inhabilitar</h4>
+                <br />
+
+                <div class="col-md-12 text-center">
+                    <form>
+                        <div>
+                            <label class="btn  btn-primary ">
+                                <input id="checkAsignar" type="checkbox" autocomplete="off"> Inhabilitar
+                            </label>
+
+
+                        </div>
+                    </form>
+                    <br />
+                </div>
+
+                <div class="row ">
+                    <label class="offset-1 col-10             col-sm-2">Folio Inicial:</label>
+                    <input id="FolioInicial" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Del" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
+                    <label class="offset-1 col-10 offset-sm-0 col-sm-2">Folio Final:</label>
+                    <input id="FolioFinal" class="offset-1 col-10 offset-sm-0 col-sm-3" placeholder="Al" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
+
+                </div>
+
+
+                <br />
+                <div class="row offset-1 col-10 text-center">
+                    <button id="ValidarFolios" class="btn btn-primary btn-md  btn-block" title="valida la disponibilidad de folios">Ajustar</button>
+
+                </div>
+
+                <br />
+            </section>
+
+
+        </div>
+
+
+        <!--- boton para foliar aqui se deberia enviar la peticion ajax-->
+        <div class="row offset-1 col-10 text-center">
+            <button id="RevisarNomina" class="btn btn-info btn-lg btn-block" title="Muestra la vista previa en un pdf de como quedaria la nomina al foliar">Verificar</button>
+            <button id="FoliarNomina" class="btn btn-success btn-lg btn-block" title="Folea la nomina seleccionada">Foliar</button>
+
+        </div>
+
+
+    </div>
+
+    <hr class="linea col-7 " />
+
+    <div class="col-12 col-lg-6">
+
+        <div class="offset-2 col-8 text-left margenSection">
+            <h5>Nominas Foliadas </h5>
+        </div>
+    </div>
+
+
+
+</seccion>
+
+
+
+
+
+
+
+<!-- Modal para mostrar el pdf -->
+<div class="modal fade" id="ModalPDFVisualizador">
+    <div class=" modal-dialog-centered  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="NombreNomina">Visualizador de PDFF</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+
+                    <div id="VistaPreviaPDF" class="altura">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Entendido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+
+
+            let nominaSeleccionadaUsuario = null;
+            const SeleccionarNominaDisponible = document.getElementById("SeleccionarNominaFoliar");
+            SeleccionarNominaDisponible.addEventListener("change",
+                function () {
+
+                    nominaSeleccionadaUsuario = this.options[SeleccionarNominaDisponible.selectedIndex];
+
+                    console.log(nominaSeleccionadaUsuario.value);
+                }
+            );
+
+
+            let sindicalizado = false;
+            const checkboxSindicalizado = document.getElementById('checkSindicalizado');
+            checkboxSindicalizado.addEventListener('change', function () {
+                if (this.checked) {
+
+                    $('#checkConfianza').prop('checked', false);
+                    sindicalizado = true;
+
+                } else {
+                    sindicalizado = false;
+                }
+            });
+
+
+
+            // let nominasFoliadas = new Array();
+            let confianza = false;
+            const checkboxConfianza = document.getElementById('checkConfianza');
+            checkboxConfianza.addEventListener('change', function () {
+                if (this.checked) {
+
+                    $('#checkSindicalizado').prop('checked', false);
+                    confianza = true;
+
+                }
+            });
+
+
+
+
+
+            const Revisar = document.getElementById('RevisarNomina');
+            Revisar.addEventListener('click', function () {
+
+
+                console.log(checkboxSindicalizado.checked);
+                console.log(checkboxConfianza.checked);
+
+                //Revisar que el usuario haya seleccionado una nomina
+                if (nominaSeleccionadaUsuario != null) {
+
+                    //Revisar si el check de sindizalizados esta seleccionado
+                    if (checkboxSindicalizado.checked == true && checkboxConfianza.checked == false) {
+
+
+                        //Enviar datos al servidor x nomina
+                        //
+                        //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
+                        // con el pdf
+                        //peticion ajax
+                        // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
+                        // PintarTablaNominasFoliadas(nominasFoliadas);
+                        $("VistaPreviaPDF").empty();
+                        PDFObject.embed(".../Reportes/ReportesPDFSTemporales/Solicitud.pdf", "#VistaPreviaPDF");
+                        $('#ModalPDFVisualizador').modal('show');
+
+
+
+                        //Revisar si el check de sindizalizados esta seleccionado o el de confianza
+                    } else if (seleccionNomina == false, seleccionTodasNominas == true) {
+                        //Enviar datos al servidor para hacer la peticion de todas las nominas ya que es por pagomatico
+                        //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
+                        // con el pdf
+                        //peticion ajax
+
+                    } else {
+                        Swal.fire({
+                            backdrop: true,
+                            allowEnterKey: false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            icon: 'warning',
+                            title: '',
+                            text: `Selecciona una opcion para continuar`
+                        });
+
+                    }
+
+
+                } else {
+                    Swal.fire({
+                        backdrop: true,
+                        allowEnterKey: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        icon: 'warning',
+                        title: '',
+                        text: `Selecciona una nomina `
+                    });
+
+                }
+
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+        });
+
+
+
+
+    </script>

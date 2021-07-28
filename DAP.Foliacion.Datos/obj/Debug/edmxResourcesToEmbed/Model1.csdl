@@ -38,6 +38,7 @@
       <End Role="Tbl_InventarioTipoIncidencia" EntitySet="Tbl_InventarioTipoIncidencia" />
       <End Role="Tbl_InventarioDetalle" EntitySet="Tbl_InventarioDetalle" />
     </AssociationSet>
+    <EntitySet Name="LOG_EXCEPCIONES" EntityType="FoliacionModel.LOG_EXCEPCIONES" />
   </EntityContainer>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -239,4 +240,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="LOG_EXCEPCIONES">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Clase" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Metodo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Usuario" Type="Int32" />
+    <Property Name="Excepcion" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
 </Schema>

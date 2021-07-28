@@ -1,0 +1,277 @@
+﻿@model  Dictionary<int, string>
+
+
+<!-- Vista del pagomatico-->
+<seccion id="VistaPagomatico" class="margenSection  card col-12  offset-md-2 col-md-8 text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+
+    <div class="margenSection row">
+
+        <div class="btn-block">
+            <h5>QUINCENA A FOLIAR EN PAGOMATICO</h5>
+            <h5 id="QuincenaPagoMatico" class="azul">@ViewBag.NumeroQuincena</h5>
+            <br />
+        </div>
+
+        <div class=" col-12 offset-md-3 col-md-6 text-center">
+            <form>
+                <label> Selecciona una opcion : </label>
+                <div>
+                    <label class="btn  btn-outline-primary ">
+                        <input id="checkNomina" type="checkbox" autocomplete="off"> &nbsp Por Nomina &nbsp
+                    </label>
+                    <label class="btn  btn-outline-primary ">
+                        <input id="checkTodasNominas" type="checkbox" autocomplete="off">&nbsp Todas las Nominas
+                    </label>
+
+                </div>
+            </form>
+            <br />
+        </div>
+
+        <div class="col-12 offset-md-1 col-md-10 text-center">
+            <div class="form-group">
+                <select class="form-control " id="SeleccionarNominaFoliar" required style="display: none;  ">
+                    <option value="" disabled selected>Selecciona una Nomina...</option>
+                    @foreach (var nuevaNomina in Model)
+                    {
+
+                        <option value="@nuevaNomina.Key">@nuevaNomina.Value </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+
+       
+    </div>
+
+
+
+
+    <div class="col-12 text-center">
+        <button id="Revisar" type="button" class="btn btn-lg btn-success"> <i class="far fa-eye"></i>  Verificar  </i></button>
+        <button id="RealizarFoliacion" type="button" class="btn btn-lg btn-success"><i class="fas fa-check-double"></i>  Foliar  <i class="fas fa-check-double"></i></button>
+
+    </div>
+
+    <br>
+
+
+    <hr class="linea" />
+
+    <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+    <div class="margenSection" id="DetalleAsignacion">
+        <div class="table-responsive">
+
+            <div id="TablaActualizada">
+
+                <table id="AsignarFormas" class='table table-striped table-bordered table-hover' style="display: none;">
+                    <caption class="text-uppercase"> Formas de pago inhabilitadas </caption>
+                    <thead class="tabla">
+                        <tr>
+
+                            <th>Nomina foliada</th>
+                            <th>Revisar</th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+
+                            <th class='Filtro'>Id</th>
+                            <th class='Filtro'>Expediente</th>
+
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</seccion>
+
+
+
+
+
+<!-- El modal que se muestra en esta pestaña se encuantra en el index ya que hasta que se renderiza se puede usar en esta vista parcial-->
+
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+
+        let seleccionNomina = false;
+        const checkboxNomina = document.getElementById('checkNomina');
+        checkboxNomina.addEventListener('change', function () {
+            if (this.checked) {
+                document.getElementById('SeleccionarNominaFoliar').style.display = "block";
+
+                $('#checkTodasNominas').prop('checked', false);
+                seleccionNomina = true;
+
+            } else {
+                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
+
+            }
+        });
+
+
+
+        let nominasFoliadas = new Array();
+        let seleccionTodasNominas = false;
+        const checkboxTodasNominas = document.getElementById('checkTodasNominas');
+        checkboxTodasNominas.addEventListener('change', function () {
+            if (this.checked) {
+                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
+
+                $('#checkNomina').prop('checked', false);
+                seleccionTodasNominas = true;
+
+            } else {
+                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
+                seleccionTodasNominas = false;
+            }
+        });
+
+
+        let nominaSeleccionadaFoliar = null;
+        const SeleccionNomina = document.getElementById("SeleccionarNominaFoliar");
+        SeleccionNomina.addEventListener("change",
+            function () {
+
+                nominaSeleccionadaFoliar = null;
+                nominaSeleccionadaFoliar = this.options[SeleccionNomina.selectedIndex];
+                console.log(nominaSeleccionadaFoliar.value);
+
+            }
+        );
+
+
+        ////Captura los cambios de la cuenta bancaria
+        //let cuentaSeleccionada = null;
+        //const SeleccionCuentaBancaria = document.getElementById("SeleccionarCuentaBancaria");
+        //SeleccionCuentaBancaria.addEventListener("change",
+        //    function () {
+
+        //        cuentaSeleccionada = null;
+        //        cuentaSeleccionada = this.options[SeleccionCuentaBancaria.selectedIndex];
+        //        console.log(cuentaSeleccionada.value);
+
+        //    }
+        //);
+
+
+
+
+
+        const Revisar = document.getElementById('Revisar');
+        Revisar.addEventListener('click', function () {
+           // console.log(checkboxNomina.checked);
+            //console.log(checkboxTodasNominas.checked);
+            ///console.log(nominaSeleccionadaFoliar);
+
+            if (checkboxNomina.checked ) {
+
+                //console.log(nominaSeleccionadaFoliar);
+
+                if (nominaSeleccionadaFoliar != null) {
+                    //Enviar datos al servidor x nomina
+                    //
+                    //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
+                    // con el pdf
+                    //peticion ajax
+                    // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
+                    // PintarTablaNominasFoliadas(nominasFoliadas);
+                    let EnviarRevicion = "{'IdNomina': '"+nominaSeleccionadaFoliar.value+"'}";
+
+                    MensajeCargando();
+                     $.ajax({
+                         url: '@Url.Action("RevisarPorIdNomina", "Foliar")',
+                         data: EnviarRevicion,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+                            //  alert(response);
+                            $("example").empty();
+                            PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNomina" + nominaSeleccionadaFoliar.value + ".pdf", "#example");
+                            $('#ModalPDFVisualizador').modal('show');
+                            OcultarMensajeCargando();
+                        }
+                    });
+
+
+                 
+
+
+
+
+
+                } else {
+
+                    MensajeWarningSweet(`Elija un tipo de NOMINA y una CUENTA BANCARIA para continuar`)
+                }
+
+
+            } else if (checkboxTodasNominas.checked) {
+                //Enviar datos al servidor para la creacion de PDFs en la vista del usuario
+                if (cuentaSeleccionada != null) {
+
+
+
+                    MensajeCargando();
+
+                    let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"', 'CuentaBancaria': '" + cuentaSeleccionada.value + "' }";
+
+
+                    $.ajax({
+                        url: '@Url.Action("RevisarTodasNominas", "Foliar")',
+                        data: EnviarQuincenaPagomatico,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+
+                            OcultarMensajeCargando();
+                        }
+                    });
+                } else {
+
+                    MensajeErrorSweet("Seleccione un banco por favor!");
+                }
+
+
+
+
+            } else {
+
+                MensajeWarningSweet(`Selecciona una opcion para continuar`)
+
+            }
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+    });
+
+
+</script>
