@@ -21,7 +21,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select quincena, nomina, adicional, ruta, rutanomina, coment, id_nom from interfaces.dbo.bitacora where QUINCENA ="+NumeroQuincena+" and Foliado is null order by QUINCENA, id_nom", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select quincena, nomina, adicional, ruta, rutanomina, coment, id_nom from interfaces.dbo.bitacora where QUINCENA ="+NumeroQuincena+" and importado = 1 and Foliado is null order by QUINCENA, id_nom", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -57,7 +57,7 @@ namespace DAP.Foliacion.Datos
 
 
 
-        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosIdNominaPagomatico(string AnSegunBitacora, int quincena, string NombreBanco)
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosIdNominaPagomatico(string NumeroNomina ,string AnSegunBitacora, int quincena, List<string> NombresBanco)
         {
             List<DatosReporteRevisionNominaDTO> ListaDatosReporteFoliacionPorNomina = new List<DatosReporteRevisionNominaDTO>();
 
@@ -66,7 +66,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select '' 'Id' , Substring(PARTIDA, 1, 6) 'PARTIDA', NOMBRE, DELEG, NUM_CHE, LIQUIDO, '' 'CUENTABANCARIA', num  from interfaces.dbo." + AnSegunBitacora+" where TARJETA <> '' OR SERFIN <>'' OR BANCOMER <> '' OR BANORTE <>'' OR HSBC <>'' order by  IIF( isnull(NOM_ESP,0) =1 ,'1','2') , DELEG,  SUBSTRING(PARTIDA,2,8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select '' 'ID' , Substring(PARTIDA, 1, 6) 'PARTIDA',  num 'NUM'  , NOMBRE, DELEG, '' 'NOMINA' , NUM_CHE, LIQUIDO, CASE when a.TARJETA <>'' then '"+NombresBanco[0]+ "' when a.SERFIN <>'' then '"+NombresBanco[1]+ "'  when a.BANCOMER <>'' then '"+NombresBanco[3]+ "' when a.BANORTE <>'' then '"+NombresBanco[2]+ "' when a.HSBC <>'' then '"+NombresBanco[4]+"' end as 'CUENTABANCARIA' from interfaces.dbo." + AnSegunBitacora+" as a where TARJETA <> '' OR SERFIN <> '' OR BANCOMER <> '' OR BANORTE <> '' OR HSBC <> '' order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                     int i = 0;
@@ -75,13 +75,15 @@ namespace DAP.Foliacion.Datos
                         DatosReporteRevisionNominaDTO NuevoDatoReporte = new DatosReporteRevisionNominaDTO();
 
                         NuevoDatoReporte.Id = ++i;
-                        NuevoDatoReporte.Num = reader[7].ToString().Trim();
+
                         NuevoDatoReporte.Partida = reader[1].ToString().Trim();
-                        NuevoDatoReporte.Nombre = reader[2].ToString().Trim();
-                        NuevoDatoReporte.Deleg = reader[3].ToString().Trim();
-                        NuevoDatoReporte.Num_Che = reader[7].ToString().Trim()+quincena;
-                        NuevoDatoReporte.Liquido = reader[5].ToString().Trim();
-                        NuevoDatoReporte.CuentaBancaria = NombreBanco;
+                        NuevoDatoReporte.Num = reader[2].ToString().Trim();
+                        NuevoDatoReporte.Nombre = reader[3].ToString().Trim();
+                        NuevoDatoReporte.Deleg = reader[4].ToString().Trim();
+                        NuevoDatoReporte.Nom = NumeroNomina;
+                        NuevoDatoReporte.Num_Che = reader[2].ToString().Trim()+quincena;
+                        NuevoDatoReporte.Liquido = reader[7].ToString().Trim();
+                        NuevoDatoReporte.CuentaBancaria = reader[8].ToString().Trim();
                         ListaDatosReporteFoliacionPorNomina.Add(NuevoDatoReporte);
                     }
                 }
@@ -126,7 +128,7 @@ namespace DAP.Foliacion.Datos
         }
 
 
-        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosIdNominaPenalPagomatico(string AnSegunBitacora, int quincena, string NombreBanco)
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosIdNominaPenalPagomatico(string NumeroNomina,string AnSegunBitacora, int quincena, List<string> NombresBanco)
         {
             List<DatosReporteRevisionNominaDTO> ListaDatosReporteFoliacionPorNomina = new List<DatosReporteRevisionNominaDTO>();
 
@@ -135,7 +137,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select  '' 'ID' ,  NUM , Substring(PARTIDA, 1, 6) 'PARTIDA', NOMBRE, DELEG, NUM_CHE, LIQUIDO, '' 'CUENTABANCARIA'   from interfaces.dbo."+AnSegunBitacora+" where TARJETA <> '' OR SERFIN <>'' OR BANCOMER <> '' OR BANORTE <>'' OR HSBC <>'' order by JUZGADO , NOMBRE collate SQL_Latin1_General_CP1_CI_AS", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select  '' 'ID'  , Substring(PARTIDA, 1, 6) 'PARTIDA',  NUM, NOMBRE, DELEG,'' 'NOMINA' ,NUM_CHE, LIQUIDO,  CASE when a.TARJETA <>'' then '"+NombresBanco[5]+"' when a.SERFIN <>'' then '"+NombresBanco[1]+"'  when a.BANCOMER <>'' then '"+NombresBanco[3]+"' when a.BANORTE <>'' then '"+NombresBanco[2]+"' when a.HSBC <>'' then '"+NombresBanco[4]+"' end as 'CUENTABANCARIA'    from interfaces.dbo." + AnSegunBitacora+" as a where TARJETA <> '' OR SERFIN <>'' OR BANCOMER <> '' OR BANORTE <>'' OR HSBC <>'' order by JUZGADO , NOMBRE collate SQL_Latin1_General_CP1_CI_AS", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                     int i = 0;
@@ -144,13 +146,14 @@ namespace DAP.Foliacion.Datos
                         DatosReporteRevisionNominaDTO NuevoDatoReporte = new DatosReporteRevisionNominaDTO();
 
                         NuevoDatoReporte.Id = ++i;
-                        NuevoDatoReporte.Num = reader[1].ToString().Trim();
-                        NuevoDatoReporte.Partida = reader[2].ToString().Trim();
+                        NuevoDatoReporte.Partida = reader[1].ToString().Trim();
+                        NuevoDatoReporte.Num = reader[2].ToString().Trim();
                         NuevoDatoReporte.Nombre = reader[3].ToString().Trim();
                         NuevoDatoReporte.Deleg = reader[4].ToString().Trim();
-                        NuevoDatoReporte.Num_Che = reader[5].ToString().Trim()+quincena;
-                        NuevoDatoReporte.Liquido = reader[6].ToString().Trim();
-                        NuevoDatoReporte.CuentaBancaria = NombreBanco;
+                        NuevoDatoReporte.Nom = NumeroNomina;
+                        NuevoDatoReporte.Num_Che = reader[2].ToString().Trim()+quincena;
+                        NuevoDatoReporte.Liquido = reader[7].ToString().Trim();
+                        NuevoDatoReporte.CuentaBancaria = reader[8].ToString().Trim();
                         ListaDatosReporteFoliacionPorNomina.Add(NuevoDatoReporte);
                     }
                 }
@@ -209,7 +212,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select an, ap, ad from interfaces.dbo.bitacora where  id_nom ="+IdNum+" ", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select an, ap, ad from interfaces.dbo.bitacora where importado = 1 and  id_nom ="+IdNum+" ", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                    
@@ -262,7 +265,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select ruta, rutaNomina from interfaces.dbo.bitacora where id_nom ="+IdNomina+" order by id_nom", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select ruta, rutaNomina from interfaces.dbo.bitacora where importado = 1 and id_nom ="+IdNomina+" order by id_nom", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -299,8 +302,229 @@ namespace DAP.Foliacion.Datos
         }
 
 
+        public static string ObtenerNumeroNominaXIdNum(int IdNum)
+        {
+            string numeroNomina = null;
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select nomina from interfaces.dbo.bitacora where importado = 1 and  id_nom ="+IdNum+" ", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        numeroNomina = reader[0].ToString().Trim();
+                      
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = " ObtenerNumeroNominaXIdNum";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se pudo leer u obtener el dato de an de la bitacora para la foliacion, verifique que exista el campo nomina en la nomina "+IdNum+"";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+
+            return numeroNomina;
+        }
 
 
 
+        public static List<DatosRevicionTodasNominasDTO> ObtenerListaDTOTodasNominasXquincena(string NumeroQuincena) 
+        {
+            List<DatosRevicionTodasNominasDTO> revicionTodasNominas = new List<DatosRevicionTodasNominasDTO>(); 
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select NOMINA, AN , AP, AD, ID_NOM from interfaces.dbo.bitacora where quincena = "+NumeroQuincena+" and importado = 1 order by id_nom ", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+
+                        DatosRevicionTodasNominasDTO nuevaRevicioNomina = new DatosRevicionTodasNominasDTO();
+
+                        nuevaRevicioNomina.Nomina = reader[0].ToString().Trim();
+                        nuevaRevicioNomina.An = reader[1].ToString().Trim();
+                        nuevaRevicioNomina.Ap = reader[2].ToString().Trim();
+                        nuevaRevicioNomina.Ad = reader[3].ToString().Trim();
+                        nuevaRevicioNomina.Id_Nom = reader[4].ToString().Trim();
+
+                        revicionTodasNominas.Add(nuevaRevicioNomina);
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerListaDTOTodasNominasXquincena";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se pudo leer u obtener los datos de la bitacora para la foliacion, verifique que existan datos para quincena " + NumeroQuincena + "";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+
+            return revicionTodasNominas;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Metodos para cheques Revicion y Foliacion
+        public static DatosBitacoraParaCheque ObtenerAnBitacoraParaCheques(int IdNomina) 
+        {
+            DatosBitacoraParaCheque DatosNominaBitacora = new DatosBitacoraParaCheque();
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(" select quincena, nomina, coment, id_nom, an, importado  from interfaces.dbo.bitacora where Importado = 1  and id_nom= "+IdNomina+" order by id_nom ", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+
+                      
+
+                        DatosNominaBitacora.Quincena    = reader[0].ToString().Trim();
+                        DatosNominaBitacora.Nomina      = reader[1].ToString().Trim();
+                        DatosNominaBitacora.Comentario  = reader[2].ToString().Trim();
+                        DatosNominaBitacora.Id_nom      = Convert.ToInt32( reader[3].ToString().Trim());
+                        DatosNominaBitacora.An          = reader[4].ToString().Trim();
+                        DatosNominaBitacora.Importado   = Convert.ToBoolean( reader[5].ToString().Trim());
+
+                        return DatosNominaBitacora;
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerAnBitacoraParaCheques";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se pudo leer u obtener los datos de la bitacora para la foliacion, verifique que existan datos para id_nom " + IdNomina+ "";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+            DatosNominaBitacora.Comentario = "Sin Datos";
+
+            return DatosNominaBitacora;
+
+        }
+
+
+
+
+
+        public static string ObtenerDetalledeNominaConSindicatoCheques(int IdNomina)
+        {
+            DatosBitacoraParaCheque DatosNominaBitacora = new DatosBitacoraParaCheque();
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(" select quincena, nomina, coment, id_nom, an, importado  from interfaces.dbo.bitacora where Importado = 1  and id_nom= " + IdNomina + " order by id_nom ", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+
+
+
+                        DatosNominaBitacora.Quincena = reader[0].ToString().Trim();
+                        DatosNominaBitacora.Nomina = reader[1].ToString().Trim();
+                        DatosNominaBitacora.Comentario = reader[2].ToString().Trim();
+                        DatosNominaBitacora.Id_nom = Convert.ToInt32(reader[3].ToString().Trim());
+                        DatosNominaBitacora.An = reader[4].ToString().Trim();
+                        DatosNominaBitacora.Importado = Convert.ToBoolean(reader[5].ToString().Trim());
+
+                        return DatosNominaBitacora;
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerAnBitacoraParaCheques";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se pudo leer u obtener los datos de la bitacora para la foliacion, verifique que existan datos para id_nom " + IdNomina + "";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+            DatosNominaBitacora.Comentario = "Sin Datos";
+
+            return DatosNominaBitacora;
+
+        }
     }
 }

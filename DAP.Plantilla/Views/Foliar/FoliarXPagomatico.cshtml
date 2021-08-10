@@ -130,14 +130,18 @@
         const checkboxTodasNominas = document.getElementById('checkTodasNominas');
         checkboxTodasNominas.addEventListener('change', function () {
             if (this.checked) {
-                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
+               document.getElementById('SeleccionarNominaFoliar').style.display = "none";
 
                 $('#checkNomina').prop('checked', false);
                 seleccionTodasNominas = true;
 
+                //console.log(seleccionTodasNominas);
             } else {
                 document.getElementById('SeleccionarNominaFoliar').style.display = "none";
                 seleccionTodasNominas = false;
+
+
+                //console.log(seleccionTodasNominas);
             }
         });
 
@@ -178,7 +182,7 @@
             //console.log(checkboxTodasNominas.checked);
             ///console.log(nominaSeleccionadaFoliar);
 
-            if (checkboxNomina.checked ) {
+            if (checkboxNomina.checked) {
 
                 //console.log(nominaSeleccionadaFoliar);
 
@@ -190,12 +194,12 @@
                     //peticion ajax
                     // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
                     // PintarTablaNominasFoliadas(nominasFoliadas);
-                    let EnviarRevicion = "{'IdNomina': '"+nominaSeleccionadaFoliar.value+"'}";
+                    let EnviarRevicion = "{'IdNomina': '" + nominaSeleccionadaFoliar.value + "'}";
 
                     MensajeCargando();
-                     $.ajax({
-                         url: '@Url.Action("RevisarPorIdNomina", "Foliar")',
-                         data: EnviarRevicion,
+                    $.ajax({
+                        url: '@Url.Action("RevisarPorIdNomina", "Foliar")',
+                        data: EnviarRevicion,
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
                         success: function (response) {
@@ -209,12 +213,6 @@
                     });
 
 
-                 
-
-
-
-
-
                 } else {
 
                     MensajeWarningSweet(`Elija un tipo de NOMINA y una CUENTA BANCARIA para continuar`)
@@ -223,46 +221,30 @@
 
             } else if (checkboxTodasNominas.checked) {
                 //Enviar datos al servidor para la creacion de PDFs en la vista del usuario
-                if (cuentaSeleccionada != null) {
+
+                MensajeCargando();
+
+                let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"'}";
 
 
+                $.ajax({
+                    url: '@Url.Action("RevisarTodasNominas", "Foliar")',
+                    data: EnviarQuincenaPagomatico,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
 
-                    MensajeCargando();
+                        $("example").empty();
+                        PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionGeneralNominas"+@ViewBag.NumeroQuincena+".pdf", "#example");
+                        $('#ModalPDFVisualizador').modal('show');
+                        OcultarMensajeCargando();
 
-                    let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"', 'CuentaBancaria': '" + cuentaSeleccionada.value + "' }";
-
-
-                    $.ajax({
-                        url: '@Url.Action("RevisarTodasNominas", "Foliar")',
-                        data: EnviarQuincenaPagomatico,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-
-
-                            OcultarMensajeCargando();
-                        }
-                    });
-                } else {
-
-                    MensajeErrorSweet("Seleccione un banco por favor!");
-                }
-
-
-
-
-            } else {
-
-                MensajeWarningSweet(`Selecciona una opcion para continuar`)
-
+                    }
+                });
             }
 
 
-
-
-
-
-        });
+            });
 
 
 

@@ -106,18 +106,40 @@ namespace DAP.Foliacion.Negocios
 
 
 
-        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosFoliadosPorNominaRevicion(string An, int Quincena, string NombreBanco) 
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosFoliadosPorNominaRevicion( string NumeroNomina, string An, int Quincena) 
         {
-           
-            var DatosNomina = FoliarConsultasDBSinEntity.ObtenerDatosIdNominaPagomatico(An, Quincena, NombreBanco);
+            //obtener los nombres y cuentas de los bancos para saber con que se le pagara a cada trabajador 
+            var transaccion = new Transaccion();
+
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            List<int> idCuentasConTarjetas = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 2 && x.Activo == true ).Select(y => y.Id ).OrderBy(z => z).ToList();
+
+            List<string> NombresBanco = new List<string>();
+            foreach (int id in idCuentasConTarjetas) 
+            {
+                NombresBanco.Add(ObtenerBancoPorID(id));
+            }
+
+            var DatosNomina = FoliarConsultasDBSinEntity.ObtenerDatosIdNominaPagomatico(NumeroNomina, An, Quincena, NombresBanco);
   
             return DatosNomina;
         }
 
-        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosFoliadosPorNominaPENALRevicion(string An, int Quincena, string NombreBanco)
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosFoliadosPorNominaPENALRevicion(string NumeroNomina ,string An, int Quincena)
         {
+            //obtener los nombres y cuentas de los bancos para saber con que se le pagara a cada trabajador 
+            var transaccion = new Transaccion();
 
-            var DatosNomina = FoliarConsultasDBSinEntity.ObtenerDatosIdNominaPenalPagomatico(An, Quincena, NombreBanco);
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            List<int> idCuentasConTarjetas = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 2 && x.Activo == true).Select(y => y.Id).OrderBy(z => z).ToList();
+
+            List<string> NombresBanco = new List<string>();
+            foreach (int id in idCuentasConTarjetas)
+            {
+                NombresBanco.Add(ObtenerBancoPorID(id));
+            }
+
+            var DatosNomina = FoliarConsultasDBSinEntity.ObtenerDatosIdNominaPenalPagomatico(NumeroNomina, An, Quincena, NombresBanco);
 
             return DatosNomina;
         }
@@ -126,6 +148,48 @@ namespace DAP.Foliacion.Negocios
         public static string ObtenerRutaCOmpletaArchivoIdNomina(int IdNomina) 
         {
             return FoliarConsultasDBSinEntity.ObtenerRutaIdNomina(IdNomina);
+        }
+
+
+      
+        public static string ObtenerNumeroNominaXIdNumBitacora(int IdNum)
+        {
+           return FoliarConsultasDBSinEntity.ObtenerNumeroNominaXIdNum(IdNum);
+        }
+
+
+
+        /// <summary>
+        /// Obtine una lista de las nominas que pueden ser Foliadas para que se foleen todas de un solo jalon
+        /// recibe como parametro el numero de quincena ejem 2112
+        /// </summary>
+        /// <param name="Quincena"></param>
+        /// <returns></returns>
+        public static List<DatosRevicionTodasNominasDTO> ObtenerTodasNominasXQuincena(string NumeroQuincena) {
+
+            return FoliarConsultasDBSinEntity.ObtenerListaDTOTodasNominasXquincena(NumeroQuincena);
+        }
+
+
+
+
+
+        //Metodos para foliar formas de pagos (cheques)
+        public static DatosBitacoraParaCheque ObtenerDetallesNominaParaCheques(int IdNomina) 
+        {
+           DatosBitacoraParaCheque datosEncontrados =  FoliarConsultasDBSinEntity.ObtenerAnBitacoraParaCheques(IdNomina);
+
+            //verifica que no haya ocurrido un problema al traer los datos
+            if (datosEncontrados.Comentario != "Sin Datos")
+            {
+                //verifica que la nomina sea general o desentralizado ya que son las dos unicas que se imprimen en diferentes archivos (Confianza y sindicalizados C-G?2115.tx y S-G?2115.txt)
+                if (datosEncontrados.Nomina == "01" || datosEncontrados.Nomina == "02")
+                {
+                    
+
+                }
+            }
+
         }
 
     }

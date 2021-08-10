@@ -13,6 +13,7 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         public string Num { get; set; }
         public string Nombre { get; set; }
         public string Deleg { get; set; }
+        public string Nom { get; set; }
         public string Num_Che { get; set; }
         public string Liquido { get; set; }
         public string CuentaBancaria { get; set; }

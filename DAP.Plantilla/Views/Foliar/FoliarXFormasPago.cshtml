@@ -35,30 +35,20 @@
 
 
 
-            <div class="col-md-12 text-center">
-                <form>
-                    <div>
-                        <label class="btn  btn-outline-primary">
-                            <input id="checkSindicalizado" type="checkbox" autocomplete="off"> Sindicalizado
-                        </label>
-                        <label class="btn  btn-outline-primary">
-                            <input id="checkConfianza" type="checkbox" autocomplete="off"> De Confianza
-                        </label>
-                    </div>
-                </form>
-                <br />
-            </div>
+            @*<div class="col-md-12 text-center">
+                    <form>
+                        <div>
+                            <label class="btn  btn-outline-primary">
+                                <input id="checkSindicalizado" type="checkbox" autocomplete="off"> Sindicalizado
+                            </label>
+                            <label class="btn  btn-outline-primary">
+                                <input id="checkConfianza" type="checkbox" autocomplete="off"> De Confianza
+                            </label>
+                        </div>
+                    </form>
+                    <br />
+                </div>*@
 
-            <div class="col-md-12 text-center">
-                <form>
-                    <div>
-                        <label class="btn  btn-outline-primary">
-                            <input id="checkAdicional" type="checkbox" autocomplete="off"> Adicional
-                        </label>
-                    </div>
-                </form>
-                <br />
-            </div>
 
         </div>
 
@@ -182,30 +172,110 @@
 
 
 
-<!-- Modal para mostrar el pdf -->
-<div class="modal fade" id="ModalPDFVisualizador">
-    <div class=" modal-dialog-centered  modal-xl">
+<!-- Modal para mostrar detalles de la nomina cargada -->
+<div class="modal fade" id="DetalleNomia" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
         <div class="modal-content">
-            <div class="modal-header text-center">
-                <h5 class="modal-title" id="NombreNomina">Visualizador de PDFF</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetalleNomina">{Nombre del detalle de la nomina}</h5>
+                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <div>
 
-                    <div id="VistaPreviaPDF" class="altura">
+                <!--Nuevo modal-->
+                <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+                <div class="margenSection" id="DetalleAsignacion">
+                    <div class="table-responsive">
+
+                        <div id="TablaActualizada">
+
+                            <table id="AsignarFormas" class='table table-striped table-bordered table-hover'>
+                                <caption class="text-uppercase"> Resumen de Nomina </caption>
+                                <thead class="tabla">
+                                    <tr>
+
+                                        <th>Deleg</th>
+                                        <th>Sindi</th>
+                                        <th>SindiFoliado</th>
+                                        <th>Confia</th>
+                                        <th>ConfiaFoliado</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+
+                                        <th class='Filtro'>Campeche</th>
+                                        <th class='Filtro'>120</th>
+                                        <th class='Filtro'>False</th>
+                                        <th class='Filtro'>3</th>
+                                        <th class='Filtro'>True</th>
+                                        <th class='Filtro'>123</th>
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 offset-md-3 col-md-7 text-center">
+                    <div id="mainselection">
+                        <select class="form-control text-uppercase" id="SeleccionarDelegacion" required>
+                            <option value="20" selected hidden>Selecciona una delegacion a foliar...</option>
+                            <option value="00"> Campeche y mas delegaciones</option>
+                            <option value="03"> Champoton</option>
+                            <option value="04-11"> Escarcega - Candelaria</option>
+                            <option value="05"> Calkini</option>
+                            <option value="06"> Hecelchakan</option>
+                            <option value="07"> Hopelchen</option>
+
+                        </select>
 
                     </div>
 
                 </div>
-            </div>
+                <br />
 
+
+
+                <div class="col-12 offset-md-3 col-md-6 text-center">
+                    <form>
+                        <div>
+                            <label class="btn  btn-outline-primary btn-lg">
+                                <input id="checkSindicalizado" type="checkbox" autocomplete="off"> Sindicalizado
+                            </label>
+                            <label class="btn  btn-outline-primary btn-lg">
+                                <input id="checkConfianza" type="checkbox" autocomplete="off"> De Confianza
+                            </label>
+                        </div>
+                    </form>
+                    <br />
+                </div>
+
+
+
+
+
+                <div class="col-12 text-center">
+                    <br />
+                    <button id="Continuar" type="button" class="btn btn-lg btn-success"><i class="far fa-hand-point-right"></i> Continuar</button>
+
+                </div>
+
+
+
+
+
+            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Entendido</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
             </div>
         </div>
     </div>
@@ -214,6 +284,23 @@
 
 
 
+<style>
+
+    #mainselection select {
+        border: 0;
+        color: rgb(0, 123, 255);
+        background: transparent;
+        font-size: 20px;
+        font-weight: bolder;
+        background: #ffffff;
+    }
+
+    #mainselection {
+        border-radius: 9px 9px 9px 9px;
+        box-shadow: 1px 1px 10px #017BFF;
+    }
+
+</style>
 
 
 
@@ -222,103 +309,104 @@
 
 
 
+<script>
+    $(document).ready(function () {
+
+
+        let nominaSeleccionadaUsuario = null;
+        const SeleccionarNominaDisponible = document.getElementById("SeleccionarNominaFoliar");
+        SeleccionarNominaDisponible.addEventListener("change",
+            function () {
+
+                nominaSeleccionadaUsuario = this.options[SeleccionarNominaDisponible.selectedIndex];
+
+                console.log(nominaSeleccionadaUsuario.value);
+
+                   let EnviarDatos = "{'IdNomina': '"+nominaSeleccionadaUsuario.value+"'}";
+
+                    MensajeCargando();
+                    $.ajax({
+                        url: '@Url.Action("ObtenerDetalleNominaPorFiltro", "Foliar")',
+                        data: EnviarDatos,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+                         
+                            $('#DetalleNomia').modal('show');
+                            OcultarMensajeCargando();
+                        }
+                    });
+
+
+            }
+        );
+
+
+        let sindicalizado = false;
+        const checkboxSindicalizado = document.getElementById('checkSindicalizado');
+        checkboxSindicalizado.addEventListener('change', function () {
+            if (this.checked) {
+
+                $('#checkConfianza').prop('checked', false);
+                sindicalizado = true;
+
+            } else {
+                sindicalizado = false;
+            }
+        });
 
 
 
-    <script>
-        $(document).ready(function () {
+        // let nominasFoliadas = new Array();
+        let confianza = false;
+        const checkboxConfianza = document.getElementById('checkConfianza');
+        checkboxConfianza.addEventListener('change', function () {
+            if (this.checked) {
 
+                $('#checkSindicalizado').prop('checked', false);
+                confianza = true;
 
-            let nominaSeleccionadaUsuario = null;
-            const SeleccionarNominaDisponible = document.getElementById("SeleccionarNominaFoliar");
-            SeleccionarNominaDisponible.addEventListener("change",
-                function () {
-
-                    nominaSeleccionadaUsuario = this.options[SeleccionarNominaDisponible.selectedIndex];
-
-                    console.log(nominaSeleccionadaUsuario.value);
-                }
-            );
-
-
-            let sindicalizado = false;
-            const checkboxSindicalizado = document.getElementById('checkSindicalizado');
-            checkboxSindicalizado.addEventListener('change', function () {
-                if (this.checked) {
-
-                    $('#checkConfianza').prop('checked', false);
-                    sindicalizado = true;
-
-                } else {
-                    sindicalizado = false;
-                }
-            });
-
-
-
-            // let nominasFoliadas = new Array();
-            let confianza = false;
-            const checkboxConfianza = document.getElementById('checkConfianza');
-            checkboxConfianza.addEventListener('change', function () {
-                if (this.checked) {
-
-                    $('#checkSindicalizado').prop('checked', false);
-                    confianza = true;
-
-                }
-            });
+            }
+        });
 
 
 
 
 
-            const Revisar = document.getElementById('RevisarNomina');
-            Revisar.addEventListener('click', function () {
+        const Revisar = document.getElementById('RevisarNomina');
+        Revisar.addEventListener('click', function () {
 
 
-                console.log(checkboxSindicalizado.checked);
-                console.log(checkboxConfianza.checked);
+            console.log(checkboxSindicalizado.checked);
+            console.log(checkboxConfianza.checked);
 
-                //Revisar que el usuario haya seleccionado una nomina
-                if (nominaSeleccionadaUsuario != null) {
+            //Revisar que el usuario haya seleccionado una nomina
+            if (nominaSeleccionadaUsuario != null) {
 
-                    //Revisar si el check de sindizalizados esta seleccionado
-                    if (checkboxSindicalizado.checked == true && checkboxConfianza.checked == false) {
-
-
-                        //Enviar datos al servidor x nomina
-                        //
-                        //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
-                        // con el pdf
-                        //peticion ajax
-                        // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
-                        // PintarTablaNominasFoliadas(nominasFoliadas);
-                        $("VistaPreviaPDF").empty();
-                        PDFObject.embed(".../Reportes/ReportesPDFSTemporales/Solicitud.pdf", "#VistaPreviaPDF");
-                        $('#ModalPDFVisualizador').modal('show');
+                //Revisar si el check de sindizalizados esta seleccionado
+                if (checkboxSindicalizado.checked == true && checkboxConfianza.checked == false) {
 
 
+                    //Enviar datos al servidor x nomina
+                    //
+                    //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
+                    // con el pdf
+                    //peticion ajax
+                    // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
+                    // PintarTablaNominasFoliadas(nominasFoliadas);
+                    $("VistaPreviaPDF").empty();
+                    PDFObject.embed(".../Reportes/ReportesPDFSTemporales/Solicitud.pdf", "#VistaPreviaPDF");
+                    $('#ModalPDFVisualizador').modal('show');
 
-                        //Revisar si el check de sindizalizados esta seleccionado o el de confianza
-                    } else if (seleccionNomina == false, seleccionTodasNominas == true) {
-                        //Enviar datos al servidor para hacer la peticion de todas las nominas ya que es por pagomatico
-                        //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
-                        // con el pdf
-                        //peticion ajax
 
-                    } else {
-                        Swal.fire({
-                            backdrop: true,
-                            allowEnterKey: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            icon: 'warning',
-                            title: '',
-                            text: `Selecciona una opcion para continuar`
-                        });
 
-                    }
-
+                    //Revisar si el check de sindizalizados esta seleccionado o el de confianza
+                } else if (seleccionNomina == false, seleccionTodasNominas == true) {
+                    //Enviar datos al servidor para hacer la peticion de todas las nominas ya que es por pagomatico
+                    //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
+                    // con el pdf
+                    //peticion ajax
 
                 } else {
                     Swal.fire({
@@ -328,20 +416,24 @@
                         allowEscapeKey: false,
                         icon: 'warning',
                         title: '',
-                        text: `Selecciona una nomina `
+                        text: `Selecciona una opcion para continuar`
                     });
 
                 }
 
 
+            } else {
+                Swal.fire({
+                    backdrop: true,
+                    allowEnterKey: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    icon: 'warning',
+                    title: '',
+                    text: `Selecciona una nomina `
+                });
 
-
-
-
-
-
-            });
-
+            }
 
 
 
@@ -353,6 +445,54 @@
         });
 
 
+        //Metodos del modal
+        $('#DetalleNomia').on('hidden.bs.modal', function (e) {
+            $(this).find('form').trigger('reset');
+            $("#SeleccionarDelegacion").val("20");
+            sindicalizado = false;
+            confianza = false;
+
+        });
 
 
-    </script>
+        //SeleccionarDelegacion
+
+         let delegacionSeleccionadaUsuario = null;
+        const SeleccionarDelegacion = document.getElementById("SeleccionarDelegacion");
+        SeleccionarDelegacion.addEventListener("change",
+            function () {
+
+                delegacionSeleccionadaUsuario = this.options[SeleccionarDelegacion.selectedIndex];
+
+                console.log(SeleccionarDelegacion.value);
+
+                let EnviarDatos = "{'IdNomina': '"+nominaSeleccionadaUsuario.value+"','Delegacion': '"+SeleccionarDelegacion.value+"', 'Sindicalizado': '"+sindicalizado+"', 'Confianza': '"+confianza+"' }";
+
+                    MensajeCargando();
+                    $.ajax({
+                        url: '@Url.Action("ObtenerNominaPorFiltro", "Foliar")',
+                        data: EnviarDatos,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+                            //  alert(response);
+                            //$("example").empty();
+                            //PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNomina" + nominaSeleccionadaFoliar.value + ".pdf", "#example");
+                            //$('#ModalPDFVisualizador').modal('show');
+                            $('#DetalleNomia').modal('show');
+                            OcultarMensajeCargando();
+                        }
+                    });
+
+            }
+        );
+
+
+
+    });
+
+
+
+
+</script>
