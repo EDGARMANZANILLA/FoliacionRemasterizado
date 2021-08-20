@@ -138,6 +138,7 @@
     <Compile Include="Models\InventarioDetalleModel.cs" />
     <Compile Include="Models\InventarioInhabilitadoModel.cs" />
     <Compile Include="Models\InventarioModel.cs" />
+    <Compile Include="Models\RevicionFormasPagoModel.cs" />
     <Compile Include="Models\SolicitudDetalleModel.cs" />
     <Compile Include="Models\SolicitudFormasPagoModel.cs" />
     <Compile Include="ObjetosExtras\ObtenerHoraReal.cs" />

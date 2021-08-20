@@ -205,6 +205,7 @@ namespace DAP.Foliacion.Datos
             string an = null;
             string ap = null;
             string ad = null;
+            string nomina = null;
 
             List<string> anApAd = new List<string>();
             try
@@ -212,7 +213,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select an, ap, ad from interfaces.dbo.bitacora where importado = 1 and  id_nom ="+IdNum+" ", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select an, ap, ad, nomina from interfaces.dbo.bitacora where importado = 1 and  id_nom ="+IdNum+" ", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                    
@@ -221,10 +222,12 @@ namespace DAP.Foliacion.Datos
                         an = reader[0].ToString().Trim();
                         ap = reader[1].ToString().Trim();
                         ad = reader[2].ToString().Trim();
+                        nomina = reader[3].ToString().Trim();
 
                         anApAd.Add(an);
                         anApAd.Add(ap);
                         anApAd.Add(ad);
+                        anApAd.Add(nomina);
                     }
                 }
 
@@ -400,7 +403,56 @@ namespace DAP.Foliacion.Datos
             return revicionTodasNominas;
         }
 
+        //obtiene el nombre que se muestra el modal al cargar los detalles de las delegaciones por nomina
+        public static string ObtenerNombreModalDetalleNomina(int IdNomina) 
+        {
+            string NombreModal = null;
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select nomina,'' 'EsAdicional', adicional 'NombreAdicional', coment, quincena, id_nom  from interfaces.dbo.bitacora where id_nom ="+IdNomina+"", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
+
+                    while (reader.Read())
+                    {
+                        if (string.IsNullOrWhiteSpace(reader[2].ToString().Trim()))
+                        {
+                            NombreModal = reader[0].ToString().Trim() + " -" + "- " + reader[3].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
+                        }
+                        else 
+                        {
+                            NombreModal = reader[0].ToString().Trim()+" -"+"- "+" ADICIONAL "+ " _" +"_ "+ reader[2].ToString().Trim() + " _" + "_ " + reader[3].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
+                        }
+
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerNombreModalDetalleNomina";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se pudo obtener los datos de la bitacora de la nomina "+IdNomina+" ";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+            return NombreModal;
+        }
 
 
 
@@ -471,32 +523,219 @@ namespace DAP.Foliacion.Datos
 
 
 
-
-        public static string ObtenerDetalledeNominaConSindicatoCheques(int IdNomina)
+        /// <summary>
+        /// Consulta el detalle de la nomina general o descentralizada para saber el total de cheques por delegacion como se imprimen 
+        /// </summary>
+        /// <param name="ListaConsultas"></param>
+        /// <returns>Regresa una lista de TotalRegistrosDelegacionXSindicatoDTO en la cual vienen cuantos cheques hay por delegacion</returns>
+        public static List<TotalRegistrosDelegacionXSindicatoDTO> ObtenerDetalleNominaConsultaGeneralYDesc(List<string> ListaConsultas)
         {
-            DatosBitacoraParaCheque DatosNominaBitacora = new DatosBitacoraParaCheque();
+            List<TotalRegistrosDelegacionXSindicatoDTO> TotalRegistros = new List<TotalRegistrosDelegacionXSindicatoDTO>();
+
+
+            foreach(string consulta in ListaConsultas)
+            {
+
+                try
+                {
+                    using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                    {
+                        connection.Open();
+                        System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+                        System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                        while (reader.Read())
+                        {
+                            //posicion 0 = sindicato -> 0 u 1
+                            //posicion 1 = delegacion -> cadena
+                            //posicion 2 = Total  -> numero de registros casteable a int
+                            int a = Convert.ToInt32(reader[2].ToString().Trim());
+                            if (Convert.ToInt32(reader[2].ToString().Trim()) > 0 ) 
+                            {
+                                TotalRegistrosDelegacionXSindicatoDTO nuevoRegistro = new TotalRegistrosDelegacionXSindicatoDTO();
+
+                                int castBoleano =Convert.ToInt32( reader[0].ToString().Trim());
+                                nuevoRegistro.Sindicato     = Convert.ToBoolean(castBoleano);
+                                nuevoRegistro.Delegacion    = reader[1].ToString().Trim();
+                                nuevoRegistro.Total         = Convert.ToInt32( reader[2].ToString().Trim() );
+
+
+                                TotalRegistros.Add(nuevoRegistro);
+                            }
+
+
+
+                        }
+                    }
+
+
+                }
+                catch (Exception E)
+                {
+                    var transaccion = new Transaccion();
+
+                    var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                    LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                    NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                    NuevaExcepcion.Metodo = "ObtenerDetalleNominaConsulta";
+                    NuevaExcepcion.Usuario = null;
+                    NuevaExcepcion.Excepcion = E.Message;
+                    NuevaExcepcion.Comentario = "problema al extraer la data para la tabla del modal de pagoXFormas de pago al cargar una nomina";
+                    NuevaExcepcion.Fecha = DateTime.Now;
+
+                    repositorio.Agregar(NuevaExcepcion);
+
+                }
+
+
+
+
+            }
+
+            return TotalRegistros;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// pasa como parametro una consulta de una nomina y devuelve si ya fue foleada o no 
+        /// </summary>
+        /// <param name="ConsultaPreparada"></param>
+        /// <returns>Devuelve False cuando no han sido foliados y true cuando ya fueron foleados</returns>
+        public static bool ConsultaEstaFoliada(string ConsultaPreparada)
+        {
+            //nominaEstaFoliada
+            bool consultaNominaEstaFoliada = true;
+
+            List<string> listaNumcheFoliados = new List<string>();
+                try
+                {
+                    using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                    {
+                        connection.Open();
+                        System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(ConsultaPreparada, connection);
+                        System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                        while (reader.Read())
+                        {
+                        var a = string.IsNullOrWhiteSpace("");
+                        var b = string.IsNullOrWhiteSpace(null);
+                        var c = string.IsNullOrWhiteSpace("01230");
+
+
+                            //es true si el parametro esta en blanco o vacio
+                            if (!string.IsNullOrWhiteSpace(reader[0].ToString().Trim()))
+                            {
+                                listaNumcheFoliados.Add(reader[0].ToString().Trim());
+                            }
+
+
+
+                        }
+                    }
+
+
+                }
+                catch (Exception E)
+                {
+                    var transaccion = new Transaccion();
+
+                    var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                    LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                    NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                    NuevaExcepcion.Metodo = "ConsultaEstaFoliada";
+                    NuevaExcepcion.Usuario = null;
+                    NuevaExcepcion.Excepcion = E.Message;
+                    NuevaExcepcion.Comentario = "problema al ejecutar una consulta para saber si esta foliada o no para modal de pagoXFormas de pago al cargar una nomina";
+                    NuevaExcepcion.Fecha = DateTime.Now;
+
+                    repositorio.Agregar(NuevaExcepcion);
+
+                }
+
+
+            if (listaNumcheFoliados.Count() == 0)
+            {
+                consultaNominaEstaFoliada = false;
+            }
+              
+
+            return consultaNominaEstaFoliada;
+
+        }
+
+
+
+
+
+        /// <summary>
+        /// Obtiene data para la revicion de la nomina de formas de pago filtrada por delegacion 
+        /// </summary>
+        /// <param name="NumeroNomina"></param>
+        /// <param name="AnSegunBitacora"></param>
+        /// <param name="quincena"></param>
+        /// <param name="NombresBanco"></param>
+        /// <returns></returns>
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosNominaRevicionFormasDePago(string ConsultaSql, string NumeroNomina, int NumeroChequeInicial, string NombreBanco  )
+        {
+            List<DatosReporteRevisionNominaDTO> ListaDatosReporteFoliacionPorNomina = new List<DatosReporteRevisionNominaDTO>();
+
             try
             {
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(" select quincena, nomina, coment, id_nom, an, importado  from interfaces.dbo.bitacora where Importado = 1  and id_nom= " + IdNomina + " order by id_nom ", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(ConsultaSql, connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
-
+                    int i = 0;
                     while (reader.Read())
                     {
+                        DatosReporteRevisionNominaDTO NuevoDatoReporte = new DatosReporteRevisionNominaDTO();
 
+                        NuevoDatoReporte.Id = ++i;
 
+                        NuevoDatoReporte.Partida = reader[1].ToString().Trim();
+                        NuevoDatoReporte.Num = reader[2].ToString().Trim();
+                        NuevoDatoReporte.Nombre = reader[3].ToString().Trim();
+                        NuevoDatoReporte.Deleg = reader[4].ToString().Trim();
+                        NuevoDatoReporte.Nom = NumeroNomina;
 
-                        DatosNominaBitacora.Quincena = reader[0].ToString().Trim();
-                        DatosNominaBitacora.Nomina = reader[1].ToString().Trim();
-                        DatosNominaBitacora.Comentario = reader[2].ToString().Trim();
-                        DatosNominaBitacora.Id_nom = Convert.ToInt32(reader[3].ToString().Trim());
-                        DatosNominaBitacora.An = reader[4].ToString().Trim();
-                        DatosNominaBitacora.Importado = Convert.ToBoolean(reader[5].ToString().Trim());
+                        //if (NumeroChequeInicial++ < RangoInicialInhabilitado)
+                        //{
+                        //    NuevoDatoReporte.Num_Che = Convert.ToString(NumeroChequeInicial++);
+                        //}
+                        //else {
+                        //    int TotalInhabilitados = (Convert.ToInt32(RangoFinalInhabilitado) - Convert.ToInt32(RangoInicialInhabilitado))+1;
 
-                        return DatosNominaBitacora;
+                        //    if (TotalInhabilitados!= 0) 
+                        //    {
+                        //        NumeroChequeInicial = TotalInhabilitados++;
+                        //    }
+                        //}
+
+                       // NuevoDatoReporte.Num_Che = Convert.ToString( NumeroChequeInicial++);
+                        
+                        NuevoDatoReporte.Liquido = reader[7].ToString().Trim();
+                        NuevoDatoReporte.CuentaBancaria = NombreBanco;
+                        ListaDatosReporteFoliacionPorNomina.Add(NuevoDatoReporte);
                     }
                 }
 
@@ -511,20 +750,33 @@ namespace DAP.Foliacion.Datos
                 LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
 
                 NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
-                NuevaExcepcion.Metodo = "ObtenerAnBitacoraParaCheques";
+                NuevaExcepcion.Metodo = "ObtenerDatosNominaRevicionFormasDePago";
                 NuevaExcepcion.Usuario = null;
                 NuevaExcepcion.Excepcion = E.Message;
-                NuevaExcepcion.Comentario = "No se pudo leer u obtener los datos de la bitacora para la foliacion, verifique que existan datos para id_nom " + IdNomina + "";
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe para crear la revicion del pdf de cada nomina";
                 NuevaExcepcion.Fecha = DateTime.Now;
 
                 repositorio.Agregar(NuevaExcepcion);
 
+                //agregar un dato si hay un error para que el usuario se entere que hubo un error y avise al administrador del sistema
+                DatosReporteRevisionNominaDTO NuevoErrorDatoReporte = new DatosReporteRevisionNominaDTO();
+
+                NuevoErrorDatoReporte.Id = 1;
+                NuevoErrorDatoReporte.Partida = "";
+                NuevoErrorDatoReporte.Nombre = "Verifique que la nomina que desea";
+                NuevoErrorDatoReporte.Deleg = "";
+                NuevoErrorDatoReporte.Num_Che = "foliar";
+                NuevoErrorDatoReporte.Liquido = "exista";
+                NuevoErrorDatoReporte.CuentaBancaria = "";
+
+                ListaDatosReporteFoliacionPorNomina.Add(NuevoErrorDatoReporte);
+
+                return ListaDatosReporteFoliacionPorNomina;
             }
 
-            DatosNominaBitacora.Comentario = "Sin Datos";
 
-            return DatosNominaBitacora;
-
+            return ListaDatosReporteFoliacionPorNomina;
         }
+
     }
 }

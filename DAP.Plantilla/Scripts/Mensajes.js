@@ -199,3 +199,20 @@ function MensajeWarningSweet(Texto)
 
 
 
+function MensajeCorrectoSweet(Texto)
+{
+    Swal.fire({
+        backdrop: true,
+        allowEnterKey: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        icon: 'success',
+        title: '',
+        text: Texto,
+        footer: '<a href="#">Contactar al desarrollador?</a>'
+    });
+
+
+}
+
+

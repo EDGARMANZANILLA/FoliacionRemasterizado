@@ -8,6 +8,8 @@ using CrystalDecisions.CrystalReports.Engine;
 using DAP.Foliacion.Entidades.DTO.FoliarDTO;
 using DAP.Foliacion.Negocios;
 using DAP.Plantilla.Reportes.Datasets;
+using DAP.Plantilla.Models;
+using DAP.Foliacion.Entidades;
 
 namespace DAP.Plantilla.Controllers
 {
@@ -197,19 +199,107 @@ namespace DAP.Plantilla.Controllers
 
 
         #region Metodos para la Foliacion por medio de Formas de pago
-        public ActionResult ObtenerDetalleNominaPorFiltro(int IdNomina)
+        public ActionResult ObtenerDetalleNominaPorIdNominaParaModal(int IdNomina)
         {
             //ObtenerDetalleNominaParaCheques
 
+            var resumenDatosTablaModal = FoliarNegocios.ObtenerDetallesNominaParaCheques(IdNomina).OrderBy( X => X.Delegacion);
+
+            string NombreModal = FoliarNegocios.ObtenerNombreModalPorIDNomina(IdNomina);
 
 
+            return Json(new
+            {
+                TablaModal = resumenDatosTablaModal,
+                NombreDetalladoNomina = NombreModal
+            });
 
-
-
-            return Json(true, JsonRequestBehavior.AllowGet);
+           // return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
 
+
+
+
+        
+        public ActionResult RevisarNominaFormaPago(RevicionFormasPagoModel NuevaRevicion)
+        {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
+            // 1 = le pertenece a las nominas general y descentralizada
+            // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
+
+           
+
+            if (NuevaRevicion.GrupoNomina == 1) 
+            {
+                //En la posicion 1 viene el AN como se encuentra en bitacora 
+                List<string> An = FoliarNegocios.ObtenerAnBitacoraIdNum(NuevaRevicion.IdNomina);
+
+
+
+                ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(An[0]);
+                string consulta = nuevaConsulta.ObtenerConsultaSindicaroFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
+
+                string NombreBanco =FoliarNegocios.ObtenerBancoPorID(NuevaRevicion.IdBancoPagador);
+
+                //An[3] viene el numero de la nomina correcpondiente a alpha
+                List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consulta, An[3], Convert.ToInt32(NuevaRevicion.RangoInicial) , NombreBanco );
+
+
+
+                //Crear reporte 
+                DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+
+                dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina));
+
+                string ultimoFolioUsar = "";
+                foreach (var dato in datosRevicionObtenidos)
+                {
+
+                    ultimoFolioUsar = dato.Num_Che;
+                    dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
+                }
+
+
+                ReportDocument rd = new ReportDocument();
+                rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
+
+                rd.SetDataSource(dtsRevicionFolios);
+                
+                string rutaAlmacenamiento = "C:\\Users\\Israel\\source\\repos\\EDGARMANZANILLA\\FoliacionRemasterizado\\DAP.Plantilla\\Reportes\\ReportesPDFSTemporales\\" + "RevicionNominaFormasDePago" + NuevaRevicion.IdNomina + ".pdf";
+
+                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
+
+
+                
+                if (System.IO.File.Exists(rutaAlmacenamiento) && ultimoFolioUsar != "")
+                {
+                   
+                    return Json(new
+                    {
+                        RespuestaServidor = "201",
+                        UltimoFolioUsado = ultimoFolioUsar,
+                        FoliosTotal = (Convert.ToInt32( ultimoFolioUsar) - NuevaRevicion.RangoInicial) + 1
+                    });
+
+                     // respuestaServer = "201";
+                }
+                else 
+                {
+                    return Json(new
+                    {
+                        RespuestaServidor = "500",
+                        UltimoFolioUsado = "Error no se puede simular la Foliacion",
+                        FoliosTotal = 0,
+                        Error = "No coincide la delegacion con el sindicato"
+                    });
+                    //respuestaServer = "500";
+                    
+                }
+               
+            }
+            
+            return Json("404", JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 

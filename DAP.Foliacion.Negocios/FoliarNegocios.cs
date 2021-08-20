@@ -120,6 +120,7 @@ namespace DAP.Foliacion.Negocios
                 NombresBanco.Add(ObtenerBancoPorID(id));
             }
 
+
             var DatosNomina = FoliarConsultasDBSinEntity.ObtenerDatosIdNominaPagomatico(NumeroNomina, An, Quincena, NombresBanco);
   
             return DatosNomina;
@@ -171,12 +172,13 @@ namespace DAP.Foliacion.Negocios
         }
 
 
-
-
-
         //Metodos para foliar formas de pagos (cheques)
-        public static DatosBitacoraParaCheque ObtenerDetallesNominaParaCheques(int IdNomina) 
+        public static List<ResumenNominaDTO> ObtenerDetallesNominaParaCheques(int IdNomina) 
         {
+
+            List<ResumenNominaDTO> listaResumenNomina = new List<ResumenNominaDTO>();
+
+
            DatosBitacoraParaCheque datosEncontrados =  FoliarConsultasDBSinEntity.ObtenerAnBitacoraParaCheques(IdNomina);
 
             //verifica que no haya ocurrido un problema al traer los datos
@@ -185,12 +187,179 @@ namespace DAP.Foliacion.Negocios
                 //verifica que la nomina sea general o desentralizado ya que son las dos unicas que se imprimen en diferentes archivos (Confianza y sindicalizados C-G?2115.tx y S-G?2115.txt)
                 if (datosEncontrados.Nomina == "01" || datosEncontrados.Nomina == "02")
                 {
-                    
+                    ConsultasSQLSindicatoGeneralYDesc nuevaConsulta  = new ConsultasSQLSindicatoGeneralYDesc(datosEncontrados.An);
+
+
+                    List<string> listaConsultas = nuevaConsulta.ObtenerConsultasSindicato();
+
+                    if (listaConsultas.Count() > 0) 
+                    {
+                        List<TotalRegistrosDelegacionXSindicatoDTO> resultadoTotalRegistros = FoliarConsultasDBSinEntity.ObtenerDetalleNominaConsultaGeneralYDesc(listaConsultas);
+
+                        if (resultadoTotalRegistros.Count() > 0) 
+                        {
+                            foreach (TotalRegistrosDelegacionXSindicatoDTO registroSeleccionado in resultadoTotalRegistros) 
+                            {
+                                //registroSeleccionado.Delegacion
+
+
+                                //string deleg = null;
+                                string consulta = null;
+                                bool foliado = true;
+
+                                switch (registroSeleccionado.Delegacion)
+                                {
+                                    case "Campeche y Mas":
+
+                                        if (registroSeleccionado.Sindicato )
+                                        {
+                                            //Sindicalizado 
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00', '01', '02', '08', '09', '10', '12', '13', '14', '15', '16') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza degacion 00 e inlcuyen ('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16');
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00', '01', '02', '08', '09', '10', '12', '13', '14', '15', '16') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                    case "Champoton":
+
+                                        if (registroSeleccionado.Sindicato)
+                                        {
+                                            //Sindicalizado
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza delegacion 03;
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                    case "Escarcega - Candelaria":
+
+                                        if (registroSeleccionado.Sindicato)
+                                        {
+                                            //Sindicato
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza delegacion 04;
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                    case "Calkini":
+
+                                        if (registroSeleccionado.Sindicato) 
+                                        {
+                                            //sindizalizado
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza delegacion  05;
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                    case "Hecelchakan":
+
+                                        if (registroSeleccionado.Sindicato)
+                                        {
+                                            //Sindicalizado
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza delegacion  06;
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                    case "Hopelchen":
+
+                                        if (registroSeleccionado.Sindicato) 
+                                        {
+                                            //Sindicalizados
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        else
+                                        {
+                                            //Confianza delegacion 07;
+                                            consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2') , DELEG,  SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                                            foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+                                        }
+                                        break;
+
+                                }
+
+
+                                ResumenNominaDTO nuevoResumen = new ResumenNominaDTO();
+                                nuevoResumen.Delegacion = registroSeleccionado.Delegacion;
+
+
+                                if (registroSeleccionado.Sindicato)
+                                {
+                                    nuevoResumen.Sindicalizado = registroSeleccionado.Total;
+                                } else 
+                                {
+                                    nuevoResumen.Confianza = registroSeleccionado.Total;
+                                }
+                                nuevoResumen.Otros = 0;
+
+                                nuevoResumen.Foliado = foliado;
+                                nuevoResumen.Total = registroSeleccionado.Total;
+
+
+                                listaResumenNomina.Add(nuevoResumen);
+
+                            }
+                  
+                        
+                        }
+                    }
+
+
+
+
 
                 }
             }
 
+
+
+            return listaResumenNomina;
         }
+
+        public static string ObtenerNombreModalPorIDNomina(int IdNomina) 
+        {
+           return FoliarConsultasDBSinEntity.ObtenerNombreModalDetalleNomina(IdNomina);
+        }
+
+
+
+
+        public static List<DatosReporteRevisionNominaDTO> ObtenerDatosRevicionPorDelegacionFormasPago(string Consulta, string NumeroNomina, int NumeroChequeInicial, string NombreBanco) 
+        {
+            return FoliarConsultasDBSinEntity.ObtenerDatosNominaRevicionFormasDePago(Consulta, NumeroNomina, NumeroChequeInicial, NombreBanco);
+        }
+
+
+
 
     }
 }
