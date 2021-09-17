@@ -175,6 +175,10 @@ function OcultarMensajeCargando() {
 function MensajeErrorSweet(Texto)
 {
     Swal.fire({
+        backdrop: true,
+        allowEnterKey: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
         icon: 'error',
         title: 'Oops...',
         text: Texto,
@@ -214,5 +218,4 @@ function MensajeCorrectoSweet(Texto)
 
 
 }
-
 

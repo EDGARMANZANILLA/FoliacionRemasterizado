@@ -178,7 +178,8 @@
                     </a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li>
-                            <a href="#">Cheque</a>
+                            <a href="@Url.Action("Index","BuscadorCheque")">Encontrar Cheque</a>
+                           
                         </li>
                         <li>
                             <a href="#">Cheques Cancelados</a>
@@ -352,7 +353,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#sidebar').toggleClass('active');
+           // $('#sidebar').toggleClass('active');
 
 
             $('#sidebarCollapse').on('click', function () {

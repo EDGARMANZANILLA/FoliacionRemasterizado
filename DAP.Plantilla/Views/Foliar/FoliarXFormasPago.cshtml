@@ -40,11 +40,12 @@
 
                 <br />
                 <br />
-             
-                <div id="DetalleSelecionado" class="text-uppercase offset-sm-1 col-10" style="background-color: #017BFF; color: white; font-weight: bolder; font-size: 20px;">
+
+                <div id="DetalleSelecionado" class="text-uppercase offset-sm-1 col-10" style="color: #43594C; font-weight: bolder; font-size: 19px;">
 
 
                 </div>
+             
 
             </div>
 
@@ -132,7 +133,7 @@
                 <div class="row text-center">
 
                     <label class="offset-1 col-10  ">Final:</label>
-                    <h3 id="rangoFinal" class="offset-3 col-6 " style="border:solid; color:#017BFF;">{...}</h3>
+                    <h3 id="rangoFinal" class="offset-3 col-6 " style="border:solid; color:#017BFF;">...</h3>
                 </div>
 
 
@@ -141,7 +142,7 @@
 
                 <div class="row text-center">
                     <label class="offset-1 col-10 offset-sm-1 col-sm-5  ">Numero de Registros Foliados:</label>
-                    <h3 id="registrosFoliados" class="offset-1 col-10 offset-sm-1 col-sm-4  text-sm-center" style="border:solid; color:#017BFF;" title="Numero de Registros Foliados">{...}</h3>
+                    <h3 id="registrosFoliados" class="offset-1 col-10 offset-sm-1 col-sm-4  text-sm-center" style="border:solid; color:#017BFF;" title="Numero de Registros Foliados">...</h3>
 
                 </div>
 
@@ -230,9 +231,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title col-11 text-capitalize text-center" id="NombreCabezeraModal">{Nombre del detalle de la nomina}</h5>
-                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
+               <!-- <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                    </button>
+                -->
             </div>
             <div class="modal-body">
 
@@ -265,7 +267,7 @@
                     </div>
                 </div>
 
-              
+
 
 
 
@@ -297,7 +299,7 @@
 
 
 
-                <div class="col-12 offset-md-3 col-md-6 text-center">
+                <div id="CampoSindicato" class="col-12 offset-md-3 col-md-6 text-center" style="display: none;">
                     <form>
                         <div>
                             <label class="btn  btn-outline-primary btn-lg">
@@ -311,6 +313,10 @@
                     <br />
                 </div>
 
+                <div id="NominaSinSindicato" class="text-center text-uppercase offset-sm-1 col-10" style="color: #43594C; font-weight: bolder; font-size: 15px; display:none;">
+
+
+                </div>
 
 
 
@@ -327,7 +333,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" style="text-align:center">Cerrar</button>
+                <button id="CerrarModalDetallesNomina" type="button" class="btn btn-primary" data-dismiss="modal" style="text-align:center">Cerrar</button>
 
             </div>
         </div>
@@ -363,22 +369,79 @@
 
 
 <script>
+    ///* Tabla ddonde se muestra el banco, cuenta y los folios Dispo*/ 
+    //function DibujarTablaResumenInventario() {
+    //    $("#TablaResumenNomina").append(
 
+    //        "<table id='NuevaTablaResumen'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+    //        " <caption class='text-uppercase'>Resumen de Nomina</caption>"
+    //        + "<thead class='tabla'>" +
+
+    //        "<tr class='text-center text-uppercase'>" +
+    //        "<th>Delegacion </th>" +
+    //        "<th>Sindicalizado</th>" +
+    //        "<th>Confianza</th>" +
+    //        "<th>Otros</th>" +
+    //        "<th>Foliado</th>" +
+    //        "</tr>" +
+    //        "</thead>" +
+    //        "</table>"
+    //    );
+    //};
+
+    //function PintarTablaResumenInventarioActualizada(datos) {
+
+    //    $('#NuevaTablaResumen').DataTable({
+    //        "ordering": true,
+    //        "info": false,
+    //        "searching": false,
+    //        "paging": false,
+    //        "lengthMenu": [5, 10],
+    //        "language":
+    //        {
+    //            "processing": "Procesando...",
+    //            "lengthMenu": "Mostrar _MENU_ registros",
+    //            "zeroRecords": "No se encontraron resultados",
+    //            "emptyTable": "Ningún dato disponible en esta tabla",
+    //            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+    //            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+    //            "search": "Buscar:",
+    //            "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+    //            "paginate": {
+    //                "first": "Primero",
+    //                "last": "Último",
+    //                "next": "Siguiente",
+    //                "previous": "Anterior"
+    //            }
+    //        },
+    //        "data": datos,
+    //        "columns": [
+    //            { "data": "NombreBanco" },
+    //            { "data": "Cuenta" },
+    //            { "data": "FormasDisponibles" }
+
+    //        ],
+    //        "order": [[1, 'asc']]
+
+
+
+    //    });
+    //};
+
+
+
+    /*Tabla para el modal que se carga despues de elegir nomina y ver detalles*/ 
     function DibujarTablaCrudAjax() {
         $("#TablaResumenNomina").append(
-
             "<table id='NuevaTablaResumen'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
             " <caption class='text-uppercase'>Resumen de Nomina</caption>"
             + "<thead class='tabla'>" +
-
             "<tr class='text-center text-uppercase'>" +
             "<th>Delegacion </th>" +
             "<th>Sindicalizado</th>" +
             "<th>Confianza</th>" +
             "<th>Otros</th>" +
             "<th>Foliado</th>" +
-            "<th>Total</th>" +
-
             "</tr>" +
             "</thead>" +
             "</table>"
@@ -386,7 +449,6 @@
     };
 
     function PintarConsultaTablaResumenEnModal(datos) {
-
         $('#NuevaTablaResumen').DataTable({
             "ordering": true,
             "info": false,
@@ -416,10 +478,7 @@
                 { "data": "Sindicalizado" },
                 { "data": "Confianza" },
                 { "data": "Otros" },
-                { "data": "Foliado" },
-
-                { "data": "Total" }
-
+                { "data": "Foliado" }
             ],
             "order": [[1, 'asc']],
             "columnDefs":
@@ -427,29 +486,18 @@
                     {
                         "targets": [4],
                         render: function (data, type, row) {
-                           // console.log(typeof data);
-
-
-                            if (data)
-                            {
+                            // console.log(typeof data);
+                            if (data) {
                                 return '<span class="bg-success text-uppercase text-light"  >%nbsp Foliado %nbsp</span>';
                             }
-                            else
-                            {
+                            else {
                                 return '<span class="bg-danger text-uppercase text-light" >Sin Foliar</span>';
                             }
-
                         }
                     }
                 ]
-
-
-
-
         });
     };
-
-
 
 
 
@@ -480,10 +528,29 @@
             }
         );
 
+        //SeleccionarDelegacion
+
+        let delegacionSeleccionadaUsuario = null;
+        const SeleccionarDelegacion = document.getElementById("SeleccionarDelegacion");
+        SeleccionarDelegacion.addEventListener("change",
+            function () {
+
+                delegacionSeleccionadaUsuario = this.options[SeleccionarDelegacion.selectedIndex];
+
+
+
+            }
+        );
+
+
+
+
+
       //Regresa detalles de una nomina y delegacion seleccionada para el modal de detalles
         const VerDetalles = document.getElementById("VerDetalles");
         VerDetalles.addEventListener("click",
             function () {
+                delegacionSeleccionadaUsuario = null;
 
                 if (nominaSeleccionadaUsuario != null)
                 {
@@ -502,6 +569,20 @@
                            // PintarConsultasTablaCrud(listaContenedores);
                             PintarConsultaTablaResumenEnModal(response.TablaModal);
                             document.getElementById('NombreCabezeraModal').innerText = response.NombreDetalladoNomina;
+
+                            //si la nomina es general o desc no se mostraran los botones de sindicalizado y confianza
+                            if (response.NominaEsGenODesc) {
+
+                                document.getElementById('NominaSinSindicato').style.display = 'none';
+                                document.getElementById('CampoSindicato').style.display = 'block';
+                            } else
+                            {
+
+                                document.getElementById('CampoSindicato').style.display = 'none';
+                                document.getElementById('NominaSinSindicato').style.display = 'block';
+                                document.getElementById('NominaSinSindicato').innerText = "Nomina sin sindicato para asignar folios";
+                            }
+
 
                             $('#DetalleNomia').modal('show');
 
@@ -525,22 +606,14 @@
 
 
 
+        
+       
+        const CerrarModal = document.getElementById('CerrarModalDetallesNomina');
+        CerrarModal.addEventListener('click', function () {
+            document.getElementById('DetalleSelecionado').innerText = 'Oops creo que deberia seleccionar una delegacion';
+            delegacionSeleccionadaUsuario = null;
+        });
 
-
-
-        //SeleccionarDelegacion
-
-        let delegacionSeleccionadaUsuario = null;
-        const SeleccionarDelegacion = document.getElementById("SeleccionarDelegacion");
-        SeleccionarDelegacion.addEventListener("change",
-            function () {
-
-                delegacionSeleccionadaUsuario = this.options[SeleccionarDelegacion.selectedIndex];
-
-
-
-            }
-        );
 
 
 
@@ -596,7 +669,7 @@
 
         const Continuar = document.getElementById('Continua');
         Continuar.addEventListener('click', function () {
-            //console.log(delegacionSeleccionadaUsuario);
+           
 
             if (delegacionSeleccionadaUsuario != null) {
 
@@ -629,20 +702,28 @@
                // console.log(checkboxSindicalizado.checked);
                 //console.log(checkboxConfianza.checked);
                 //el usuario no a seleccionado una delegacion dentro del modal
-                if (sindicalizado) {
+                if (/*sindicalizado*/ checkboxSindicalizado.checked) {
 
                     //document.getElementById('DetalleSelecionado').innerText = "Delegacion "+ SeleccionarDelegacion.value +" seleccionada "+ " para sindizalizados " + sindicalizado;
                     document.getElementById('DetalleSelecionado').innerText = "Delegacion seleccionada " + nombreDelegacion + " " + " para sindicalizados ";
+                    //document.getElementById('NominaSinSindicato').style.display = 'none';
                     $('#DetalleNomia').modal('hide');
+                   // sindicalizado = false;
 
-
-
-
-                } else if (confianza) {
+                } else if (/*confianza*/  checkboxConfianza.checked) {
 
                     document.getElementById('DetalleSelecionado').innerText = "Delegacion seleccionada " + nombreDelegacion + " para los de confianza";
+                    //document.getElementById('NominaSinSindicato').style.display = 'none';
                     $('#DetalleNomia').modal('hide');
 
+                    //confianza = false;
+                } else
+                {
+
+                    document.getElementById('DetalleSelecionado').innerText = "Delegacion seleccionada " + nombreDelegacion + " ";
+                   // document.getElementById('NominaSinSindicato').style.display = 'block';
+                   // document.getElementById('NominaSinSindicato').innerText = "Nomina sin sindicato para asignar folios";
+                    $('#DetalleNomia').modal('hide');
                 }
 
 
@@ -692,9 +773,6 @@
         const Revisar = document.getElementById('RevisarNomina');
         Revisar.addEventListener('click', function () {
 
-            //console.log(document.getElementById('FolioInicialInhabilitado').value);
-            //console.log(document.getElementById('FolioFinalInhabilitado').value);
-
            //Revisar que el usuario haya seleccionado una nomina
             if (nominaSeleccionadaUsuario != null) {
 
@@ -713,14 +791,14 @@
                                 //Enviar datos al servidor x nomina
 
                                 let DatosNominaRevisar = {
-                                    IdNomina: + nominaSeleccionadaUsuario.value ,
-                                    Delegacion:  + delegacionSeleccionadaUsuario.value ,
-                                    Sindicato:  + sindicalizado ,
-                                    IdBancoPagador:  + bancoSeleccionadoUsuario.value ,
+                                    IdNomina: + nominaSeleccionadaUsuario.value,
+                                    Delegacion: + delegacionSeleccionadaUsuario.value,
+                                    Sindicato: + sindicalizado,
+                                    IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
-                                    Inhabilitado: document.getElementById('checkInhabilitar').checked ,
-                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value ,
-                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value ,
+                                    Inhabilitado: document.getElementById('checkInhabilitar').checked,
+                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value,
+                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
                                     GrupoNomina: 1
                                 };
 
@@ -729,14 +807,19 @@
 
                                 $.ajax({
                                     url: '@Url.Action("RevisarNominaFormaPago", "Foliar")',
-                                    data: JSON.stringify( DatosNominaRevisar ),
+                                    data: JSON.stringify(DatosNominaRevisar),
                                     type: "POST",
                                     contentType: "application/json; charset=utf-8",
                                     success: function (response) {
+                                        //regresa el campo sindicato a false para que el usuario lo tenga que volver a escoger
+                                        sindicalizado = false;
+                                       // delegacionSeleccionadaUsuario = null;
+                                       // document.getElementById('DetalleSelecionado').innerText = ' ';
 
-                                        //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+                                        //recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
                                         if (response.RespuestaServidor === "201") {
 
+                                          //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
                                             MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
                                             $("example").empty();
                                             PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNominaFormasDePago" + nominaSeleccionadaUsuario.value + ".pdf", "#example");
@@ -749,7 +832,7 @@
                                         } else if (response.RespuestaServidor === "500") {
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
-                                            MensajeErrorSweet("No se pudo crear la revicion intente de nuevo " + " ' " + response.Error +" ' ");
+                                            MensajeErrorSweet("No se pudo crear la revicion intente de nuevo " + " ' " + response.Error + " ' ");
                                             OcultarMensajeCargando();
                                         } else {
 
@@ -765,15 +848,15 @@
 
                             } else if (confianza) {
                                 //Enviar datos para los de confianza
-                                let DatosNominaRevisar =  {
-                                    IdNomina: + nominaSeleccionadaUsuario.value ,
-                                    Delegacion:  + delegacionSeleccionadaUsuario.value ,
-                                    Sindicato:  + sindicalizado ,
-                                    IdBancoPagador:  + bancoSeleccionadoUsuario.value ,
+                                let DatosNominaRevisar = {
+                                    IdNomina: + nominaSeleccionadaUsuario.value,
+                                    Delegacion: + delegacionSeleccionadaUsuario.value,
+                                    Sindicato: + sindicalizado,
+                                    IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
-                                    Inhabilitado: document.getElementById('checkInhabilitar').checked ,
-                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value ,
-                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value ,
+                                    Inhabilitado: document.getElementById('checkInhabilitar').checked,
+                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value,
+                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
                                     GrupoNomina: 1
                                 };
 
@@ -782,10 +865,14 @@
 
                                 $.ajax({
                                     url: '@Url.Action("RevisarNominaFormaPago", "Foliar")',
-                                    data: JSON.stringify( DatosNominaRevisar ),
+                                    data: JSON.stringify(DatosNominaRevisar),
                                     type: "POST",
                                     contentType: "application/json; charset=utf-8",
                                     success: function (response) {
+                                        //regresa confianza a false para que el usuario lo vuelva a cargar
+                                        confianza = false;
+                                       // delegacionSeleccionadaUsuario = null;
+                                      //  document.getElementById('DetalleSelecionado').innerText = ' ';
 
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
                                         if (response.RespuestaServidor === "201") {
@@ -793,6 +880,7 @@
                                             MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
                                             $("example").empty();
                                             PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNominaFormasDePago" + nominaSeleccionadaUsuario.value + ".pdf", "#example");
+                                            document.getElementById('NombreNominaDelegacion').innerText = response.Delegacion;
                                             $('#ModalPDFVisualizador').modal('show');
 
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
@@ -812,27 +900,86 @@
                                 });
 
 
+                            } else
+                            {
+                                //Es para otras nominas que no son general o descentralizada por eso pertenece al GrupoNomina =2
+                                console.log("otras nominas");
+
+                                   let DatosNominaRevisar = {
+                                    IdNomina: + nominaSeleccionadaUsuario.value,
+                                    Delegacion: + delegacionSeleccionadaUsuario.value,
+                                    //Sindicato: + sindicalizado,
+                                    IdBancoPagador: + bancoSeleccionadoUsuario.value,
+                                    RangoInicial: rangoFolioInicial.value,
+                                    Inhabilitado: document.getElementById('checkInhabilitar').checked,
+                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value,
+                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
+                                    GrupoNomina: 2
+                                };
+
+                                MensajeCargando();
+
+
+                                $.ajax({
+                                    url: '@Url.Action("RevisarNominaFormaPago", "Foliar")',
+                                    data: JSON.stringify(DatosNominaRevisar),
+                                    type: "POST",
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (response) {
+                                        //regresa confianza a false para que el usuario lo vuelva a cargar
+                                        confianza = false;
+                                       // delegacionSeleccionadaUsuario = null;
+                                        // document.getElementById('DetalleSelecionado').innerText = ' ';
+                                        console.log(response.DatosExtras);
+
+                                        //estos metodos se encuentran el Js del Index de Foliar sirve para actualizar la tabla al terminar de folear
+                                        $("#TablaResumenInventario").empty();
+                                        DibujarTablaResumenInventario();
+                                        PintarConsultaActualizaTablaResumenInventario(response.DatosExtras);
+
+                                        //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+                                        if (response.RespuestaServidor === "201") {
+
+                                            MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
+                                            $("example").empty();
+                                            PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNominaFormasDePago" + nominaSeleccionadaUsuario.value + ".pdf", "#example");
+
+                                            document.getElementById('NombreNominaDelegacion').innerText = response.Delegacion;
+
+                                            $('#ModalPDFVisualizador').modal('show');
+
+                                            document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
+                                            document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
+                                            OcultarMensajeCargando();
+
+                                        } else if (response.RespuestaServidor === "500") {
+                                            MensajeErrorSweet("No se podo crear la revicion intente de nuevo");
+                                            OcultarMensajeCargando();
+                                        } else {
+
+                                            MensajeError("Peticion sin exito");
+                                            OcultarMensajeCargando();
+                                        }
+
+                                    }
+                                });
 
                             }
-
 
                         } else
                         {
                             MensajeWarningSweet('Ingrese el folio inicial del rango');
                         }
-
                     }
                     else
                     {
                         MensajeWarningSweet('¡Seleccione un banco !');
-
                     }
                 }
                 else
                 {
                     MensajeWarningSweet('¡Asegurese de haber seleccionado una delegacion!');
                 }
-
             } else {
                 MensajeWarningSweet('¡Asegurese de seleccionar una nomina!');
             }

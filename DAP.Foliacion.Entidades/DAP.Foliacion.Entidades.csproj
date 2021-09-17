@@ -42,13 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ConsultasSQLOtrasNominasConCheques.cs" />
     <Compile Include="ConsultasSQLSindicatoGeneralYDesc.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosBitacoraParaCheque.cs" />
+    <Compile Include="DTO\FoliarDTO\DatosCompletosBitacoraParaChequesDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosReporteRevisionNominaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosRevicionTodasNominasDTO.cs" />
     <Compile Include="DTO\FoliarDTO\NombreNominasDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\NumRfcNombreLiquidoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ReporteFoliacionDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ResumenNominaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\TotalRegistrosDelegacionXSindicatoDTO.cs" />

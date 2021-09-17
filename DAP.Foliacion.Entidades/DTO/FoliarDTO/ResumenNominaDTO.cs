@@ -10,9 +10,9 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
     {
         public string Delegacion { get; set; }
 
-        public int Sindicalizado { get; set; }
-        public int Confianza { get; set; }
-        public int Otros { get; set; }
+        public string Sindicalizado { get; set; }
+        public string Confianza { get; set; }
+        public string Otros { get; set; }
         public bool Foliado { get; set; }
         public int Total { get; set; }
     

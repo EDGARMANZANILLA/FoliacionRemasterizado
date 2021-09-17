@@ -12,7 +12,7 @@
   <xs:element name="RevicionDeFoliacionPorNomina" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="RevicionDeFoliacionPorNomina" msprop:Generator_UserDSName="RevicionDeFoliacionPorNomina">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="DatosRevicion" msprop:Generator_TableClassName="DatosRevicionDataTable" msprop:Generator_TableVarName="tableDatosRevicion" msprop:Generator_RowChangedName="DatosRevicionRowChanged" msprop:Generator_TablePropName="DatosRevicion" msprop:Generator_RowDeletingName="DatosRevicionRowDeleting" msprop:Generator_RowChangingName="DatosRevicionRowChanging" msprop:Generator_RowEvHandlerName="DatosRevicionRowChangeEventHandler" msprop:Generator_RowDeletedName="DatosRevicionRowDeleted" msprop:Generator_RowClassName="DatosRevicionRow" msprop:Generator_UserTableName="DatosRevicion" msprop:Generator_RowEvArgName="DatosRevicionRowChangeEvent">
+        <xs:element name="DatosRevicion" msprop:Generator_TableClassName="DatosRevicionDataTable" msprop:Generator_TableVarName="tableDatosRevicion" msprop:Generator_TablePropName="DatosRevicion" msprop:Generator_RowDeletingName="DatosRevicionRowDeleting" msprop:Generator_RowChangingName="DatosRevicionRowChanging" msprop:Generator_RowEvHandlerName="DatosRevicionRowChangeEventHandler" msprop:Generator_RowDeletedName="DatosRevicionRowDeleted" msprop:Generator_UserTableName="DatosRevicion" msprop:Generator_RowChangedName="DatosRevicionRowChanged" msprop:Generator_RowEvArgName="DatosRevicionRowChangeEvent" msprop:Generator_RowClassName="DatosRevicionRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="No" msprop:Generator_ColumnVarNameInTable="columnNo" msprop:Generator_ColumnPropNameInRow="No" msprop:Generator_ColumnPropNameInTable="NoColumn" msprop:Generator_UserColumnName="No" type="xs:string" minOccurs="0" />
@@ -27,10 +27,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Ruta" msprop:Generator_TableClassName="RutaDataTable" msprop:Generator_TableVarName="tableRuta" msprop:Generator_TablePropName="Ruta" msprop:Generator_RowDeletingName="RutaRowDeleting" msprop:Generator_RowChangingName="RutaRowChanging" msprop:Generator_RowEvHandlerName="RutaRowChangeEventHandler" msprop:Generator_RowDeletedName="RutaRowDeleted" msprop:Generator_UserTableName="Ruta" msprop:Generator_RowChangedName="RutaRowChanged" msprop:Generator_RowEvArgName="RutaRowChangeEvent" msprop:Generator_RowClassName="RutaRow">
+        <xs:element name="Ruta" msprop:Generator_TableClassName="RutaDataTable" msprop:Generator_TableVarName="tableRuta" msprop:Generator_RowChangedName="RutaRowChanged" msprop:Generator_TablePropName="Ruta" msprop:Generator_RowDeletingName="RutaRowDeleting" msprop:Generator_RowChangingName="RutaRowChanging" msprop:Generator_RowEvHandlerName="RutaRowChangeEventHandler" msprop:Generator_RowDeletedName="RutaRowDeleted" msprop:Generator_RowClassName="RutaRow" msprop:Generator_UserTableName="Ruta" msprop:Generator_RowEvArgName="RutaRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="RutaCompleta" msprop:Generator_ColumnVarNameInTable="columnRutaCompleta" msprop:Generator_ColumnPropNameInRow="RutaCompleta" msprop:Generator_ColumnPropNameInTable="RutaCompletaColumn" msprop:Generator_UserColumnName="RutaCompleta" type="xs:string" minOccurs="0" />
+              <xs:element name="NombreDelegacion" msprop:Generator_ColumnVarNameInTable="columnNombreDelegacion" msprop:Generator_ColumnPropNameInRow="NombreDelegacion" msprop:Generator_ColumnPropNameInTable="NombreDelegacionColumn" msprop:Generator_UserColumnName="NombreDelegacion" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

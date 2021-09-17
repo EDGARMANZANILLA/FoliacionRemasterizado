@@ -123,6 +123,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BuscadorChequeController.cs" />
     <Compile Include="Controllers\Configuraciones_InventarioYCuentasController.cs" />
     <Compile Include="Controllers\FoliarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -131,8 +132,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AgregarInventarioModel.cs" />
+    <Compile Include="Models\BuscardorChequeModels\DetallesInformativosCheque.cs" />
     <Compile Include="Models\CuentaBancariaModel.cs" />
     <Compile Include="Models\DetalleBancoModel.cs" />
+    <Compile Include="Models\FoliacionModels\DetallesBancoInventario.cs" />
     <Compile Include="Models\InventarioAsignarAjustarModel.cs" />
     <Compile Include="Models\InventarioContenedorModel.cs" />
     <Compile Include="Models\InventarioDetalleModel.cs" />
@@ -482,6 +485,8 @@
     <Content Include="Scripts\PDFObject\bower.json" />
     <Content Include="Scripts\PDFObject\package.json" />
     <Content Include="Scripts\PDFObject\readme.md" />
+    <Content Include="Views\BuscadorCheque\Index.cshtml" />
+    <Content Include="Views\BuscadorCheque\DetallesInformativosCheques.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

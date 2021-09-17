@@ -675,6 +675,8 @@ namespace DAP.Plantilla.Reportes.Datasets {
             
             private global::System.Data.DataColumn columnRutaCompleta;
             
+            private global::System.Data.DataColumn columnNombreDelegacion;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public RutaDataTable() {
@@ -718,6 +720,14 @@ namespace DAP.Plantilla.Reportes.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn NombreDelegacionColumn {
+                get {
+                    return this.columnNombreDelegacion;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -753,10 +763,11 @@ namespace DAP.Plantilla.Reportes.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public RutaRow AddRutaRow(string RutaCompleta) {
+            public RutaRow AddRutaRow(string RutaCompleta, string NombreDelegacion) {
                 RutaRow rowRutaRow = ((RutaRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        RutaCompleta};
+                        RutaCompleta,
+                        NombreDelegacion};
                 rowRutaRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRutaRow);
                 return rowRutaRow;
@@ -780,6 +791,7 @@ namespace DAP.Plantilla.Reportes.Datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
                 this.columnRutaCompleta = base.Columns["RutaCompleta"];
+                this.columnNombreDelegacion = base.Columns["NombreDelegacion"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -787,6 +799,8 @@ namespace DAP.Plantilla.Reportes.Datasets {
             private void InitClass() {
                 this.columnRutaCompleta = new global::System.Data.DataColumn("RutaCompleta", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRutaCompleta);
+                this.columnNombreDelegacion = new global::System.Data.DataColumn("NombreDelegacion", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNombreDelegacion);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1212,6 +1226,22 @@ namespace DAP.Plantilla.Reportes.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string NombreDelegacion {
+                get {
+                    try {
+                        return ((string)(this[this.tableRuta.NombreDelegacionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'NombreDelegacion\' de la tabla \'Ruta\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRuta.NombreDelegacionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsRutaCompletaNull() {
                 return this.IsNull(this.tableRuta.RutaCompletaColumn);
             }
@@ -1220,6 +1250,18 @@ namespace DAP.Plantilla.Reportes.Datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetRutaCompletaNull() {
                 this[this.tableRuta.RutaCompletaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsNombreDelegacionNull() {
+                return this.IsNull(this.tableRuta.NombreDelegacionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetNombreDelegacionNull() {
+                this[this.tableRuta.NombreDelegacionColumn] = global::System.Convert.DBNull;
             }
         }
         

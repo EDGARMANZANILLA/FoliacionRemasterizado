@@ -19,7 +19,7 @@ namespace DAP.Foliacion.Entidades
         /// Devuelve 6 cadenas de consultas para los de confianza y otras 6 para los sindicalizado  
         /// </summary>
         /// <returns></returns>
-        public List<string> ObtenerConsultasSindicato()
+        public List<string> ObtenerConsultasTotalesSindicato()
         {
 
 
@@ -107,7 +107,7 @@ namespace DAP.Foliacion.Entidades
         /// <param name="Delegacion"> entero con el numero de delagacion seleccionada</param>
         /// <param name="Sindicato"> boleano para saber si son sindicalizados o de confianza</param>
         /// <returns></returns>
-        public string ObtenerConsultaSindicaroFormasDePago( int Delegacion, bool Sindicato  )
+        public string ObtenerConsultaSindicatoFormasDePago( int Delegacion, bool Sindicato  )
         {
             string cadenaConsulta = null;
             switch (Delegacion)

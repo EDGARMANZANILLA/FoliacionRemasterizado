@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
 {
-    public class TotalRegistrosDelegacionXSindicatoDTO
+    public class TotalRegistrosXDelegacionDTO
     {
         public bool Sindicato { get; set; }
         public string Delegacion { get; set; }

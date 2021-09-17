@@ -1,34 +1,68 @@
-﻿
+﻿@model List<DAP.Plantilla.Models.FoliacionModels.DetallesBancoInventario>
 
 
 <section class="row">
 
-    <div class="col-6">
-        <table class='table table-striped table-bordered table-hover'>
-            <caption class="text-uppercase"> Formas de pago disponibles </caption>
-            <thead class="tabla">
-                <tr>
-                    <th>Banco</th>
-                    <th>Formas disponibles</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td>Santander</td>
-                    <td>8000</td>
-                </tr>
-                <tr>
-                    <td>BBVA</td>
-                    <td>8000</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-12 col-md-6">
+
+
+
+        <!--Nuevo modal-->
+        <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+    
+            <div >
+
+                <div id="TablaResumenInventario">
+
+                    <table id="NuevaTablaInventarioActualizada" class='table table-striped table-bordered table-hover' ">
+                        <caption class="text-uppercase"> Formas De Pago Disponible </caption>
+                        <thead class="tabla">
+                            <tr class="text-center text-uppercase">
+
+                                <th>Banco</th>
+                                <th>Cuenta</th>
+                                <th>Formas Disponibles</th>
+
+                            </tr>
+
+
+                        </thead>
+                        <!--
+
+                          <tbody>
+                           /* @foreach (var a in ViewBag.DetallesBanco)
+                            {
+                                <tr>
+                                    <td>@a.NombreBanco</td>
+                                    <td>@a.Cuenta</td>
+                                    <td>@a.FormasDisponibles</td>
+
+                                </tr>
+                            }*/
+                        </tbody>
+
+
+                            -->
+
+
+
+
+                    </table>
+
+                </div>
+            </div>
+   
+
+
+
+
+
 
     </div>
 
 
 
-    <div class="col-6">
+    <div class="col-12 col-md-6">
         <table class='table table-striped table-bordered '>
 
             <caption class="text-uppercase"> Ultima Quincena Registrada </caption>
@@ -44,6 +78,10 @@
     </div>
 
 </section>
+
+
+
+
 
 
 
@@ -105,7 +143,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="NombreNomina">Visualizador de PDF</h5>
+                <h5 class="modal-title col-11 text-capitalize text-center" id="NombreNominaDelegacion">{}</h5>
                 <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -122,7 +160,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-            
+
             </div>
         </div>
     </div>
@@ -216,6 +254,129 @@
 </style>
 
 <script>
+    function RegistarNuevaQuincena() {
+
+        Swal.fire({
+            title: 'Registrar nueva quincena de foliacion',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Registrar',
+            cancelButtonText: 'Cancelar',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+
+          
+                let EnviarQuincena = "{'NuevaQuincesa': '" + 2115 + "'}";
+
+
+                    MensajeCargando();
+                    $.ajax({
+                        url: '@Url.Action("RegistrarNuevaQuincena", "Foliar")',
+                        data: EnviarQuincena,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+
+                            //alert(response);
+                            OcultarMensajeCargando();
+
+                            MensajeCorrectoSweet("QUINCENA GUARDADA CORRECTAMENTE");
+
+
+
+
+
+
+
+
+
+
+
+                           
+
+                        }
+
+                   });
+
+               
+
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+
+
+    }
+
+
+
+    function DibujarTablaResumenInventario() {
+        $("#TablaResumenInventario").append(
+
+            "<table id='NuevaTablaInventarioActualizada'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Formas de pago disponible</caption>"
+            + "<thead class='tabla'>" +
+
+            "<tr class='text-center text-uppercase'>" +
+
+            "<th>Banco</th>" +
+            "<th>Cuenta</th>" +
+            "<th>Formas de pago disponibles</th>" +
+
+            "</tr>" +
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+
+    function PintarConsultaActualizaTablaResumenInventario(datos) {
+
+
+
+        $('#NuevaTablaInventarioActualizada').DataTable({
+            "ordering": true,
+            "info": false,
+            "searching": false,
+            "paging": false,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+                { "data": "NombreBanco" },
+                { "data": "Cuenta" },
+                { "data": "FormasDisponibles" }
+
+            ],
+            "order": [[1, 'asc']]
+
+        });
+
+    };
+
+
+
+
+
 
 
     function DibujarTablaAjax() {
@@ -286,9 +447,41 @@
 
 
     $(document).ready(function () {
+        RegistarNuevaQuincena();
+
+        ActualizaTablaResumenFoliar();
+
+        //if (document.readyState !== "complete")
+        //{
+        //    ActualizaTablaResumenFoliar();
+        //}
 
 
+        function ActualizaTablaResumenFoliar()
+        {
+            var datoEnviar = "{'Dato':' '}";
 
+            MensajeCargando();
+              $.ajax({
+                  url: '@Url.Action("ActualizarTablaResumenBanco", "Foliar")',
+                  data: datoEnviar,
+               type: "POST",
+               contentType: "application/json; charset=utf-8",
+                  success: function (response) {
+
+
+                   //estos metodos se encuentran el Js del Index de Foliar sirve para actualizar la tabla al terminar de folear
+                   $("#TablaResumenInventario").empty();
+                   DibujarTablaResumenInventario();
+                   PintarConsultaActualizaTablaResumenInventario(response);
+
+                   OcultarMensajeCargando();
+
+                }
+
+              });
+
+        }
 
 
         let tipoFoliacion = null;
@@ -313,13 +506,13 @@
                 if (tipoFoliacion != null && quincena != "")
                 {
 
-                      //devuelve la vista parcial de pagomatico para el nuevo render 
+                      //devuelve la vista parcial de pagomatico para el nuevo render
                     if (tipoFoliacion.value == "PAGOMATICO")
                     {
 
                         let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" + quincena + "'}";
 
-                        
+
                          MensajeCargando();
                         $.ajax({
                             url: '@Url.Action("FoliarXPagomatico", "Foliar")',
@@ -327,8 +520,17 @@
                             type: "POST",
                             contentType: "application/json; charset=utf-8",
                             success: function (response) {
-                                $('#RenderVistaParcial').html('');
-                                $('#RenderVistaParcial').html(response);
+
+                                if (response.RespuestaServidor === "500") {
+                                    MensajeErrorSweet(response.MensajeError);
+                                    $('#RenderVistaParcial').html('');
+                                } else {
+                                    $('#RenderVistaParcial').html('');
+                                    $('#RenderVistaParcial').html(response);
+
+                                }
+
+
 
                                 OcultarMensajeCargando();
                             }
@@ -337,7 +539,7 @@
 
                     }
 
-                    //devuelve la vista parcial de formas de pago para el nuevo render 
+                    //devuelve la vista parcial de formas de pago para el nuevo render
                     if (tipoFoliacion.value == "FORMAS DE PAGO"){
 
                          let EnviarQuincenaFormasPago = "{'NumeroQuincena': '"+quincena+"'}";
@@ -349,8 +551,20 @@
                             type: "POST",
                             contentType: "application/json; charset=utf-8",
                             success: function (response) {
-                                $('#RenderVistaParcial').html('');
-                                $('#RenderVistaParcial').html(response);
+
+                                if (response.RespuestaServidor === "500") {
+                                    MensajeErrorSweet(response.MensajeError);
+                                    $('#RenderVistaParcial').html('');
+                                } else {
+
+                                    $('#RenderVistaParcial').html('');
+                                    $('#RenderVistaParcial').html(response);
+
+                                }
+
+
+
+
 
                                 OcultarMensajeCargando();
                             }

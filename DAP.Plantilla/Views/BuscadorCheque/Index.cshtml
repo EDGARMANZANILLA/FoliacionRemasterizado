@@ -1,0 +1,501 @@
+﻿
+
+<div class="row">
+
+    <div class="offset-1 col-11 text-center">
+
+        <h5>Ingresa el numero de la forma de pago a buscar</h5>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+<div class="row">
+    <div class="box">
+        <div class="container-3">
+            <span class="icon"><i class="fa fa-search"></i></span>
+            <input type="search" id="search" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required placeholder="Buscar Cheque..." />
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<div class="row">
+    <div class="offset-1 col-11 text-center">
+
+
+        <button id="VerDetallesCheque" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#ModalDetallesCheque">Buscar</button>
+        <button type="button" class="btn btn-outline-primary" title="Buscar a detalle">Voy a tener suerte </button>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div id="RenderPartialViewDetallesCheques">
+
+</div>
+
+
+
+
+
+<!-- **************************************** -->
+<!-- **************************************** -->
+<!-- **************************************** -->
+<!-- Modal -->
+<!--<div class="modal fade" id="ModalDetallesCheque" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered ">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-capitalize text-center" id="NombreNominaDelegacion">{}</h5>
+                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">-->
+
+                <!--Inicio del Grid con los detalles -->
+                <!--<div id="detallesFormasPago" class="text-justify">
+
+                    <div class="row  marginbottom">
+
+
+                        <div class="col-12 col-sm-3 orientacion">
+                            <label>Folio:</label>
+                            <br>
+                            <span class="text-center"> {57891} </span>
+
+                        </div>
+
+
+
+                        <div class="col-12 col-sm-3  orientacion">
+                            <label for="">Liquido:</label>
+                            <br>
+                            <span>{$ 00000001.01 }</span>
+
+                        </div>
+
+                        <div class="col-12 col-sm-6  orientacion">
+                            <label>Beneficiario:</label>
+                            <br>
+                            <span>{ John Doe John Doe }</span>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="row  marginbottom">
+
+
+                        <div class="col-12 col-sm-3 orientacion">
+                            <label for="">Estado Cheque:</label>
+                            <br>
+                            <span class="text-center">{Transito }</span>
+
+                        </div>
+
+                        <div class="col-12 col-sm-3  orientacion">
+                            <label for="">Referencia:</label>
+                            <br>
+                            <span> {#AcRf2021}</span>
+
+                        </div>
+
+                        <div class="col-12 col-sm-6  orientacion">
+                            <label for="">Estado cancelado:</label>
+                            <br>
+                            <span> {Capturado y addicionado en la referencia para cancelacion "proximamente"} </span>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+                    <div class="row   marginbottom">
+
+
+                        <div class="col-12 col-sm-3 orientacion">
+                            <label>Es Pension Alim:</label>
+                            <br>
+                            <span>True </span>
+
+                        </div>
+
+                        <div class="col-12 col-sm-3  orientacion">
+                            <label for="">Banco Pagador:</label>
+                            <br>
+                            <span>$ 00000001.01 </span>
+
+                        </div>
+
+                        <div class="col-12 col-sm-6  orientacion">
+                            <label for="">Beneficiario Pension Alim:</label>
+                            <br>
+                            <span>John Doe John Doe John Doe John Doe</span>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
+                </br>
+
+
+
+
+                <div class="row  text-center marginbottom">
+
+
+                    <div class=" offset-4 col-4">
+                        <label for="" class="text-justify">Es Refoliado:</label>
+                        <br>
+                        <button type="button" class="btn btn-outline-info btn-block btn-sm" title="Realizar un ajuste al inventario">Ver historico de refoliacion </button>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="row offset-1 text-center">
+
+                    <div class="col-11 ">
+                        <button type="button" class="btn  btn-outline-success col-3" title="Realizar un ajuste al inventario">Refoliar </button>
+
+                        <button type="button" class="btn btn-outline-warning col-3" title="Realizar un ajuste al inventario">Suspender</button>
+
+                        <button type="button" class="btn btn-outline-danger col-3" title="Realizar un ajuste al inventario">Cancelar</button>
+
+
+                    </div>
+
+
+
+
+                </div>-->
+
+
+
+
+
+
+                <!--Fin del Grid con los detalles -->
+
+            <!--</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+
+
+
+
+
+<style>
+    /*******************************************/
+    /*******************************************/
+    /*******************************************/
+    /* css para el buscador */
+
+    .box {
+        margin: 0px auto 30px auto;
+        width: -10px;
+        height: 50px;
+    }
+
+
+    .container-3 {
+        margin: 10px;
+        width: 250px;
+        vertical-align: central;
+        white-space: normal;
+        position: relative;
+    }
+
+        .container-3 input#search {
+            width: 400px;
+            height: 55px;
+            background: #f8f8f871;
+            border: nome;
+            font-size: 10pt;
+            float: left;
+            color: #262626;
+            padding-left: 55px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 23px;
+            color: #1e77fd;
+        }
+
+            .container-3 input#search::-webkit-input-placeholder {
+                color: #65737e;
+            }
+
+            .container-3 input#search:-moz-placeholder { /* Firefox 18- */
+                color: #65737e;
+            }
+
+            .container-3 input#search::-moz-placeholder { /* Firefox 19+ */
+                color: #65737e;
+            }
+
+            .container-3 input#search:-ms-input-placeholder {
+                color: #65737e;
+            }
+
+        .container-3 .icon {
+            position: absolute;
+            top: 50%;
+            margin-left: 17px;
+            margin-top: 17px;
+            z-index: 1;
+            color: #4f5b66;
+            -webkit-transition: all .55s ease;
+            -moz-transition: all .55s ease;
+            -ms-transition: all .55s ease;
+            -o-transition: all .55s ease;
+            transition: all .55s ease;
+        }
+
+        .container-3 input#search:focus, .container-3 input#search:active {
+            outline: none;
+            border: solid;
+        }
+
+        .container-3:hover .icon {
+            margin-top: 16px;
+            color: #159dff;
+            -webkit-transform: scale(1.5); /* Safari and Chrome */
+            -moz-transform: scale(1.5); /* Firefox */
+            -ms-transform: scale(1.5); /* IE 9 */
+            -o-transform: scale(1.5); /* Opera */
+            transform: scale(2);
+        }
+
+
+    @@media only screen and (max-width: 1000px) {
+
+
+        .container-3 input#search {
+            width: 330px
+        }
+    }
+
+    @@media only screen and (max-width: 450px) {
+
+
+        .container-3 input#search {
+            width: 300px
+        }
+    }
+
+
+    @@media only screen and (max-width: 300px) {
+
+        [class*="container-3"] {
+            width: auto
+        }
+
+
+        .container-3 input#search {
+            width: auto 
+        }
+    }
+
+    /*******************************************/
+    /******************************************/
+    /*****************************************/
+    /*CSS PARA EL MODAL*/
+
+
+    .borde {
+        border: 1px solid;
+    }
+
+    .marginbottom {
+        margin-bottom: 40px;
+    }
+
+
+
+
+
+    @@media only screen and (max-width: 576px) {
+
+
+        .orientacion {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+    }
+
+
+
+
+
+    #detallesFormasPago label {
+        font-weight: bold;
+        font-style: italic;
+        color: rgb(68, 147, 211);
+        margin-bottom: 3px;
+    }
+
+
+
+    #detallesFormasPago span {
+        font-weight: 900;
+        color: #60bb6bd3;
+    }
+</style>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        let contenidoBuscador = null;
+        const VistaDetallesFormasPago = document.getElementById('VerDetallesCheque');
+        VistaDetallesFormasPago.addEventListener('click', function () {
+
+            contenidoBuscador = document.getElementById("search").value
+
+
+            if (contenidoBuscador != "")
+            {
+                console.log(contenidoBuscador);
+
+
+
+                let FolioABuscar= "{'BuscarNumFolio': '"+contenidoBuscador+"'}";
+
+
+                    MensajeCargando();
+                        $.ajax({
+                            url: '@Url.Action("DetallesInformativosCheques", "BuscadorCheque")',
+                            data: FolioABuscar,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+
+                                if (response.RespuestaServidor === "500") {
+                                    MensajeErrorSweet(response.MensajeError);
+                                    $('#RenderPartialViewDetallesCheques').html('');
+
+                                    //document.getElementById("NumeroFolio").innerText = ;
+                                    //document.getElementById("ImporteLiquido").innerText = ;
+                                    //document.getElementById("NombreBeneficiario").innerText = ;
+
+                                    //document.getElementById("EstadoCheque").innerText = ;
+                                    //document.getElementById("ReferenciaBitacora").innerText = ;
+                                    //document.getElementById("BancoPagador").innerText = ;
+
+                                    //document.getElementById("EsPenA").innerText = ;
+                                    //document.getElementById("NombreBenePenA").innerText = ;
+                                    //document.getElementById("EstadoCancelado").innerText = ;
+                                    
+
+
+
+                                    
+                                    
+                                    
+
+                                    
+                                    
+                                    
+                                    
+
+
+
+
+
+
+                                } else {
+
+                                    $('#RenderPartialViewDetallesCheques').html('');
+                                    $('#RenderPartialViewDetallesCheques').html(response);
+                                    OcultarMensajeCargando();
+                                }
+
+
+
+
+
+                                OcultarMensajeCargando();
+                            }
+                        });
+
+
+            }
+            else
+            {
+                MensajeWarningSweet("Intruduzca un folio de una forma de pago para encontrar");
+            }
+
+
+
+
+
+
+
+
+
+        });
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
