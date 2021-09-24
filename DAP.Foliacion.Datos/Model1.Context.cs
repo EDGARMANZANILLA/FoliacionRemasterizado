@@ -26,15 +26,22 @@ namespace DAP.Foliacion.Datos
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Cat_EstadoCancelados_Pagos> Cat_EstadoCancelados_Pagos { get; set; }
+        public DbSet<Cat_EstadosPago_Pagos> Cat_EstadosPago_Pagos { get; set; }
+        public DbSet<Cat_FormasPago_Pagos> Cat_FormasPago_Pagos { get; set; }
+        public DbSet<IdReferenciaCancelados_Pagos> IdReferenciaCancelados_Pagos { get; set; }
+        public DbSet<LOG_EXCEPCIONES> LOG_EXCEPCIONES { get; set; }
         public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<Tbl_ChequesRefoliados_Pagos> Tbl_ChequesRefoliados_Pagos { get; set; }
         public DbSet<Tbl_CuentaBancarias_TipoPagoCuenta> Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
         public DbSet<Tbl_CuentasBancarias> Tbl_CuentasBancarias { get; set; }
+        public DbSet<Tbl_HistoricoQuincenasRegistradas> Tbl_HistoricoQuincenasRegistradas { get; set; }
         public DbSet<Tbl_Inventario> Tbl_Inventario { get; set; }
         public DbSet<Tbl_InventarioAsignacionPersonal> Tbl_InventarioAsignacionPersonal { get; set; }
         public DbSet<Tbl_InventarioContenedores> Tbl_InventarioContenedores { get; set; }
         public DbSet<Tbl_InventarioDetalle> Tbl_InventarioDetalle { get; set; }
         public DbSet<Tbl_InventarioTipoIncidencia> Tbl_InventarioTipoIncidencia { get; set; }
+        public DbSet<Tbl_Pagos> Tbl_Pagos { get; set; }
         public DbSet<Tbl_Solicitudes> Tbl_Solicitudes { get; set; }
-        public DbSet<LOG_EXCEPCIONES> LOG_EXCEPCIONES { get; set; }
     }
 }

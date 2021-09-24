@@ -15,5 +15,11 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         public string NombreBanco { get; set; }
         public string IdCuentaBancaria { get; set; }
 
+
+
+
+        /*Datos espeficicamente parte*/
+        public string NumBeneficiario { get; set; }
+
     }
 }

@@ -5,23 +5,35 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bf43d12d519e429db9d0e71c246327cd" Name="Diagram1" ZoomLevel="88">
-        <EntityTypeShape EntityType="FoliacionModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta" Width="1.5" PointX="0.75" PointY="1.375" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentasBancarias" Width="1.5" PointX="3" PointY="2.5" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_Inventario" Width="1.5" PointX="0.75" PointY="3.875" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" Width="1.5" PointX="3" PointY="15.5" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioContenedores" Width="1.5" PointX="3" PointY="7.375" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="1.5" PointX="5.25" PointY="7.875" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" Width="1.5" PointX="3" PointY="12.875" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_Solicitudes" Width="1.5" PointX="5.25" PointY="2.875" />
+        <EntityTypeShape EntityType="FoliacionModel.Cat_EstadoCancelados_Pagos" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoliacionModel.Cat_EstadosPago_Pagos" Width="1.5" PointX="11.75" PointY="7.125" />
+        <EntityTypeShape EntityType="FoliacionModel.Cat_FormasPago_Pagos" Width="1.5" PointX="12.125" PointY="9.125" />
+        <EntityTypeShape EntityType="FoliacionModel.IdReferenciaCancelados_Pagos" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoliacionModel.LOG_EXCEPCIONES" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoliacionModel.sysdiagrams" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_ChequesRefoliados_Pagos" Width="1.5" PointX="10.125" PointY="11.375" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_CuentasBancarias" Width="1.5" PointX="3" PointY="6.125" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_HistoricoQuincenasRegistradas" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_Inventario" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" Width="1.5" PointX="3" PointY="19.375" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioContenedores" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="1.5" PointX="7" PointY="16.25" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" Width="1.5" PointX="3" PointY="16.875" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_Pagos" Width="1.5" PointX="7.5" PointY="7.125" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_Solicitudes" Width="1.5" PointX="5.125" PointY="5.75" />
+        <AssociationConnector Association="FoliacionModel.FK_Tbl_Pagos_Cat_EstadosPago_Pagos" />
+        <AssociationConnector Association="FoliacionModel.FK_Tbl_Pagos_Cat_FormasPago_Pagos" />
+        <AssociationConnector Association="FoliacionModel.FK_Tbl_ChequesRefoliados_Pagos_Tbl_Pagos" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" />
+        <AssociationConnector Association="FoliacionModel.FK_Tbl_Cheques_Tbl_CuentasBancarias" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_Solicitudes_Tbl_CuentasBancarias" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_InventarioContenedores_Tbl_Inventario" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioAsignacionPersonal" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioContenedores" />
+        <AssociationConnector Association="FoliacionModel.FK_Tbl_Cheques_Tbl_InventarioDetalle" />
         <AssociationConnector Association="FoliacionModel.FK_Tbl_InventarioDetalle_Tbl_InventarioTipoIncidencia" />
-        <EntityTypeShape EntityType="FoliacionModel.LOG_EXCEPCIONES" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

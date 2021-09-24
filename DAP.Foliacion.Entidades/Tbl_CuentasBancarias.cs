@@ -16,6 +16,7 @@ namespace DAP.Foliacion.Entidades
     {
         public Tbl_CuentasBancarias()
         {
+            this.Tbl_Pagos = new HashSet<Tbl_Pagos>();
             this.Tbl_Solicitudes = new HashSet<Tbl_Solicitudes>();
         }
     
@@ -30,6 +31,7 @@ namespace DAP.Foliacion.Entidades
         public Nullable<bool> Activo { get; set; }
     
         public virtual Tbl_CuentaBancarias_TipoPagoCuenta Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
+        public virtual ICollection<Tbl_Pagos> Tbl_Pagos { get; set; }
         public virtual Tbl_Inventario Tbl_Inventario { get; set; }
         public virtual ICollection<Tbl_Solicitudes> Tbl_Solicitudes { get; set; }
     }

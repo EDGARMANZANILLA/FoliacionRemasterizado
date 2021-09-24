@@ -14,6 +14,11 @@ namespace DAP.Foliacion.Entidades
     
     public partial class Tbl_InventarioDetalle
     {
+        public Tbl_InventarioDetalle()
+        {
+            this.Tbl_Pagos = new HashSet<Tbl_Pagos>();
+        }
+    
         public int Id { get; set; }
         public int IdContenedor { get; set; }
         public string NumFolio { get; set; }
@@ -24,6 +29,7 @@ namespace DAP.Foliacion.Entidades
     
         public virtual Tbl_InventarioAsignacionPersonal Tbl_InventarioAsignacionPersonal { get; set; }
         public virtual Tbl_InventarioContenedores Tbl_InventarioContenedores { get; set; }
+        public virtual ICollection<Tbl_Pagos> Tbl_Pagos { get; set; }
         public virtual Tbl_InventarioTipoIncidencia Tbl_InventarioTipoIncidencia { get; set; }
     }
 }

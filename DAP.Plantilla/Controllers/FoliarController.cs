@@ -139,7 +139,9 @@ namespace DAP.Plantilla.Controllers
         }
 
 
-
+         //******************************************************************************************************************************************************************//
+        //******************************************************************************************************************************************************************//
+                                             // Metodos de revision para folear nominas por formas de PAGOMATICO  por nomina o todas las nominas//
         public ActionResult RevisarTodasNominas(string NumeroQuincena)
         {
             //Seleccionar una lista con las nominas disponibles de la quincena
@@ -203,7 +205,6 @@ namespace DAP.Plantilla.Controllers
 
             return Json("TODO LISTO", JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult RevisarPorIdNomina(int IdNomina)
         {
@@ -274,7 +275,10 @@ namespace DAP.Plantilla.Controllers
 
 
 
-        #region Metodos para la Foliacion por medio de Formas de pago
+         //*****************************************************************************************************************************************************************//
+        //*****************************************************************************************************************************************************************//
+                                            // Metodo de REVISION para folear nominas con cheques (Formas de pagos) //
+        #region Metodos para la Revicion de la Foliacion por medio de Formas de pago
         public ActionResult ObtenerDetalleNominaPorIdNominaParaModal(int IdNomina)
         {
             //ObtenerDetalleNominaParaCheques
@@ -303,8 +307,7 @@ namespace DAP.Plantilla.Controllers
            // return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
-
-        
+       
         public ActionResult RevisarNominaFormaPago(RevicionFormasPagoModel NuevaRevicion)
         {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
             // 1 = le pertenece a las nominas general y descentralizada
@@ -463,29 +466,22 @@ namespace DAP.Plantilla.Controllers
         //Guardar NuevaQuincena en la Tbl_historicoQuincenasRegistradas
         public ActionResult RegistrarNuevaQuincena(int NuevaQuincesa) 
         {
-
-
             return Json(NuevaQuincesa, JsonRequestBehavior.AllowGet);
-
         }
 
 
 
 
+        //*************************************************************************************************************************************************************//
+        //************************************************************************************************************************************************************//
+        //***********************************************************************************************************************************************************//
+                                            // Metodos para FOLIAR nominas con PAGOMATICOS por nomina o todas las nominas  //
 
-        //********************************************************//
-        //********************************************************//
-        // Metodos para folear //
         public ActionResult FoliarPorIdNominaPagomatico(int IdNomina, string NumeroQuincena /*, int  IdBanco*/) 
         {
             string Observa = "TARJETA";
-            Convert.ToInt32(NumeroQuincena.Substring(1, 3));
-            List<string> errores =FoliarNegocios.FolearPagomaticoPorNomina(IdNomina, NumeroQuincena.Substring(1, 3), Observa);
 
-            if (errores.Count() == 0)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
+            List<AlertasAlFolearPagomaticosDTO> errores = FoliarNegocios.FolearPagomaticoPorNomina(IdNomina, NumeroQuincena.Substring(1, 3), Observa).ToList() ;
 
 
             return Json(errores, JsonRequestBehavior.AllowGet);
@@ -495,25 +491,94 @@ namespace DAP.Plantilla.Controllers
         public ActionResult FoliarTodasNominas(string NumeroQuincena)
         {
             string Observa = "TARJETA";
-            //List<string> errores = FoliarNegocios.FolearPagomaticoTodasLasNominas(NumeroQuincena, Observa);
 
-            List<string> errores = new List<string>();
+            List<AlertasAlFolearPagomaticosDTO> errores =  FoliarNegocios.FolearPagomaticoTodasLasNominas(NumeroQuincena, Observa).OrderBy(x => x.Id_Nom).ToList();
 
-            errores.Add("Error: no existe ningun empleado con tarjeta para folear en la nomina : 326. Asegurese que de existe por lo menos un empleado con tarjeta o elija 'FOLEAR POR FORMAS DE PAGO'");
-            errores.Add("Error: no existe ningun empleado con tarjeta para folear en la nomina : 326. Asegurese que de existe por lo menos un empleado con tarjeta o elija 'FOLEAR POR FORMAS DE PAGO'");
-            errores.Add("Error: no existe ningun empleado con tarjeta para folear en la nomina : 326. Asegurese que de existe por lo menos un empleado con tarjeta o elija 'FOLEAR POR FORMAS DE PAGO'");
-            errores.Add("Error: no existe ningun empleado con tarjeta para folear en la nomina : 326. Asegurese que de existe por lo menos un empleado con tarjeta o elija 'FOLEAR POR FORMAS DE PAGO'");
-            errores.Add("Error: no existe ningun empleado con tarjeta para folear en la nomina : 326. Asegurese que de existe por lo menos un empleado con tarjeta o elija 'FOLEAR POR FORMAS DE PAGO'");
-            
 
-            if (errores.Count() == 0)
+
+            return Json( errores, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+
+        //**************************************************************************************************************************************************************//
+        //*************************************************************************************************************************************************************//
+        //************************************************************************************************************************************************************//
+                                                // Metodos para FOLIAR nominas con cheques (Formas de pagos) //
+        public ActionResult FoliarNominaFormaPago(RevicionFormasPagoModel NuevaFoliacionNomina)
+        {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
+            // 1 = le pertenece a las nominas general y descentralizada
+            // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
+            FoliarFormasPagoDTO foliarNomina = new FoliarFormasPagoDTO();
+
+            foliarNomina.IdNomina = NuevaFoliacionNomina.IdNomina;
+            foliarNomina.Delegacion = NuevaFoliacionNomina.Delegacion;
+            foliarNomina.Sindicato = NuevaFoliacionNomina.Sindicato;
+            foliarNomina.IdBancoPagador = NuevaFoliacionNomina.IdBancoPagador;
+            foliarNomina.RangoInicial = NuevaFoliacionNomina.RangoInicial;
+
+            ///por si el usuario habilita la casilla inhabilitados aqui se rescatan  
+            foliarNomina.Inhabilitado = NuevaFoliacionNomina.Inhabilitado;
+            foliarNomina.RangoInhabilitadoInicial = NuevaFoliacionNomina.RangoInhabilitadoInicial;
+            foliarNomina.RangoInhabilitadoFinal = NuevaFoliacionNomina.RangoInhabilitadoFinal;
+
+
+            // propiedad usada para saber a que grupo de nomina corresponde 
+            // 1 = le pertenece a las nominas general y descentralizada
+            // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
+            foliarNomina.GrupoNomina = NuevaFoliacionNomina.GrupoNomina;
+
+            string Observa = "CHEQUE";
+
+
+
+
+            List<AlertasAlFolearPagomaticosDTO> Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa ).ToList();
+
+
+
+
+
+            if (Advertencias.Count() > 0)
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                int UltimoFolioUsado = Advertencias.Select(x => x.UltimoFolioUsado).Max();
+                string registrosActualizados = Advertencias.Select(x => x.RegistrosFoliados).SingleOrDefault().ToString(); 
+                return Json(new
+                {
+                    RespuestaServidor = "201",
+                    Delegacion = "VISTA PREVIA DE LA DELGACION : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaFoliacionNomina.Delegacion).ToUpper(),
+                    UltimoFolioUsado = UltimoFolioUsado,
+                    RegistrosTotalesActualizados = registrosActualizados,
+                    Advertencia = Advertencias,
+                    DatosExtras = FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.Tbl_Inventario.FormasDisponibles }).ToList()
+                }) ;
+
+                // respuestaServer = "201";
+            }
+            else
+            {
+                return Json(new
+                {
+                    RespuestaServidor = "500",
+                    Delegacion = "ERROR AL CARGAR LA DELGACION : " + (FoliarNegocios.ObtenerDelegacionPorId(NuevaFoliacionNomina.Delegacion).ToUpper()),
+                    UltimoFolioUsado = "Error no se puede Foliar",
+                    Advertencia = Advertencias,
+                    RegistrosTotalesActualizados = 0,
+                    Error = "No coincide la delegacion con el sindicato"
+                });
+                //respuestaServer = "500";
+
             }
 
 
-            return Json(errores, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
 
     }

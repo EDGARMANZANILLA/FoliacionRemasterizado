@@ -41,24 +41,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cat_EstadoCancelados_Pagos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_EstadosPago_Pagos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_FormasPago_Pagos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="ConsultasSQLOtrasNominasConCheques.cs" />
     <Compile Include="ConsultasSQLSindicatoGeneralYDesc.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\AlertasAlFolearPagomaticosDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosBitacoraParaCheque.cs" />
     <Compile Include="DTO\FoliarDTO\DatosCompletosBitacoraParaChequesDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosReporteRevisionNominaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosRevicionTodasNominasDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\FoliarFormasPagoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\NombreNominasDTO.cs" />
     <Compile Include="DTO\FoliarDTO\NumRfcNombreLiquidoDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\ObjetoPagoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ReporteFoliacionDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ResumenNominaDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\ResumenPersonalAFoliarPorChequesDTO.cs" />
     <Compile Include="DTO\FoliarDTO\TotalRegistrosDelegacionXSindicatoDTO.cs" />
     <Compile Include="DTO\InventarioContenedoresDTO.cs" />
     <Compile Include="DTO\InventarioDetalleDTO.cs" />
     <Compile Include="DTO\ReporteInventarioGeneralDTO.cs" />
     <Compile Include="DTO\SolicitudCreadaDTO.cs" />
+    <Compile Include="IdReferenciaCancelados_Pagos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="LOG_EXCEPCIONES.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -71,10 +87,16 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Tbl_ChequesRefoliados_Pagos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Tbl_CuentaBancarias_TipoPagoCuenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_CuentasBancarias.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_HistoricoQuincenasRegistradas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_Inventario.cs">
@@ -90,6 +112,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_InventarioTipoIncidencia.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tbl_Pagos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Tbl_Solicitudes.cs">

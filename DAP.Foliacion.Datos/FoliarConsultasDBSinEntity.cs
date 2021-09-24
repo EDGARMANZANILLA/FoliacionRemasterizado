@@ -932,7 +932,7 @@ namespace DAP.Foliacion.Datos
 
 
 
-        public static List< NumRfcNombreLiquidoDTO> ObtenerNumRfcNombreLiquidoDeNomina(string An, bool EsPena)
+        public static List< NumRfcNombreLiquidoDTO> ObtenerNumRfcNombreLiquidoDeNominaPAGOMATICO(string An, bool EsPena)
         {
 
             //List< Dictionary<string, string> > registrosAfoliar = new List< Dictionary<string, string> >();
@@ -950,7 +950,7 @@ namespace DAP.Foliacion.Datos
                     {
                         nuevaConsulta = "select  NUM, RFC, NOMBRE, LIQUIDO, " +
                                            "CASE when TARJETA <> '' then 'BANAMEX PODER JUDICIAL' when SERFIN<>'' then 'SANTANDER'  when BANCOMER<>'' then 'BBVA' when BANORTE<>'' then 'BANORTE' when HSBC<>'' then 'HSBC' end as 'CUENTABANCARIA'," +
-                                           "CASE when TARJETA <> '' then '8' when SERFIN<>'' then '2'  when BANCOMER<>'' then '4' when BANORTE<>'' then '3' when HSBC<>'' then '5' end as 'IdCuentaBancariaFoliacion'" +
+                                           "CASE when TARJETA <> '' then '8' when SERFIN<>'' then '2'  when BANCOMER<>'' then '4' when BANORTE<>'' then '3' when HSBC<>'' then '5' end as 'IdCuentaBancariaFoliacion',  BENEF 'NumBENEFICIARIO'" +
                                            "from interfaces.dbo." + An + " where TARJETA <> '' or SERFIN<> '' or BANCOMER<> '' or BANORTE<> '' or HSBC<> ''";
 
 
@@ -985,6 +985,12 @@ namespace DAP.Foliacion.Datos
                         nuevoRegistro.Liquido = Convert.ToDecimal( reader[3].ToString().Trim());
                         nuevoRegistro.NombreBanco = reader[4].ToString().Trim();
                         nuevoRegistro.IdCuentaBancaria = reader[5].ToString().Trim();
+
+                        if (EsPena) 
+                        {
+                            nuevoRegistro.NumBeneficiario = reader[6].ToString().Trim();
+                        }
+                       
 
                         registrosAfoliar.Add(nuevoRegistro);
                     }
@@ -1021,6 +1027,7 @@ namespace DAP.Foliacion.Datos
 
 
 
+
         /// <summary>
         /// Actualiza un registro con el folio para un pagomatico  numeroEmpleado + los 3 datos de la quincena 
         /// </summary>
@@ -1031,7 +1038,7 @@ namespace DAP.Foliacion.Datos
         /// <param name="NombreBanco"></param>
         /// <param name="Cuenta"></param>
         /// <param name="Observa"></param>
-        public static int ActualizarBaseNominaEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador,  string An, string Folio,  string Observa )
+        public static int ActualizarBaseNominaEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador,  string An, int Folio,  string Observa )
         {
             int registrosActualizados = 0;
 
@@ -1067,6 +1074,495 @@ namespace DAP.Foliacion.Datos
             }
 
 
+            return registrosActualizados;
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Actualiza un registro con el folio para un pagomatico con  numeroEmpleado, rfc, An y con el BENEFICIARIO
+        /// </summary>
+        /// <param name="Num"></param>
+        /// <param name="Rfc"></param>
+        /// <param name="An"></param>
+        /// <param name="Folio"></param>
+        /// <param name="NombreBanco"></param>
+        /// <param name="Cuenta"></param>
+        /// <param name="Observa"></param>
+        public static int ActualizarBaseNominaPenAEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador, string An, int Folio, string Observa)
+        {
+            int registrosActualizados = 0;
+
+
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    string consulta = "UPDATE interfaces.dbo."+An+" SET Num_che = '"+Folio+"', Banco_x = '"+cuentaDelTrabajador.NombreBanco+"', Cuenta_x = '"+cuentaDelTrabajador.Cuenta+"', Observa = '"+Observa+"' WHERE NUM = '"+ActualizarRegistro.NumeroEmpleado+"' and RFC = '"+ActualizarRegistro.Rfc+"' and LIQUIDO = '"+ActualizarRegistro.Liquido+"' and NOMBRE = '"+ActualizarRegistro.Nombre+"' and BENEF = '"+ActualizarRegistro.NumBeneficiario+"' ";
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+
+                    registrosActualizados = command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ActualizarBaseNominaEnSql";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+
+            return registrosActualizados;
+        }
+
+
+
+        /// <summary>
+        /// Este metodo devuelve una bandera de verdadero o falso segun sea el caso de que ya fue o no foleada una nomina 
+        /// </summary>
+        /// <param name="Quincena">int</param>
+        /// <param name="Id_Nom">int </param>
+        /// <param name="RegistrosAFoliar"> numero de regitros que contiene la nomina para su foleacion</param>
+        /// <param name="TipoPago"> Tipo de pago por el cual debe de buscar 1 para Cheques y 2 para Pagomaticos</param>
+        /// <returns>
+        /// Si la bandera es false indica que sera la primera vez en foliarse la nomina y hay que guardar un registro en la DB foliacion
+        /// Si bandera = true indica que ya se a foliado la nomina y sera la nesima vez que se vuelva a folear
+        /// </returns>
+        public static bool ExiteRegistroDeFolicionNominaEnDBFoliacion(int Quincena, int Id_Nom, int RegistrosAFoliar, int TipoPago) 
+        {
+            bool bandera = false;
+            int registrosFoliados = 0;
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+
+                    string consulta = "Select count(*)'Registros Foliados'  FROM [Foliacion].[dbo].[Tbl_Pagos] where Quincena = "+Quincena+" and Id_nom = "+Id_Nom+ " and IdCat_FormaPago_Pagos = "+TipoPago+" ";
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        registrosFoliados = Convert.ToInt32(reader[0].ToString().Trim());
+                     
+                        
+                    }
+
+                    //se cumple si ya hay registros de foliacion osea que seria la segunda vez que se foliara la nomina  
+                    if (registrosFoliados == RegistrosAFoliar  && registrosFoliados > 0)
+                    {
+                        return bandera = true;
+                    } else if ( registrosFoliados != RegistrosAFoliar  && registrosFoliados == 0) 
+                    {
+                        //Si entre en esta condicion es por que no hay registroq que se haya foliado alguna vez y por ende sera la primera ver que se foliara y hay que guardarlo en la DB
+                        return bandera = false;
+                    }
+
+
+
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ExiteRegistroDeFolicionNominaEnDBFoliacion";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+                List<DatosCompletosBitacoraParaChequesDTO> ListaError = new List<DatosCompletosBitacoraParaChequesDTO>();
+
+            }
+
+
+
+
+
+
+            return bandera;
+        }
+
+
+
+
+        public static string ObtenerNombreEmpleadoSegunAlpha(string NumEmpleado)
+        {
+            string nombreEncontrado = null;
+            string connectionString = @"Data Source=172.19.2.31; Initial Catalog=Nomina; User=sa; PassWord=s3funhwonre2";
+
+            using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(connectionString))
+            {
+                connection.Open();
+                System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(" select nomina.dbo.fNombre('"+NumEmpleado+"') ", connection);
+                System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    nombreEncontrado = reader[0].ToString().Trim();
+                }
+            }
+
+            return nombreEncontrado;
+        }
+
+
+
+
+        /******************************************************************************************************************************************************************/
+        /******************************************************************************************************************************************************************/
+        /******************************************************************************************************************************************************************/
+                                                                    //*** Foliar Formas de pagos  ***//
+
+
+        public static List<NumRfcNombreLiquidoDTO> ObtenerDetalleDeEmpleadoEnNominaCheques(string Consulta, bool EsPena)
+        {
+
+            //List< Dictionary<string, string> > registrosAfoliar = new List< Dictionary<string, string> >();
+            List<NumRfcNombreLiquidoDTO> registrosAfoliar = new List<NumRfcNombreLiquidoDTO>();
+
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+
+
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(Consulta, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        NumRfcNombreLiquidoDTO nuevoRegistro = new NumRfcNombreLiquidoDTO();
+
+                        nuevoRegistro.NumeroEmpleado = reader[0].ToString().Trim();
+                        nuevoRegistro.Rfc = reader[1].ToString().Trim();
+                        nuevoRegistro.Nombre = reader[2].ToString().Trim();
+                        nuevoRegistro.Liquido = Convert.ToDecimal(reader[3].ToString().Trim());
+                      //  nuevoRegistro.NombreBanco = reader[4].ToString().Trim();
+                      //  nuevoRegistro.IdCuentaBancaria = reader[5].ToString().Trim();
+
+                        if (EsPena)
+                        {
+                            nuevoRegistro.NumBeneficiario = reader[4].ToString().Trim();
+                        }
+
+
+                        registrosAfoliar.Add(nuevoRegistro);
+                    }
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerDetalleDeEmpleadoEnNominaCheques";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+
+                List<NumRfcNombreLiquidoDTO> ListaError = new List<NumRfcNombreLiquidoDTO>();
+
+
+                return ListaError;
+            }
+
+
+            return registrosAfoliar;
+        }
+
+
+
+
+
+        /// <summary>
+        /// Este metodo devuelve una bandera de verdadero o falso segun sea el caso de que ya fue o no foleada una nomina 
+        /// </summary>
+        /// <param name="Quincena">int</param>
+        /// <param name="Id_Nom">int </param>
+        /// <param name="RegistrosAFoliar"> numero de regitros que contiene la nomina para su foleacion</param>
+        /// <param name="TipoPago"> Tipo de pago por el cual debe de buscar 1 para Cheques y 2 para Pagomaticos</param>
+        /// <returns>
+        /// Si la bandera es false indica que sera la primera vez en foliarse la nomina y hay que guardar un registro en la DB foliacion
+        /// Si bandera = true indica que ya se a foliado la nomina y sera la nesima vez que se vuelva a folear
+        /// </returns>
+        public static bool ExiteRegistroPersonaEnDBFoliacion(DatosCompletosBitacoraParaChequesDTO resumenNomina,  int TipoPago, ResumenPersonalAFoliarPorChequesDTO PersonalAverificar )
+        {
+            bool bandera = false;
+            int registrosFoliados = 0;
+            int registrosAFoliar = 1;
+            string consulta;
+            try
+            {
+                if (resumenNomina.Nomina.Equals("08"))
+                {
+                    consulta = "Select count(*)'Registros Foliados'  FROM [Foliacion].[dbo].[Tbl_Pagos] where Quincena = " +resumenNomina.Quincena + " and Id_nom = " +resumenNomina.Id_nom + " and IdCat_FormaPago_Pagos = " + TipoPago + " and NUMEMPLEADO  = '" + PersonalAverificar.NumEmpleado + "' and RFCEMPLEADO = '" + PersonalAverificar.RFC + "' and IMPORTELIQUIDO = '" + PersonalAverificar.Liquido + "'and NombreEmpleado = '" + PersonalAverificar.Nombre + "'  and BENEFICIARIOPENA = '"+PersonalAverificar.NumBeneficiario+"' ";
+                }
+                else
+                {
+                    consulta = "Select count(*)'Registros Foliados'  FROM [Foliacion].[dbo].[Tbl_Pagos] where Quincena = "+resumenNomina.Quincena+" and Id_nom ="+resumenNomina.Id_nom+" and IdCat_FormaPago_Pagos = "+TipoPago+" and NUMEMPLEADO  = '"+PersonalAverificar.NumEmpleado+"' and RFCEMPLEADO = '" + PersonalAverificar.RFC +"' and IMPORTELIQUIDO = '"+PersonalAverificar.Liquido+"' and NombreEmpleado = '"+PersonalAverificar.Nombre+"'  ";
+                }
+
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        registrosFoliados = Convert.ToInt32(reader[0].ToString().Trim());
+                    }
+
+                    //se cumple si ya hay registros de foliacion osea que seria la segunda vez que se foliara la nomina  
+                    if (registrosFoliados == registrosAFoliar && registrosFoliados > 0)
+                    {
+                        return bandera = true;
+                    }
+                    else if (registrosFoliados != registrosAFoliar && registrosFoliados == 0)
+                    {
+                        //Si entre en esta condicion es por que no hay registroq que se haya foliado alguna vez y por ende sera la primera ver que se foliara y hay que guardarlo en la DB
+                        return bandera = false;
+                    }
+
+
+
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ExiteRegistroPersonaEnDBFoliacion";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+                List<DatosCompletosBitacoraParaChequesDTO> ListaError = new List<DatosCompletosBitacoraParaChequesDTO>();
+
+            }
+
+
+
+
+
+
+            return bandera;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Obtiene data para la revicion de la nomina de formas de pago filtrada por delegacion 
+        /// </summary>
+        /// <param name="NumeroNomina"></param>
+        /// <param name="AnSegunBitacora"></param>
+        /// <param name="quincena"></param>
+        /// <param name="NombresBanco"></param>
+        /// <returns></returns>
+        /// consultaPersonal, bancoEncontrado,  NuevaNominaFoliar.RangoInicial, NuevaNominaFoliar.Inhabilitado, NuevaNominaFoliar.RangoInhabilitadoInicial, NuevaNominaFoliar.RangoInhabilitadoFinal
+        public static List<ResumenPersonalAFoliarPorChequesDTO> ObtenerResumenDatosFormasDePagoFoliar(bool EsPena,string Observa ,string ConsultaSql, Tbl_CuentasBancarias BancoEncontrado, int NumeroChequeInicial, bool Inhabilitado, int RangoInhabilitadoInicial, int RangoInhabilitadoFinal)
+        {
+            List<ResumenPersonalAFoliarPorChequesDTO> ListaDatosReporteFoliacionPorNomina = new List<ResumenPersonalAFoliarPorChequesDTO>();
+
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(ConsultaSql, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+                    int TotalInhabilitados = (Convert.ToInt32(RangoInhabilitadoFinal) - Convert.ToInt32(RangoInhabilitadoInicial)) + 1;
+                    int TotalInhabilitadosStatico = TotalInhabilitados;
+                   
+                    while (reader.Read())
+                    {
+                        ResumenPersonalAFoliarPorChequesDTO NuevaPersona = new ResumenPersonalAFoliarPorChequesDTO();
+
+                        NuevaPersona.NumEmpleado = reader[0].ToString().Trim();
+                        NuevaPersona.RFC = reader[1].ToString().Trim();
+                        NuevaPersona.Nombre = reader[2].ToString().Trim();
+                        NuevaPersona.Liquido = Convert.ToDecimal( reader[3].ToString().Trim() );
+
+                        if (EsPena)
+                        {
+                            NuevaPersona.NumBeneficiario = reader[4].ToString().Trim();
+                        }
+
+                        NuevaPersona.BancoX  = BancoEncontrado.NombreBanco;
+                        NuevaPersona.CuentaX = BancoEncontrado.Cuenta;
+                        NuevaPersona.Observa = Observa;
+
+
+
+                        if (Inhabilitado)
+                        {
+                            if (NumeroChequeInicial < RangoInhabilitadoInicial)
+                            {
+                                NuevaPersona.NumChe = NumeroChequeInicial++;
+                            }
+                            else
+                            {
+                                if (TotalInhabilitados > TotalInhabilitadosStatico)
+                                {
+                                    NuevaPersona.NumChe = ++NumeroChequeInicial;
+                                }
+                                else
+                                {
+                                    NumeroChequeInicial += TotalInhabilitados++;
+                                    NuevaPersona.NumChe = NumeroChequeInicial;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            NuevaPersona.NumChe = NumeroChequeInicial++;
+                        }
+
+
+
+                        ListaDatosReporteFoliacionPorNomina.Add( NuevaPersona );
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerResumenDatosFormasDePagoFoliar";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe para crear la revicion del pdf de cada nomina";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+              
+            }
+
+
+            return ListaDatosReporteFoliacionPorNomina;
+        }
+
+
+
+
+
+        /// <summary>
+        /// Actualiza un registro con el folio para un pagomatico con  numeroEmpleado, rfc, An y con el BENEFICIARIO
+        /// </summary>
+        /// <param name="Num"></param>
+        /// <param name="Rfc"></param>
+        /// <param name="An"></param>
+        /// <param name="Folio"></param>
+        /// <param name="NombreBanco"></param>
+        /// <param name="Cuenta"></param>
+        /// <param name="Observa"></param>
+        public static int ActualizarBaseNominaParaCheques(ResumenPersonalAFoliarPorChequesDTO ActualizarRegistro, string AnBitacora, bool EsPena)
+        {
+            string nuevaConsulta = "";
+            int registrosActualizados = 0;
+            try
+            {
+
+                if (EsPena) 
+                {
+                    nuevaConsulta = "UPDATE interfaces.dbo."+AnBitacora+" SET Num_che = '"+ActualizarRegistro.NumChe+"', Banco_x = '"+ActualizarRegistro.BancoX+"', Cuenta_x = '"+ActualizarRegistro.CuentaX+"', Observa = '"+ActualizarRegistro.Observa+"' WHERE NUM = '"+ActualizarRegistro.NumEmpleado+"' and RFC = '"+ActualizarRegistro.RFC+"' and LIQUIDO = '"+ActualizarRegistro.Liquido+"' and NOMBRE = '"+ActualizarRegistro.Nombre+"' and BENEF = '"+ActualizarRegistro.NumBeneficiario+"' ";
+                }
+                else
+                {
+                    nuevaConsulta = "UPDATE interfaces.dbo."+AnBitacora+" SET Num_che = '"+ActualizarRegistro.NumChe+"', Banco_x = '"+ActualizarRegistro.BancoX+"', Cuenta_x = '"+ActualizarRegistro.CuentaX+"', Observa = '"+ActualizarRegistro.Observa+"' WHERE NUM = '"+ActualizarRegistro.NumEmpleado+"' and RFC = '"+ActualizarRegistro.RFC+"' and LIQUIDO = '"+ActualizarRegistro.Liquido+"' and NOMBRE = '"+ActualizarRegistro.Nombre+"' ";
+                }
+
+
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(nuevaConsulta, connection);
+
+                    registrosActualizados = command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ActualizarBaseNominaParaCheques";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+            }
             return registrosActualizados;
         }
 
