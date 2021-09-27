@@ -249,12 +249,13 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Id_nom" Type="Int32" Nullable="false" />
-    <Property Name="Nomina" Type="Int32" Nullable="false" />
+    <Property Name="Nomina" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
     <Property Name="An" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Adicional" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Mes" Type="Int32" Nullable="false" />
     <Property Name="Quincena" Type="Int32" Nullable="false" />
     <Property Name="ReferenciaBitacora" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Delegacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
     <Property Name="RfcEmpleado" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="NumEmpleado" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="NombreEmpleado" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />

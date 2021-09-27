@@ -45,13 +45,13 @@
 
 
                 </div>
-             
+
 
             </div>
 
-           
 
-            
+
+
 
 
 
@@ -74,12 +74,12 @@
                             }
                         </select>
 
-                    </div >
-                       
+                    </div>
+
 
                 </div>
 
-              
+
 
             </div>
         </div>
@@ -90,32 +90,32 @@
 
 
             @*<section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); ">
-            <br />
-            <h4 class="col-12 text-center">Rango de Foliacion</h4>
-            <br />
+                    <br />
+                    <h4 class="col-12 text-center">Rango de Foliacion</h4>
+                    <br />
 
 
-            <div class="row text-center">
-                <label class="offset-1 col-10            col-sm-2">Inicial:</label>
-                <input id="rangoInicial" class="offset-1 col-10 offset-sm-0 col-sm-2 " placeholder="Del" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
-                <label class="offset-1 col-10            col-sm-2">Final:</label>
-                <h3 id="rangoFinal" class="offset-1 col-10 offset-sm-0 col-sm-2" style="border:solid; color:#017BFF;">{_}</h3>
-            </div>
+                    <div class="row text-center">
+                        <label class="offset-1 col-10            col-sm-2">Inicial:</label>
+                        <input id="rangoInicial" class="offset-1 col-10 offset-sm-0 col-sm-2 " placeholder="Del" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " required />
+                        <label class="offset-1 col-10            col-sm-2">Final:</label>
+                        <h3 id="rangoFinal" class="offset-1 col-10 offset-sm-0 col-sm-2" style="border:solid; color:#017BFF;">{_}</h3>
+                    </div>
 
 
-            <br />
-            <br />
+                    <br />
+                    <br />
 
-            <div class="row text-center">
-                <label class="offset-1 col-10 offset-sm-1 col-sm-5  ">Numero de Registros Foliados:</label>
-                <h3 id="registrosFoliados" class="offset-1 col-10 offset-sm-1 col-sm-4  text-sm-center" style="border:solid; color:#017BFF;" title="Numero de Registros Foliados">{_}</h3>
+                    <div class="row text-center">
+                        <label class="offset-1 col-10 offset-sm-1 col-sm-5  ">Numero de Registros Foliados:</label>
+                        <h3 id="registrosFoliados" class="offset-1 col-10 offset-sm-1 col-sm-4  text-sm-center" style="border:solid; color:#017BFF;" title="Numero de Registros Foliados">{_}</h3>
 
-            </div>
+                    </div>
 
-            <br />
+                    <br />
 
-            <br class="margensection" />
-        </section>*@
+                    <br class="margensection" />
+                </section>*@
 
             <section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); ">
                 <br />
@@ -155,7 +155,7 @@
 
 
         <div class="col-12 col-lg-6">
-         
+
 
             <section id="IFolios" class="margenSection offset-1 col-10" style="background:#E6E6E6; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                 <br />
@@ -187,7 +187,7 @@
                     <input id="FolioFinalInhabilitado" class="offset-2 col-8 btn-lg " placeholder="Al" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
 
                 </div>
-                
+
                 <br />
                 <br />
             </section>
@@ -231,10 +231,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title col-11 text-capitalize text-center" id="NombreCabezeraModal">{Nombre del detalle de la nomina}</h5>
-               <!-- <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                -->
+                <!-- <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                 -->
             </div>
             <div class="modal-body">
 
@@ -343,6 +343,79 @@
 
 
 
+
+
+
+
+<!-- MODAL DE LOS DETALLES DE LA FOLIACION YA SEA QUE ESTEN BIEN O MAL -->
+<div class="modal fade" id="DetallesConNominasFoliadasCHEQUES" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-capitalize text-center " id="NombreNominaDelegacion">Resumen del proceso finalizado</h5>
+                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+                <div class="margenSection">
+                    <div class="table-responsive">
+
+                        <div id="TablaDetalleNominasCheque">
+
+                            <table id="TblDetallesNominasFoleadasCheques" class='table table-striped table-bordered table-hover' style="display:none">
+                                <caption class="text-uppercase"> Resumen de Nomina </caption>
+                                <thead class="tabla">
+                                    <tr class="text-center text-uppercase">
+
+                                        <th>Detalles o problemas con nominas </th>
+                                    </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <dl>
+                    <dt>Detalles:</dt>
+                    <dd> - "SIN PAGOMATICOS" ==> NO HAY EMPLEADOS CON TARJETAS PARA FOLIAR EN PAGOMATICO</dd>
+                    <dt>Solucion:</dt>
+                    <dd> - F/FP ==> INTENTE FOLIAR POR FORMAS DE PAGO</dd>
+                    <dd> - IFNN ==> INTENTE FOLIAR LA NOMINA DE NUEVO</dd>
+                </dl>
+
+
+            </div>
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 <style>
 
     #mainselection select {
@@ -358,7 +431,6 @@
         border-radius: 9px 9px 9px 9px;
         box-shadow: 1px 1px 10px #017BFF;
     }
-
 </style>
 
 
@@ -499,6 +571,100 @@
         });
     };
 
+
+
+
+    function DibujarTablaDetalleNominasFoleadasCHEQUES() {
+        $("#TablaDetalleNominasCheque").append(
+
+            "<table id='TblDetallesNominasFoleadasCheques'  class='table  table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%' >" +
+            " <caption class='text-uppercase'>Resumen de la foliacion realizada</caption>" +
+            "<thead class='tabla'>" +
+
+            "<tr>" +
+            "<th>Tipo Advertencia </th>" +
+            "<th>Numero Nomina</th>" +
+            "<th>Nomina</th>" +
+            "<th>Detalle</th>" +
+            "<th>Regitros Foliados</th>" +
+            "<th>Solucion</th>" +
+            "<th>Id</th>" +
+
+            "</tr>" +
+
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+
+
+
+
+
+    function PintarResultadoNominasFoleadasCHEQUES(datos) {
+
+        $('#TblDetallesNominasFoleadasCheques').DataTable({
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+
+                {
+                    "data": "IdAtencion",
+                    render: function (data, type, row) {
+                        console.log("hola :" + typeof data);
+                        //  console.log( data.row.IdAtencion);
+                        if (data == 0) {
+                            return '<h4 class=" bg-success btn text-uppercase text-light"  > FOLIADO CORRECTAMENTE  </h4>';
+                        }
+                        else {
+                            return '<h4 class=" bg-danger btn text-uppercase text-light" >SIN FOLIAR</h4>';
+                        }
+                    }
+                },
+                { "data": "NumeroNomina" },
+                { "data": "NombreNomina" },
+                { "data": "Detalle" },
+                { "data": "RegistrosFoliados" },
+                { "data": "Solucion" },
+                { "data": "Id_Nom" },
+
+            ],
+            "columnDefs": [
+
+
+                { className: "text-center col-2", visible: true, "targets": 0, },
+                { className: "text-center col-1", visible: true, "targets": 1, },
+                { className: "text-center col-3", visible: true, "targets": 2, },
+                { className: "text-center col-3", visible: true, "targets": 3, },
+                { className: "text-center col-1", visible: true, "targets": 4, },
+                { className: "text-center col-1", visible: true, "targets": 5, },
+                { className: "text-center col-1", visible: true, "targets": 6, },
+
+            ],
+
+            "order": [[1, 'asc']]
+
+
+        });
+
+    };
 
 
 
@@ -1042,6 +1208,9 @@
                                     success: function (response) {
                                         //regresa el campo sindicato a false para que el usuario lo tenga que volver a escoger
                                         sindicalizado = false;
+
+                                        //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
+                                        delegacionSeleccionadaUsuario = null;
                                        // delegacionSeleccionadaUsuario = null;
                                        // document.getElementById('DetalleSelecionado').innerText = ' ';
 
@@ -1049,16 +1218,21 @@
                                         if (response.RespuestaServidor === "201") {
 
                                           //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
-                                            MensajeCorrectoSweet("Foliacion de nomina por delegacion lista");
-                                          
+                                            MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
+
+
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
-                                            document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
+                                            document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
 
                                         } else if (response.RespuestaServidor === "500") {
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
-                                            MensajeErrorSweet("No se pudo crear la revicion intente de nuevo " + " ' " + response.Error + " ' ");
+
+                                            MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
                                         } else {
 
@@ -1097,20 +1271,27 @@
                                     success: function (response) {
                                         //regresa confianza a false para que el usuario lo vuelva a cargar
                                         confianza = false;
+
+                                        //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
+                                        delegacionSeleccionadaUsuario = null;
                                        // delegacionSeleccionadaUsuario = null;
                                       //  document.getElementById('DetalleSelecionado').innerText = ' ';
 
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
                                         if (response.RespuestaServidor === "201") {
+                                            MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
 
-                                            MensajeCorrectoSweet("Foliacion de nomina por delegacion lista");
-                                            
+
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
 
                                         } else if (response.RespuestaServidor === "500") {
-                                            MensajeErrorSweet("No se podo crear la revicion intente de nuevo");
+                                            MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
+
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
                                         } else {
 
@@ -1150,6 +1331,10 @@
                                     success: function (response) {
                                         //regresa confianza a false para que el usuario lo vuelva a cargar
                                         confianza = false;
+
+
+                                        //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
+                                        delegacionSeleccionadaUsuario = null;
                                        // delegacionSeleccionadaUsuario = null;
                                         // document.getElementById('DetalleSelecionado').innerText = ' ';
                                         ////////console.log(response.DatosExtras);
@@ -1162,17 +1347,21 @@
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
                                         if (response.RespuestaServidor === "201") {
 
-                                            MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
-                                         
+                                            MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
+
                                             document.getElementById('NombreNominaDelegacion').innerText = response.Delegacion;
 
-                                            
+
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
 
                                         } else if (response.RespuestaServidor === "500") {
-                                            MensajeErrorSweet("No se podo crear la revicion intente de nuevo");
+
+                                            MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
+                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             OcultarMensajeCargando();
                                         } else {
 
@@ -1209,8 +1398,14 @@
 
 
 
+        function PintarNuevoModalDetalleFoliacion(datos)
+        {
+            $('#TablaDetalleNominasCheque').empty();
 
-
+            DibujarTablaDetalleNominasFoleadasCHEQUES();
+            PintarResultadoNominasFoleadasCHEQUES(datos);
+            $('#DetallesConNominasFoliadasCHEQUES').modal('show');
+        }
 
 
 

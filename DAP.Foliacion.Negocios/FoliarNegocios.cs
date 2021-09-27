@@ -115,11 +115,6 @@ namespace DAP.Foliacion.Negocios
 
 
 
-
-
-
-
-
         /// <summary>
         /// Devuelve el an de como se encuentra en bitacora de una nomina especifica para revisarla o foliarla
         /// </summary>
@@ -625,6 +620,26 @@ namespace DAP.Foliacion.Negocios
         }
 
 
+        /*****************************************************************************************************************************************/
+                            /*VERIFICA SI YA ESTA FOLIADO UNA NOMINA QUE CONTIENE PAGAMATICO*/
+        public static AlertaDeNominasFoliadasPagomatico EstaFoliadaNominaSeleccionadaPagoMatico(int IdNom) 
+        {
+            DatosCompletosBitacoraParaChequesDTO detalleNominaObtenido = FoliarConsultasDBSinEntity.ObtenerDatosCompletosBitacoraPorIdNom(IdNom);
+
+            string consulta = "select NUM_CHE from interfaces.dbo.'"+detalleNominaObtenido.An+"' where TARJETA <> '' or SERFIN <> '' or BANCOMER <> '' or BANORTE <> '' or HSBC <> '' ";
+
+            //AlertaDeNominasFoliadasPagomatico> nuevaAlerta = new  List<AlertaDeNominasFoliadasPagomatico>();
+            AlertaDeNominasFoliadasPagomatico nuevaAlerta = new  AlertaDeNominasFoliadasPagomatico();
+            nuevaAlerta.Id_Nom = detalleNominaObtenido.Id_nom;
+            nuevaAlerta.NumeroNomina = detalleNominaObtenido.Nomina;
+            nuevaAlerta.Adicional = detalleNominaObtenido.Adicional;
+            nuevaAlerta.NombreNomina = detalleNominaObtenido.Coment;
+            nuevaAlerta.EstaFoliada = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
+
+
+            return nuevaAlerta;
+        }
+
 
 
 
@@ -633,8 +648,8 @@ namespace DAP.Foliacion.Negocios
         //********************************************************************************************************************************************************************//
         //*******************************************************************************************************************************************************************//
         //******************************************************************************************************************************************************************//
-                                                                       /*** FOLEAR NOMINAS CON PAGOMATICOS   ***/
-       
+        /*** FOLEAR NOMINAS CON PAGOMATICOS   ***/
+
         public static List<AlertasAlFolearPagomaticosDTO> FolearPagomaticoPorNomina(int IdNom, string quincena, string Observa) 
         {
             List<AlertasAlFolearPagomaticosDTO> Advertencias = new List<AlertasAlFolearPagomaticosDTO>();
@@ -724,12 +739,13 @@ namespace DAP.Foliacion.Negocios
 
                         //si entra es por que esta foliada y se hara solo un update
                         pagoAmodificar.Id_nom = datosCompletosObtenidos.Id_nom;
-                        pagoAmodificar.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                        pagoAmodificar.Nomina = datosCompletosObtenidos.Nomina;
                         pagoAmodificar.An = datosCompletosObtenidos.An;
                         pagoAmodificar.Adicional = datosCompletosObtenidos.Adicional;
                         pagoAmodificar.Mes = datosCompletosObtenidos.Mes;
                         pagoAmodificar.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                         pagoAmodificar.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                        pagoAmodificar.Delegacion = registroSeleccionado.Delegacion;
                         pagoAmodificar.RfcEmpleado = registroSeleccionado.Rfc;
                         pagoAmodificar.NumEmpleado = registroSeleccionado.NumeroEmpleado;
 
@@ -785,12 +801,13 @@ namespace DAP.Foliacion.Negocios
                     {
                         //si entra es por que no esta foliada y se haran inserts 
                         nuevoPago.Id_nom = datosCompletosObtenidos.Id_nom;
-                        nuevoPago.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                        nuevoPago.Nomina = datosCompletosObtenidos.Nomina;
                         nuevoPago.An = datosCompletosObtenidos.An;
                         nuevoPago.Adicional = datosCompletosObtenidos.Adicional;
                         nuevoPago.Mes = datosCompletosObtenidos.Mes;
                         nuevoPago.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                         nuevoPago.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                        nuevoPago.Delegacion = registroSeleccionado.Delegacion;
                         nuevoPago.RfcEmpleado = registroSeleccionado.Rfc;
                         nuevoPago.NumEmpleado = registroSeleccionado.NumeroEmpleado;
 
@@ -1022,12 +1039,13 @@ namespace DAP.Foliacion.Negocios
 
                                 //si entra es por que esta foliada y se hara solo un update
                                 pagoAmodificar.Id_nom = datosCompletosObtenidos.Id_nom;
-                                pagoAmodificar.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                                pagoAmodificar.Nomina = datosCompletosObtenidos.Nomina;
                                 pagoAmodificar.An = datosCompletosObtenidos.An;
                                 pagoAmodificar.Adicional = datosCompletosObtenidos.Adicional;
                                 pagoAmodificar.Mes = datosCompletosObtenidos.Mes;
                                 pagoAmodificar.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                                 pagoAmodificar.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                                pagoAmodificar.Delegacion = registroSeleccionado.Delegacion;
                                 pagoAmodificar.RfcEmpleado = registroSeleccionado.Rfc;
                                 pagoAmodificar.NumEmpleado = registroSeleccionado.NumeroEmpleado;
 
@@ -1083,12 +1101,13 @@ namespace DAP.Foliacion.Negocios
                             {
                                 //si entra es por que no esta foliada y se haran inserts 
                                 nuevoPago.Id_nom = datosCompletosObtenidos.Id_nom;
-                                nuevoPago.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                                nuevoPago.Nomina = datosCompletosObtenidos.Nomina;
                                 nuevoPago.An = datosCompletosObtenidos.An;
                                 nuevoPago.Adicional = datosCompletosObtenidos.Adicional;
                                 nuevoPago.Mes = datosCompletosObtenidos.Mes;
                                 nuevoPago.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                                 nuevoPago.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                                pagoAmodificar.Delegacion = registroSeleccionado.Delegacion;
                                 nuevoPago.RfcEmpleado = registroSeleccionado.Rfc;
                                 nuevoPago.NumEmpleado = registroSeleccionado.NumeroEmpleado;
 
@@ -1243,18 +1262,243 @@ namespace DAP.Foliacion.Negocios
             // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
             if (NuevaNominaFoliar.GrupoNomina == 1)
             {
+                /**********************************************************************************************************************************/
+                /**********************************************************************************************************************************/
+                            //El grupo corresponde a las nomina de GENERAL Y DESCENTRALIZADA 
+
+
                 //Obtener la consulta a la que corresponde la delegacion para la nomina general y descentralizada
                 ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);
                 consultaPersonal = nuevaConsulta.ObtenerConsultaSindicatoFormasDePagoGeneralYDesc(NuevaNominaFoliar.Delegacion, NuevaNominaFoliar.Sindicato);
                 //ObtenerResumenDatosFormasDePagoFoliar(string ConsultaSql, int NumeroChequeInicial, string NombreBanco, bool Inhabilitado, int RangoInhabilitadoInicial, int RangoInhabilitadoFinal)
                 List<ResumenPersonalAFoliarPorChequesDTO> resumenPersonalFoliar = FoliarConsultasDBSinEntity.ObtenerResumenDatosFormasDePagoFoliar(datosCompletosObtenidos.EsPenA, Observa ,consultaPersonal, bancoEncontrado,  NuevaNominaFoliar.RangoInicial, NuevaNominaFoliar.Inhabilitado,Convert.ToInt32( NuevaNominaFoliar.RangoInhabilitadoInicial) , Convert.ToInt32( NuevaNominaFoliar.RangoInhabilitadoFinal ) );
 
-               // List<NumRfcNombreLiquidoDTO> DetallePersonalConChequeObtenido = FoliarConsultasDBSinEntity.ObtenerDetalleDeEmpleadoEnNominaCheques(consultaPersonal, datosCompletosObtenidos.EsPenA);
+
+                if (resumenPersonalFoliar.Count() >= 1)
+                {
+                    foreach (ResumenPersonalAFoliarPorChequesDTO nuevaPersona in resumenPersonalFoliar)
+                    {
+                        Tbl_Pagos nuevoPago = new Tbl_Pagos();
+
+
+                        int registroAfectado = 0;
+                        registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaParaCheques(nuevaPersona, datosCompletosObtenidos.An, datosCompletosObtenidos.EsPenA);
+
+
+
+                        if (registroAfectado >= 1)
+                        {
+                            numeroRegistrosActualizados += registroAfectado;
+                        }
+
+                        //DatosCompletosBitacoraParaChequesDTO resumenNomina,  int TipoPago, ResumenPersonalAFoliarPorChequesDTO PersonalAverificar 
+                        EstaFoliada = FoliarConsultasDBSinEntity.ExiteRegistroPersonaEnDBFoliacion(datosCompletosObtenidos, 1 /*Por ser cheques*/, nuevaPersona);
+                        ///Insertar un regitro o actualizar en la DB foliacion segun se el caso 
+                        if (EstaFoliada && registroAfectado >= 1)
+                        {
+                            Tbl_Pagos pagoAmodificar = new Tbl_Pagos();
+
+                            int quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
+
+                            if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
+                            {
+                                pagoAmodificar = repositorioTblPago.Obtener(x => x.Id_nom == datosCompletosObtenidos.Id_nom && x.Quincena == quincena && x.NumEmpleado == nuevaPersona.NumEmpleado && x.ImporteLiquido == nuevaPersona.Liquido && x.Delegacion == nuevaPersona.Delegacion && x.NumBeneficiario == nuevaPersona.NumBeneficiario );
+                            }
+                            else
+                            {
+                                pagoAmodificar = repositorioTblPago.Obtener(x => x.Id_nom == datosCompletosObtenidos.Id_nom && x.Quincena == quincena && x.NumEmpleado == nuevaPersona.NumEmpleado && x.ImporteLiquido == nuevaPersona.Liquido && x.Delegacion == nuevaPersona.Delegacion);
+                            }
+
+
+
+                            //si entra es por que esta foliada y se hara solo un update
+                            pagoAmodificar.Id_nom = datosCompletosObtenidos.Id_nom;
+                            pagoAmodificar.Nomina = datosCompletosObtenidos.Nomina;
+                            pagoAmodificar.An = datosCompletosObtenidos.An;
+                            pagoAmodificar.Adicional = datosCompletosObtenidos.Adicional;
+                            pagoAmodificar.Mes = datosCompletosObtenidos.Mes;
+                            pagoAmodificar.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
+                            pagoAmodificar.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                            pagoAmodificar.Delegacion = nuevaPersona.Delegacion;
+                            pagoAmodificar.RfcEmpleado = nuevaPersona.RFC;
+                            pagoAmodificar.NumEmpleado = nuevaPersona.NumEmpleado;
+
+                            if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
+                            {
+                                pagoAmodificar.NombreEmpleado = /*FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado)*/ "CAMBIADO"; //conectarse a funcion y buscar nombre 
+                                pagoAmodificar.BeneficiarioPenA = nuevaPersona.Nombre;
+                                pagoAmodificar.NumBeneficiario = nuevaPersona.NumBeneficiario;
+                            }
+                            else
+                            {
+                                pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
+                                pagoAmodificar.BeneficiarioPenA = null;
+                                pagoAmodificar.NumBeneficiario = null;
+                            }
+
+
+                            pagoAmodificar.EsPenA = datosCompletosObtenidos.EsPenA;
+
+                            //nuevoPago.IdTbl_InventarioDetalle = 0 ; //No tiene un detalle de inventario ya que no es un cheque
+                            pagoAmodificar.IdTbl_CuentaBancaria_BancoPagador = bancoEncontrado.Id;
+                            pagoAmodificar.FolioCheque = nuevaPersona.NumChe;
+                            pagoAmodificar.ImporteLiquido = nuevaPersona.Liquido;
+                            pagoAmodificar.IdCat_FormaPago_Pagos = 1; //1 = cheque , 2 = Pagomatico 
+
+                            //1 = Transito, 2= Pagado
+                            //Toda forma de pago al foliarse inicia en transito y cambia hasta que el banco envia el estado de cuenta (para cheches) o el conta (transmite el recurso) //Ocupa un disparador para los pagamaticos para actualizar el estado
+                            pagoAmodificar.IdCat_EstadoPago_Pagos = 1;
+
+
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            EncriptarCadena encriptar = new EncriptarCadena();
+
+                            pagoAmodificar.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
+
+
+                            // nuevoPago.IdReferenciaCancelados_Pagos =;
+                            // nuevoPago.IdCat_EstadoCancelados_Pagos =;
+                            //Prueba para ver que todo cambio
+                            // pagoAmodificar.EsRefoliado = true;
+                            pagoAmodificar.Activo = true;
+
+                            Tbl_Pagos pagoModificado = repositorioTblPago.Modificar(pagoAmodificar);
+
+                            if (!string.IsNullOrEmpty(Convert.ToString(pagoModificado.FolioCheque)))
+                            {
+                                registrosInsertadosOActualizados++;
+                            }
+
+
+                        }
+                        else
+                        {
+                            //si entra es por que no esta foliada y se haran inserts 
+                            nuevoPago.Id_nom = datosCompletosObtenidos.Id_nom;
+                            nuevoPago.Nomina = datosCompletosObtenidos.Nomina;
+                            nuevoPago.An = datosCompletosObtenidos.An;
+                            nuevoPago.Adicional = datosCompletosObtenidos.Adicional;
+                            nuevoPago.Mes = datosCompletosObtenidos.Mes;
+                            nuevoPago.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
+                            nuevoPago.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                            nuevoPago.Delegacion = nuevaPersona.Delegacion;
+                            nuevoPago.RfcEmpleado = nuevaPersona.RFC;
+                            nuevoPago.NumEmpleado = nuevaPersona.NumEmpleado;
+
+                            if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
+                            {
+                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado); //conectarse a funcion y buscar nombre 
+                                nuevoPago.BeneficiarioPenA = nuevaPersona.Nombre;
+                                nuevoPago.NumBeneficiario = nuevaPersona.NumBeneficiario;
+                            }
+                            else
+                            {
+                                nuevoPago.NombreEmpleado = nuevaPersona.Nombre;
+                                nuevoPago.BeneficiarioPenA = null;
+                                nuevoPago.NumBeneficiario = null;
+                            }
+
+                            nuevoPago.EsPenA = datosCompletosObtenidos.EsPenA;
+                            //nuevoPago.IdTbl_InventarioDetalle = 0 ; //No tiene un detalle de inventario ya que no es un cheque
+                            nuevoPago.IdTbl_CuentaBancaria_BancoPagador = bancoEncontrado.Id;
+                            nuevoPago.FolioCheque = nuevaPersona.NumChe;
+                            nuevoPago.ImporteLiquido = nuevaPersona.Liquido;
+                            nuevoPago.IdCat_FormaPago_Pagos = 1; //1 = cheque , 2 = Pagomatico 
+
+                            //1 = Transito, 2= Pagado
+                            //Toda forma de pago al foliarse inicia en transito y cambia hasta que el banco envia el estado de cuenta (para cheches) o el conta (transmite el recurso) //Ocupa un disparador para los pagamaticos para actualizar el estado
+                            nuevoPago.IdCat_EstadoPago_Pagos = 1;
+
+
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            EncriptarCadena encriptar = new EncriptarCadena();
+
+                            nuevoPago.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
+                            // nuevoPago.IdReferenciaCancelados_Pagos =;
+                            // nuevoPago.IdCat_EstadoCancelados_Pagos =;
+                            // nuevoPago.EsRefoliado =;
+                            nuevoPago.Activo = true;
+
+                            Tbl_Pagos pagoInsertado = repositorioTblPago.Agregar(nuevoPago);
+
+
+                            if (!string.IsNullOrEmpty(Convert.ToString(pagoInsertado.FolioCheque)))
+                            {
+                                registrosInsertadosOActualizados++;
+                            }
+
+                        }
+
+
+
+
+                    }
+
+
+
+
+
+
+                }
+                else if (resumenPersonalFoliar.Count() == 0)
+                {
+
+                    return Advertencias;
+                }
+
+
+                //si se cumple todos los registros se actualizaron correctamente 
+                if (numeroRegistrosActualizados == resumenPersonalFoliar.Count() && numeroRegistrosActualizados > 0 && registrosInsertadosOActualizados == numeroRegistrosActualizados)
+                {
+
+                    nuevaAlerta.IdAtencion = 0;
+
+                    nuevaAlerta.NumeroNomina = datosCompletosObtenidos.Nomina;
+                    nuevaAlerta.NombreNomina = datosCompletosObtenidos.Coment;
+                    nuevaAlerta.Detalle = "";
+                    nuevaAlerta.Solucion = "";
+                    nuevaAlerta.Id_Nom = Convert.ToString(datosCompletosObtenidos.Id_nom);
+                    nuevaAlerta.RegistrosFoliados = numeroRegistrosActualizados;
+                    nuevaAlerta.UltimoFolioUsado = resumenPersonalFoliar.Max(x => x.NumChe);
+
+                    numeroRegistrosActualizados = 0;
+
+                    Advertencias.Add(nuevaAlerta);
+                    //return nuevaAlerta;
+
+                }
+                else if (numeroRegistrosActualizados != resumenPersonalFoliar.Count() && numeroRegistrosActualizados > 0)
+                {
+                    //Si entra en esta condicion es por que uno o mas registros no se foliaron y se necesita refoliar toda la nomina 
+
+
+                    nuevaAlerta.IdAtencion = 2;
+
+                    nuevaAlerta.NumeroNomina = datosCompletosObtenidos.Nomina;
+                    nuevaAlerta.NombreNomina = datosCompletosObtenidos.Coment;
+                    nuevaAlerta.Detalle = "OCURRIO UN ERROR EN LA FOLIACION";
+                    nuevaAlerta.Solucion = "IFNN";
+                    nuevaAlerta.Id_Nom = Convert.ToString(datosCompletosObtenidos.Id_nom);
+                    nuevaAlerta.RegistrosFoliados = numeroRegistrosActualizados;
+                    nuevaAlerta.UltimoFolioUsado = resumenPersonalFoliar.Max(x => x.NumChe);
+
+                    numeroRegistrosActualizados = 0;
+
+                    Advertencias.Add(nuevaAlerta);
+                    //return nuevaAlerta;
+                }
+
+
 
 
             }
             else if (NuevaNominaFoliar.GrupoNomina == 2)
             {
+
+                /**********************************************************************************************************************************/
+                /**********************************************************************************************************************************/
+                                        //El grupo corresponde TODAS LAS NOMINA CON EXCEPCION DEL GRUPO 1 
+
                 //para las nominas que no son pension
                 ConsultasSQLOtrasNominasConCheques crearConsultaNominasSinSindicalizados = new ConsultasSQLOtrasNominasConCheques();
 
@@ -1324,24 +1568,25 @@ namespace DAP.Foliacion.Negocios
 
                             //si entra es por que esta foliada y se hara solo un update
                             pagoAmodificar.Id_nom = datosCompletosObtenidos.Id_nom;
-                            pagoAmodificar.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                            pagoAmodificar.Nomina = datosCompletosObtenidos.Nomina;
                             pagoAmodificar.An = datosCompletosObtenidos.An;
                             pagoAmodificar.Adicional = datosCompletosObtenidos.Adicional;
                             pagoAmodificar.Mes = datosCompletosObtenidos.Mes;
                             pagoAmodificar.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                             pagoAmodificar.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                            pagoAmodificar.Delegacion = nuevaPersona.Delegacion;
                             pagoAmodificar.RfcEmpleado = nuevaPersona.RFC ;
                             pagoAmodificar.NumEmpleado = nuevaPersona.NumEmpleado;
 
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
-                                pagoAmodificar.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado); //conectarse a funcion y buscar nombre 
+                                pagoAmodificar.NombreEmpleado = /*FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado)*/ "CAMBIADO"; //conectarse a funcion y buscar nombre 
                                 pagoAmodificar.BeneficiarioPenA = nuevaPersona.Nombre;
                                 pagoAmodificar.NumBeneficiario = nuevaPersona.NumBeneficiario;
                             }
                             else
                             {
-                                pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
+                                pagoAmodificar.NombreEmpleado = /*nuevaPersona.Nombre*/ "Cambiado";
                                 pagoAmodificar.BeneficiarioPenA = null;
                                 pagoAmodificar.NumBeneficiario = null;
                             }
@@ -1385,12 +1630,13 @@ namespace DAP.Foliacion.Negocios
                         {
                             //si entra es por que no esta foliada y se haran inserts 
                             nuevoPago.Id_nom = datosCompletosObtenidos.Id_nom;
-                            nuevoPago.Nomina = Convert.ToInt32(datosCompletosObtenidos.Nomina);
+                            nuevoPago.Nomina = datosCompletosObtenidos.Nomina;
                             nuevoPago.An = datosCompletosObtenidos.An;
                             nuevoPago.Adicional = datosCompletosObtenidos.Adicional;
                             nuevoPago.Mes = datosCompletosObtenidos.Mes;
                             nuevoPago.Quincena = Convert.ToInt32(datosCompletosObtenidos.Quincena);
                             nuevoPago.ReferenciaBitacora = datosCompletosObtenidos.ReferenciaBitacora;
+                            nuevoPago.Delegacion = nuevaPersona.Delegacion;
                             nuevoPago.RfcEmpleado = nuevaPersona.RFC;
                             nuevoPago.NumEmpleado = nuevaPersona.NumEmpleado;
 
@@ -1437,21 +1683,6 @@ namespace DAP.Foliacion.Negocios
                             }
 
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1524,10 +1755,6 @@ namespace DAP.Foliacion.Negocios
                     Advertencias.Add(nuevaAlerta);
                     //return nuevaAlerta;
                 }
-
-
-
-
 
 
 

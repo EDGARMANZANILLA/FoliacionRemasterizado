@@ -194,6 +194,7 @@
           <ScalarProperty Name="NombreEmpleado" ColumnName="NombreEmpleado" />
           <ScalarProperty Name="NumEmpleado" ColumnName="NumEmpleado" />
           <ScalarProperty Name="RfcEmpleado" ColumnName="RfcEmpleado" />
+          <ScalarProperty Name="Delegacion" ColumnName="Delegacion" />
           <ScalarProperty Name="ReferenciaBitacora" ColumnName="ReferenciaBitacora" />
           <ScalarProperty Name="Quincena" ColumnName="Quincena" />
           <ScalarProperty Name="Mes" ColumnName="Mes" />

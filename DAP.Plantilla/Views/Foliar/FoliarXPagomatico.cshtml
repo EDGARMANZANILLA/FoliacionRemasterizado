@@ -41,6 +41,9 @@
             </div>
         </div>
 
+        <br />
+        <br />
+        <h3 id="NominaEstaFoliada" class="text-center col-12"> </h3>
 
 
     </div>
@@ -251,7 +254,7 @@
 
             ],
             "columnDefs": [
-                
+
 
                 { className: "text-center col-2", visible: true, "targets": 0, },
                 { className: "text-center col-1", visible: true, "targets": 1, },
@@ -262,7 +265,7 @@
                 { className: "text-center col-1", visible: true, "targets": 6, },
 
             ],
-           
+
             "order": [[1, 'asc']]
 
 
@@ -328,6 +331,33 @@
                 nominaSeleccionadaFoliar = this.options[SeleccionNomina.selectedIndex];
                 console.log(nominaSeleccionadaFoliar.value);
 
+
+                MensajeCargando();
+
+                let EnviaIdNom = "{'IdNom': '" +@ViewBag.NumeroQuincena+"'}";
+
+
+                $.ajax({
+                    url: '@Url.Action("EstaFoliadaIdNomina", "Foliar")',
+                    data: EnviaIdNom,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        if (response)
+                        {
+                            document.getElementById("NominaEstaFoliada").innerText = "LA NOMINA ";
+                        } else
+                        {
+                        }
+                        OcultarMensajeCargando();
+
+                    }
+                });
+
+
+                
+                console.log("Hecer peticion ajax ");
             }
         );
 
@@ -493,13 +523,13 @@
 
                                         PintarResultadoNominasFoleadas(response);
 
-                                        
+
                                         $('#DetallesConNominasFoliadasPagomatico').modal('show');
 
                                         MensajeCorrectoSweet("Se ha foliado la base correctamente ");
                                         OcultarMensajeCargando();
 
-                                          
+
                                     }
                                 });
 
@@ -527,7 +557,7 @@
                                 success: function (response) {
                                     console.log(response)
 
-                                   
+
 
                                     $('#TablaDetalleNominas').empty();
 

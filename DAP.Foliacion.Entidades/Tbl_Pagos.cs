@@ -21,12 +21,13 @@ namespace DAP.Foliacion.Entidades
     
         public int Id { get; set; }
         public int Id_nom { get; set; }
-        public int Nomina { get; set; }
+        public string Nomina { get; set; }
         public string An { get; set; }
         public string Adicional { get; set; }
         public int Mes { get; set; }
         public int Quincena { get; set; }
         public string ReferenciaBitacora { get; set; }
+        public string Delegacion { get; set; }
         public string RfcEmpleado { get; set; }
         public string NumEmpleado { get; set; }
         public string NombreEmpleado { get; set; }

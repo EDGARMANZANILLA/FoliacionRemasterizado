@@ -14,6 +14,8 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         public decimal Liquido { get; set; }
         public string NombreBanco { get; set; }
         public string IdCuentaBancaria { get; set; }
+        public string Delegacion { get; set; }
+
 
 
 

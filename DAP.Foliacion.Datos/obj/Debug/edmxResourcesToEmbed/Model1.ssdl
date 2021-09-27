@@ -164,12 +164,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Id_nom" Type="int" Nullable="false" />
-    <Property Name="Nomina" Type="int" Nullable="false" />
+    <Property Name="Nomina" Type="char" MaxLength="2" Nullable="false" />
     <Property Name="An" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Adicional" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Mes" Type="int" Nullable="false" />
     <Property Name="Quincena" Type="int" Nullable="false" />
     <Property Name="ReferenciaBitacora" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Delegacion" Type="char" MaxLength="2" Nullable="false" />
     <Property Name="RfcEmpleado" Type="nvarchar" MaxLength="15" Nullable="false" />
     <Property Name="NumEmpleado" Type="nvarchar" MaxLength="15" Nullable="false" />
     <Property Name="NombreEmpleado" Type="nvarchar" MaxLength="150" />

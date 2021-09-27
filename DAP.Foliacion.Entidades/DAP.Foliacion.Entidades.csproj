@@ -55,6 +55,7 @@
     <Compile Include="ConsultasSQLSindicatoGeneralYDesc.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\AlertaDeNominasFoliadasPagomatico.cs" />
     <Compile Include="DTO\FoliarDTO\AlertasAlFolearPagomaticosDTO.cs" />
     <Compile Include="DTO\FoliarDTO\DatosBitacoraParaCheque.cs" />
     <Compile Include="DTO\FoliarDTO\DatosCompletosBitacoraParaChequesDTO.cs" />

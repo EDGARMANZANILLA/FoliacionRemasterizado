@@ -500,7 +500,19 @@ namespace DAP.Plantilla.Controllers
         }
 
 
+                                             /*********************************************************/
+                                                            /*************/
+        public ActionResult EstaFoliadaIdNomina(int IdNom) 
+        {
+            bool EstaFoliada = false;
 
+
+                 EstaFoliada =  FoliarNegocios.EstaFoliadaNominaSeleccionadaPagoMatico(IdNom);
+
+            //recibir un  DatosCompletosBitacoraParaChequesDTO y intarlo en una tabla 
+
+            return Json(EstaFoliada, JsonRequestBehavior.AllowGet);
+        }
 
 
 
@@ -508,7 +520,7 @@ namespace DAP.Plantilla.Controllers
         //**************************************************************************************************************************************************************//
         //*************************************************************************************************************************************************************//
         //************************************************************************************************************************************************************//
-                                                // Metodos para FOLIAR nominas con cheques (Formas de pagos) //
+        // Metodos para FOLIAR nominas con cheques (Formas de pagos) //
         public ActionResult FoliarNominaFormaPago(RevicionFormasPagoModel NuevaFoliacionNomina)
         {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
             // 1 = le pertenece a las nominas general y descentralizada

@@ -13,6 +13,7 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         public string Nombre { get; set; }
         public decimal Liquido { get; set; }
         public string NumBeneficiario { get; set; }
+        public string Delegacion { get; set; }
 
         //Llenado de datos restantes para poder tener un update completo para formas de pago 
         public int NumChe { get; set; }

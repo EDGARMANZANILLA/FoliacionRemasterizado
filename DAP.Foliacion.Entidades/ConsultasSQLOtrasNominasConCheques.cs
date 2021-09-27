@@ -98,33 +98,33 @@ namespace DAP.Foliacion.Entidades
             {
                 case 0:
                     /*Campeche*/
-                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     break;
                 case 3:
                     /*Champoton 03 */
-                    cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                    cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     break;
                 case 4:
                     /*Escarcega y candelaria 04 - 11*/
-                    cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                    cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     break;
                 case 5:
                     /*Calkini 5 */
-                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
                     break;
                 case 6:
                     /*Hecelchakan 6 */
-                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     break;
                 case 7:
                     /*Hopelchen 7 */
-                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                    cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
 
                     break;
 
@@ -253,33 +253,33 @@ namespace DAP.Foliacion.Entidades
             {
                 case 0:
                     /*Campeche*/
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )  order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )  order by JUZGADO, NOMBRE";
 
                     break;
                 case 3:
                     /*Champoton 03 */
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 03  order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 03  order by JUZGADO, NOMBRE";
 
                     break;
                 case 4:
                     /*Escarcega y candelaria 04 - 11*/
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04' , '11' )  order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04' , '11' )  order by JUZGADO, NOMBRE";
 
                     break;
                 case 5:
                     /*Calkini 5 */
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO,  DELEG, BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by JUZGADO, NOMBRE";
 
 
                     break;
                 case 6:
                     /*Hecelchakan 6 */
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06  order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, DELEG, BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06  order by JUZGADO, NOMBRE";
 
                     break;
                 case 7:
                     /*Hopelchen 7 */
-                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, BENEF 'NumBeneficiario'  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07  order by JUZGADO, NOMBRE";
+                    cadenaConsulta = "select NUM 'NUM', RFC  , NOMBRE , LIQUIDO, DELEG, BENEF 'NumBeneficiario'  from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07  order by JUZGADO, NOMBRE";
 
                     break;
 
