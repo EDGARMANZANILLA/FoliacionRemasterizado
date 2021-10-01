@@ -172,7 +172,7 @@ function OcultarMensajeCargando() {
 
 //Mensajes Con Sweet alert V9.X
 
-function MensajeErrorSweet(Texto)
+function MensajeErrorSweet(Solucion, Error)
 {
     Swal.fire({
         backdrop: true,
@@ -180,8 +180,8 @@ function MensajeErrorSweet(Texto)
         allowOutsideClick: false,
         allowEscapeKey: false,
         icon: 'error',
-        title: 'Oops...',
-        text: Texto,
+        title:  Error ,
+        text: Solucion,
         footer: '<a href="#">Contactar al desarrollador?</a>'
     });
 }

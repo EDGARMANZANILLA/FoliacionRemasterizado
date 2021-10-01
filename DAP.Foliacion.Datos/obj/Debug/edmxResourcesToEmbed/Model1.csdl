@@ -224,7 +224,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdContenedor" Type="Int32" Nullable="false" />
-    <Property Name="NumFolio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NumFolio" Type="Int32" Nullable="false" />
     <Property Name="IdIncidencia" Type="Int32" />
     <Property Name="FechaIncidencia" Type="DateTime" Precision="0" />
     <Property Name="IdEmpleado" Type="Int32" />

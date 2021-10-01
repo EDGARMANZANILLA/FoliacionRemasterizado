@@ -13,6 +13,7 @@ namespace DAP.Foliacion.Datos
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using DAP.Foliacion.Entidades;
+    
     public partial class FoliacionEntities : DbContext
     {
         public FoliacionEntities()

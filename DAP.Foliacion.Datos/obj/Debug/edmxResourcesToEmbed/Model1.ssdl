@@ -144,7 +144,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdContenedor" Type="int" Nullable="false" />
-    <Property Name="NumFolio" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NumFolio" Type="int" Nullable="false" />
     <Property Name="IdIncidencia" Type="int" />
     <Property Name="FechaIncidencia" Type="date" />
     <Property Name="IdEmpleado" Type="int" />

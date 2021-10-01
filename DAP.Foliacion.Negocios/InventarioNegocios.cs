@@ -126,7 +126,7 @@ namespace DAP.Foliacion.Negocios
                     Tbl_InventarioDetalle nuevoDetalle = new Tbl_InventarioDetalle();
 
                     nuevoDetalle.IdContenedor = contenedorAgregado.Id;
-                    nuevoDetalle.NumFolio = Convert.ToString(i);
+                    nuevoDetalle.NumFolio = i;
                     nuevoDetalle.Activo = true;
 
                     repositorioDetalle.Agregar(nuevoDetalle);
@@ -330,7 +330,7 @@ namespace DAP.Foliacion.Negocios
         /// <param name="FolioInicial"></param>
         /// <param name="FolioFinal"></param>
         /// <returns></returns>
-        public static List<string> ValidarFoliosDisponibles(int IdInventario, string FolioInicial, string FolioFinal)
+        public static List<string> ValidarFoliosDisponibles(int IdInventario, int FolioInicial, int FolioFinal)
         {
             var transaccion = new Transaccion();
 
@@ -394,12 +394,12 @@ namespace DAP.Foliacion.Negocios
             {
                 ListafoliosNoDisponiblesp.Add("No Existe El Folio");
                 if (folioInicialEncontrado == null)
-                    ListafoliosNoDisponiblesp.Add(FolioInicial);
+                    ListafoliosNoDisponiblesp.Add(Convert.ToString( FolioInicial));
 
                 if (folioFinalEncontrado == null)
                 {
-                    if (!ListafoliosNoDisponiblesp.Contains(FolioFinal))
-                        ListafoliosNoDisponiblesp.Add(FolioFinal);
+                    if (!ListafoliosNoDisponiblesp.Contains(Convert.ToString( FolioFinal)))
+                        ListafoliosNoDisponiblesp.Add(Convert.ToString( FolioFinal));
                 }
             }
 
@@ -416,7 +416,7 @@ namespace DAP.Foliacion.Negocios
         /// <param name="FolioInicial"></param>
         /// <param name="FolioFinal"></param>
         /// <returns></returns>
-        public static List<string> ValidarFoliosPorContenedor(int IdContenedor, string FolioInicial, string FolioFinal)
+        public static List<string> ValidarFoliosPorContenedor(int IdContenedor, int FolioInicial, int FolioFinal)
         {
             var transaccion = new Transaccion();
             var repositorio = new Repositorio<Tbl_InventarioDetalle>(transaccion);
@@ -485,7 +485,7 @@ namespace DAP.Foliacion.Negocios
 
 
         //metodo para crear una incidencia
-        public static List<string> CrearIncidenciasFolios(int IdInventario, string FolioInicial, string FolioFinal, int IdIncidencia, int IdEmpleado, DateTime fechaServerExterno)
+        public static List<string> CrearIncidenciasFolios(int IdInventario, int FolioInicial, int FolioFinal, int IdIncidencia, int IdEmpleado, DateTime fechaServerExterno)
         {
             var transaccion = new Transaccion();
 
@@ -618,7 +618,7 @@ namespace DAP.Foliacion.Negocios
                         }
                         else
                         { 
-                            ListafoliosNoDisponibles.Add(detalle.NumFolio);
+                            ListafoliosNoDisponibles.Add(Convert.ToString(detalle.NumFolio));
                         }
                     }
 
@@ -634,7 +634,7 @@ namespace DAP.Foliacion.Negocios
 
 
 
-        public static List<string> CrearIncidenciasFoliosContenedor(int IdInventario, string NumeroOrden, int IdContenedor, string FolioInicial, string FolioFinal, int IdIncidencia, int IdEmpleado)
+        public static List<string> CrearIncidenciasFoliosContenedor(int IdInventario, string NumeroOrden, int IdContenedor, int FolioInicial, int FolioFinal, int IdIncidencia, int IdEmpleado)
         {
             //HAy que verificar este metodo aqui nos quedamos 11/05/2021 2:41 PM
             var transaccion = new Transaccion();
@@ -706,7 +706,7 @@ namespace DAP.Foliacion.Negocios
                 }
                 else
                 {
-                    ListafoliosNoDisponiblesContenedor.Add(nuevoDetalle.NumFolio);
+                    ListafoliosNoDisponiblesContenedor.Add(Convert.ToString( nuevoDetalle.NumFolio ));
                 }
             }
 

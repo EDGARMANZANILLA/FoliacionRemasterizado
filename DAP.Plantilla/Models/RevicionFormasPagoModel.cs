@@ -11,13 +11,14 @@ namespace DAP.Plantilla.Models
         public int IdNomina { get; set; }
         public int Delegacion{ get; set; }
         public bool Sindicato { get; set; }
+        public bool Confianza { get; set; }
         public int IdBancoPagador { get; set; }
         public int RangoInicial { get; set; }
 
         //por si se habilita la casilla inhabilitados 
         public bool Inhabilitado { get; set; }
-        public string RangoInhabilitadoInicial { get; set; }
-        public string RangoInhabilitadoFinal { get; set; }
+        public int RangoInhabilitadoInicial { get; set; }
+        public int RangoInhabilitadoFinal { get; set; }
 
    
         // propiedad usada para saber a que grupo de nomina corresponde 

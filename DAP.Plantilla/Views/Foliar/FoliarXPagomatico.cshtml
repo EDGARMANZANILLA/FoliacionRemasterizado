@@ -34,22 +34,57 @@
                     <option value="" disabled selected>Selecciona una Nomina...</option>
                     @foreach (var nuevaNomina in Model)
                     {
-
                         <option value="@nuevaNomina.Key">@nuevaNomina.Value </option>
                     }
                 </select>
             </div>
         </div>
 
-        <br />
-        <br />
-        <h3 id="NominaEstaFoliada" class="text-center col-12"> </h3>
+      
+
+            <div class="margenSection col-12" >
+
+                <div class="table-responsive">
+
+                    <div id="TablaEsFoliada" >
+
+                        <table id="DetallesSiEstaFoliadaNominas" class='table table-striped table-bordered table-hover' style="display:none">
+                            <caption class="text-uppercase"> Resumen de Nomina </caption>
+                            <thead class="tabla">
+                                <tr class="text-center text-uppercase">
+
+                                    <th>Id Nom </th>
+                                    <th>N nomina</th>
+                                    <th>Adicional</th>
+                                    <th>Nombre nomina</th>
+                                    <th>Registros a foliar</th>
+                                    <th>Esta Foliada</th>
+
+                                </tr>
+                            </thead>
+
+
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
 
 
     </div>
 
 
 
+
+
+
+
+    <div class="col-12 text-center" id="DetalleTodasLasNominas" style="display:none">
+        <button id="VerDetallesDeNominas" type="button" class="btn btn-lg btn-success"><i class="fas fa-poll"></i>  Ver detalles de nominas  <i class="fas fa-poll"></i></button>
+
+    </div>
+    </br>
 
     <div class="col-12 text-center">
         <button id="Revisar" type="button" class="btn btn-lg btn-success"> <i class="far fa-eye"></i>  Verificar  </i></button>
@@ -98,7 +133,6 @@
 
 
 </seccion>
-
 
 
 
@@ -152,8 +186,8 @@
 
             </div>
             <div class="modal-footer">
-             
-            
+
+
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
 
             </div>
@@ -179,7 +213,114 @@
 
 
 <script>
+    /********* Detalle de si la nomina esta foliado de la nomina selecionada         **********/
 
+
+    function DibujarTablaEsFoliada() {
+        $("#TablaEsFoliada").append(
+
+            "<table id='DetallesSiEstaFoliadaNominas'    class='table table-striped table-bordered table-hover' cellspacing='0' style='width:100%'     >" +
+            " <caption class='text-uppercase'>Resumen de la foliacion realizada</caption>" +
+            "<thead class='tabla'>" +
+
+            "<tr>" +
+            "<th>Id Nom</th>" +
+            "<th>N nomina</th>" +
+            "<th>Adicional</th>" +
+            "<th>Nombre nomina</th>" +
+            "<th>Registros a foliar</th>" +
+            "<th>Esta Foliada</th>" +
+            "</tr>" +
+
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+
+
+
+
+
+    function PintarResultadoEsFoliada(datos) {
+
+        $('#DetallesSiEstaFoliadaNominas').DataTable({
+            "ordering": true,
+            "info": true,
+            "searching": true,
+            "paging": true,
+            "lengthMenu": [10, 15],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+
+
+                { "data": "Id_Nom" },
+                { "data": "NumeroNomina" },
+                { "data": "Adicional" },
+                { "data": "NombreNomina" },
+                { "data": "NumeroRegistrosAFoliar" },
+                {
+                    "data": "IdEstaFoliada",
+                    render: function (data, type, row) {
+                        console.log("hola :" + typeof data);
+                        console.log( data);
+                       //  console.log( data.row.IdAtencion);
+                        if (data == 0) {
+                            return '<h4 class=" bg-danger btn text-uppercase text-light" >SIN FOLIAR</h4>';
+                        }
+                        else if (data == 1) {
+
+                            return '<h4 class=" bg-success btn text-uppercase text-light"  > ESTA FOLIADO  </h4>';
+                        } else if (data == 2)
+                        {
+
+                            return '<h4 class=" bg-warning btn text-uppercase text-light"  > NO HAY PAGOMATICOS POR FOLIAR  </h4>';
+                        }
+                    }
+                }
+
+            ],
+            "columnDefs": [
+
+
+                { className: "text-center col-1", visible: true, "targets": 0, },
+                { className: "text-center col-1", visible: true, "targets": 1, },
+                { className: "text-center col-2", visible: true, "targets": 2, },
+                { className: "text-center col-4", visible: true, "targets": 3, },
+                { className: "text-center col-1", visible: true, "targets": 4, },
+                { className: "text-center col-3", visible: true, "targets": 5, },
+
+            ],
+
+            "order": [[0, 'asc']]
+
+
+        });
+
+    };
+
+
+
+
+
+    /***************************************************************************************** */
 
     function DibujarTablaDetalleNominasFoleadas() {
         $("#TablaDetalleNominas").append(
@@ -203,8 +344,6 @@
             "</table>"
         );
     };
-
-
 
 
 
@@ -290,8 +429,12 @@
             if (this.checked) {
                 document.getElementById('SeleccionarNominaFoliar').style.display = "block";
 
+                $('#TablaEsFoliada').empty();
+                document.getElementById('DetalleTodasLasNominas').style.display = 'none';
                 $('#checkTodasNominas').prop('checked', false);
                 seleccionNomina = true;
+
+
 
             } else {
                 document.getElementById('SeleccionarNominaFoliar').style.display = "none";
@@ -308,6 +451,8 @@
             if (this.checked) {
                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
 
+                document.getElementById('DetalleTodasLasNominas').style.display = 'Block';
+                $('#TablaEsFoliada').empty();
                 $('#checkNomina').prop('checked', false);
                 seleccionTodasNominas = true;
 
@@ -334,46 +479,82 @@
 
                 MensajeCargando();
 
-                let EnviaIdNom = "{'IdNom': '" +@ViewBag.NumeroQuincena+"'}";
+                let EnviaIdNom = "{'IdNom': '"+nominaSeleccionadaFoliar.value+"'}";
 
 
                 $.ajax({
-                    url: '@Url.Action("EstaFoliadaIdNomina", "Foliar")',
+                    url: '@Url.Action("EstaFoliadaIdNominaPagomatico", "Foliar")',
                     data: EnviaIdNom,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
+                        //console.log(response);
 
-                        if (response)
+                        if (response.RespuestaServidor == "201") {
+                            $('#TablaEsFoliada').empty();
+                            DibujarTablaEsFoliada();
+                            PintarResultadoEsFoliada(response.DetalleTabla);
+                        } else if (response.RespuestaServidor == "500")
                         {
-                            document.getElementById("NominaEstaFoliada").innerText = "LA NOMINA ";
-                        } else
-                        {
+                            MensajeErrorSweet(response.Error);
                         }
+
+
+
                         OcultarMensajeCargando();
 
+                    },
+                    error: function (jqXHR, textStatus) {
+                        MensajeErrorSweet("Ocurrio un error intente seleccionar la nomina de nuevo" + textStatus)
+                        //alert('Error occured: ' + textStatus);
                     }
+
                 });
 
 
-                
-                console.log("Hecer peticion ajax ");
+
             }
         );
 
 
-        ////Captura los cambios de la cuenta bancaria
-        //let cuentaSeleccionada = null;
-        //const SeleccionCuentaBancaria = document.getElementById("SeleccionarCuentaBancaria");
-        //SeleccionCuentaBancaria.addEventListener("change",
-        //    function () {
+        //Captura los cambios de la cuenta bancaria
 
-        //        cuentaSeleccionada = null;
-        //        cuentaSeleccionada = this.options[SeleccionCuentaBancaria.selectedIndex];
-        //        console.log(cuentaSeleccionada.value);
+        const VerDetallesDeNominas = document.getElementById("VerDetallesDeNominas");
+        VerDetallesDeNominas.addEventListener("click",
+            function () {
 
-        //    }
-        //);
+                MensajeCargando();
+
+                let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"'}";
+
+
+                $.ajax({
+                    url: '@Url.Action("EstanFoliadasTodasNominaPagomatico", "Foliar")',
+                    data: EnviarQuincenaPagomatico,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+
+                        if (response.RespuestaServidor == "201") {
+                            $('#TablaEsFoliada').empty();
+                            DibujarTablaEsFoliada();
+                            PintarResultadoEsFoliada(response.DetalleTabla);
+                        } else if (response.RespuestaServidor == "500") {
+                            MensajeErrorSweet(response.Error);
+                        }
+
+
+
+                        OcultarMensajeCargando();
+
+                    }, error: function (jqXHR, textStatus) {
+                        MensajeErrorSweet("Ocurrio un error intente de nuevo " + textStatus)
+
+                    }
+                });
+
+            }
+        );
 
 
 
@@ -597,13 +778,6 @@
             {
                 MensajeWarningSweet("Seleccione una opcion para foliar...")
             }
-
-
-
-
-
-
-
 
 
         });

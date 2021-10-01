@@ -38,6 +38,10 @@ namespace DAP.Plantilla.Controllers
 
             ViewBag.DetallesBanco = nuevaLista;
 
+
+
+            ViewBag.UltimaQuincenaEncontrada = FoliarNegocios.ObtenerUltimaQuincenaFoliada();
+
             return View();
         }
 
@@ -277,7 +281,7 @@ namespace DAP.Plantilla.Controllers
 
          //*****************************************************************************************************************************************************************//
         //*****************************************************************************************************************************************************************//
-                                            // Metodo de REVISION para folear nominas con cheques (Formas de pagos) //
+                                            // METODOS DE REVISION para folear nominas con cheques (Formas de pagos) //
         #region Metodos para la Revicion de la Foliacion por medio de Formas de pago
         public ActionResult ObtenerDetalleNominaPorIdNominaParaModal(int IdNomina)
         {
@@ -313,106 +317,228 @@ namespace DAP.Plantilla.Controllers
             // 1 = le pertenece a las nominas general y descentralizada
             // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
 
-            //obtiene los detalles de una nomina en especifico filtrado por el Id_Nom de bitacora
-            var detalleIdNomina = FoliarNegocios.ObtenerQuincenaNominaComentId_nomAnImportadoBitacoraParaCheques(NuevaRevicion.IdNomina);
-            
-            string NombreBanco = FoliarNegocios.ObtenerBancoPorID(NuevaRevicion.IdBancoPagador);
 
+           
             string ultimoFolioUsar = "";
+            int iteradorPersonasFoliadas = 0;
 
             string rutaAlmacenamiento = "C:\\Users\\Israel\\source\\repos\\EDGARMANZANILLA\\FoliacionRemasterizado\\DAP.Plantilla\\Reportes\\ReportesPDFSTemporales\\" + "RevicionNominaFormasDePago" + NuevaRevicion.IdNomina + ".pdf";
 
 
-            if (NuevaRevicion.GrupoNomina == 1)
+            //obtiene los detalles de una nomina en especifico filtrado por el Id_Nom de bitacora
+            var detalleIdNomina = FoliarNegocios.ObtenerQuincenaNominaComentId_nomAnImportadoBitacoraParaCheques(NuevaRevicion.IdNomina);
+
+            if (detalleIdNomina.Nomina == "01" && NuevaRevicion.Sindicato == false && NuevaRevicion.Confianza == false || detalleIdNomina.Nomina == "02" && NuevaRevicion.Sindicato == false && NuevaRevicion.Confianza == false)
             {
-               
-                //Obtener la consulta a la que corresponde la delegacion 
-                ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(detalleIdNomina.An);
-                string consulta = nuevaConsulta.ObtenerConsultaSindicatoFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
-
-           
-                //obtiene los datos como quedarian posiblemente al momento de folear 
-                List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consulta, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
-
-
-
-                //Crear reporte 
-                DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-                //Pasa el nombre de la ruta
-                dtsRevicionFolios.Ruta.AddRutaRow( "RUTA "+FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), " LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper() );
-
-
-                //cargar datos al reporte 
-               
-                foreach (var dato in datosRevicionObtenidos)
+                //Verifica que si la nomina es General o Descentralizada el usuario haya escogido un tipo de foliacion por SINDICATO o CONFIANZA
+                return Json(new
                 {
+                    RespuestaServidor = 99,
+                    Error = "¿Desea foliar sindicalizados o de confianza?",
+                    Solucion = "Asegurese de seleccionar un item de sindicato o confianza en el modal Detalles de nomina"
 
-                    ultimoFolioUsar = dato.Num_Che;
-                    dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
-                }
-
-
-                // Materializa el reporte en un pdf que pone en una carpeta 
-                ReportDocument rd = new ReportDocument();
-                rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-
-                rd.SetDataSource(dtsRevicionFolios);
-
-                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
-
-
-
-            
-
-            } else if (NuevaRevicion.GrupoNomina == 2)
+                });
+            }
+            else
             {
-               
-                string consultaOtrasNominas="";
-
-                //verifica que si la nomina a verificar es pension "08" entonces selecciona una consulta deacuerdo a la nomina seleccionada
-                if (detalleIdNomina.Nomina != "08")
+                if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial == 0 && NuevaRevicion.RangoInhabilitadoFinal == 0 || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial != 0 && NuevaRevicion.RangoInhabilitadoFinal == 0 || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial == 0 && NuevaRevicion.RangoInhabilitadoFinal != 0)
                 {
-                    ConsultasSQLOtrasNominasConCheques NuevaConsulta = new ConsultasSQLOtrasNominasConCheques();
-                    consultaOtrasNominas = NuevaConsulta.ObtenerConsultaConOrdenamientoFormasDePago(NuevaRevicion.Delegacion, detalleIdNomina.An);
+                    //Verifica que ambos campos de inhabilitados esten llenos  
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "Rangos de Inhabilitados no llenados correctamente",
+                        Solucion = "Asegurese de que los rangos Inabilitados esten llenados ( Tanto el inicial como final)"
+
+                    });
                 }
-                else 
+                else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial > NuevaRevicion.RangoInhabilitadoFinal)
                 {
-                    ConsultasSQLOtrasNominasConCheques NuevaConsultaPension= new ConsultasSQLOtrasNominasConCheques();
-                    consultaOtrasNominas = NuevaConsultaPension.ObtenerConsultaConOrdenamientoFormasDePagoPensionAlimenticia(NuevaRevicion.Delegacion , detalleIdNomina.An);
+                    //verififica que el rango inhabilitado inicial no sea mayor que el final
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "'Revise sus numeros de folios de inhabilitacion'",
+                        Solucion = "El folio inicial no puede ser mas grande que el final"
+
+                    });
+
+
                 }
-
-                //Si no esta vacia procede obtener los datos y y rellena el pdf  
-                if (!string.IsNullOrWhiteSpace(consultaOtrasNominas)) 
+                else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoInicial || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoFinal)
                 {
-                    List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consultaOtrasNominas, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "El rango inicial de folicion es menor que algun rango inhabilitado ",
+                        Solucion = " 'Revise sus numeros de folios inhabilitados' "
+                    });
+                }
+                else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial >= NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial >= NuevaRevicion.RangoInhabilitadoFinal /*|| NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoFinal  */)
+                {
+                    //NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoFinal  &&  NuevaRevicion.RangoInhabilitadoInicial <= NuevaRevicion.RangoInhabilitadoFinal
 
 
-                    //Crear reporte 
-                    DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+                    //para que este bien los folios de inhabilitacion el (( RANGOINICIAL < RANGOINHABILITADOINICIAL YY RANGOINHABILITADOFINAL > RANGOINHABILITADOINICIAL))
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "El folio inicial no concuerdan con los folios a inhabilitar ",
+                        Solucion = " 'Revise sus numeros de folios inhabilitados' "
+                    });
 
-                    //Pasa el nombre de la ruta que es parte del encabezado del reporte
-                    dtsRevicionFolios.Ruta.AddRutaRow("RUTA" + FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), "LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper());
-                    
-                    //cargar datos al reporte 
-                    foreach (var dato in datosRevicionObtenidos)
-                    {   
-                        ultimoFolioUsar = dato.Num_Che;
-                        dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
+                }
+                else
+                {
+
+
+                    string NombreBanco = FoliarNegocios.ObtenerBancoPorID(NuevaRevicion.IdBancoPagador);
+
+                    //Grupo 1
+                    if (detalleIdNomina.Nomina == "01" || detalleIdNomina.Nomina == "02")
+                    {
+
+                        //Obtener la consulta a la que corresponde la delegacion 
+                        ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(detalleIdNomina.An);
+                        string consulta = nuevaConsulta.ObtenerConsultaSindicatoFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
+
+
+                        //obtiene los datos como quedarian posiblemente al momento de folear 
+                        List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consulta, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
+
+                        ///
+                        //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
+                        var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaRevicion.IdBancoPagador, NuevaRevicion.RangoInicial, datosRevicionObtenidos.Count(), NuevaRevicion.Inhabilitado, NuevaRevicion.RangoInhabilitadoInicial, NuevaRevicion.RangoInhabilitadoFinal);
+
+                        var foliosNoDisponibles =  chequesVerificadosFoliar.Where( y => y.Incidencia != "").ToList();
+
+
+                        //Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                        if (foliosNoDisponibles.Count == 0)
+                        {
+
+                            //Crear reporte 
+                            DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+
+                            //Pasa el nombre de la ruta
+                            dtsRevicionFolios.Ruta.AddRutaRow("RUTA " + FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), " LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper());
+
+
+                            //cargar datos al reporte 
+                            foreach (var dato in datosRevicionObtenidos)
+                            {
+                                iteradorPersonasFoliadas++;
+                                ultimoFolioUsar = dato.Num_Che;
+                                dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
+                            }
+
+
+                            // Materializa el reporte en un pdf que pone en una carpeta 
+                            ReportDocument rd = new ReportDocument();
+                            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
+
+                            rd.SetDataSource(dtsRevicionFolios);
+
+                            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
+
+
+
+                        }
+                        else 
+                        {
+                            //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                            return Json(new
+                            {
+                                RespuestaServidor = 98,
+                                FoliosConIncidencias = foliosNoDisponibles
+                            }) ;
+
+                        }
+
+                    }
+                    else /*if (NuevaRevicion.GrupoNomina == 2)*/
+                    {
+                        //Grupo2
+                        //Funciona para cualquier otra nomina que no se folea por sindicato y confianza 
+
+                        string consultaOtrasNominas = "";
+
+                        //verifica que si la nomina a verificar es pension "08" entonces selecciona una consulta deacuerdo a la nomina seleccionada
+                        if (detalleIdNomina.Nomina != "08")
+                        {
+                            ConsultasSQLOtrasNominasConCheques NuevaConsulta = new ConsultasSQLOtrasNominasConCheques();
+                            consultaOtrasNominas = NuevaConsulta.ObtenerConsultaConOrdenamientoFormasDePago(NuevaRevicion.Delegacion, detalleIdNomina.An);
+                        }
+                        else
+                        {
+                            ConsultasSQLOtrasNominasConCheques NuevaConsultaPension = new ConsultasSQLOtrasNominasConCheques();
+                            consultaOtrasNominas = NuevaConsultaPension.ObtenerConsultaConOrdenamientoFormasDePagoPensionAlimenticia(NuevaRevicion.Delegacion, detalleIdNomina.An);
+                        }
+
+                        //Si no esta vacia procede obtener los datos y y rellena el pdf  
+                        if (!string.IsNullOrWhiteSpace(consultaOtrasNominas))
+                        {
+                            List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consultaOtrasNominas, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
+
+                            //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
+                            var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaRevicion.IdBancoPagador, NuevaRevicion.RangoInicial, datosRevicionObtenidos.Count(), NuevaRevicion.Inhabilitado, NuevaRevicion.RangoInhabilitadoInicial, NuevaRevicion.RangoInhabilitadoFinal);
+
+                            var foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
+
+
+                            //Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                            if (foliosNoDisponibles.Count == 0)
+                            {
+
+
+
+
+                                //Crear reporte 
+                                DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+
+                                //Pasa el nombre de la ruta que es parte del encabezado del reporte
+                                dtsRevicionFolios.Ruta.AddRutaRow("RUTA" + FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), "LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper());
+
+                                //cargar datos al reporte 
+                                foreach (var dato in datosRevicionObtenidos)
+                                {
+                                    iteradorPersonasFoliadas++;
+                                    ultimoFolioUsar = dato.Num_Che;
+                                    dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
+                                }
+
+
+                                // Materializa el reporte en un pdf que pone en una carpeta 
+                                ReportDocument rd = new ReportDocument();
+                                rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
+
+                                rd.SetDataSource(dtsRevicionFolios);
+
+                                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
+                            }
+                            else 
+                            {
+                                //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                                return Json(new
+                                {
+                                    RespuestaServidor = 98,
+                                    FoliosConIncidencias = foliosNoDisponibles
+                                });
+                            }
+                        }
+
+
                     }
 
-
-                    // Materializa el reporte en un pdf que pone en una carpeta 
-                    ReportDocument rd = new ReportDocument();
-                    rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-
-                    rd.SetDataSource(dtsRevicionFolios);
-
-                    rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
                 }
-            
+
 
             }
+
+
+
+
+
 
 
 
@@ -425,10 +551,10 @@ namespace DAP.Plantilla.Controllers
 
                 return Json(new
                 {
-                    RespuestaServidor = "201",
+                    RespuestaServidor = 201,
                     Delegacion = "VISTA PREVIA DE LA DELGACION : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper(),
                     UltimoFolioUsado = ultimoFolioUsar,
-                    FoliosTotal = (Convert.ToInt32(ultimoFolioUsar) - NuevaRevicion.RangoInicial) + 1, 
+                    FoliosTotal = iteradorPersonasFoliadas,
                     DatosExtras = FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.Tbl_Inventario.FormasDisponibles }).ToList()
                 });
 
@@ -438,7 +564,7 @@ namespace DAP.Plantilla.Controllers
             {
                 return Json(new
                 {
-                    RespuestaServidor = "500",
+                    RespuestaServidor = 500,
                     Delegacion = "ERROR AL CARGAR LA DELGACION : " + (FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper()),
                     UltimoFolioUsado = "Error no se puede simular la Foliacion",
                     FoliosTotal = 0,
@@ -494,26 +620,68 @@ namespace DAP.Plantilla.Controllers
 
             List<AlertasAlFolearPagomaticosDTO> errores =  FoliarNegocios.FolearPagomaticoTodasLasNominas(NumeroQuincena, Observa).OrderBy(x => x.Id_Nom).ToList();
 
-
-
             return Json( errores, JsonRequestBehavior.AllowGet);
         }
 
 
-                                             /*********************************************************/
-                                                            /*************/
-        public ActionResult EstaFoliadaIdNomina(int IdNom) 
+        /*************************************************************************************************************************************************************/
+                               /*******  Pinta tabla con el detalle de una nomina para saber si esta foliada y su detalle para pagomaticos  ******/
+        public ActionResult EstaFoliadaIdNominaPagomatico(int IdNom) 
         {
-            bool EstaFoliada = false;
+            List<AlertaDeNominasFoliadasPagomatico> resultadoAlertas = FoliarNegocios.EstaFoliadaNominaSeleccionadaPagoMatico(IdNom).ToList();
 
+           // return Json(resultadoAlertas, JsonRequestBehavior.AllowGet);
+            if (resultadoAlertas.Count() > 0)
+            {
+                return Json(new
+                {
+                    RespuestaServidor = "201",
+                    DetalleTabla = resultadoAlertas.OrderBy(x => x.Id_Nom)
+                }) ;
 
-                 EstaFoliada =  FoliarNegocios.EstaFoliadaNominaSeleccionadaPagoMatico(IdNom);
+                // respuestaServer = "201";
+            }
+            else
+            {
+                return Json(new
+                {
+                    RespuestaServidor = "500",
+                    Error = "ERROR AL CARGAR LOS DETALLES DE TODAS LAS NOMINAS, 'INTENTE DE NUEVO' "
+                });
+                //respuestaServer = "500";
 
-            //recibir un  DatosCompletosBitacoraParaChequesDTO y intarlo en una tabla 
-
-            return Json(EstaFoliada, JsonRequestBehavior.AllowGet);
+            }
         }
 
+        /*************************************************************************************************************************************************************/
+                                 /****** pinta una tabla con el detalle de todas las nominas para saber si estan foliadas y sus detalles ******/
+        public ActionResult EstanFoliadasTodasNominaPagomatico(string NumeroQuincena)
+        {
+            List<AlertaDeNominasFoliadasPagomatico> detallesTodasNominas = FoliarNegocios.VerificarTodasNominaPagoMatico(NumeroQuincena).ToList();
+
+
+            if (detallesTodasNominas.Count() > 0)
+            {
+                return Json(new
+                {
+                    RespuestaServidor = "201",
+                    DetalleTabla = detallesTodasNominas
+                });
+
+                // respuestaServer = "201";
+            }
+            else
+            {
+                return Json(new
+                {
+                    RespuestaServidor = "500",
+                    Error = "ERROR AL CARGAR LOS DETALLES DE TODAS LAS NOMINAS, 'INTENTE DE NUEVO' " 
+                });
+                //respuestaServer = "500";
+
+            }
+
+        }
 
 
 
@@ -522,34 +690,142 @@ namespace DAP.Plantilla.Controllers
         //************************************************************************************************************************************************************//
         // Metodos para FOLIAR nominas con cheques (Formas de pagos) //
         public ActionResult FoliarNominaFormaPago(RevicionFormasPagoModel NuevaFoliacionNomina)
-        {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
+        {  
+                List<AlertasAlFolearPagomaticosDTO> Advertencias = new List<AlertasAlFolearPagomaticosDTO>();
+
+            //el grupo de nomina pertenece a los que se folean por el campo sindizato
             // 1 = le pertenece a las nominas general y descentralizada
             // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
-            FoliarFormasPagoDTO foliarNomina = new FoliarFormasPagoDTO();
-
-            foliarNomina.IdNomina = NuevaFoliacionNomina.IdNomina;
-            foliarNomina.Delegacion = NuevaFoliacionNomina.Delegacion;
-            foliarNomina.Sindicato = NuevaFoliacionNomina.Sindicato;
-            foliarNomina.IdBancoPagador = NuevaFoliacionNomina.IdBancoPagador;
-            foliarNomina.RangoInicial = NuevaFoliacionNomina.RangoInicial;
-
-            ///por si el usuario habilita la casilla inhabilitados aqui se rescatan  
-            foliarNomina.Inhabilitado = NuevaFoliacionNomina.Inhabilitado;
-            foliarNomina.RangoInhabilitadoInicial = NuevaFoliacionNomina.RangoInhabilitadoInicial;
-            foliarNomina.RangoInhabilitadoFinal = NuevaFoliacionNomina.RangoInhabilitadoFinal;
 
 
-            // propiedad usada para saber a que grupo de nomina corresponde 
-            // 1 = le pertenece a las nominas general y descentralizada
-            // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
-            foliarNomina.GrupoNomina = NuevaFoliacionNomina.GrupoNomina;
+            //obtiene los detalles de una nomina en especifico filtrado por el Id_Nom de bitacora
+            var detalleIdNomina = FoliarNegocios.ObtenerQuincenaNominaComentId_nomAnImportadoBitacoraParaCheques(NuevaFoliacionNomina.IdNomina);
 
-            string Observa = "CHEQUE";
+            if (detalleIdNomina.Nomina == "01" && NuevaFoliacionNomina.Sindicato == false && NuevaFoliacionNomina.Confianza == false || detalleIdNomina.Nomina == "02" && NuevaFoliacionNomina.Sindicato == false && NuevaFoliacionNomina.Confianza == false)
+            {
+                //Verifica que si la nomina es General o Descentralizada el usuario haya escogido un tipo de foliacion por SINDICATO o CONFIANZA
+                return Json(new
+                {
+                    RespuestaServidor = 99,
+                    Error = "¿Desea foliar sindicalizados o de confianza?",
+                    Solucion = "Asegurese de seleccionar un item de sindicato o confianza en el modal Detalles de nomina"
+
+                });
+            }
+            else
+            {
+
+             
+
+
+
+                if (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial == 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal == 0 || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial != 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal == 0 || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial == 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal != 0)
+                {
+                    //Verifica que ambos campos de inhabilitados esten llenos  
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "Rangos de Inhabilitados no llenados correctamente",
+                        Solucion = "Asegurese de que los rangos Inabilitados esten llenados ( Tanto el inicial como final)"
+
+                    });
+                }
+                else if (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial > NuevaFoliacionNomina.RangoInhabilitadoFinal)
+                {
+                    //verififica que el rango inhabilitado inicial no sea mayor que el final
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "'Revise sus numeros de folios de inhabilitacion'",
+                        Solucion = "El folio inicial no puede ser mas grande que el final"
+
+                    });
+
+
+                }
+                else if (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial > NuevaFoliacionNomina.RangoInhabilitadoInicial || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial > NuevaFoliacionNomina.RangoInhabilitadoFinal)
+                {
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "El rango inicial de folicion es menor que algun rango inhabilitado ",
+                        Solucion = " 'Revise sus numeros de folios inhabilitados' "
+                    });
+                }
+                else if (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial >= NuevaFoliacionNomina.RangoInhabilitadoInicial && NuevaFoliacionNomina.RangoInicial >= NuevaFoliacionNomina.RangoInhabilitadoFinal /*|| NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial > NuevaFoliacionNomina.RangoInhabilitadoInicial && NuevaFoliacionNomina.RangoInicial < NuevaFoliacionNomina.RangoInhabilitadoFinal*/)
+                {
+                    //NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoFinal  &&  NuevaRevicion.RangoInhabilitadoInicial <= NuevaRevicion.RangoInhabilitadoFinal
+                    // (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial > NuevaFoliacionNomina.RangoInhabilitadoInicial || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInicial > NuevaFoliacionNomina.RangoInhabilitadoFinal)
+
+
+                    //para que este bien los folios de inhabilitacion el (( RANGOINICIAL < RANGOINHABILITADOINICIAL YY RANGOINHABILITADOFINAL > RANGOINHABILITADOINICIAL))
+                    return Json(new
+                    {
+                        RespuestaServidor = 99,
+                        Error = "El folio inicial no concuerdan con los folios a inhabilitar ",
+                        Solucion = " 'Revise sus numeros de folios inhabilitados' "
+                    });
+
+                }
+                else
+                {
+                    //HACER QUE LA FUNCION DE AQUI ABAJO FUNCIONE 
+                    // Y 
+                    // CREAR UNA TABLA DENTRO DE UN MODAL PARA MOSTRAR LOS FOLIOS DE CHEQUES QUE TIENEN PROBLEMAS 
+
+                    ////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////
+                    //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
+                    ////////////////////////////////////////////////////////////////////var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaNominaFoliar.IdBancoPagador, NuevaNominaFoliar.RangoInicial, resumenPersonalFoliar.Count(), NuevaNominaFoliar.Inhabilitado, NuevaNominaFoliar.RangoInhabilitadoInicial, NuevaNominaFoliar.RangoInhabilitadoFinal);
+
+                    ////////////////////////////////////////////////////////////////////var foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
+
+
+                    //////////////////////////////////////////////////////////////////////Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                    ////////////////////////////////////////////////////////////////////if (foliosNoDisponibles.Count == 0)
+                    ////////////////////////////////////////////////////////////////////{
+                    ////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////}
 
 
 
 
-            List<AlertasAlFolearPagomaticosDTO> Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa ).ToList();
+                    FoliarFormasPagoDTO foliarNomina = new FoliarFormasPagoDTO();
+
+                    foliarNomina.IdNomina = NuevaFoliacionNomina.IdNomina;
+                    foliarNomina.Delegacion = NuevaFoliacionNomina.Delegacion;
+                    foliarNomina.Sindicato = NuevaFoliacionNomina.Sindicato;
+                    foliarNomina.Confianza = NuevaFoliacionNomina.Confianza;
+                    foliarNomina.IdBancoPagador = NuevaFoliacionNomina.IdBancoPagador;
+                    foliarNomina.RangoInicial = NuevaFoliacionNomina.RangoInicial;
+
+                    ///por si el usuario habilita la casilla inhabilitados aqui se rescatan  
+                    foliarNomina.Inhabilitado = NuevaFoliacionNomina.Inhabilitado;
+                    foliarNomina.RangoInhabilitadoInicial = NuevaFoliacionNomina.RangoInhabilitadoInicial;
+                    foliarNomina.RangoInhabilitadoFinal = NuevaFoliacionNomina.RangoInhabilitadoFinal;
+
+
+                    // propiedad usada para saber a que grupo de nomina corresponde 
+                    // 1 = le pertenece a las nominas general y descentralizada
+                    // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
+                    foliarNomina.GrupoNomina = NuevaFoliacionNomina.GrupoNomina;
+
+                    string Observa = "CHEQUE";
+
+
+                    Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa);
+
+
+                }
+
+            }
+
+
+
 
 
 
@@ -561,7 +837,7 @@ namespace DAP.Plantilla.Controllers
                 string registrosActualizados = Advertencias.Select(x => x.RegistrosFoliados).SingleOrDefault().ToString(); 
                 return Json(new
                 {
-                    RespuestaServidor = "201",
+                    RespuestaServidor = 201,
                     Delegacion = "VISTA PREVIA DE LA DELGACION : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaFoliacionNomina.Delegacion).ToUpper(),
                     UltimoFolioUsado = UltimoFolioUsado,
                     RegistrosTotalesActualizados = registrosActualizados,
@@ -575,11 +851,11 @@ namespace DAP.Plantilla.Controllers
             {
                 return Json(new
                 {
-                    RespuestaServidor = "500",
+                    RespuestaServidor = 500,
                     Delegacion = "ERROR AL CARGAR LA DELGACION : " + (FoliarNegocios.ObtenerDelegacionPorId(NuevaFoliacionNomina.Delegacion).ToUpper()),
                     UltimoFolioUsado = "Error no se puede Foliar",
-                    Advertencia = Advertencias,
                     RegistrosTotalesActualizados = 0,
+                    Advertencia = Advertencias,
                     Error = "No coincide la delegacion con el sindicato"
                 });
                 //respuestaServer = "500";

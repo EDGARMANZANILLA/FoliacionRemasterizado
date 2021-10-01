@@ -462,7 +462,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
         //las cuentas bancarias que alguna vez tuvieron cheques pero ahora solo se paga con tarjetas
         public JsonResult VerificarDisponibilidadFolios(int IdInventario,string FolioInicial, string FolioFinal) 
         {
-            List<String> foliosNoDisponibles = Negocios.InventarioNegocios.ValidarFoliosDisponibles(IdInventario, FolioInicial.Trim(), FolioFinal.Trim());
+            List<String> foliosNoDisponibles = Negocios.InventarioNegocios.ValidarFoliosDisponibles(IdInventario, Convert.ToInt32(FolioInicial.Trim()), Convert.ToInt32( FolioFinal.Trim()));
 
             return Json(foliosNoDisponibles, JsonRequestBehavior.AllowGet);
         }
@@ -472,7 +472,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
         public JsonResult VerificarDisponibilidadContenedor(int IdContenedor, string FolioInicial, string FolioFinal) 
         {
-            List<string> foliosNoDisponiblesContenedor = Negocios.InventarioNegocios.ValidarFoliosPorContenedor(IdContenedor, FolioInicial, FolioFinal);
+            List<string> foliosNoDisponiblesContenedor = Negocios.InventarioNegocios.ValidarFoliosPorContenedor(IdContenedor,Convert.ToInt32( FolioInicial), Convert.ToInt32( FolioFinal));
            
             return Json(foliosNoDisponiblesContenedor, JsonRequestBehavior.AllowGet);
         }
@@ -495,7 +495,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
-            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
+            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, Convert.ToInt32(FolioInicial), Convert.ToInt32( FolioFinal), IdIncidencia, IdEmpleado, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
 
             return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
         }
@@ -510,7 +510,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
             }
 
 
-            List<string> foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFoliosContenedor(IdInventario, NumeroOrden, IdContenedor, FolioInicial, FolioFinal, IdIncidencia, IdEmpleado);
+            List<string> foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFoliosContenedor(IdInventario, NumeroOrden, IdContenedor,Convert.ToInt32( FolioInicial), Convert.ToInt32( FolioFinal ), IdIncidencia, IdEmpleado);
 
             return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
         }
@@ -786,7 +786,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
                 foreach (var inventarioBanco in datosReporte)
                 {
 
-                    dtsFormasExistentes.FormasExistentes.AddFormasExistentesRow(inventarioBanco.NombreBanco, inventarioBanco.Cuenta, inventarioBanco.FolioInicialExistente, inventarioBanco.FolioFinalExistente, Convert.ToString(inventarioBanco.TotalFormasPago), inventarioBanco.ConsumoMensualAproximado, inventarioBanco.SolicitarFormas);
+                    dtsFormasExistentes.FormasExistentes.AddFormasExistentesRow(inventarioBanco.NombreBanco, inventarioBanco.Cuenta, Convert.ToString(inventarioBanco.FolioInicialExistente ), Convert.ToString(inventarioBanco.FolioFinalExistente ), Convert.ToString(inventarioBanco.TotalFormasPago), inventarioBanco.ConsumoMensualAproximado, inventarioBanco.SolicitarFormas);
                 }
 
             }

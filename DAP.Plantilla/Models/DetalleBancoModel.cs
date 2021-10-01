@@ -11,7 +11,7 @@ namespace DAP.Plantilla.Models
         public string Cuenta { get; set; }
         public string NumeroOrden { get; set; }
         public int NumeroContenedor { get; set; }
-        public string NumeroFolio { get; set; }
+        public int NumeroFolio { get; set; }
         public string Incidencia { get; set; }
         public string NombreEmpleado { get; set; }
         public string FechaIncidencia { get; set; }

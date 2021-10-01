@@ -10,8 +10,8 @@ namespace DAP.Foliacion.Entidades.DTO
    {
         public string NombreBanco { get; set; }
         public string Cuenta { get; set; }
-        public string FolioInicialExistente { get; set; }
-        public string FolioFinalExistente { get; set; }
+        public int FolioInicialExistente { get; set; }
+        public int FolioFinalExistente { get; set; }
         public int TotalFormasPago { get; set; }
         public string ConsumoMensualAproximado { get; set; }
         public string SolicitarFormas { get; set; }

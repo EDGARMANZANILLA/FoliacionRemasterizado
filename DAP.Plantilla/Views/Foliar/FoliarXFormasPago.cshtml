@@ -41,7 +41,7 @@
                 <br />
                 <br />
 
-                <div id="DetalleSelecionado" class="text-uppercase offset-sm-1 col-10" style="color: #43594C; font-weight: bolder; font-size: 19px;">
+                <div id="DetalleSelecionado" class="text-uppercase offset-sm-1 col-10" style="color:#006FFF; font-weight: bolder; font-size: 20px;">
 
 
                 </div>
@@ -836,6 +836,7 @@
         const Continuar = document.getElementById('Continua');
         Continuar.addEventListener('click', function () {
 
+            document.getElementById('DetalleSelecionado').style.color = '#006FFF';
 
             if (delegacionSeleccionadaUsuario != null) {
 
@@ -930,11 +931,23 @@
 
 
 
+        function IntrustarErrorEnDetalleSelecionado(Dato)
+        {
+            document.getElementById('DetalleSelecionado').innerText = Dato;
+            document.getElementById('DetalleSelecionado').style.color = '#FF0101';
+        }
+
+
+        function BorrarDetalleSeleccionado()
+        {
+            document.getElementById('DetalleSelecionado').innerText = '';
+        }
 
 
 
-
-
+    /****************************************************************************************************************************/
+    /****************************************************************************************************************************/
+                                                //*** Metodo REVISAR cheques ***//
 
         const Revisar = document.getElementById('RevisarNomina');
         Revisar.addEventListener('click', function () {
@@ -960,6 +973,7 @@
                                     IdNomina: + nominaSeleccionadaUsuario.value,
                                     Delegacion: + delegacionSeleccionadaUsuario.value,
                                     Sindicato: + sindicalizado,
+                                    Confianza: + confianza,
                                     IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
                                     Inhabilitado: document.getElementById('checkInhabilitar').checked,
@@ -979,11 +993,26 @@
                                     success: function (response) {
                                         //regresa el campo sindicato a false para que el usuario lo tenga que volver a escoger
                                         sindicalizado = false;
-                                       // delegacionSeleccionadaUsuario = null;
-                                       // document.getElementById('DetalleSelecionado').innerText = ' ';
+                                        delegacionSeleccionadaUsuario = null;
 
-                                        //recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+                                        BorrarDetalleSeleccionado();
+                                        
+                                   
+
+                                        if (response.RespuestaServidor === 98) {
+
+                                           // IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            // MensajeErrorSweet(response.Error, response.Solucion)
+                                            console.log(response.FoliosConIncidencias);
+
+                                        }
+                                        else if (response.RespuestaServidor === 99) {
+                                             //recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion)
+                                        }
+                                        else if (response.RespuestaServidor === 201) {
 
                                           //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
                                             MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
@@ -993,18 +1022,19 @@
 
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
-                                            OcultarMensajeCargando();
+                                           // OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                        } else if (response.RespuestaServidor === 500) {
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
                                             MensajeErrorSweet("No se pudo crear la revicion intente de nuevo " + " ' " + response.Error + " ' ");
-                                            OcultarMensajeCargando();
+                                           // OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                            OcultarMensajeCargando();
+                                          //  OcultarMensajeCargando();
                                         }
+                                        OcultarMensajeCargando();
 
                                     }
                                 });
@@ -1018,6 +1048,7 @@
                                     IdNomina: + nominaSeleccionadaUsuario.value,
                                     Delegacion: + delegacionSeleccionadaUsuario.value,
                                     Sindicato: + sindicalizado,
+                                    Confianza: + confianza,
                                     IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
                                     Inhabilitado: document.getElementById('checkInhabilitar').checked,
@@ -1037,11 +1068,27 @@
                                     success: function (response) {
                                         //regresa confianza a false para que el usuario lo vuelva a cargar
                                         confianza = false;
-                                       // delegacionSeleccionadaUsuario = null;
-                                      //  document.getElementById('DetalleSelecionado').innerText = ' ';
+                                        delegacionSeleccionadaUsuario = null;
+                                        BorrarDetalleSeleccionado();
 
-                                        //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+
+
+                                      
+
+                                        if (response.RespuestaServidor === 98) {
+
+                                            // IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            // MensajeErrorSweet(response.Error, response.Solucion)
+                                            console.log(response.FoliosConIncidencias);
+
+                                        }
+                                        else if (response.RespuestaServidor === 99) {
+                                              //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion)
+                                        }
+                                        else if (response.RespuestaServidor === 201) {
 
                                             MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
                                             $("example").empty();
@@ -1051,16 +1098,17 @@
 
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                        } else if (response.RespuestaServidor === 500) {
                                             MensajeErrorSweet("No se podo crear la revicion intente de nuevo");
-                                            OcultarMensajeCargando();
+                                           // OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                            OcultarMensajeCargando();
+                                           // OcultarMensajeCargando();
                                         }
+                                        OcultarMensajeCargando();
 
                                     }
                                 });
@@ -1093,18 +1141,33 @@
                                     contentType: "application/json; charset=utf-8",
                                     success: function (response) {
                                         //regresa confianza a false para que el usuario lo vuelva a cargar
-                                        confianza = false;
-                                       // delegacionSeleccionadaUsuario = null;
-                                        // document.getElementById('DetalleSelecionado').innerText = ' ';
-                                        console.log(response.DatosExtras);
+                                        //confianza = false;
+                                        delegacionSeleccionadaUsuario = null;
+                                        BorrarDetalleSeleccionado();
 
                                         //estos metodos se encuentran el Js del Index de Foliar sirve para actualizar la tabla al terminar de folear
                                         $("#TablaResumenInventario").empty();
                                         DibujarTablaResumenInventario();
                                         PintarConsultaActualizaTablaResumenInventario(response.DatosExtras);
+                                        document.getElementById('DetalleSelecionado').innerText = '';
 
-                                        //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+                                      
+
+                                        if (response.RespuestaServidor === 98) {
+
+                                            // IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            // MensajeErrorSweet(response.Error, response.Solucion)
+                                            console.log(response.FoliosConIncidencias);
+
+                                        }
+                                        else if  (response.RespuestaServidor === 99) {
+                                              //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+
+
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion);
+                                        }
+                                        else if (response.RespuestaServidor === 201) {
 
                                             MensajeCorrectoSweet("Revicion de nomina por delegacion lista");
                                             $("example").empty();
@@ -1116,16 +1179,17 @@
 
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.FoliosTotal;
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                        } else if (response.RespuestaServidor === 500) {
                                             MensajeErrorSweet("No se podo crear la revicion intente de nuevo");
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         }
+                                        OcultarMensajeCargando();
 
                                     }
                                 });
@@ -1161,10 +1225,7 @@
       /****************************************************************************************************************************/
      /****************************************************************************************************************************/
     /****************************************************************************************************************************/
-                                                //*** Metodo para foliar cheques ***//
-
-
-
+                                                //*** Metodo para FOLIAR cheques ***//
         const FoliarNomina = document.getElementById('FoliarNomina');
         FoliarNomina.addEventListener('click', function () {
 
@@ -1211,11 +1272,16 @@
 
                                         //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
                                         delegacionSeleccionadaUsuario = null;
-                                       // delegacionSeleccionadaUsuario = null;
-                                       // document.getElementById('DetalleSelecionado').innerText = ' ';
+                                        BorrarDetalleSeleccionado();
 
-                                       // recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+
+                                        // recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+                                        if (response.RespuestaServidor === 99)
+                                        {
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion)
+                                        }
+                                        else if (response.RespuestaServidor === 201) {
 
                                           //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
                                             MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
@@ -1225,21 +1291,22 @@
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
 
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                        } else if (response.RespuestaServidor === 500) {
                                             document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
 
                                             MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                           //OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                           OcultarMensajeCargando();
+                                           //OcultarMensajeCargando();
                                         }
 
+                                        OcultarMensajeCargando();
                                     }
                                 });
 
@@ -1271,14 +1338,18 @@
                                     success: function (response) {
                                         //regresa confianza a false para que el usuario lo vuelva a cargar
                                         confianza = false;
-
                                         //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
                                         delegacionSeleccionadaUsuario = null;
-                                       // delegacionSeleccionadaUsuario = null;
-                                      //  document.getElementById('DetalleSelecionado').innerText = ' ';
-
+                                        BorrarDetalleSeleccionado();
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+
+                                        if (response.RespuestaServidor === 99)
+                                        {
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion)
+                                        }
+                                        else if (response.RespuestaServidor === 201)
+                                        {
                                             MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
 
 
@@ -1286,18 +1357,20 @@
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
 
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
 
                                         } else if (response.RespuestaServidor === "500") {
                                             MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
 
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         }
+
+                                        OcultarMensajeCargando();
 
                                     }
                                 });
@@ -1335,17 +1408,16 @@
 
                                         //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
                                         delegacionSeleccionadaUsuario = null;
-                                       // delegacionSeleccionadaUsuario = null;
-                                        // document.getElementById('DetalleSelecionado').innerText = ' ';
-                                        ////////console.log(response.DatosExtras);
-
-                                        //estos metodos se encuentran el Js del Index de Foliar sirve para actualizar la tabla al terminar de folear
-                                        ////////$("#TablaResumenInventario").empty();
-                                        ////////DibujarTablaResumenInventario();
-                                        ////////PintarConsultaActualizaTablaResumenInventario(response.DatosExtras);
+                                        BorrarDetalleSeleccionado();
 
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === "201") {
+                                        if (response.RespuestaServidor === 99)
+                                        {
+                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                            MensajeErrorSweet(response.Error, response.Solucion)
+                                        }
+                                        else if (response.RespuestaServidor === "201")
+                                        {
 
                                             MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
 
@@ -1356,18 +1428,20 @@
                                             document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
 
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
 
                                         } else if (response.RespuestaServidor === "500") {
 
                                             MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         } else {
 
                                             MensajeError("Peticion sin exito");
-                                            OcultarMensajeCargando();
+                                            //OcultarMensajeCargando();
                                         }
+
+                                        OcultarMensajeCargando();
 
                                     }
                                 });

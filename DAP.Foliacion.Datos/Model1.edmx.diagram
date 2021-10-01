@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="FoliacionModel.Tbl_Inventario" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioAsignacionPersonal" Width="1.5" PointX="3" PointY="17" />
         <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioContenedores" Width="1.5" PointX="3" PointY="11.375" />
-        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="1.5" PointX="5.25" PointY="11.75" />
+        <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioDetalle" Width="2" PointX="5.25" PointY="11.75" />
         <EntityTypeShape EntityType="FoliacionModel.Tbl_InventarioTipoIncidencia" Width="1.5" PointX="3" PointY="19.875" />
         <EntityTypeShape EntityType="FoliacionModel.Tbl_Pagos" Width="1.5" PointX="7.5" PointY="7.125" />
         <EntityTypeShape EntityType="FoliacionModel.Tbl_Solicitudes" Width="1.5" PointX="5.25" PointY="16.5" />

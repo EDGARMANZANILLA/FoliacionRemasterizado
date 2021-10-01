@@ -12,7 +12,8 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         public string NumeroNomina { get; set; }
         public string NombreNomina { get; set; }
         public string Adicional { get; set; }
-        public bool EstaFoliada { get; set; }
+        public int NumeroRegistrosAFoliar { get; set; }
+        public int IdEstaFoliada { get; set; }
 
     }
 }

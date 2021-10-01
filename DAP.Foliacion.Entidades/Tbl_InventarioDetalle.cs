@@ -21,7 +21,7 @@ namespace DAP.Foliacion.Entidades
     
         public int Id { get; set; }
         public int IdContenedor { get; set; }
-        public string NumFolio { get; set; }
+        public int NumFolio { get; set; }
         public Nullable<int> IdIncidencia { get; set; }
         public Nullable<System.DateTime> FechaIncidencia { get; set; }
         public Nullable<int> IdEmpleado { get; set; }
