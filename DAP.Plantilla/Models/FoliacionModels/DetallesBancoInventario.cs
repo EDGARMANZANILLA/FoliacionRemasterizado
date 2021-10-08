@@ -11,5 +11,7 @@ namespace DAP.Plantilla.Models.FoliacionModels
 
         public  string Cuenta { get; set; }
         public int FormasDisponibles { get; set; }
+
+        public string UltimoFolioUsado { get; set; }
     }
 }

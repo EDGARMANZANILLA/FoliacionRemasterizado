@@ -10,7 +10,7 @@
         <!--Nuevo modal-->
         <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
     
-            <div >
+            <div class="table-responsive text-center">
 
                 <div id="TablaResumenInventario">
 
@@ -27,10 +27,6 @@
 
 
                         </thead>
-                       
-
-
-
 
                     </table>
 
@@ -38,57 +34,42 @@
             </div>
    
 
-
-
-
-
-
     </div>
 
 
 
     <div class="col-12 col-md-6">
-        @*<table class='table table-striped table-bordered '>
+    
 
-            <caption class="text-uppercase"> Ultima Quincena Registrada </caption>
+        <div class="table-responsive">
 
-            <tbody class="text-center azul">
-                <tr>
-                    <td>2111</td>
-                </tr>
+            <div id="TablaQuincenas">
 
-            </tbody>
-        </table>*@
+                <table id="UltimaQuincenaFoliada" class='table table-striped table-bordered table-hover'>
+                    <caption class="text-uppercase">ultima quincena resgistrada </caption>
+                    <thead class="tabla">
+                        <tr class="text-center text-uppercase">
 
+                            <th>Banco</th>
 
-
-
-
-
-        <div id="TablaQuincenas">
-
-            <table id="UltimaQuincenaFoliada" class='table table-striped table-bordered table-hover'>
-                <caption class="text-uppercase">ultima quincena resgistrada </caption>
-                <thead class="tabla">
-                    <tr class="text-center text-uppercase">
-
-                        <th>Banco</th>
-
-                    </tr>
+                        </tr>
 
 
-                </thead>
+                    </thead>
 
 
-                <tbody class="text-center azul">
-                    <tr>
-                        <td>@ViewBag.UltimaQuincenaEncontrada</td>
-                    </tr>
+                    <tbody class="text-center azul">
+                        <tr>
+                            <td>@ViewBag.UltimaQuincenaEncontrada</td>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
 
-            </table>
+                </table>
+
+            </div>
+
 
         </div>
 
@@ -285,7 +266,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (login) => {
 
-          
+
                 let EnviarQuincena = "{'NuevaQuincesa': '" + 2115 + "'}";
 
 
@@ -306,20 +287,11 @@
 
 
 
-
-
-
-
-
-
-
-                           
-
                         }
 
                    });
 
-               
+
 
             },
             allowOutsideClick: () => !Swal.isLoading()
@@ -342,6 +314,7 @@
             "<th>Banco</th>" +
             "<th>Cuenta</th>" +
             "<th>Formas de pago disponibles</th>" +
+            "<th>Ultimo Folio Utilizado</th>" +
 
             "</tr>" +
             "</thead>" +
@@ -381,10 +354,11 @@
             "columns": [
                 { "data": "NombreBanco" },
                 { "data": "Cuenta" },
-                { "data": "FormasDisponibles" }
+                { "data": "FormasDisponibles" },
+                { "data": "UltimoFolioUtilizado" }
 
             ],
-            "order": [[1, 'asc']]
+            "order": [[2, 'desc']]
 
         });
 
@@ -461,19 +435,6 @@
     };
 
 
-
-
-    $(document).ready(function () {
-      //  RegistarNuevaQuincena();
-
-        ActualizaTablaResumenFoliar();
-
-        //if (document.readyState !== "complete")
-        //{
-        //    ActualizaTablaResumenFoliar();
-        //}
-
-
         function ActualizaTablaResumenFoliar()
         {
             var datoEnviar = "{'Dato':' '}";
@@ -499,6 +460,21 @@
               });
 
         }
+
+
+
+
+    $(document).ready(function () {
+      //  RegistarNuevaQuincena();
+
+        ActualizaTablaResumenFoliar();
+
+        //if (document.readyState !== "complete")
+        //{
+        //    ActualizaTablaResumenFoliar();
+        //}
+
+
 
 
         let tipoFoliacion = null;

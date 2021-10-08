@@ -22,6 +22,7 @@ namespace DAP.Plantilla.Controllers
             //  ObtenerNombreNominas("2112");
             //var detallesBancos = FoliarNegocios.ObtenerDetalleBancoFormasDePago();
 
+            /*
             var detallesBancoFiltrado = FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.Tbl_Inventario.FormasDisponibles }).ToList();
 
             List<DetallesBancoInventario> nuevaLista = new List<DetallesBancoInventario>();
@@ -37,7 +38,7 @@ namespace DAP.Plantilla.Controllers
             }
 
             ViewBag.DetallesBanco = nuevaLista;
-
+            */
 
 
             ViewBag.UltimaQuincenaEncontrada = FoliarNegocios.ObtenerUltimaQuincenaFoliada();
@@ -95,7 +96,6 @@ namespace DAP.Plantilla.Controllers
                 if (ListaNombresNominaQuincena.Count() > 0)
                 {
                     return PartialView(ListaNombresNominaQuincena);
-
                 }
             }
             catch (Exception E)
@@ -125,7 +125,7 @@ namespace DAP.Plantilla.Controllers
         //Actualiza la tabla de cuantos cheques por banco quedan disponibles cuando carga la vista de Foliar index 
         public ActionResult ActualizarTablaResumenBanco(string Dato) 
         {
-            return Json(FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.Tbl_Inventario.FormasDisponibles }).ToList() , JsonRequestBehavior.AllowGet);
+            return Json(FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.Tbl_Inventario.FormasDisponibles, y.Tbl_Inventario.UltimoFolioUtilizado }).ToList() , JsonRequestBehavior.AllowGet);
         }
 
 
@@ -486,12 +486,11 @@ namespace DAP.Plantilla.Controllers
                             var foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
 
 
+
+
                             //Si todos los folios no tienen incidencias el proceso continua su rumbo 
-                            if (foliosNoDisponibles.Count == 0)
+                            if (foliosNoDisponibles.Count == 0 && chequesVerificadosFoliar.Count > 0)
                             {
-
-
-
 
                                 //Crear reporte 
                                 DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
@@ -515,6 +514,15 @@ namespace DAP.Plantilla.Controllers
                                 rd.SetDataSource(dtsRevicionFolios);
 
                                 rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
+                            }
+                            else if (chequesVerificadosFoliar.Count == 0)
+                            {
+                                //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                                return Json(new
+                                {
+                                    RespuestaServidor = 97,
+                                    Error = "No existe el folio inicial ingresado para la foliacion"
+                                });
                             }
                             else 
                             {
@@ -570,8 +578,6 @@ namespace DAP.Plantilla.Controllers
                     FoliosTotal = 0,
                     Error = "No coincide la delegacion con el sindicato"
                 });
-                //respuestaServer = "500";
-
             }
 
           //  return Json("404", JsonRequestBehavior.AllowGet);
@@ -715,9 +721,6 @@ namespace DAP.Plantilla.Controllers
             else
             {
 
-             
-
-
 
                 if (NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial == 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal == 0 || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial != 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal == 0 || NuevaFoliacionNomina.Inhabilitado && NuevaFoliacionNomina.RangoInhabilitadoInicial == 0 && NuevaFoliacionNomina.RangoInhabilitadoFinal != 0)
                 {
@@ -769,36 +772,13 @@ namespace DAP.Plantilla.Controllers
                 }
                 else
                 {
-                    //HACER QUE LA FUNCION DE AQUI ABAJO FUNCIONE 
-                    // Y 
-                    // CREAR UNA TABLA DENTRO DE UN MODAL PARA MOSTRAR LOS FOLIOS DE CHEQUES QUE TIENEN PROBLEMAS 
-
-                    ////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////
-                    //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
-                    ////////////////////////////////////////////////////////////////////var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaNominaFoliar.IdBancoPagador, NuevaNominaFoliar.RangoInicial, resumenPersonalFoliar.Count(), NuevaNominaFoliar.Inhabilitado, NuevaNominaFoliar.RangoInhabilitadoInicial, NuevaNominaFoliar.RangoInhabilitadoFinal);
-
-                    ////////////////////////////////////////////////////////////////////var foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
-
-
-                    //////////////////////////////////////////////////////////////////////Si todos los folios no tienen incidencias el proceso continua su rumbo 
-                    ////////////////////////////////////////////////////////////////////if (foliosNoDisponibles.Count == 0)
-                    ////////////////////////////////////////////////////////////////////{
-                    ////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////}
-
-
 
 
                     FoliarFormasPagoDTO foliarNomina = new FoliarFormasPagoDTO();
 
                     foliarNomina.IdNomina = NuevaFoliacionNomina.IdNomina;
                     foliarNomina.Delegacion = NuevaFoliacionNomina.Delegacion;
-                    foliarNomina.Sindicato = NuevaFoliacionNomina.Sindicato;
+                     foliarNomina.Sindicato = NuevaFoliacionNomina.Sindicato;
                     foliarNomina.Confianza = NuevaFoliacionNomina.Confianza;
                     foliarNomina.IdBancoPagador = NuevaFoliacionNomina.IdBancoPagador;
                     foliarNomina.RangoInicial = NuevaFoliacionNomina.RangoInicial;
@@ -817,7 +797,154 @@ namespace DAP.Plantilla.Controllers
                     string Observa = "CHEQUE";
 
 
-                    Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa);
+
+
+
+
+
+
+
+                    //HACER QUE LA FUNCION DE AQUI ABAJO FUNCIONE 
+                    // Y 
+                    // CREAR UNA TABLA DENTRO DE UN MODAL PARA MOSTRAR LOS FOLIOS DE CHEQUES QUE TIENEN PROBLEMAS 
+                    string consultaPersonal = "";
+                    int TotalDeRegistrosAFoliar = 0;
+
+                 var datosCompletosObtenidos = FoliarNegocios.ObtenerRegistroNominaPorId(NuevaFoliacionNomina.IdNomina);
+
+                    if (datosCompletosObtenidos.Nomina == "01" || datosCompletosObtenidos.Nomina == "02")
+                    {
+                        //Obtener la consulta a la que corresponde la delegacion para la nomina general y descentralizada
+                        ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);    
+                        consultaPersonal = nuevaConsulta.ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(NuevaFoliacionNomina.Delegacion, NuevaFoliacionNomina.Sindicato);
+                         TotalDeRegistrosAFoliar = FoliarNegocios.ObtenerNumeroDeRegistrosDeConsulta(consultaPersonal);
+
+                        //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
+                        List<FoliosAFoliarInventario> chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaFoliacionNomina.IdBancoPagador, NuevaFoliacionNomina.RangoInicial, TotalDeRegistrosAFoliar, NuevaFoliacionNomina.Inhabilitado, NuevaFoliacionNomina.RangoInhabilitadoInicial, NuevaFoliacionNomina.RangoInhabilitadoFinal).ToList();
+
+                        List<FoliosAFoliarInventario> foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
+
+
+                        //Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                        if (foliosNoDisponibles.Count == 0 && chequesVerificadosFoliar.Count > 0)
+                        {
+                            Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa, chequesVerificadosFoliar);
+                        }
+                        else if (chequesVerificadosFoliar.Count == 0)
+                        {
+                            //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                            return Json(new
+                            {
+                                RespuestaServidor = 97,
+                                Error = "No existe el folio inicial ingresado para la foliacion"
+                            }) ;
+                        }
+                        else
+                        {
+                            //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                            return Json(new
+                            {
+                                RespuestaServidor = 98,
+                                FoliosConIncidencias = foliosNoDisponibles
+                            });
+                        }
+
+
+
+                    }
+                    else 
+                    {
+
+                        /**********************************************************************************************************************************/
+                        /**********************************************************************************************************************************/
+                        //El grupo corresponde TODAS LAS NOMINA CON EXCEPCION DEL GRUPO 1 
+
+                        //para las nominas que no son pension
+                        ConsultasSQLOtrasNominasConCheques crearConsultaNominasSinSindicalizados = new ConsultasSQLOtrasNominasConCheques();
+
+                        //OBTIENE UNA CONSULTA DEPENDIENDO DEL TIPO DE NOMINA 
+                        if (datosCompletosObtenidos.Nomina.Equals("08"))
+                        {
+                            //para las nominas que si son pension 
+                            consultaPersonal = crearConsultaNominasSinSindicalizados.ObtenerTotalRegistrosPensionAlimenticiaFoliar(NuevaFoliacionNomina.Delegacion, datosCompletosObtenidos.An);
+                            TotalDeRegistrosAFoliar = FoliarNegocios.ObtenerNumeroDeRegistrosDeConsulta(consultaPersonal);
+                        }
+                        else
+                        {
+                            consultaPersonal = crearConsultaNominasSinSindicalizados.ObtenerTotalRegistrosDePagoFoliarOtrasNominas(NuevaFoliacionNomina.Delegacion, datosCompletosObtenidos.An);
+                            TotalDeRegistrosAFoliar = FoliarNegocios.ObtenerNumeroDeRegistrosDeConsulta(consultaPersonal);
+                        }
+
+
+                        //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
+                        List<FoliosAFoliarInventario> chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaFoliacionNomina.IdBancoPagador, NuevaFoliacionNomina.RangoInicial, TotalDeRegistrosAFoliar, NuevaFoliacionNomina.Inhabilitado, NuevaFoliacionNomina.RangoInhabilitadoInicial, NuevaFoliacionNomina.RangoInhabilitadoFinal);
+
+                        List<FoliosAFoliarInventario> foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
+
+
+
+
+
+
+                        //Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                        if (foliosNoDisponibles.Count == 0 && chequesVerificadosFoliar.Count > 0)
+                        {
+                            Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa, chequesVerificadosFoliar);
+                        }
+                        else if (chequesVerificadosFoliar.Count == 0)
+                        {
+                            //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                            return Json(new
+                            {
+                                RespuestaServidor = 97,
+                                Error = "No existe el folio inicial ingresado para la foliacion"
+                            });
+                        }
+                        else
+                        {
+                            //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                            return Json(new
+                            {
+                                RespuestaServidor = 98,
+                                FoliosConIncidencias = foliosNoDisponibles
+                            });
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //////Si todos los folios no tienen incidencias el proceso continua su rumbo 
+                        ////if (foliosNoDisponibles.Count == 0)
+                        ////{
+
+                        ////    Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa, chequesVerificadosFoliar);
+
+                        ////}
+                        ////else
+                        ////{
+                        ////    //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
+                        ////    return Json(new
+                        ////    {
+                        ////        RespuestaServidor = 98,
+                        ////        FoliosConIncidencias = foliosNoDisponibles
+                        ////    });
+                        ////}
+
+
+                    }
+
+
 
 
                 }

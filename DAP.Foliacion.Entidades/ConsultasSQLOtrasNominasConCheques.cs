@@ -134,6 +134,56 @@ namespace DAP.Foliacion.Entidades
 
 
 
+        /// <summary>
+        /// Obtiene EL TOTAL DE REGISTROS A FOLIAR De una nomina QUE NO ES GENERAL, DESCENTRALIZADA Y PENSION ALIMENTICA 
+        /// </summary>
+        /// <param name="An"> An como se encuentra en la bitacora</param>
+        /// <param name="Delegacion"> entero con el numero de delegacion seleccionada</param>
+        /// <returns>Regresa una consulta con la que se deben de foliar TODAS LAS NOMINAS EXCEPTO LAS NOMINAS (GENERAL, DESCENTRALIZADA Y PENSION ALIMENTICA) </returns>
+        public string ObtenerTotalRegistrosDePagoFoliarOtrasNominas(int Delegacion, string An)
+        {
+            string cadenaConsulta = null;
+            switch (Delegacion)
+            {
+                case 0:
+                    /*Campeche*/
+                    cadenaConsulta = " select count(*)  from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) ";
+
+                    break;
+                case 3:
+                    /*Champoton 03 */
+                    cadenaConsulta = " select  count(*) from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg = 03 ";
+
+                    break;
+                case 4:
+                    /*Escarcega y candelaria 04 - 11*/
+                    cadenaConsulta = " select count(*) from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in ('04', '11') ";
+
+                    break;
+                case 5:
+                    /*Calkini 5 */
+                    cadenaConsulta = " select count(*) from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 ";
+
+
+                    break;
+                case 6:
+                    /*Hecelchakan 6 */
+                    cadenaConsulta = " select count(*) from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06 ";
+
+                    break;
+                case 7:
+                    /*Hopelchen 7 */
+                    cadenaConsulta = " select count(*) from interfaces.dbo." + An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07 ";
+
+                    break;
+
+            }
+            return cadenaConsulta;
+        }
+
+
+
+
 
 
         //**********************************************************************************************************************************************************************//
@@ -287,6 +337,52 @@ namespace DAP.Foliacion.Entidades
             return cadenaConsulta;
         }
 
+
+
+
+
+
+
+        public string ObtenerTotalRegistrosPensionAlimenticiaFoliar(int Delegacion, string An)
+        {
+            string cadenaConsulta = null;
+            switch (Delegacion)
+            {
+                case 0:
+                    /*Campeche*/
+                    cadenaConsulta = "select  count(*)  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )  ";
+
+                    break;
+                case 3:
+                    /*Champoton 03 */
+                    cadenaConsulta = "select  count(*)  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 03 ";
+
+                    break;
+                case 4:
+                    /*Escarcega y candelaria 04 - 11*/
+                    cadenaConsulta = "select  count(*)   from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04' , '11' )  ";
+
+                    break;
+                case 5:
+                    /*Calkini 5 */
+                    cadenaConsulta = "select  count(*)  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 ";
+
+
+                    break;
+                case 6:
+                    /*Hecelchakan 6 */
+                    cadenaConsulta = "select  count(*)  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06 ";
+
+                    break;
+                case 7:
+                    /*Hopelchen 7 */
+                    cadenaConsulta = "select  count(*)  from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07 ";
+
+                    break;
+
+            }
+            return cadenaConsulta;
+        }
 
         //**********************************************************************************************************************************************************************//
         //**********************************************************************************************************************************************************************//

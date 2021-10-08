@@ -1722,5 +1722,54 @@ namespace DAP.Foliacion.Datos
 
             return listaFolios;
         }
+
+
+
+
+
+
+        /// <summary>
+        ///  OBTIENE EL NUMERO DE REGISTRO A FOLIAR POR DELEGACION DE CONSULTA PARA LOS CHEQUES
+        /// </summary>
+        public static int ObtenerNumeroDeRegistrosDeConsulta(String Consulta)
+        {
+            int TotalDeRegistros = 0;
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(Consulta, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+
+                    while (reader.Read())
+                    {
+                        TotalDeRegistros = Convert.ToInt32(reader[0].ToString().Trim());
+                    }
+                }
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerNumeroDeRegistrosDeConsulta";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o el archivo no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+            }
+            return TotalDeRegistros;
+        }
+
+
+
     }
 }

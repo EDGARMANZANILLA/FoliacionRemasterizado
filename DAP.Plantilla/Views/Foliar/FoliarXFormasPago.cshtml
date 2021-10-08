@@ -411,6 +411,67 @@
 
 
 
+<!-- MODAL PARA MOSTRAR LOS CHEQUES QUE YA ESTAN USADOS Y NO SE PUEDEN VOLVER A USAR -->
+<div class="modal fade" id="DetalleProblemasConCHEQUES" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center text-uppercase "> problemas encontrados en los siguientes folios</h5>
+                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+                <div class="margenSection">
+                    <div class="table-responsive">
+
+                        <div id="TablaProblemasCheques">
+
+                            <table id="ProblemasCheques" class='table table-striped table-bordered table-hover' style="display:none">
+                                <caption class="text-uppercase">detalles de problemas encontrados  </caption>
+
+                                <thead class="tabla">
+                                    <tr class="text-center text-uppercase">
+
+                                        <th>Id </th>
+                                        <th>Folio  </th>
+                                        <th>Incidencia </th>
+                                        <th>Fecha Incidencia </th>
+
+
+                                    </tr>
+                                </thead>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 
 
@@ -439,66 +500,75 @@
 
 
 
-
 <script>
-    ///* Tabla ddonde se muestra el banco, cuenta y los folios Dispo*/
-    //function DibujarTablaResumenInventario() {
-    //    $("#TablaResumenNomina").append(
+    /* Tabla ddonde se muestra el banco, cuenta y los folios Dispo*/
 
-    //        "<table id='NuevaTablaResumen'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
-    //        " <caption class='text-uppercase'>Resumen de Nomina</caption>"
-    //        + "<thead class='tabla'>" +
+    function DibujarTablaDetalleProblemasCheques() {
+        $("#TablaProblemasCheques").append(
 
-    //        "<tr class='text-center text-uppercase'>" +
-    //        "<th>Delegacion </th>" +
-    //        "<th>Sindicalizado</th>" +
-    //        "<th>Confianza</th>" +
-    //        "<th>Otros</th>" +
-    //        "<th>Foliado</th>" +
-    //        "</tr>" +
-    //        "</thead>" +
-    //        "</table>"
-    //    );
-    //};
+            "<table id='ProblemasConCheques'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>detalles de problemas encontrados</caption>" +
+            "<thead class='tabla'>" +
 
-    //function PintarTablaResumenInventarioActualizada(datos) {
+            "<tr class='text-center text-uppercase'>" +
 
-    //    $('#NuevaTablaResumen').DataTable({
-    //        "ordering": true,
-    //        "info": false,
-    //        "searching": false,
-    //        "paging": false,
-    //        "lengthMenu": [5, 10],
-    //        "language":
-    //        {
-    //            "processing": "Procesando...",
-    //            "lengthMenu": "Mostrar _MENU_ registros",
-    //            "zeroRecords": "No se encontraron resultados",
-    //            "emptyTable": "Ningún dato disponible en esta tabla",
-    //            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-    //            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-    //            "search": "Buscar:",
-    //            "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-    //            "paginate": {
-    //                "first": "Primero",
-    //                "last": "Último",
-    //                "next": "Siguiente",
-    //                "previous": "Anterior"
-    //            }
-    //        },
-    //        "data": datos,
-    //        "columns": [
-    //            { "data": "NombreBanco" },
-    //            { "data": "Cuenta" },
-    //            { "data": "FormasDisponibles" }
+            "<th>Id </th>" +
+            "<th>Folio</th>" +
+            "<th>Incidencia</th>" +
+            "<th>Fecha Incidencia</th>" +
 
-    //        ],
-    //        "order": [[1, 'asc']]
+            "</tr>" +
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+    function LlenarTablaDetalleProblemasCheques(datos) {
+
+        $('#ProblemasConCheques').DataTable({
+            "ordering": true,
+            "info": false,
+            "searching": false,
+            "paging": false,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+                { "data": "Id" },
+                { "data": "Folio" },
+                { "data": "Incidencia" },
+                { "data": "FechaIncidencia" }
+
+            ],
+            "columnDefs": [
 
 
+                { className: "text-center col-1", visible: true, "targets": 0, },
+                { className: "text-center col-1", visible: true, "targets": 1, },
+                { className: "text-center col-2", visible: true, "targets": 2, },
+                { className: "text-center col-2", visible: true, "targets": 3, },
 
-    //    });
-    //};
+            ],
+
+            "order": [[0, 'asc']]
+        });
+    };
 
 
 
@@ -676,7 +746,8 @@
 
 
     $(document).ready(function () {
-
+       // ActualizaTablaResumenFoliar();
+        console.log("EDGAR DEV");
 
         let nominaSeleccionadaUsuario = null;
         const SeleccionarNominaDisponible = document.getElementById("SeleccionarNominaFoliar");
@@ -720,6 +791,9 @@
 
                 if (nominaSeleccionadaUsuario != null)
                 {
+                    console.log("dnjdncjd")
+
+
                      let EnviarDatos = "{'IdNomina': '"+nominaSeleccionadaUsuario.value+"'}";
 
                     MensajeCargando();
@@ -996,14 +1070,18 @@
                                         delegacionSeleccionadaUsuario = null;
 
                                         BorrarDetalleSeleccionado();
-                                        
-                                   
+
+
 
                                         if (response.RespuestaServidor === 98) {
 
-                                           // IntrustarErrorEnDetalleSelecionado(response.Solucion);
-                                            // MensajeErrorSweet(response.Error, response.Solucion)
-                                            console.log(response.FoliosConIncidencias);
+
+
+                                            $("#TablaProblemasCheques").empty();
+                                            DibujarTablaDetalleProblemasCheques();
+                                            LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                            $('#DetalleProblemasConCHEQUES').modal('show');
+
 
                                         }
                                         else if (response.RespuestaServidor === 99) {
@@ -1073,13 +1151,19 @@
 
 
 
-                                      
+
 
                                         if (response.RespuestaServidor === 98) {
 
-                                            // IntrustarErrorEnDetalleSelecionado(response.Solucion);
-                                            // MensajeErrorSweet(response.Error, response.Solucion)
-                                            console.log(response.FoliosConIncidencias);
+
+
+
+
+                                            $("#TablaProblemasCheques").empty();
+                                            DibujarTablaDetalleProblemasCheques();
+                                            LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                            $('#DetalleProblemasConCHEQUES').modal('show');
+
 
                                         }
                                         else if (response.RespuestaServidor === 99) {
@@ -1151,13 +1235,17 @@
                                         PintarConsultaActualizaTablaResumenInventario(response.DatosExtras);
                                         document.getElementById('DetalleSelecionado').innerText = '';
 
-                                      
+
 
                                         if (response.RespuestaServidor === 98) {
 
-                                            // IntrustarErrorEnDetalleSelecionado(response.Solucion);
-                                            // MensajeErrorSweet(response.Error, response.Solucion)
-                                            console.log(response.FoliosConIncidencias);
+
+
+
+                                            $("#TablaProblemasCheques").empty();
+                                            DibujarTablaDetalleProblemasCheques();
+                                            LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                            $('#DetalleProblemasConCHEQUES').modal('show');
 
                                         }
                                         else if  (response.RespuestaServidor === 99) {
@@ -1227,10 +1315,12 @@
     /****************************************************************************************************************************/
                                                 //*** Metodo para FOLIAR cheques ***//
         const FoliarNomina = document.getElementById('FoliarNomina');
-        FoliarNomina.addEventListener('click', function () {
+        FoliarNomina.addEventListener('click', function ()
+        {
 
            //Revisar que el usuario haya seleccionado una nomina
-            if (nominaSeleccionadaUsuario != null) {
+            if (nominaSeleccionadaUsuario != null)
+            {
 
                 if (delegacionSeleccionadaUsuario != null)
                 {
@@ -1246,10 +1336,14 @@
                                 //Enviar datos sindicalizado
                                 //Enviar datos al servidor x nomina
 
+
+
+
                                 let DatosNominaRevisar = {
                                     IdNomina: + nominaSeleccionadaUsuario.value,
                                     Delegacion: + delegacionSeleccionadaUsuario.value,
                                     Sindicato: + sindicalizado,
+                                    Confianza: + confianza,
                                     IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
                                     Inhabilitado: document.getElementById('checkInhabilitar').checked,
@@ -1257,6 +1351,7 @@
                                     RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
                                     GrupoNomina: 1
                                 };
+
 
                                 MensajeCargando();
 
@@ -1266,47 +1361,73 @@
                                     data: JSON.stringify(DatosNominaRevisar),
                                     type: "POST",
                                     contentType: "application/json; charset=utf-8",
-                                    success: function (response) {
-                                        //regresa el campo sindicato a false para que el usuario lo tenga que volver a escoger
-                                        sindicalizado = false;
+                                    success: function (response)
+                                    {
+                                            //regresa el campo sindicato a false para que el usuario lo tenga que volver a escoger
+                                            sindicalizado = false;
 
-                                        //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
-                                        delegacionSeleccionadaUsuario = null;
-                                        BorrarDetalleSeleccionado();
-
-
-                                        // recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === 99)
-                                        {
-                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
-                                            MensajeErrorSweet(response.Error, response.Solucion)
-                                        }
-                                        else if (response.RespuestaServidor === 201) {
-
-                                          //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
-                                            MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
+                                            //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
+                                            delegacionSeleccionadaUsuario = null;
+                                            BorrarDetalleSeleccionado();
 
 
-                                            document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
-                                            document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+                                            // recibe un 201 si el pdf se creo correctamente y si no un 500 donde no se encuentran
+                                            if(response.RespuestaServidor === 97)
+                                            {
 
-                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === 500) {
-                                            document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
-                                            document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+                                                MensajeErrorSweet(response.Error);
 
-                                            MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
-                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                           //OcultarMensajeCargando();
-                                        } else {
 
-                                            MensajeError("Peticion sin exito");
-                                           //OcultarMensajeCargando();
-                                        }
+                                           }
+                                           else if (response.RespuestaServidor === 98)
+                                           {
 
-                                        OcultarMensajeCargando();
+                                               
+
+                                               $("#TablaProblemasCheques").empty();
+                                                DibujarTablaDetalleProblemasCheques();
+                                                LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                                $('#DetalleProblemasConCHEQUES').modal('show');
+
+
+                                            }
+                                            else if (response.RespuestaServidor === 99)
+                                            {
+                                                IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                                MensajeErrorSweet(response.Error, response.Solucion)
+                                            }
+                                            else if (response.RespuestaServidor === 201)
+                                            {
+
+                                                //  document.getElementById('NombreNominaDelegacion').innerText = 'Vista previa';
+                                                MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
+
+
+                                                document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
+                                                document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                                PintarNuevoModalDetalleFoliacion(response.Advertencia);
+                                                //OcultarMensajeCargando();
+
+                                            }
+                                            else if (response.RespuestaServidor === 500)
+                                            {
+                                                document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
+                                                document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                                MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
+                                                PintarNuevoModalDetalleFoliacion(response.Advertencia);
+                                                //OcultarMensajeCargando();
+                                            }
+                                            else
+                                            {
+                                                MensajeError("Peticion sin exito");
+                                            }
+
+                                            //ejecuta funcion que se encuentra en index
+                                            ActualizaTablaResumenFoliar();
+                                            OcultarMensajeCargando();
                                     }
                                 });
 
@@ -1315,10 +1436,14 @@
 
                             } else if (confianza) {
                                 //Enviar datos para los de confianza
+
+
+
                                 let DatosNominaRevisar = {
                                     IdNomina: + nominaSeleccionadaUsuario.value,
                                     Delegacion: + delegacionSeleccionadaUsuario.value,
                                     Sindicato: + sindicalizado,
+                                    Confianza: + confianza,
                                     IdBancoPagador: + bancoSeleccionadoUsuario.value,
                                     RangoInicial: rangoFolioInicial.value,
                                     Inhabilitado: document.getElementById('checkInhabilitar').checked,
@@ -1326,6 +1451,7 @@
                                     RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
                                     GrupoNomina: 1
                                 };
+
 
                                 MensajeCargando();
 
@@ -1343,7 +1469,26 @@
                                         BorrarDetalleSeleccionado();
                                         //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
 
-                                        if (response.RespuestaServidor === 99)
+                                        if (response.RespuestaServidor === 97) {
+
+
+                                            MensajeErrorSweet(response.Error);
+
+
+                                        }
+                                        else if (response.RespuestaServidor === 98)
+                                        {
+
+                                            //console.log(response.FoliosConIncidencias);
+
+
+                                            $("#TablaProblemasCheques").empty();
+                                            DibujarTablaDetalleProblemasCheques();
+                                            LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                            $('#DetalleProblemasConCHEQUES').modal('show');
+
+                                        }
+                                        else if (response.RespuestaServidor === 99)
                                         {
                                             IntrustarErrorEnDetalleSelecionado(response.Solucion);
                                             MensajeErrorSweet(response.Error, response.Solucion)
@@ -1359,17 +1504,21 @@
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                        }
+                                        else if (response.RespuestaServidor === 500)
+                                        {
                                             MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
 
                                             PintarNuevoModalDetalleFoliacion(response.Advertencia);
                                             //OcultarMensajeCargando();
-                                        } else {
-
+                                        }
+                                        else
+                                        {
                                             MensajeError("Peticion sin exito");
-                                            //OcultarMensajeCargando();
                                         }
 
+                                        //ejecuta funcion que se encuentra en index
+                                        ActualizaTablaResumenFoliar();
                                         OcultarMensajeCargando();
 
                                     }
@@ -1379,72 +1528,98 @@
                             } else
                             {
                                 //Es para otras nominas que no son general o descentralizada por eso pertenece al GrupoNomina =2
-                                console.log("otras nominas");
+                                        console.log("otras nominas");
 
-                                   let DatosNominaRevisar = {
-                                    IdNomina: + nominaSeleccionadaUsuario.value,
-                                    Delegacion: + delegacionSeleccionadaUsuario.value,
-                                    //Sindicato: + sindicalizado,
-                                    IdBancoPagador: + bancoSeleccionadoUsuario.value,
-                                    RangoInicial: rangoFolioInicial.value,
-                                    Inhabilitado: document.getElementById('checkInhabilitar').checked,
-                                    RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value,
-                                    RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
-                                    GrupoNomina: 2
-                                };
-
-                                MensajeCargando();
+                                        let DatosNominaRevisar = {
+                                            IdNomina: + nominaSeleccionadaUsuario.value,
+                                            Delegacion: + delegacionSeleccionadaUsuario.value,
+                                            //Sindicato: + sindicalizado,
+                                            IdBancoPagador: + bancoSeleccionadoUsuario.value,
+                                            RangoInicial: rangoFolioInicial.value,
+                                            Inhabilitado: document.getElementById('checkInhabilitar').checked,
+                                            RangoInhabilitadoInicial: document.getElementById('FolioInicialInhabilitado').value,
+                                            RangoInhabilitadoFinal: document.getElementById('FolioFinalInhabilitado').value,
+                                            GrupoNomina: 2
+                                        };
 
 
-                                $.ajax({
-                                    url: '@Url.Action("FoliarNominaFormaPago", "Foliar")',
-                                    data: JSON.stringify(DatosNominaRevisar),
-                                    type: "POST",
-                                    contentType: "application/json; charset=utf-8",
-                                    success: function (response) {
-                                        //regresa confianza a false para que el usuario lo vuelva a cargar
-                                        confianza = false;
 
 
-                                        //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
-                                        delegacionSeleccionadaUsuario = null;
-                                        BorrarDetalleSeleccionado();
-
-                                        //recibe un 200 si el pdf se creo correctamente y si no un 500 donde no se encuentran
-                                        if (response.RespuestaServidor === 99)
-                                        {
-                                            IntrustarErrorEnDetalleSelecionado(response.Solucion);
-                                            MensajeErrorSweet(response.Error, response.Solucion)
-                                        }
-                                        else if (response.RespuestaServidor === "201")
-                                        {
-
-                                            MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
-
-                                            document.getElementById('NombreNominaDelegacion').innerText = response.Delegacion;
+                                        MensajeCargando();
 
 
-                                            document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
-                                            document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+                                        $.ajax({
+                                            url: '@Url.Action("FoliarNominaFormaPago", "Foliar")',
+                                            data: JSON.stringify(DatosNominaRevisar),
+                                            type: "POST",
+                                            contentType: "application/json; charset=utf-8",
+                                            success: function (response)
+                                            {
+                                                //regresa confianza a false para que el usuario lo vuelva a cargar
+                                                    confianza = false;
 
-                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            //OcultarMensajeCargando();
 
-                                        } else if (response.RespuestaServidor === "500") {
+                                                    //Poner delegacion en null obliga al usuario a tener que volver a seleccionar una delegacion
+                                                    delegacionSeleccionadaUsuario = null;
+                                                    BorrarDetalleSeleccionado();
 
-                                            MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
-                                            PintarNuevoModalDetalleFoliacion(response.Advertencia);
-                                            //OcultarMensajeCargando();
-                                        } else {
+                                                    if (response.RespuestaServidor === 97) {
 
-                                            MensajeError("Peticion sin exito");
-                                            //OcultarMensajeCargando();
-                                        }
 
-                                        OcultarMensajeCargando();
+                                                        MensajeErrorSweet(response.Error);
 
-                                    }
-                                });
+
+                                                    }
+                                                     else if (response.RespuestaServidor === 98)
+                                                    {
+
+                                                        //console.log(response.FoliosConIncidencias);
+
+                                                        $("#TablaProblemasCheques").empty();
+                                                        DibujarTablaDetalleProblemasCheques();
+                                                        LlenarTablaDetalleProblemasCheques(response.FoliosConIncidencias);
+                                                        $('#DetalleProblemasConCHEQUES').modal('show');
+
+                                                    }
+                                
+                                                    else if (response.RespuestaServidor === 99)
+                                                    {
+                                                        IntrustarErrorEnDetalleSelecionado(response.Solucion);
+                                                        MensajeErrorSweet(response.Error, response.Solucion)
+                                                    }
+                                                    else if (response.RespuestaServidor === 201)
+                                                    {
+
+                                                        MensajeCorrectoSweet("FOLIACION POR DELEGACION REALIZADA CORRECTAMENTE");
+
+                                                        document.getElementById('NombreNominaDelegacion').innerText = response.Delegacion;
+
+
+                                                        document.getElementById('rangoFinal').innerText = response.UltimoFolioUsado;
+                                                        document.getElementById('registrosFoliados').innerText = response.RegistrosTotalesActualizados;
+
+                                                        PintarNuevoModalDetalleFoliacion(response.Advertencia);
+                                    
+
+                                                    }
+                                                    else if (response.RespuestaServidor === 500)
+                                                    {
+
+                                                        MensajeErrorSweet("No se pudo foliar la nomina por delegacion; INTENTE DE NUEVO" + " ' " + response.Error + " ' ");
+                                                        PintarNuevoModalDetalleFoliacion(response.Advertencia);
+                                       
+                                                    }
+                                                    else
+                                                    {
+                                                        MensajeError("Peticion sin exito");
+                                                    }
+
+                                                    //ejecuta funcion que se encuentra en index
+                                                    ActualizaTablaResumenFoliar();
+                                                    OcultarMensajeCargando();
+
+                                            }
+                                        });
 
                             }
 
@@ -1462,7 +1637,9 @@
                 {
                     MensajeWarningSweet('¡Asegurese de haber seleccionado una delegacion!');
                 }
-            } else {
+            }
+            else
+            {
                 MensajeWarningSweet('¡Asegurese de seleccionar una nomina!');
             }
 
