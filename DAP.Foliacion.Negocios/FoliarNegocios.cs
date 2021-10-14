@@ -42,11 +42,11 @@ namespace DAP.Foliacion.Negocios
                 i += 01;
                 if (NuevaNomina.Adicional == "")
                 {
-                    nombresListosNomina.Add(Convert.ToInt32(NuevaNomina.Id_nom), "  " + i + " -" + "-" + "- " + " [ " + NuevaNomina.Quincena + " ]  [ " + NuevaNomina.Nomina + " ] " + " -" + "-" + " [ " + NuevaNomina.Ruta + NuevaNomina.RutaNomina + " ] " + " -" + "-" + "-" + "-" + "-" + "-" + "-" + "-" + " [ " + NuevaNomina.Coment + " ] ");
+                    nombresListosNomina.Add(Convert.ToInt32(NuevaNomina.Id_nom), "  " + i + " -" + "-" + "- " + " [ " + NuevaNomina.Quincena + " ]   [ " + NuevaNomina.Id_nom + " ]  [ " + NuevaNomina.Nomina + " ] " +" [ " +NuevaNomina.RutaNomina+" ] "+ " -" + "-" + " [ " + NuevaNomina.Ruta + NuevaNomina.RutaNomina + " ] " + " -" + "-" + "-" + "-" + "-" + "-" + "-" + "-" + " [ " + NuevaNomina.Coment + " ] ");
                 }
                 else
                 {
-                    nombresListosNomina.Add(Convert.ToInt32(NuevaNomina.Id_nom), "  " + i + " -" + "-" + "- " + " [ " + NuevaNomina.Quincena + " ]  [ " + NuevaNomina.Nomina + " ] " + " -" + "-" + "- " + "ADICIONAL" + " -" + "-" + "- " + NuevaNomina.Adicional + " -" + "- " + " [ " + NuevaNomina.Ruta + NuevaNomina.RutaNomina + " ] " + " -" + "-" + "-" + "-" + "-" + "-" + "-" + "-" + " [ " + NuevaNomina.Coment + " ] ");
+                    nombresListosNomina.Add(Convert.ToInt32(NuevaNomina.Id_nom), "  " + i + " -" + "-" + "- " + " [ " + NuevaNomina.Quincena + " ]    [ " + NuevaNomina.Id_nom + " ]  [ " + NuevaNomina.Nomina + " ] " +" [ " + NuevaNomina.RutaNomina + " ] "+" -" + "-" + "- " + "ADICIONAL" + " -" + "-" + "- " + NuevaNomina.Adicional + " -" + "- " + " [ " + NuevaNomina.Ruta + NuevaNomina.RutaNomina + " ] " + " -" + "-" + "-" + "-" + "-" + "-" + "-" + "-" + " [ " + NuevaNomina.Coment + " ] ");
                 }
 
 
@@ -237,8 +237,9 @@ namespace DAP.Foliacion.Negocios
                 if (datosEncontrados.Nomina == "01" || datosEncontrados.Nomina == "02")
                 {
                     //Obtener consulta para pintar los totales en el modal 
-                    ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosEncontrados.An);
-                    List<string> listaConsultas = nuevaConsulta.ObtenerConsultasTotalesSindicato();
+                    //ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc();
+                   // List<string> listaConsultas = nuevaConsulta.ObtenerConsultasTotalesSindicato(datosEncontrados.An);
+                    List<string> listaConsultas = ConsultasSQLSindicatoGeneralYDesc.ObtenerConsultasTotalesSindicato(datosEncontrados.An);
 
 
                     if (listaConsultas.Count() > 0)
@@ -391,8 +392,9 @@ namespace DAP.Foliacion.Negocios
                 {
                     //son para las nominas que son de pension alimenticia "08"
                     //Obtener la consulta de los totales para mostrarlos en la tabla del modal de pagoXFormasDePago
-                    ConsultasSQLOtrasNominasConCheques consultasPensionAlimenticia = new ConsultasSQLOtrasNominasConCheques();
-                    List<string> NuevaPension = consultasPensionAlimenticia.ObtenerConsultaTotalesPencionAlimenticia(datosEncontrados.An);
+                    //ConsultasSQLOtrasNominasConCheques consultasPensionAlimenticia = new ConsultasSQLOtrasNominasConCheques();
+                    //List<string> NuevaPension = consultasPensionAlimenticia.ObtenerConsultaTotalesPencionAlimenticia(datosEncontrados.An);
+                    List<string> NuevaPension = ConsultasSQLOtrasNominasConCheques.ObtenerConsultaTotalesPencionAlimenticia(datosEncontrados.An);
 
 
                     List<TotalRegistrosXDelegacionDTO> resultadoTotalRegistros = FoliarConsultasDBSinEntity.ObtenerTotalDePersonasEnNominaPorDelegacionConsultaCualquierNomina(NuevaPension, false);
@@ -486,8 +488,9 @@ namespace DAP.Foliacion.Negocios
                 {
                     //entra dentro de esta categoria para cualquier otra nomina que no sea la general o la descentralizada osea ni 01 u 02
                     //Consultar totales para la table del modal de formas de pago 
-                    ConsultasSQLOtrasNominasConCheques nuevaConsultaOtrasNominas = new ConsultasSQLOtrasNominasConCheques();
-                    List<string> listaConsultasObtenidas = nuevaConsultaOtrasNominas.ObtenerConsultasTotalesOtrasNominas(datosEncontrados.An);
+                   // ConsultasSQLOtrasNominasConCheques nuevaConsultaOtrasNominas = new ConsultasSQLOtrasNominasConCheques();
+                   // List<string> listaConsultasObtenidas = nuevaConsultaOtrasNominas.ObtenerConsultasTotalesOtrasNominas(datosEncontrados.An);
+                    List<string> listaConsultasObtenidas = ConsultasSQLOtrasNominasConCheques.ObtenerConsultasTotalesOtrasNominas(datosEncontrados.An);
 
 
                     List<TotalRegistrosXDelegacionDTO> resultadoTotalRegistros = FoliarConsultasDBSinEntity.ObtenerTotalDePersonasEnNominaPorDelegacionConsultaCualquierNomina(listaConsultasObtenidas, false);
@@ -637,6 +640,103 @@ namespace DAP.Foliacion.Negocios
 
         }
 
+
+        /*Obtiene los datos para el reporte que se imprimen para antes de la foliacion*/
+        public static List<ReporteEmpleadosNominaXDelegacionFoliacion> ObtenerEmpleadosXNominaParaReporteFoliacion(string NumeroQuincena)
+        {
+            List<ReporteEmpleadosNominaXDelegacionFoliacion> nuevoReporte = new List<ReporteEmpleadosNominaXDelegacionFoliacion>();
+
+            List<NominasReporteInicialFoliacion> reporteNominasEncontradas = FoliarConsultasDBSinEntity.ObtenerNominasxQuinceReporteInicialFoliacion(NumeroQuincena);
+
+            bool esNominaGeneraloDesc = false;
+
+
+            List<string> listaConsultas;
+
+            foreach (NominasReporteInicialFoliacion NuevaNomina in reporteNominasEncontradas)
+            {
+                esNominaGeneraloDesc = false;
+                listaConsultas = null;
+
+
+
+
+
+                if (NuevaNomina.Nomina.Equals("01") || NuevaNomina.Nomina.Equals("02"))
+                {
+                    esNominaGeneraloDesc = true;
+
+                    listaConsultas = ConsultasSQLSindicatoGeneralYDesc.ObtenerConsultasTotalesSindicato(NuevaNomina.AN);
+
+                }
+                else if (NuevaNomina.Nomina.Equals("08"))
+                {
+                    esNominaGeneraloDesc = false;
+                    listaConsultas = ConsultasSQLOtrasNominasConCheques.ObtenerConsultaTotalesPencionAlimenticia(NuevaNomina.AN);
+
+                }
+                else
+                {
+                    esNominaGeneraloDesc = false;
+                    listaConsultas = ConsultasSQLOtrasNominasConCheques.ObtenerConsultasTotalesOtrasNominas(NuevaNomina.AN);
+
+                }
+
+
+
+                //despues de validar que nomina es se consultan sus resultados 
+                List<TotalRegistrosXDelegacionDTO> resultadoTotalRegistros = FoliarConsultasDBSinEntity.ObtenerTotalDePersonasEnNominaPorDelegacionConsultaCualquierNomina(listaConsultas, esNominaGeneraloDesc);
+
+                if (resultadoTotalRegistros.Count() > 0)
+                {
+                    foreach (TotalRegistrosXDelegacionDTO registroObtenido in resultadoTotalRegistros) 
+                    {
+                        ReporteEmpleadosNominaXDelegacionFoliacion nuevaNominaAReportear = new ReporteEmpleadosNominaXDelegacionFoliacion();
+
+                        nuevaNominaAReportear.Nomina = NuevaNomina.Nomina;
+                        nuevaNominaAReportear.Id_nom = NuevaNomina.Id_nom;
+
+                        if (!nuevoReporte.Select(x => x.Id_nom).Contains(Convert.ToString(NuevaNomina.Id_nom)))
+                        {
+                            nuevaNominaAReportear.Coment = NuevaNomina.Coment;
+                        }
+                        
+                        nuevaNominaAReportear.Adicional = NuevaNomina.Adicional;
+                        nuevaNominaAReportear.RutaNomina = NuevaNomina.RutaNomina;
+
+
+                        if (NuevaNomina.Nomina.Equals("01") || NuevaNomina.Nomina.Equals("02")) 
+                        {
+                            if (registroObtenido.Sindicato)
+                            {
+                                //Entra si el empleado es SINDICALIZADO 
+                                nuevaNominaAReportear.Sindicalizado = registroObtenido.Total;
+
+                            }
+                            else 
+                            {//sindicato es FALSE 
+                                //Entra si el empleado es de CONFIANZA
+                                nuevaNominaAReportear.Confianza = registroObtenido.Total;
+                            }
+
+
+                        }                      
+                        else 
+                        {
+                            nuevaNominaAReportear.Otros = registroObtenido.Total;
+                        }                
+                       
+                        nuevaNominaAReportear.Delegacion = registroObtenido.Delegacion;
+
+                        nuevoReporte.Add(nuevaNominaAReportear);
+                    }
+
+                }
+
+            }
+
+            return nuevoReporte;
+        }
 
 
 
@@ -1318,7 +1418,7 @@ namespace DAP.Foliacion.Negocios
         //*******************************************************************************************************************************************************************//
         //******************************************************************************************************************************************************************//
         /*** FOLEAR CHEQUES  (FORMAS DE PAGO)  ***/
-        public static List<AlertasAlFolearPagomaticosDTO> FoliarChequesPorNomina(FoliarFormasPagoDTO NuevaNominaFoliar, string Observa, List<FoliosAFoliarInventario> chequesVerificadosFoliar)
+        public static List<AlertasAlFolearPagomaticosDTO> FoliarChequesPorNomina(FoliarFormasPagoDTO NuevaNominaFoliar, string Observa /*, List<FoliosAFoliarInventario> chequesVerificadosFoliar  ///DESCOMENTAR PARA QUE TODO FUNCIONE*/)
         {
 
             List<AlertasAlFolearPagomaticosDTO> Advertencias = new List<AlertasAlFolearPagomaticosDTO>();
@@ -1362,8 +1462,9 @@ namespace DAP.Foliacion.Negocios
 
 
                 //Obtener la consulta a la que corresponde la delegacion para la nomina general y descentralizada
-                ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);
-                consultaPersonal = nuevaConsulta.ObtenerConsultaSindicatoFormasDePagoGeneralYDesc(NuevaNominaFoliar.Delegacion, NuevaNominaFoliar.Sindicato);
+                //ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);
+                //consultaPersonal = nuevaConsulta.ObtenerConsultaSindicatoFormasDePagoGeneralYDesc( NuevaNominaFoliar.Delegacion, NuevaNominaFoliar.Sindicato);
+                consultaPersonal = ConsultasSQLSindicatoGeneralYDesc.ObtenerConsultaSindicatoFormasDePagoGeneralYDesc(datosCompletosObtenidos.An, NuevaNominaFoliar.Delegacion, NuevaNominaFoliar.Sindicato);
                 //ObtenerResumenDatosFormasDePagoFoliar(string ConsultaSql, int NumeroChequeInicial, string NombreBanco, bool Inhabilitado, int RangoInhabilitadoInicial, int RangoInhabilitadoFinal)
                 List<ResumenPersonalAFoliarPorChequesDTO> resumenPersonalFoliar = FoliarConsultasDBSinEntity.ObtenerResumenDatosFormasDePagoFoliar(datosCompletosObtenidos.EsPenA, Observa, consultaPersonal, bancoEncontrado, NuevaNominaFoliar.RangoInicial, NuevaNominaFoliar.Inhabilitado, Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoInicial), Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoFinal));
 
@@ -1445,9 +1546,9 @@ namespace DAP.Foliacion.Negocios
 
 
 
-
+                            /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
-
+                            /*
                             FoliosAFoliarInventario inventarioObtenido = chequesVerificadosFoliar.Where(x => x.Folio == nuevaPersona.NumChe).FirstOrDefault();
 
 
@@ -1498,7 +1599,8 @@ namespace DAP.Foliacion.Negocios
                             }
                             /////////////////////////////////
 
-
+                            */
+                            /// FINALIZA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
 
 
@@ -1577,9 +1679,10 @@ namespace DAP.Foliacion.Negocios
 
 
 
+                            /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
-
+                            /*
                             FoliosAFoliarInventario inventarioObtenido = chequesVerificadosFoliar.Where(x => x.Folio == nuevaPersona.NumChe).FirstOrDefault();
 
 
@@ -1610,7 +1713,9 @@ namespace DAP.Foliacion.Negocios
 
                             }
                             /////////////////////////////////
+                            */
 
+                            /// finaliza CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
 
 
@@ -1810,7 +1915,7 @@ namespace DAP.Foliacion.Negocios
                             }
                             else
                             {
-                                pagoAmodificar.NombreEmpleado = /*nuevaPersona.Nombre*/ "Cambiado";
+                                pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
                                 pagoAmodificar.BeneficiarioPenA = null;
                                 pagoAmodificar.NumBeneficiario = null;
                             }
@@ -1823,7 +1928,8 @@ namespace DAP.Foliacion.Negocios
 
 
 
-
+                            /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
+                            /*
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
 
                             FoliosAFoliarInventario inventarioObtenido = chequesVerificadosFoliar.Where(x => x.Folio == nuevaPersona.NumChe).FirstOrDefault();
@@ -1875,7 +1981,9 @@ namespace DAP.Foliacion.Negocios
 
                             }
                             /////////////////////////////////
+                            */
 
+                            /// FINAL CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
 
 
@@ -1957,6 +2065,9 @@ namespace DAP.Foliacion.Negocios
 
 
 
+                            /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
+                            /// 
+                            /*
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
 
                             FoliosAFoliarInventario inventarioObtenido = chequesVerificadosFoliar.Where(x => x.Folio == nuevaPersona.NumChe).FirstOrDefault();
@@ -1989,7 +2100,9 @@ namespace DAP.Foliacion.Negocios
 
                             }
                             /////////////////////////////////
+                            */
 
+                            /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
 
 

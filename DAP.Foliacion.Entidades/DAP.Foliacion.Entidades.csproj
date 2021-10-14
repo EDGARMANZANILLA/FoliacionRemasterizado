@@ -67,6 +67,7 @@
     <Compile Include="DTO\FoliarDTO\NumeroRegistrosFoliarYEsfoliadaNomina.cs" />
     <Compile Include="DTO\FoliarDTO\NumRfcNombreLiquidoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ObjetoPagoDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\ReporteEmpleadosNominaXDelegacionFoliacion.cs" />
     <Compile Include="DTO\FoliarDTO\ReporteFoliacionDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ResumenNominaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ResumenPersonalAFoliarPorChequesDTO.cs" />

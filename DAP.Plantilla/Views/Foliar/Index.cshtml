@@ -96,7 +96,7 @@
         </div>
 
         <div class=" col-12 text-center">
-            <input id="Quincena" class="offset-1 col-10 offset-sm-0 col-sm-6 input" placeholder="Nueva quincena a foliar" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " autofocus />
+            <input id="Quincena" class=" col-10 offset-xs-0 col-xs-6 input" placeholder="Nueva quincena a foliar"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autofocus />
         </div>
 
         <div class="col-12 offset-md-2 col-md-8 text-center">
@@ -112,6 +112,14 @@
         </div>
 
 
+        <div class="col-12 text-center">
+         
+            <a id="DescargarReporteParaFoliar" type="button" class="btn btn-lg btn-success" > <i class="fas fa-cloud-download-alt"></i> Descargar reporte para foliar</a>
+       
+
+        </div>
+
+    
         <div class="col-12 text-center">
             <br />
             <button id="Continuar" type="button" class="btn btn-lg btn-success"><i class="far fa-hand-point-right"></i> Continuar</button>
@@ -590,6 +598,57 @@
 
 
 
+
+        const Descargar = document.getElementById("DescargarReporteParaFoliar");
+        Descargar.addEventListener("click",
+            function () {
+
+                quincena = document.getElementById("Quincena").value;
+                if ( quincena != "")
+                {
+
+
+                    let url = "/Foliar/GenerarReporteParaFoliar";
+                    document.getElementById('DescargarReporteParaFoliar').setAttribute('href', url + '?Quincena=' + `${quincena}`);
+
+                         @*let EnviarQuincenaFormasPago = "{'NumeroQuincena': '"+quincena+"'}";
+
+                        MensajeCargando();
+                        $.ajax({
+                            url: '@Url.Action("FoliarXFormasPago", "Foliar")',
+                            data: EnviarQuincenaFormasPago,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+
+                                if (response.RespuestaServidor === "500") {
+                                    MensajeErrorSweet(response.MensajeError);
+                                    $('#RenderVistaParcial').html('');
+                                } else {
+
+                                    $('#RenderVistaParcial').html('');
+                                    $('#RenderVistaParcial').html(response);
+
+                                }
+
+
+
+
+
+                                OcultarMensajeCargando();
+                            }
+                });*@
+
+
+
+
+                } else {
+                    MensajeErrorSweet('', "Ingrese una quincena para descargar el reporte");
+                }
+
+
+            }
+        );
 
 
 

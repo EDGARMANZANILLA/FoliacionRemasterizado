@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Models\AgregarInventarioModel.cs" />
     <Compile Include="Models\BuscardorChequeModels\DetallesInformativosCheque.cs" />
+    <Compile Include="Models\BuscardorChequeModels\ElementosBuscador.cs" />
     <Compile Include="Models\CuentaBancariaModel.cs" />
     <Compile Include="Models\DetalleBancoModel.cs" />
     <Compile Include="Models\FoliacionModels\DetallesBancoInventario.cs" />
@@ -153,6 +154,12 @@
       <DependentUpon>FormasDeChequesExistentes.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reportes\Crystal\NominasParaFoliacion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NominasParaFoliacion.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reportes\Crystal\RevicionFoliacionNomina.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -169,6 +176,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FormasChequesExistentes.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Datasets\ReporteInicialNominasParaFoliacion.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReporteInicialNominasParaFoliacion.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Datasets\RevicionDeFoliacionPorNomina.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -236,9 +248,11 @@
     <Content Include="Imagenes\LogoCrecerGrande.png" />
     <Content Include="Imagenes\LogoGeneral.png" />
     <Content Include="Imagenes\LogoGeneralSimple.png" />
+    <Content Include="Imagenes\LOGO_SAIG.png" />
     <Content Include="Imagenes\Mov.png" />
     <Content Include="Imagenes\Movimientos.png" />
     <Content Include="Imagenes\Perfil.png" />
+    <Content Include="Imagenes\Perfil_Redes__SAIG.jpg" />
     <Content Include="Imagenes\posesion.png" />
     <Content Include="Imagenes\Reportes.png" />
     <Content Include="Imagenes\SAIG HORIZONTALB.png" />
@@ -327,6 +341,17 @@
     <Content Include="Reportes\Datasets\RevicionDeFoliacionPorNomina.xsc">
       <DependentUpon>RevicionDeFoliacionPorNomina.xsd</DependentUpon>
     </Content>
+    <Content Include="Reportes\Datasets\ReporteInicialNominasParaFoliacion.xsc">
+      <DependentUpon>ReporteInicialNominasParaFoliacion.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\ReporteInicialNominasParaFoliacion.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReporteInicialNominasParaFoliacion.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reportes\Datasets\ReporteInicialNominasParaFoliacion.xss">
+      <DependentUpon>ReporteInicialNominasParaFoliacion.xsd</DependentUpon>
+    </Content>
     <None Include="Reportes\Datasets\RevicionDeFoliacionPorNomina.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -368,6 +393,74 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\css\select2.css" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\css\select2.min.css" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\af.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ar.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\az.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\bg.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\bn.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\bs.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ca.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\cs.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\da.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\de.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\dsb.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\el.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\en.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\eo.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\es.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\et.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\eu.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\fa.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\fi.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\fr.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\gl.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\he.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\hi.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\hr.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\hsb.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\hu.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\hy.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\id.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\is.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\it.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ja.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ka.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\km.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ko.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\lt.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\lv.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\mk.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ms.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\nb.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ne.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\nl.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\pa.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\pl.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ps.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\pt-BR.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\pt.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ro.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\ru.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sk.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sl.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sq.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sr-Cyrl.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sr.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\sv.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\te.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\th.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\tk.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\tr.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\uk.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\vi.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\zh-CN.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\zh-TW.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\select2.full.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\select2.full.min.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\select2.js" />
+    <Content Include="Scripts\select2-4.1.0-rc.0\js\select2.min.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -516,6 +609,10 @@
     <EmbeddedResource Include="Reportes\Crystal\FormasDeChequesExistentes.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FormasDeChequesExistentes.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Crystal\NominasParaFoliacion.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NominasParaFoliacion.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Crystal\RevicionFoliacionNomina.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -8,7 +8,7 @@ namespace DAP.Foliacion.Entidades
 {
     public class ConsultasSQLOtrasNominasConCheques
     {
-        public List<string> ObtenerConsultasTotalesOtrasNominas(string An ) 
+        public static List<string> ObtenerConsultasTotalesOtrasNominas(string An ) 
         {
             List<string> consultasPrediseneadas = new List<string>();
             /*Campeche */
@@ -197,7 +197,7 @@ namespace DAP.Foliacion.Entidades
 
         //Consultas para la nomina de PENCION ALIMENTICIA
 
-        public List<string> ObtenerConsultaTotalesPencionAlimenticia(string An) 
+        public static List<string> ObtenerConsultaTotalesPencionAlimenticia(string An) 
         {
             List<string> consultaTotales = new List<string>();
 

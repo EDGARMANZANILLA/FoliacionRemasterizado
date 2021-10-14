@@ -143,9 +143,59 @@ namespace DAP.Plantilla.Controllers
         }
 
 
-         //******************************************************************************************************************************************************************//
+
+
+
+
+
+        public FileResult GenerarReporteParaFoliar(string Quincena)
+        {
+
+            var datosReporteObtenido = FoliarNegocios.ObtenerEmpleadosXNominaParaReporteFoliacion(Quincena);
+
+      
+
+
+            DAP.Plantilla.Reportes.Datasets.ReporteInicialNominasParaFoliacion dtsReporteInicialParaFoliacion = new  DAP.Plantilla.Reportes.Datasets.ReporteInicialNominasParaFoliacion();
+
+            if (datosReporteObtenido.Count() > 0)
+            {
+                //Cargar el numero del memo
+                dtsReporteInicialParaFoliacion.Quincena.AddQuincenaRow(Quincena);
+
+
+                //cargar datos al dataset para el reporte
+                foreach (var reporteDelegacion in datosReporteObtenido)
+                {
+
+                    dtsReporteInicialParaFoliacion.RegitrosNominaDelegacion.AddRegitrosNominaDelegacionRow(reporteDelegacion.Nomina, reporteDelegacion.Id_nom, reporteDelegacion.Coment, reporteDelegacion.Adicional, reporteDelegacion.RutaNomina, Convert.ToString( reporteDelegacion.Confianza), Convert.ToString( reporteDelegacion.Sindicalizado), Convert.ToString( reporteDelegacion.Otros), reporteDelegacion.Delegacion);
+                }
+
+            }
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/NominasParaFoliacion.rpt"));
+
+            rd.SetDataSource(dtsReporteInicialParaFoliacion);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf", "ReporteParaFoliacion"+"_"+Quincena+".pdf");
+        }
+
+
+
+
+
         //******************************************************************************************************************************************************************//
-                                             // Metodos de revision para folear nominas por formas de PAGOMATICO  por nomina o todas las nominas//
+        //******************************************************************************************************************************************************************//
+        // Metodos de revision para folear nominas por formas de PAGOMATICO  por nomina o todas las nominas//
         public ActionResult RevisarTodasNominas(string NumeroQuincena)
         {
             //Seleccionar una lista con las nominas disponibles de la quincena
@@ -399,8 +449,9 @@ namespace DAP.Plantilla.Controllers
                     {
 
                         //Obtener la consulta a la que corresponde la delegacion 
-                        ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(detalleIdNomina.An);
-                        string consulta = nuevaConsulta.ObtenerConsultaSindicatoFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
+                       // ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(detalleIdNomina.An);
+                        //string consulta = nuevaConsulta.ObtenerConsultaSindicatoFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
+                        string consulta = ConsultasSQLSindicatoGeneralYDesc.ObtenerConsultaSindicatoFormasDePago(detalleIdNomina.An, NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
 
 
                         //obtiene los datos como quedarian posiblemente al momento de folear 
@@ -815,8 +866,9 @@ namespace DAP.Plantilla.Controllers
                     if (datosCompletosObtenidos.Nomina == "01" || datosCompletosObtenidos.Nomina == "02")
                     {
                         //Obtener la consulta a la que corresponde la delegacion para la nomina general y descentralizada
-                        ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);    
-                        consultaPersonal = nuevaConsulta.ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(NuevaFoliacionNomina.Delegacion, NuevaFoliacionNomina.Sindicato);
+                       // ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(datosCompletosObtenidos.An);    
+                       // consultaPersonal = nuevaConsulta.ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(NuevaFoliacionNomina.Delegacion, NuevaFoliacionNomina.Sindicato);
+                        consultaPersonal = ConsultasSQLSindicatoGeneralYDesc.ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(datosCompletosObtenidos.An, NuevaFoliacionNomina.Delegacion, NuevaFoliacionNomina.Sindicato);
                          TotalDeRegistrosAFoliar = FoliarNegocios.ObtenerNumeroDeRegistrosDeConsulta(consultaPersonal);
 
                         //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
@@ -824,6 +876,19 @@ namespace DAP.Plantilla.Controllers
 
                         List<FoliosAFoliarInventario> foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
 
+
+
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        //** comentar este coddigo y descomentar el de abajo para saber la disponibilidad de cheques **//
+                        Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa/*, chequesVerificadosFoliar*/);
+
+
+                        // INICICIO PARA VERIFICAR FOLIOS ------DESCOMENTAR PARA SU FUNCIONAMIENDO
+                        /*
 
                         //Si todos los folios no tienen incidencias el proceso continua su rumbo 
                         if (foliosNoDisponibles.Count == 0 && chequesVerificadosFoliar.Count > 0)
@@ -848,6 +913,9 @@ namespace DAP.Plantilla.Controllers
                                 FoliosConIncidencias = foliosNoDisponibles
                             });
                         }
+                        */
+                        // INICICIO PARA VERIFICAR FOLIOS ------DESCOMENTAR PARA SU FUNCIONAMIENDO
+                      
 
 
 
@@ -875,7 +943,17 @@ namespace DAP.Plantilla.Controllers
                             TotalDeRegistrosAFoliar = FoliarNegocios.ObtenerNumeroDeRegistrosDeConsulta(consultaPersonal);
                         }
 
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        /***************************************************************************************************/
+                        //** comentar este coddigo y descomentar el de abajo para saber la disponibilidad de cheques **//
+                         Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa/*, chequesVerificadosFoliar*/);
 
+
+                        // INICICIO PARA VERIFICAR FOLIOS ------DESCOMENTAR PARA SU FUNCIONAMIENDO
+                        /*
                         //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
                         List<FoliosAFoliarInventario> chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaFoliacionNomina.IdBancoPagador, NuevaFoliacionNomina.RangoInicial, TotalDeRegistrosAFoliar, NuevaFoliacionNomina.Inhabilitado, NuevaFoliacionNomina.RangoInhabilitadoInicial, NuevaFoliacionNomina.RangoInhabilitadoFinal);
 
@@ -910,36 +988,12 @@ namespace DAP.Plantilla.Controllers
                             });
                         }
 
+                        */
+                        // FIN ARA VERIFICAR FOLIOS ------DESCOMENTAR PARA SU FUNCIONAMIENDO
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-                        //////Si todos los folios no tienen incidencias el proceso continua su rumbo 
-                        ////if (foliosNoDisponibles.Count == 0)
-                        ////{
-
-                        ////    Advertencias = FoliarNegocios.FoliarChequesPorNomina(foliarNomina, Observa, chequesVerificadosFoliar);
-
-                        ////}
-                        ////else
-                        ////{
-                        ////    //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
-                        ////    return Json(new
-                        ////    {
-                        ////        RespuestaServidor = 98,
-                        ////        FoliosConIncidencias = foliosNoDisponibles
-                        ////    });
-                        ////}
 
 
                     }

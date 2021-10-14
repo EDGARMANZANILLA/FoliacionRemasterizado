@@ -21,7 +21,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select quincena, nomina, adicional, ruta, rutanomina, coment, id_nom from interfaces.dbo.bitacora where QUINCENA =" + NumeroQuincena + " and importado = 1 and Foliado is null order by QUINCENA, id_nom", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select quincena, nomina, adicional, ruta, rutanomina, coment, id_nom from interfaces.dbo.bitacora where QUINCENA =" + NumeroQuincena + " and importado = 1 and Foliado is null order by QUINCENA, nomina, id_nom", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -54,6 +54,64 @@ namespace DAP.Foliacion.Datos
 
             return NombresNominasEncontradas;
         }
+
+
+
+        public static List<NominasReporteInicialFoliacion> ObtenerNominasxQuinceReporteInicialFoliacion(string NumeroQuincena)
+        {
+            List<NominasReporteInicialFoliacion> ReporteNominasEncontradas = new List<NominasReporteInicialFoliacion>();
+
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select  nomina, id_nom, coment, adicional, rutanomina, An from interfaces.dbo.bitacora where QUINCENA = "+NumeroQuincena+" and importado = 1 and Foliado is null order by QUINCENA, nomina, id_nom", connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        NominasReporteInicialFoliacion NuevaNominaReporte = new NominasReporteInicialFoliacion();
+
+                        NuevaNominaReporte.Nomina = reader[0].ToString().Trim();
+                        NuevaNominaReporte.Id_nom = reader[1].ToString().Trim();
+                        NuevaNominaReporte.Coment = reader[2].ToString().Trim();
+                        NuevaNominaReporte.Adicional = reader[3].ToString().Trim();
+                        NuevaNominaReporte.RutaNomina = reader[4].ToString().Trim();
+                        NuevaNominaReporte.AN = reader[5].ToString().Trim();
+
+                        ReporteNominasEncontradas.Add(NuevaNominaReporte);
+                    }
+                }
+
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerNominasxQuinceReporteInicialFoliacion";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "No se han podido leer los datos correctamente o la nomina no existe";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+
+
+                return ReporteNominasEncontradas = null;
+            }
+
+
+            return ReporteNominasEncontradas;
+        }
+
 
 
 
@@ -411,7 +469,7 @@ namespace DAP.Foliacion.Datos
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
                     connection.Open();
-                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select nomina,'' 'EsAdicional', adicional 'NombreAdicional', coment, quincena, id_nom  from interfaces.dbo.bitacora where id_nom =" + IdNomina + "", connection);
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand("select nomina,'' 'EsAdicional', adicional 'NombreAdicional', coment, quincena, id_nom , rutanomina  from interfaces.dbo.bitacora where id_nom =" + IdNomina + "", connection);
                     System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
 
 
@@ -419,11 +477,12 @@ namespace DAP.Foliacion.Datos
                     {
                         if (string.IsNullOrWhiteSpace(reader[2].ToString().Trim()))
                         {
-                            NombreModal = reader[0].ToString().Trim() + " -" + "- " + reader[3].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
+                            NombreModal = reader[5].ToString().Trim() + " -" + "- " + reader[3].ToString().Trim() + " -" + "- " + reader[6].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
                         }
                         else
                         {
-                            NombreModal = reader[0].ToString().Trim() + " -" + "- " + " ADICIONAL " + " _" + "_ " + reader[2].ToString().Trim() + " _" + "_ " + reader[3].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
+                           // NombreModal = reader[0].ToString().Trim() + " -" + "- " + " ADICIONAL " + " _" + "_ " + reader[2].ToString().Trim() + " _" + "_ " + reader[3].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
+                            NombreModal = reader[5].ToString().Trim() + " -" + "- " + reader[3].ToString().Trim() + " _" + "_ "  + " ADICIONAL " + "_ " + reader[2].ToString().Trim() + " _" + "_ " + reader[6].ToString().Trim() + " _" + "_ " + reader[4].ToString().Trim();
                         }
 
                     }

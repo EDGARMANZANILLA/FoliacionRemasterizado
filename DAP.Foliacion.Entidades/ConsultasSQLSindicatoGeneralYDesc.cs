@@ -8,39 +8,39 @@ namespace DAP.Foliacion.Entidades
 {
     public class ConsultasSQLSindicatoGeneralYDesc
     {
-        public string AnObtenido = "";
-        public ConsultasSQLSindicatoGeneralYDesc(string An)
-        {
-            AnObtenido = An;
-        }
+        //public string AnObtenido = "";
+        //public ConsultasSQLSindicatoGeneralYDesc(string An)
+        //{
+        //    AnObtenido = An;
+        //}
 
 
         /// <summary>
         /// Devuelve 6 cadenas de consultas para los de confianza y otras 6 para los sindicalizado  
         /// </summary>
         /// <returns></returns>
-        public List<string> ObtenerConsultasTotalesSindicato()
+        public static List<string> ObtenerConsultasTotalesSindicato( string An)
         {
 
 
             /*Para los de confianza osea NO SINDICALIZADOS*/
             /*Campeche*/
-            string Campeche_Confianza = "select '0' 'Sindicato', 'Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            string Campeche_Confianza = "select '0' 'Sindicato', 'Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton__Confianza = "select '0' 'Sindicato', 'Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
+            string Champoton__Confianza = "select '0' 'Sindicato', 'Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Confianza = "select '0' 'Sindicato', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Confianza = "select '0' 'Sindicato', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Confianza = "select '0' 'Sindicato', 'Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
+            string Calkini_Confianza = "select '0' 'Sindicato', 'Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Confianza = "select '0' 'Sindicato', 'Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
+            string Hecelchakan_Confianza = "select '0' 'Sindicato', 'Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Confianza = "select '0' 'Sindicato', 'Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
+            string Hopelchen_Confianza = "select '0' 'Sindicato', 'Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
 
 
 
@@ -50,22 +50,22 @@ namespace DAP.Foliacion.Entidades
 
             /*Para los de Sindicalizados*/
             /*Campeche*/
-            string Campeche_Sindicalizados = "select '1' 'Sindicato','Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            string Campeche_Sindicalizados = "select '1' 'Sindicato','Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton_Sindicalizados = "select '1' 'Sindicato','Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
+            string Champoton_Sindicalizados = "select '1' 'Sindicato','Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Sindicalizados = "select '1' 'Sindicato','Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Sindicalizados = "select '1' 'Sindicato','Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Sindicalizados = "select '1' 'Sindicato','Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
+            string Calkini_Sindicalizados = "select '1' 'Sindicato','Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Sindicalizados = "select '1' 'Sindicato','Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
+            string Hecelchakan_Sindicalizados = "select '1' 'Sindicato','Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Sindicalizados = "select '1' 'Sindicato','Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
+            string Hopelchen_Sindicalizados = "select '1' 'Sindicato','Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
 
 
 
@@ -74,7 +74,7 @@ namespace DAP.Foliacion.Entidades
             //consul
             List<string> consultasPreparadas = new List<string>();
 
-            if (AnObtenido != null)
+            if (An != null)
             {
                 consultasPreparadas.Add(Campeche_Confianza);
                 consultasPreparadas.Add(Champoton__Confianza);
@@ -107,7 +107,7 @@ namespace DAP.Foliacion.Entidades
         /// <param name="Delegacion"> entero con el numero de delagacion seleccionada</param>
         /// <param name="Sindicato"> boleano para saber si son sindicalizados o de confianza</param>
         /// <returns></returns>
-        public string ObtenerConsultaSindicatoFormasDePago( int Delegacion, bool Sindicato  )
+        public static string ObtenerConsultaSindicatoFormasDePago(string AnObtenido ,  int Delegacion, bool Sindicato  )
         {
             string cadenaConsulta = null;
             switch (Delegacion)
@@ -258,7 +258,7 @@ namespace DAP.Foliacion.Entidades
         /// <param name="Delegacion"> entero con el numero de delagacion seleccionada</param>
         /// <param name="Sindicato"> boleano para saber si son sindicalizados o de confianza</param>
         /// <returns></returns>
-        public string ObtenerConsultaSindicatoFormasDePagoGeneralYDesc(int Delegacion, bool Sindicato)
+        public static string ObtenerConsultaSindicatoFormasDePagoGeneralYDesc(string AnObtenido, int Delegacion, bool Sindicato)
         {
             string cadenaConsulta = null;
             switch (Delegacion)
@@ -413,7 +413,7 @@ namespace DAP.Foliacion.Entidades
         /// <param name="Delegacion"> entero con el numero de delagacion seleccionada</param>
         /// <param name="Sindicato"> boleano para saber si son sindicalizados o de confianza</param>
         /// <returns></returns>
-        public string ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(int Delegacion, bool Sindicato)
+        public static string ObtenerNumeroDeRegistroFormasDePagoGeneralYDesc(string AnObtenido, int Delegacion, bool Sindicato)
         {
             string cadenaConsulta = null;
             switch (Delegacion)
@@ -424,7 +424,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de Sindicalizados*/
                         /*Campeche y otros*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido+ " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
                     }
                     else
@@ -432,7 +432,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Campeche*/
-                        cadenaConsulta = " select count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+                        cadenaConsulta = " select count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
                     }
 
@@ -444,7 +444,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Champoton*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03 ";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03 ";
 
 
                     }
@@ -452,7 +452,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Champoton*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03 ";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03 ";
 
 
                     }
@@ -467,7 +467,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Escarcega y candelaria*/
-                        cadenaConsulta = " select  count(*) from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11') ";
+                        cadenaConsulta = " select  count(*) from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11') ";
 
 
 
@@ -477,7 +477,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Escarcega y candelaria*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11') ";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11') ";
 
 
                     }
@@ -490,7 +490,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Calkini*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05 ";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05 ";
 
 
                     }
@@ -499,7 +499,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Calkini*/
-                        cadenaConsulta = " select  count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05  ";
+                        cadenaConsulta = " select  count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05  ";
 
                     }
                     break;
@@ -510,7 +510,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Hecelchakan*/
-                        cadenaConsulta = " select count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06  ";
+                        cadenaConsulta = " select count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06  ";
 
 
 
@@ -519,7 +519,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Hecelchakan*/
-                        cadenaConsulta = " select count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06 ";
+                        cadenaConsulta = " select count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06 ";
                     }
 
                     break;
@@ -530,7 +530,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Hopelchen*/
-                        cadenaConsulta = " select count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07 ";
+                        cadenaConsulta = " select count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07 ";
 
 
                     }
@@ -538,7 +538,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Hopelchen*/
-                        cadenaConsulta = " select count(*)  from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07 ";
+                        cadenaConsulta = " select count(*)  from interfaces.dbo."+AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07 ";
                     }
 
                     break;
