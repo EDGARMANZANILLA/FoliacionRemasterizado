@@ -1087,7 +1087,7 @@ namespace DAP.Foliacion.Datos
                         nuevaConsulta = "select  NUM, RFC, NOMBRE, LIQUIDO, " +
                                            "CASE when TARJETA <> '' then 'BANAMEX PODER JUDICIAL' when SERFIN<>'' then 'SANTANDER'  when BANCOMER<>'' then 'BBVA' when BANORTE<>'' then 'BANORTE' when HSBC<>'' then 'HSBC' end as 'CUENTABANCARIA'," +
                                            "CASE when TARJETA <> '' then '8' when SERFIN<>'' then '2'  when BANCOMER<>'' then '4' when BANORTE<>'' then '3' when HSBC<>'' then '5' end as 'IdCuentaBancariaFoliacion', DELEG,  BENEF 'NumBENEFICIARIO'" +
-                                           "from interfaces.dbo." + An + " where TARJETA <> '' or SERFIN<> '' or BANCOMER<> '' or BANORTE<> '' or HSBC<> ''";
+                                           "from interfaces.dbo." + An + " where TARJETA <> '' or SERFIN<> '' or BANCOMER<> '' or BANORTE<> '' or HSBC<> '' ORDER BY NUM";
 
 
                     }
@@ -1097,7 +1097,7 @@ namespace DAP.Foliacion.Datos
                         nuevaConsulta = "select  NUM, RFC, NOMBRE, LIQUIDO, " +
                                                 "CASE when TARJETA <> '' then 'BANAMEX' when SERFIN<>'' then 'SANTANDER'  when BANCOMER<>'' then 'BBVA' when BANORTE<>'' then 'BANORTE' when HSBC<>'' then 'HSBC' end as 'CUENTABANCARIA'," +
                                                 "CASE when TARJETA <> '' then '1' when SERFIN<>'' then '2'  when BANCOMER<>'' then '4' when BANORTE<>'' then '3' when HSBC<>'' then '5' end as 'IdCuentaBancariaFoliacion', DELEG " +
-                                                "from interfaces.dbo." + An + " where TARJETA <> '' or SERFIN<> '' or BANCOMER<> '' or BANORTE<> '' or HSBC<> ''";
+                                                "from interfaces.dbo." + An + " where TARJETA <> '' or SERFIN<> '' or BANCOMER<> '' or BANORTE<> '' or HSBC<> '' ORDER BY NUM";
 
                     }
 
@@ -1115,7 +1115,8 @@ namespace DAP.Foliacion.Datos
                     {
                         NumRfcNombreLiquidoDTO nuevoRegistro = new NumRfcNombreLiquidoDTO();
 
-                        nuevoRegistro.NumeroEmpleado = reader[0].ToString().Trim();
+                        nuevoRegistro.CadenaNumeroEmpleado = reader[0].ToString().Trim();
+                        nuevoRegistro.NumeroEmpleado = Convert.ToInt32( reader[0].ToString().Trim());
                         nuevoRegistro.Rfc = reader[1].ToString().Trim();
                         nuevoRegistro.Nombre = reader[2].ToString().Trim();
                         nuevoRegistro.Liquido = Convert.ToDecimal(reader[3].ToString().Trim());
@@ -1175,7 +1176,7 @@ namespace DAP.Foliacion.Datos
         /// <param name="NombreBanco"></param>
         /// <param name="Cuenta"></param>
         /// <param name="Observa"></param>
-        public static int ActualizarBaseNominaEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador, string An, int Folio, string Observa)
+        public static int ActualizarBaseNominaEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador, string An, string num_che, string Observa)
         {
             int registrosActualizados = 0;
 
@@ -1184,7 +1185,7 @@ namespace DAP.Foliacion.Datos
             {
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
-                    string consulta = "UPDATE interfaces.dbo." + An + " SET Num_che = '" + Folio + "', Banco_x = '" + cuentaDelTrabajador.NombreBanco + "', Cuenta_x = '" + cuentaDelTrabajador.Cuenta + "', Observa = '" + Observa + "' WHERE NUM = '" + ActualizarRegistro.NumeroEmpleado + "' and RFC = '" + ActualizarRegistro.Rfc + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
+                    string consulta = "UPDATE interfaces.dbo." + An + " SET Num_che = '" + num_che + "', Banco_x = '" + cuentaDelTrabajador.NombreBanco + "', Cuenta_x = '" + cuentaDelTrabajador.Cuenta + "', Observa = '" + Observa + "' WHERE NUM = '" + ActualizarRegistro.CadenaNumeroEmpleado + "' and RFC = '" + ActualizarRegistro.Rfc + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
                     connection.Open();
                     System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
 
@@ -1231,7 +1232,7 @@ namespace DAP.Foliacion.Datos
         /// <param name="NombreBanco"></param>
         /// <param name="Cuenta"></param>
         /// <param name="Observa"></param>
-        public static int ActualizarBaseNominaPenAEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador, string An, int Folio, string Observa)
+        public static int ActualizarBaseNominaPenAEnSql(NumRfcNombreLiquidoDTO ActualizarRegistro, Tbl_CuentasBancarias cuentaDelTrabajador, string An, string Num_che, string Observa)
         {
             int registrosActualizados = 0;
 
@@ -1240,7 +1241,7 @@ namespace DAP.Foliacion.Datos
             {
                 using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionLocalInterfaces()))
                 {
-                    string consulta = "UPDATE interfaces.dbo." + An + " SET Num_che = '" + Folio + "', Banco_x = '" + cuentaDelTrabajador.NombreBanco + "', Cuenta_x = '" + cuentaDelTrabajador.Cuenta + "', Observa = '" + Observa + "' WHERE NUM = '" + ActualizarRegistro.NumeroEmpleado + "' and RFC = '" + ActualizarRegistro.Rfc + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and BENEF = '" + ActualizarRegistro.NumBeneficiario + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
+                    string consulta = "UPDATE interfaces.dbo." + An + " SET Num_che = '" + Num_che + "', Banco_x = '" + cuentaDelTrabajador.NombreBanco + "', Cuenta_x = '" + cuentaDelTrabajador.Cuenta + "', Observa = '" + Observa + "' WHERE NUM = '" + ActualizarRegistro.CadenaNumeroEmpleado + "' and RFC = '" + ActualizarRegistro.Rfc + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and BENEF = '" + ActualizarRegistro.NumBeneficiario + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
                     connection.Open();
                     System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
 
@@ -1400,7 +1401,7 @@ namespace DAP.Foliacion.Datos
                     {
                         NumRfcNombreLiquidoDTO nuevoRegistro = new NumRfcNombreLiquidoDTO();
 
-                        nuevoRegistro.NumeroEmpleado = reader[0].ToString().Trim();
+                        nuevoRegistro.NumeroEmpleado = Convert.ToInt32( reader[0].ToString().Trim());
                         nuevoRegistro.Rfc = reader[1].ToString().Trim();
                         nuevoRegistro.Nombre = reader[2].ToString().Trim();
                         nuevoRegistro.Liquido = Convert.ToDecimal(reader[3].ToString().Trim());
@@ -1579,7 +1580,8 @@ namespace DAP.Foliacion.Datos
                     {
                         ResumenPersonalAFoliarPorChequesDTO NuevaPersona = new ResumenPersonalAFoliarPorChequesDTO();
 
-                        NuevaPersona.NumEmpleado = reader[0].ToString().Trim();
+                        NuevaPersona.CadenaNumEmpleado = reader[0].ToString().Trim();
+                        NuevaPersona.NumEmpleado = Convert.ToInt32( reader[0].ToString().Trim());
                         NuevaPersona.RFC = reader[1].ToString().Trim();
                         NuevaPersona.Nombre = reader[2].ToString().Trim();
                         NuevaPersona.Liquido = Convert.ToDecimal(reader[3].ToString().Trim());
@@ -1692,11 +1694,11 @@ namespace DAP.Foliacion.Datos
 
                 if (EsPena)
                 {
-                    nuevaConsulta = "UPDATE interfaces.dbo." + AnBitacora + " SET Num_che = '" + ActualizarRegistro.NumChe + "', Banco_x = '" + ActualizarRegistro.BancoX + "', Cuenta_x = '" + ActualizarRegistro.CuentaX + "', Observa = '" + ActualizarRegistro.Observa + "' WHERE NUM = '" + ActualizarRegistro.NumEmpleado + "' and RFC = '" + ActualizarRegistro.RFC + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' and BENEF = '" + ActualizarRegistro.NumBeneficiario + "' ";
+                    nuevaConsulta = "UPDATE interfaces.dbo." + AnBitacora + " SET Num_che = '" + ActualizarRegistro.NumChe + "', Banco_x = '" + ActualizarRegistro.BancoX + "', Cuenta_x = '" + ActualizarRegistro.CuentaX + "', Observa = '" + ActualizarRegistro.Observa + "' WHERE NUM = '" + ActualizarRegistro.CadenaNumEmpleado + "' and RFC = '" + ActualizarRegistro.RFC + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' and BENEF = '" + ActualizarRegistro.NumBeneficiario + "' ";
                 }
                 else
                 {
-                    nuevaConsulta = "UPDATE interfaces.dbo." + AnBitacora + " SET Num_che = '" + ActualizarRegistro.NumChe + "', Banco_x = '" + ActualizarRegistro.BancoX + "', Cuenta_x = '" + ActualizarRegistro.CuentaX + "', Observa = '" + ActualizarRegistro.Observa + "' WHERE NUM = '" + ActualizarRegistro.NumEmpleado + "' and RFC = '" + ActualizarRegistro.RFC + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
+                    nuevaConsulta = "UPDATE interfaces.dbo." + AnBitacora + " SET Num_che = '" + ActualizarRegistro.NumChe + "', Banco_x = '" + ActualizarRegistro.BancoX + "', Cuenta_x = '" + ActualizarRegistro.CuentaX + "', Observa = '" + ActualizarRegistro.Observa + "' WHERE NUM = '" + ActualizarRegistro.CadenaNumEmpleado + "' and RFC = '" + ActualizarRegistro.RFC + "' and LIQUIDO = '" + ActualizarRegistro.Liquido + "' and NOMBRE = '" + ActualizarRegistro.Nombre + "' and DELEG = '" + ActualizarRegistro.Delegacion + "' ";
                 }
 
 

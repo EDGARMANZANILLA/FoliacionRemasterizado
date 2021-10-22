@@ -8,7 +8,8 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
 {
     public class ResumenPersonalAFoliarPorChequesDTO
     {
-        public string NumEmpleado { get; set; }
+        public string CadenaNumEmpleado { get; set; }
+        public int NumEmpleado { get; set; }
         public string RFC { get; set; }
         public string Nombre { get; set; }
         public decimal Liquido { get; set; }

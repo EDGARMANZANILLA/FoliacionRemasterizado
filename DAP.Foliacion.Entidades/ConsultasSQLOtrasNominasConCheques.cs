@@ -215,7 +215,7 @@ namespace DAP.Foliacion.Entidades
 
 
             /*Escarcega y candelaria*/
-            consultaTotales.Add("select '', 'Escarcega y Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04', '11')");
+            consultaTotales.Add("select '', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04', '11')");
 
 
 

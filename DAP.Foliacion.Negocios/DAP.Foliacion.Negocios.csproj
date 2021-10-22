@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuscadorChequeNegocios.cs" />
     <Compile Include="EncriptarCadena.cs" />
     <Compile Include="Configuraciones_InventarioYCuentasNegocios.cs" />
     <Compile Include="FoliarNegocios.cs" />

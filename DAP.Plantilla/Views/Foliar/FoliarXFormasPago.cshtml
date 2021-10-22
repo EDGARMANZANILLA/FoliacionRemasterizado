@@ -1075,9 +1075,13 @@
 
                                         BorrarDetalleSeleccionado();
 
+                                        if (response.RespuestaServidor === 97) {
 
 
-                                        if (response.RespuestaServidor === 98) {
+                                            MensajeErrorSweet(response.Error);
+
+
+                                        }else if (response.RespuestaServidor === 98) {
 
 
 
@@ -1154,10 +1158,13 @@
                                         BorrarDetalleSeleccionado();
 
 
+                                        if (response.RespuestaServidor === 97) {
 
 
+                                            MensajeErrorSweet(response.Error);
 
-                                        if (response.RespuestaServidor === 98) {
+
+                                        } else if (response.RespuestaServidor === 98) {
 
 
 
@@ -1239,9 +1246,13 @@
                                         PintarConsultaActualizaTablaResumenInventario(response.DatosExtras);
                                         document.getElementById('DetalleSelecionado').innerText = '';
 
+                                        if (response.RespuestaServidor === 97) {
 
 
-                                        if (response.RespuestaServidor === 98) {
+                                            MensajeErrorSweet(response.Error);
+
+
+                                        }else if (response.RespuestaServidor === 98) {
 
 
 

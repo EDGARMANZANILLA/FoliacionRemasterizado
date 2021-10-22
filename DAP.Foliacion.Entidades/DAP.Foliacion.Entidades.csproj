@@ -53,6 +53,9 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ConsultasSQLOtrasNominasConCheques.cs" />
     <Compile Include="ConsultasSQLSindicatoGeneralYDesc.cs" />
+    <Compile Include="DTO\BuscardorChequeDTO\DetallesBusqueda.cs" />
+    <Compile Include="DTO\BuscardorChequeDTO\DetallesRegistroDTO.cs" />
+    <Compile Include="DTO\BuscardorChequeDTO\ResultadoObtenidoParaSelect2.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
     <Compile Include="DTO\FoliarDTO\AlertaDeNominasFoliadasPagomatico.cs" />

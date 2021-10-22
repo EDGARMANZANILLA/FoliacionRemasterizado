@@ -422,7 +422,7 @@ namespace DAP.Foliacion.Negocios
                                 case "Champoton":
 
                                     //Confianza delegacion 03;
-                                    consulta = "select * from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 03  order by JUZGADO, NOMBRE";
+                                    consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 03  order by JUZGADO, NOMBRE";
                                     foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
 
                                     break;
@@ -430,7 +430,7 @@ namespace DAP.Foliacion.Negocios
                                 case "Escarcega - Candelaria":
 
                                     //Confianza delegacion 04;
-                                    consulta = "select * from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04' , '11' )  order by JUZGADO, NOMBRE";
+                                    consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg in('04' , '11' )  order by JUZGADO, NOMBRE";
                                     foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
 
                                     break;
@@ -438,7 +438,7 @@ namespace DAP.Foliacion.Negocios
                                 case "Calkini":
 
                                     //Confianza delegacion  05;
-                                    consulta = "select * from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by JUZGADO, NOMBRE";
+                                    consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 05 order by JUZGADO, NOMBRE";
                                     foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
 
                                     break;
@@ -446,7 +446,7 @@ namespace DAP.Foliacion.Negocios
                                 case "Hecelchakan":
 
                                     //Confianza delegacion  06;
-                                    consulta = "select * from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06  order by JUZGADO, NOMBRE";
+                                    consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 06  order by JUZGADO, NOMBRE";
                                     foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
 
                                     break;
@@ -454,7 +454,7 @@ namespace DAP.Foliacion.Negocios
                                 case "Hopelchen":
 
                                     //Confianza delegacion 07;
-                                    consulta = "select * from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07  order by JUZGADO, NOMBRE";
+                                    consulta = "select NUM_CHE from interfaces.dbo." + datosEncontrados.An + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and deleg = 07  order by JUZGADO, NOMBRE";
                                     foliado = FoliarConsultasDBSinEntity.ConsultaEstaFoliada(consulta);
 
                                     break;
@@ -790,17 +790,18 @@ namespace DAP.Foliacion.Negocios
                     Tbl_CuentasBancarias bancoYCuentaDelTrabajador = resultadoDatosBanco.Where(x => x.Id == Convert.ToInt32(registroSeleccionado.IdCuentaBancaria)).FirstOrDefault();
                     int registroAfectado = 0;
 
+                    string num_che = registroSeleccionado.CadenaNumeroEmpleado + quincena; 
 
-                    int folio = (Convert.ToInt32(registroSeleccionado.NumeroEmpleado) + Convert.ToInt32(quincena));
+                    int folio = Convert.ToInt32((registroSeleccionado.CadenaNumeroEmpleado + quincena));
 
                     if (datosCompletosObtenidos.Nomina == "08")
                     {
                         ///Crear un update para pension alimenticia
-                        registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaPenAEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, folio, Observa);
+                        registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaPenAEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, num_che, Observa);
                     }
                     else
                     {   //NumRfcNombreLiquidoDTO, List<Tbl_CuentasBancarias> , string An, string Folio,  string Observa 
-                        registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, folio, Observa);
+                        registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, num_che, Observa);
                     }
 
 
@@ -815,7 +816,10 @@ namespace DAP.Foliacion.Negocios
                         registrosActualizados += registroAfectado;
                     }
 
-
+                    if (registroAfectado == 0) 
+                    {
+                         Console.WriteLine("fallo");
+                    }
 
 
                     if (EstaFoliada && registroAfectado >= 1)
@@ -849,7 +853,7 @@ namespace DAP.Foliacion.Negocios
 
                         if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                         {
-                            pagoAmodificar.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.NumeroEmpleado); //conectarse a funcion y buscar nombre 
+                            pagoAmodificar.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.CadenaNumeroEmpleado); //conectarse a funcion y buscar nombre 
                             pagoAmodificar.BeneficiarioPenA = registroSeleccionado.Nombre;
                             pagoAmodificar.NumBeneficiario = registroSeleccionado.NumBeneficiario;
                         }
@@ -874,7 +878,7 @@ namespace DAP.Foliacion.Negocios
                         pagoAmodificar.IdCat_EstadoPago_Pagos = 1;
 
 
-                        string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.NumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
+                        string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.CadenaNumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
                         EncriptarCadena encriptar = new EncriptarCadena();
 
                         pagoAmodificar.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -911,7 +915,7 @@ namespace DAP.Foliacion.Negocios
 
                         if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                         {
-                            nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.NumeroEmpleado); //conectarse a funcion y buscar nombre 
+                            nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.CadenaNumeroEmpleado); //conectarse a funcion y buscar nombre 
                             nuevoPago.BeneficiarioPenA = registroSeleccionado.Nombre;
                             nuevoPago.NumBeneficiario = registroSeleccionado.NumBeneficiario;
                         }
@@ -934,7 +938,7 @@ namespace DAP.Foliacion.Negocios
                         nuevoPago.IdCat_EstadoPago_Pagos = 1;
 
 
-                        string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.NumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
+                        string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.CadenaNumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
                         EncriptarCadena encriptar = new EncriptarCadena();
 
                         nuevoPago.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -1071,7 +1075,7 @@ namespace DAP.Foliacion.Negocios
 
 
 
-                int TresDigitosQuincena = Convert.ToInt32(Quincena.Substring(1, 3));
+                string TresDigitosQuincena = Quincena.Substring(1, 3);
 
                 var datosCompletosObtenidos = FoliarConsultasDBSinEntity.ObtenerDatosCompletosBitacoraPorIdNom(Convert.ToInt32(nuevoRegitroObtenido.Id_Nom));
 
@@ -1097,18 +1101,19 @@ namespace DAP.Foliacion.Negocios
 
                         Tbl_CuentasBancarias bancoYCuentaDelTrabajador = resultadoDatosBanco.Where(x => x.Id == Convert.ToInt32(registroSeleccionado.IdCuentaBancaria)).FirstOrDefault();
                         int registroAfectado = 0;
-                        int folio = Convert.ToInt32(registroSeleccionado.NumeroEmpleado) + TresDigitosQuincena;
+                        //int folio = Convert.ToInt32( (registroSeleccionado.NumCadena + TresDigitosQuincena));
 
+                        string num_che = registroSeleccionado.CadenaNumeroEmpleado + TresDigitosQuincena;
 
-                        int numChe = Convert.ToInt32(registroSeleccionado.NumeroEmpleado) + TresDigitosQuincena;
+                        int folioPagomatico = Convert.ToInt32((registroSeleccionado.CadenaNumeroEmpleado+TresDigitosQuincena));
                         if (datosCompletosObtenidos.Nomina == "08")
                         {
                             ///Crear un update para pension alimenticia
-                            registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaPenAEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, numChe, Observa);
+                            registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaPenAEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, num_che, Observa);
                         }
                         else
                         {   //NumRfcNombreLiquidoDTO, List<Tbl_CuentasBancarias> , string An, string Folio,  string Observa 
-                            registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, numChe, Observa);
+                            registroAfectado = FoliarConsultasDBSinEntity.ActualizarBaseNominaEnSql(registroSeleccionado, bancoYCuentaDelTrabajador, datosCompletosObtenidos.An, num_che, Observa);
                         }
 
 
@@ -1123,6 +1128,7 @@ namespace DAP.Foliacion.Negocios
                         if (EstaFoliada && registroAfectado >= 1)
                         {
                             int quinenaAbuscar = Convert.ToInt32(datosCompletosObtenidos.Quincena);
+                           
 
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
@@ -1149,7 +1155,7 @@ namespace DAP.Foliacion.Negocios
 
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
-                                pagoAmodificar.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.NumeroEmpleado); //conectarse a funcion y buscar nombre 
+                                pagoAmodificar.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.CadenaNumeroEmpleado); //conectarse a funcion y buscar nombre 
                                 pagoAmodificar.BeneficiarioPenA = registroSeleccionado.Nombre;
                                 pagoAmodificar.NumBeneficiario = registroSeleccionado.NumBeneficiario;
                             }
@@ -1165,7 +1171,7 @@ namespace DAP.Foliacion.Negocios
 
                             //nuevoPago.IdTbl_InventarioDetalle = 0 ; //No tiene un detalle de inventario ya que no es un cheque
                             pagoAmodificar.IdTbl_CuentaBancaria_BancoPagador = bancoYCuentaDelTrabajador.Id;
-                            pagoAmodificar.FolioCheque = folio;
+                            pagoAmodificar.FolioCheque = folioPagomatico;
                             pagoAmodificar.ImporteLiquido = registroSeleccionado.Liquido;
                             pagoAmodificar.IdCat_FormaPago_Pagos = 2; //1 = cheque , 2 = Pagomatico 
 
@@ -1174,7 +1180,7 @@ namespace DAP.Foliacion.Negocios
                             pagoAmodificar.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.NumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.CadenaNumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + num_che + " || " + registroSeleccionado.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             pagoAmodificar.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -1211,7 +1217,7 @@ namespace DAP.Foliacion.Negocios
 
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
-                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.NumeroEmpleado); //conectarse a funcion y buscar nombre 
+                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(registroSeleccionado.CadenaNumeroEmpleado); //conectarse a funcion y buscar nombre 
                                 nuevoPago.BeneficiarioPenA = registroSeleccionado.Nombre;
                                 nuevoPago.NumBeneficiario = registroSeleccionado.NumBeneficiario;
                             }
@@ -1225,7 +1231,7 @@ namespace DAP.Foliacion.Negocios
                             nuevoPago.EsPenA = datosCompletosObtenidos.EsPenA;
                             //nuevoPago.IdTbl_InventarioDetalle = 0 ; //No tiene un detalle de inventario ya que no es un cheque
                             nuevoPago.IdTbl_CuentaBancaria_BancoPagador = bancoYCuentaDelTrabajador.Id;
-                            nuevoPago.FolioCheque = folio;
+                            nuevoPago.FolioCheque = folioPagomatico;
                             nuevoPago.ImporteLiquido = registroSeleccionado.Liquido;
                             nuevoPago.IdCat_FormaPago_Pagos = 2; //1 = cheque , 2 = Pagomatico 
 
@@ -1234,7 +1240,7 @@ namespace DAP.Foliacion.Negocios
                             nuevoPago.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.NumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + folio + " || " + registroSeleccionado.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + registroSeleccionado.CadenaNumeroEmpleado + " || " + registroSeleccionado.Liquido + " || " + num_che + " || " + registroSeleccionado.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             nuevoPago.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -1525,27 +1531,31 @@ namespace DAP.Foliacion.Negocios
                             pagoAmodificar.RfcEmpleado = nuevaPersona.RFC;
                             pagoAmodificar.NumEmpleado = nuevaPersona.NumEmpleado;
 
-                            if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
-                            {
-                                pagoAmodificar.NombreEmpleado = /*FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado)*/ "CAMBIADO"; //conectarse a funcion y buscar nombre 
-                                pagoAmodificar.BeneficiarioPenA = nuevaPersona.Nombre;
-                                pagoAmodificar.NumBeneficiario = nuevaPersona.NumBeneficiario;
-                            }
-                            else
-                            {
-                                pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
-                                pagoAmodificar.BeneficiarioPenA = null;
-                                pagoAmodificar.NumBeneficiario = null;
-                            }
 
+                            ////////NUNCA ENTRA A ESTA CONDICION YA QUE LA NOMINA NUNCA SERA DE PENSION ALIMENTICIA OSEA '08'
+                            //////if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
+                            //////{
+                            //////    pagoAmodificar.NombreEmpleado = /*FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado)*/ "CAMBIADO"; //conectarse a funcion y buscar nombre 
+                            //////    pagoAmodificar.BeneficiarioPenA = nuevaPersona.Nombre;
+                            //////    pagoAmodificar.NumBeneficiario = nuevaPersona.NumBeneficiario;
+                            //////}
+                            //////else
+                            //////{
+                            //////    pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
+                            //////    pagoAmodificar.BeneficiarioPenA = null;
+                            //////    pagoAmodificar.NumBeneficiario = null;
+                            //////}
 
+                            pagoAmodificar.NombreEmpleado = nuevaPersona.Nombre;
+                            pagoAmodificar.BeneficiarioPenA = null;
+                            pagoAmodificar.NumBeneficiario = null;
                             pagoAmodificar.EsPenA = datosCompletosObtenidos.EsPenA;
 
 
-                        
 
 
 
+                            //////////////////DESBLOQUEARRRRRRRRRRRRRRRRRRRRRRRRRRRRR
                             /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
                             /*
@@ -1620,7 +1630,7 @@ namespace DAP.Foliacion.Negocios
                             pagoAmodificar.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.CadenaNumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             pagoAmodificar.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -1659,26 +1669,31 @@ namespace DAP.Foliacion.Negocios
                             nuevoPago.RfcEmpleado = nuevaPersona.RFC;
                             nuevoPago.NumEmpleado = nuevaPersona.NumEmpleado;
 
-                            if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
-                            {
-                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado); //conectarse a funcion y buscar nombre 
-                                nuevoPago.BeneficiarioPenA = nuevaPersona.Nombre;
-                                nuevoPago.NumBeneficiario = nuevaPersona.NumBeneficiario;
-                            }
-                            else
-                            {
-                                nuevoPago.NombreEmpleado = nuevaPersona.Nombre;
-                                nuevoPago.BeneficiarioPenA = null;
-                                nuevoPago.NumBeneficiario = null;
-                            }
 
+
+                            /////NUNCA ENTRARA A ESTA CONDICION POR QUE EL PRIMER FILTRO NOS DICE QUE SOLO PUEDEN ENTRAR LAS NOMINAS 1,2 Y NUNCA LA '08'
+                            ////if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
+                            ////{
+                            ////    nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.CadenaNumEmpleado); //conectarse a funcion y buscar nombre 
+                            ////    nuevoPago.BeneficiarioPenA = nuevaPersona.Nombre;
+                            ////    nuevoPago.NumBeneficiario = nuevaPersona.NumBeneficiario;
+                            ////}
+                            ////else
+                            ////{
+                            ////    nuevoPago.NombreEmpleado = nuevaPersona.Nombre;
+                            ////    nuevoPago.BeneficiarioPenA = null;
+                            ////    nuevoPago.NumBeneficiario = null;
+                            ////}
+
+
+                            nuevoPago.NombreEmpleado = nuevaPersona.Nombre;
+                            nuevoPago.BeneficiarioPenA = null;
+                            nuevoPago.NumBeneficiario = null;
                             nuevoPago.EsPenA = datosCompletosObtenidos.EsPenA;
 
 
 
-
-
-
+                            //////////////////DESBLOQUEARRRRRRRRRRRRRRRRRRRRRRRRRRRRR
                             /// INICIA CODIGO PARA GUARDAR EL ID DEL CHEQUE COMO SE ENCUENTRA DENTRO DEL INVENTARIO
 
                             /////////// Obtiene, guarda y actualiza el inventarioDetalle del folio a usar 
@@ -1737,7 +1752,7 @@ namespace DAP.Foliacion.Negocios
                             nuevoPago.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.CadenaNumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             nuevoPago.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -1838,7 +1853,6 @@ namespace DAP.Foliacion.Negocios
                     resumenPersonalFoliar = FoliarConsultasDBSinEntity.ObtenerResumenDatosFormasDePagoFoliar(datosCompletosObtenidos.EsPenA, Observa, consultaPersonal, bancoEncontrado, NuevaNominaFoliar.RangoInicial, NuevaNominaFoliar.Inhabilitado, Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoInicial), Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoFinal));
 
                     //List<NumRfcNombreLiquidoDTO> DetallePersonalConChequeObtenido = FoliarConsultasDBSinEntity.ObtenerDetalleDeEmpleadoEnNominaCheques(consultaPersonal, datosCompletosObtenidos.EsPenA);
-
                 }
                 else
                 {
@@ -1846,7 +1860,6 @@ namespace DAP.Foliacion.Negocios
                     resumenPersonalFoliar = FoliarConsultasDBSinEntity.ObtenerResumenDatosFormasDePagoFoliar(datosCompletosObtenidos.EsPenA, Observa, consultaPersonal, bancoEncontrado, NuevaNominaFoliar.RangoInicial, NuevaNominaFoliar.Inhabilitado, Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoInicial), Convert.ToInt32(NuevaNominaFoliar.RangoInhabilitadoFinal));
 
                     // List<NumRfcNombreLiquidoDTO> DetallePersonalConChequeObtenido = FoliarConsultasDBSinEntity.ObtenerDetalleDeEmpleadoEnNominaCheques(consultaPersonal, datosCompletosObtenidos.EsPenA);
-
                 }
 
 
@@ -1907,8 +1920,12 @@ namespace DAP.Foliacion.Negocios
                             pagoAmodificar.RfcEmpleado = nuevaPersona.RFC;
                             pagoAmodificar.NumEmpleado = nuevaPersona.NumEmpleado;
 
+
+
+
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
+                                //NUNCA ENTRA A ESTA CONDICION YA QUE AQUI ES LA PRIMERA VEZ QUE SE VA A INSERTAR EN TBL_PAGOS
                                 pagoAmodificar.NombreEmpleado = /*FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado)*/ "CAMBIADO"; //conectarse a funcion y buscar nombre 
                                 pagoAmodificar.BeneficiarioPenA = nuevaPersona.Nombre;
                                 pagoAmodificar.NumBeneficiario = nuevaPersona.NumBeneficiario;
@@ -2003,7 +2020,7 @@ namespace DAP.Foliacion.Negocios
                             pagoAmodificar.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.CadenaNumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             pagoAmodificar.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);
@@ -2045,7 +2062,7 @@ namespace DAP.Foliacion.Negocios
 
                             if (datosCompletosObtenidos.EsPenA && datosCompletosObtenidos.Nomina.Equals("08"))
                             {
-                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.NumEmpleado); //conectarse a funcion y buscar nombre 
+                                nuevoPago.NombreEmpleado = FoliarConsultasDBSinEntity.ObtenerNombreEmpleadoSegunAlpha(nuevaPersona.CadenaNumEmpleado); //conectarse a funcion y buscar nombre 
                                 nuevoPago.BeneficiarioPenA = nuevaPersona.Nombre;
                                 nuevoPago.NumBeneficiario = nuevaPersona.NumBeneficiario;
                             }
@@ -2123,7 +2140,7 @@ namespace DAP.Foliacion.Negocios
                             nuevoPago.IdCat_EstadoPago_Pagos = 1;
 
 
-                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.NumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
+                            string cadenaDeIntegridad = datosCompletosObtenidos.Id_nom + " || " + datosCompletosObtenidos.Nomina + " || " + datosCompletosObtenidos.Quincena + " || " + nuevaPersona.CadenaNumEmpleado + " || " + nuevaPersona.Liquido + " || " + nuevaPersona.NumChe + " || " + nuevaPersona.NumBeneficiario;
                             EncriptarCadena encriptar = new EncriptarCadena();
 
                             nuevoPago.Integridad_HashMD5 = encriptar.EncriptarCadenaInicial(cadenaDeIntegridad);

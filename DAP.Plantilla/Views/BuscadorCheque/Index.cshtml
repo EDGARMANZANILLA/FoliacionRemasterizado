@@ -81,7 +81,7 @@
 <div class="margenSection row ">
 
     <div class="form-group filtro  col-12 col-xs-offset-0 offset-sm-3 col-sm-2">
-        <select class="form-control seleccion" id="TipoFiltro" required >
+        <select class="form-control seleccion" id="TipoFiltro" required>
 
             <option value="" disabled selected>FILTROS OPCIONALES...</option>
             <option value="1">CHEQUE</option>
@@ -93,20 +93,20 @@
 
     <div class="form-group    col-12 col-sm-4">
 
-        <select id="Buscador" class="input" >
+        <select id="Buscador" class="input">
 
             @*<option>OPCION 1</option>
-            <option>OPCION 2</option>
-            <option>OPCION 3</option>
-            <option>OPCION 4</option>
-            <option>OPCION 5</option>
-            <option>OPCION 6</option>
-            <option>OPCION 7</option>
-            <option>OPCION 8</option>
-            <option>OPCION 9</option>
-            <option>OPCION 10</option>
-            <option>OPCION 11</option>*@
-            
+                <option>OPCION 2</option>
+                <option>OPCION 3</option>
+                <option>OPCION 4</option>
+                <option>OPCION 5</option>
+                <option>OPCION 6</option>
+                <option>OPCION 7</option>
+                <option>OPCION 8</option>
+                <option>OPCION 9</option>
+                <option>OPCION 10</option>
+                <option>OPCION 11</option>*@
+
         </select>
     </div>
 
@@ -124,7 +124,47 @@
 </div>
 
 
+<br />
+<br />
 
+<div class="col-12 ">
+
+    <!--Nuevo modal-->
+    <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
+
+    <div class="table-responsive text-center">
+
+        <div id="TablaRegistros">
+
+            <table id="RegistrosEncontrados" class='table table-striped table-bordered table-hover' style="display:none">
+                <caption class="text-uppercase"> Formas De Pago Disponible </caption>
+                <thead class="tabla">
+                    <tr class="text-center text-uppercase">
+
+                        <th>IdRegistro</th>
+                        <th>IdNom</th>
+                        <th>Referencia Bitacora</th>
+                        <th>Quincena</th>
+
+                        <th>NumEmpleado</th>
+                        <th>NombreBeneficiaro</th>
+                        <th>FolioCheque</th>
+
+                        <th>Liquido</th>
+                        <th>EstadoCheque</th>
+
+                    </tr>
+
+
+                </thead>
+
+            </table>
+
+        </div>
+    </div>
+
+
+</div>
 
 
 
@@ -215,7 +255,7 @@
 
 
 
-    
+
     .input {
         width: 400px;
         height: 55px;
@@ -230,17 +270,120 @@
         border-radius: 16px;
         color: #1e77fd;
     }
-
-
-
-
-
-      
 </style>
 
 
 
 <script>
+
+
+
+    function DibujarTablaRegistros() {
+        $("#TablaRegistros").append(
+
+            "<table id='RegistrosEncontrados'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
+            " <caption class='text-uppercase'>Registros Encontrados</caption>"
+            + "<thead class='tabla'>" +
+
+            "<tr class='text-center text-uppercase'>" +
+
+
+             "<th>Id_Nom</th>"+
+             "<th>Referencia Bitacora</th>"+
+             "<th>Quincena</th>"+
+             "<th>Num Empleado</th>"+
+             "<th>Nombre Beneficiaro</th>"+
+             "<th>Num Benef</th>"+
+             "<th>Folio Cheque</th>"+
+             "<th>Liquido</th>"+
+            "<th>Estado Cheque</th>" +
+            "<th> </th>" +
+
+            "</tr>" +
+            "</thead>" +
+            "</table>"
+        );
+    };
+
+    let RegistrosTabla;
+    function PintarRegistrosEncontrados(datos) {
+
+
+
+        RegistrosTabla= $('#RegistrosEncontrados').DataTable({
+            "ordering": true,
+            "info": false,
+            "searching": false,
+            "paging": false,
+            "lengthMenu": [5, 10],
+            "language":
+            {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "emptyTable": "Ningún dato disponible en esta tabla",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "data": datos,
+            "columns": [
+
+                { "data": "Id_nom" },
+                { "data": "ReferenciaBitacora" },
+                { "data": "Quincena" },
+                { "data": "NumEmpleado" },
+                { "data": "NombreBeneficiaro" },
+                { "data": "NumBene" },
+                { "data": "FolioCheque" },
+                { "data": "Liquido" },
+                { "data": "EstadoCheque" },
+                { "data": "IdRegistro" }
+            ],
+            "columnDefs": [
+
+                { className: "text-center col-1", visible: true, "targets": 0, },
+                { className: "text-center col-1", visible: true, "targets": 1, },
+                { className: "text-center col-1", visible: true, "targets": 2, },
+                { className: "text-center col-1", visible: true, "targets": 3, },
+                { className: "text-center col-2", visible: true, "targets": 4, },
+                { className: "text-center col-1", visible: true, "targets": 5, },
+                { className: "text-center col-1", visible: true, "targets": 6, },
+                { className: "text-center col-1", visible: true, "targets": 7, },
+                { className: "text-center col-1", visible: true, "targets": 8, },
+                {
+                    className: "text-center col-2",
+                    visible: true,
+                    "targets": [9],
+                    render: function (data, type, row) {
+                         //console.log(typeof data);
+                         //console.log( data);
+                        if (data) {
+                            return '<h4 class="verDetalle bg-success btn  text-uppercase text-light"  > Ver Detalle "'+data+'" </h4>';
+                        }
+
+                    }
+                }
+
+            ],
+            "order": [[2, 'desc']]
+
+        });
+
+    };
+
+
+
+
+
+
     $(document).ready(function () {
 
 
@@ -275,7 +418,7 @@
                     url: '@Url.Action("ObtenerFiltradoDatos", "BuscadorCheque")',
                     type: 'GET',
                     dataType: 'json',
-                    delay: 300,
+                    delay: 1000,
                 data: function (data) {
 
                     //let query = {
@@ -300,11 +443,9 @@
                     // since we are using custom formatting functions we do not need to
                     // alter the remote JSON data, except to indicate that infinite
                     // scrolling can be used
-                    console.log("entre TILIN")
-
-                    //console.log(params)
-                    console.log(data)
-                    console.log(data.DataElementosEncontrados)
+                            ////console.log("entre TILIN")
+                            ////console.log(data)
+                            ////console.log(data.DataElementosEncontrados)
 
 
                     let results = [];
@@ -325,7 +466,7 @@
             placeholder: "Ingrese datos a buscar...",
             allowClear: true,
             disabled: true,
-            minimumInputLength: 4,
+            minimumInputLength: 5,
             cache: true,
 
 
@@ -349,23 +490,14 @@
 
 
 
+
         let datoSeleccionadoSelect2 = null;
         $('#Buscador').on('select2:select', function (e) {
 
             datoSeleccionadoSelect2 = null;
             datoSeleccionadoSelect2 = e.params.data;
             console.log(datoSeleccionadoSelect2 );
-
         });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -393,10 +525,10 @@
                         let BuscarElementoSeleccionado = "{'BuscarElemento':'"+datoSeleccionadoSelect2.i+"'}";
                         let BuscarElemento = {
 
+                            tipoBusqueda: filtroSeleccionado.value,
                             id: datoSeleccionadoSelect2.id,
                             text: datoSeleccionadoSelect2.text,
-                            selected: datoSeleccionadoSelect2.selected
-                          
+
                         };
 
                         $.ajax({
@@ -408,9 +540,13 @@
 
                                 if (response.RespuestaServidor == 201) {
                                     MensajeCorrectoSweet("CHIDO");
+                                    console.log(response.RegistrosEncontrados);
                                     //$('#TablaEsFoliada').empty();
                                     //DibujarTablaEsFoliada();
                                     //PintarResultadoEsFoliada(response.DetalleTabla);
+                                    $('#TablaRegistros').empty();
+                                    DibujarTablaRegistros();
+                                    PintarRegistrosEncontrados(response.RegistrosEncontrados);
                                 } else if (response.RespuestaServidor == "500") {
                                     MensajeErrorSweet(response.Error);
                                 }
@@ -444,6 +580,97 @@
         );
 
 
+
+
+
+
+
+
+        //Click para eliminar el elemento seleccionado de la tabla
+        $(document).on("click", ".verDetalle", function () {
+
+
+
+            //console.log("vieja" + listaBancosSolicitados);
+
+            let datoAEliminar = RegistrosTabla.row($(this).parents("tr")).data();
+
+            console.log(datoAEliminar.IdRegistro);
+
+
+            let buscarIdRegistro = "{'IdRegistroBuscar': '"+datoAEliminar.IdRegistro+"'}";
+
+                 MensajeCargando();
+                 $.ajax({
+                   url: '@Url.Action("DetallesInformativosCheques", "BuscadorCheque")',
+                   data: buscarIdRegistro,
+                   type: "POST",
+                   contentType: "application/json; charset=utf-8",
+                   success: function (response) {
+
+                                if (response.RespuestaServidor === "500") {
+                                    MensajeErrorSweet(response.MensajeError);
+                                    $('#RenderPartialViewDetallesCheques').html('');
+                                } else {
+                                    $('#RenderPartialViewDetallesCheques').html('');
+                                    $('#RenderPartialViewDetallesCheques').html(response);
+
+                                }
+
+
+
+                                OcultarMensajeCargando();
+                   }
+                 });
+
+            //var i = listaBancosSolicitados.indexOf(datoAEliminar);
+            //listaBancosSolicitados.splice(i, 1);
+
+
+
+            //// console.log(listaBancosSolicitados);
+
+
+            //let eliminado = listar.row($(this).parents("tr")).remove().draw();
+        });
+
+
+
+        //let filtroSeleccionado = null;
+        @*const VerDetallesPagoSeleccionado = document.getElementById("TipoFiltro");
+        VerDetallesPagoSeleccionado.addEventListener("click",
+            function () {
+
+                 let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" + quincena + "'}";
+
+
+                 MensajeCargando();
+                 $.ajax({
+                   url: '@Url.Action("FoliarXPagomatico", "Foliar")',
+                   data: EnviarQuincenaPagomatico,
+                   type: "POST",
+                   contentType: "application/json; charset=utf-8",
+                   success: function (response) {
+
+                                //if (response.RespuestaServidor === "500") {
+                                //    MensajeErrorSweet(response.MensajeError);
+                                //    $('#RenderVistaParcial').html('');
+                                //} else {
+                                //    $('#RenderVistaParcial').html('');
+                                //    $('#RenderVistaParcial').html(response);
+
+                                //}
+
+
+
+                                //OcultarMensajeCargando();
+                   }
+                 });
+
+
+
+            }
+        );*@
 
 
 

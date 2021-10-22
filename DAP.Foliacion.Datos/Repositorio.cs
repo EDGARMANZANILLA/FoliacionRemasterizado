@@ -99,5 +99,31 @@ namespace DAP.Foliacion.Datos
             //_contexto.Connection.Dispose();
             //_contexto.Dispose();
         }
+
+
+
+
+
+
+
+
+
+
+
+        /*************************************/
+
+        //public async Task<IEnumerable<TEntity>> LikeAsync<TKey>(System.Linq.Expressions.Expression<Func<TEntity, TKey>> predicate, string text, CancellationToken cancellationToken)
+        //{
+
+        //    return await context.LikeAsync(predicate, text, cancellationToken);
+
+        //}
+
+        //public IQueryable<TEntity> Like<TKey>(System.Linq.Expressions.Expression<Func<TEntity, TKey>> predicate, string text)
+        //{
+
+        //    return ConjuntoEntidades..li.Like(predicate, text);
+
+        //}
     }
 }

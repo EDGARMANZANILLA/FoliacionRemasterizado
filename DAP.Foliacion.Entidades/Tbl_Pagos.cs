@@ -11,6 +11,7 @@ namespace DAP.Foliacion.Entidades
 {
     using System;
     using System.Collections.Generic;
+
     
     public partial class Tbl_Pagos
     {
@@ -29,7 +30,7 @@ namespace DAP.Foliacion.Entidades
         public string ReferenciaBitacora { get; set; }
         public string Delegacion { get; set; }
         public string RfcEmpleado { get; set; }
-        public string NumEmpleado { get; set; }
+        public int NumEmpleado { get; set; }
         public string NombreEmpleado { get; set; }
         public Nullable<bool> EsPenA { get; set; }
         public string BeneficiarioPenA { get; set; }

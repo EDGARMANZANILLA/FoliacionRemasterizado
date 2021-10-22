@@ -109,3 +109,5 @@ C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantill
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\bin\stdole.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\bin\AutoMapper.dll
+C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\bin\AutoMapper.xml

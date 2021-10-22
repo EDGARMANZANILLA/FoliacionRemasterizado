@@ -1,3 +1,5 @@
+using DAP.Foliacion.Entidades.DTO.BuscardorChequeDTO;
+using DAP.Plantilla.Models.BuscardorChequeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,16 @@ namespace DAP.Plantilla
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+
+
+            AutoMapper.Mapper.Initialize(cfg => {
+                cfg.CreateMap<ResultadoObtenidoParaSelect2, ElementosBuscador>();
+                cfg.CreateMap<DetallesBusqueda, DetallesBusquedaModels>();
+                cfg.CreateMap<DetallesRegistroDTO, DetallesInformativosCheque>();
+            
+            });
+
         }
     }
 }

@@ -361,8 +361,8 @@ namespace DAP.Plantilla.Controllers
            // return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
-       
         public ActionResult RevisarNominaFormaPago(RevicionFormasPagoModel NuevaRevicion)
+       
         {   //el grupo de nomina pertenece a los que se folean por el campo sindizato
             // 1 = le pertenece a las nominas general y descentralizada
             // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 

@@ -177,7 +177,7 @@
           <Property Name="ReferenciaBitacora" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Delegacion" Type="char" MaxLength="2" Nullable="false" />
           <Property Name="RfcEmpleado" Type="nvarchar" MaxLength="15" Nullable="false" />
-          <Property Name="NumEmpleado" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="NumEmpleado" Type="int" Nullable="false" />
           <Property Name="NombreEmpleado" Type="nvarchar" MaxLength="150" />
           <Property Name="EsPenA" Type="bit" />
           <Property Name="BeneficiarioPenA" Type="nvarchar" MaxLength="150" />
@@ -678,7 +678,7 @@
           <Property Name="ReferenciaBitacora" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Delegacion" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="RfcEmpleado" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="NumEmpleado" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="NumEmpleado" Type="Int32" Nullable="false" />
           <Property Name="NombreEmpleado" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="EsPenA" Type="Boolean" />
           <Property Name="BeneficiarioPenA" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
