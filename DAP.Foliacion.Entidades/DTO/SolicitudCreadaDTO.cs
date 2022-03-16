@@ -9,7 +9,8 @@ namespace DAP.Foliacion.Entidades.DTO
    public class SolicitudCreadaDTO
    {
         public int Id { get; set; }
-        public string nombreBanco { get; set; }
+        public int IdBanco { get; set; }
+        public string cadenaNombreBanco { get; set; }
         public string cuentaBanco { get; set; }
         public string cantidadFormas { get; set; }
         public string fInicial { get; set; }

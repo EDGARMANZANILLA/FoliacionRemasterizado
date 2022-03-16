@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model Dictionary<int, string> 
 
 
 <!-- Eliminar una cuenta bancaria activa -->
@@ -16,7 +16,7 @@
                     <option value="" disabled selected>Selecciona una cuenta activa a editar...</option>
                      @foreach (var nueva in Model)
                      {
-                        <option value="@nueva">@nueva</option>
+                        <option value="@nueva.Key">@nueva.Value</option>
                      }
                 </select>
             </div>
@@ -88,7 +88,8 @@
                 cuentaSeleccionadaAInhabilitar = this.options[CuentaSeleccionada.selectedIndex];
 
 
-                document.getElementById("cuentaBancariaSeleccionada").innerHTML = cuentaSeleccionadaAInhabilitar.value;
+               // document.getElementById("cuentaBancariaSeleccionada").innerHTML = cuentaSeleccionadaAInhabilitar.value;
+                document.getElementById("cuentaBancariaSeleccionada").innerHTML = document.getElementById('SelecionarCuentaActiva').options[document.getElementById('SelecionarCuentaActiva').selectedIndex].text;
 
             }
         );
@@ -127,7 +128,7 @@
 
                         //envia la cuenta al server para hacer la ihnanactivacion de la cuenta bancaria seleccionada
 
-                      let EliminarCuentaBancaria = "{'NumeroCuenta':'"+cuentaSeleccionadaAInhabilitar.value+"'}";
+                        let EliminarCuentaBancaria = "{'IdCuentaBancaria':'"+cuentaSeleccionadaAInhabilitar.value+"'}";
 
                     MensajeCargando();
                    $.ajax({

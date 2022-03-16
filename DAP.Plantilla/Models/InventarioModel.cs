@@ -9,6 +9,7 @@ namespace DAP.Plantilla.Models
     {
 
 
+        public int IdCuentaBancaria { get; set; }
         public string NombreBanco { get; set; }
         public string Cuenta { get; set; }
 

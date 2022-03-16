@@ -10,9 +10,10 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
     {
 
         public int IdNomina { get; set; }
-        public int Delegacion { get; set; }
-        public bool Sindicato { get; set; }
-        public bool Confianza { get; set; }
+        public int IdDelegacion { get; set; }
+        public int Sindicato { get; set; }
+        public int Confianza { get; set; }
+        public int Otros { get; set; }
         public int IdBancoPagador { get; set; }
         public int RangoInicial { get; set; }
 
@@ -25,7 +26,8 @@ namespace DAP.Foliacion.Entidades.DTO.FoliarDTO
         // propiedad usada para saber a que grupo de nomina corresponde 
         // 1 = le pertenece a las nominas general y descentralizada
         // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
-        public int GrupoNomina { get; set; }
+        public int IdGrupoFoliacion { get; set; }
+        public int AnioInterfaz { get; set; }
 
     }
 }

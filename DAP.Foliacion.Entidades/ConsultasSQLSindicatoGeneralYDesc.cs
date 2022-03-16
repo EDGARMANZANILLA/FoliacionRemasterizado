@@ -19,28 +19,34 @@ namespace DAP.Foliacion.Entidades
         /// Devuelve 6 cadenas de consultas para los de confianza y otras 6 para los sindicalizado  
         /// </summary>
         /// <returns></returns>
-        public static List<string> ObtenerConsultasTotalesSindicato( string An)
+        public static List<string> ObtenerConsultas_TotalesXSindicato( string An, int AnioInterface)
         {
+
+            string Anio = "";
+            if (AnioInterface != Convert.ToInt32(DateTime.Now.Year))
+            {
+                Anio = Convert.ToString( AnioInterface );
+            }
 
 
             /*Para los de confianza osea NO SINDICALIZADOS*/
-            /*Campeche*/
-            string Campeche_Confianza = "select '0' 'Sindicato', 'Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            /*Campeche y Otros*/
+            string Campeche_Confianza = "select '0' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton__Confianza = "select '0' 'Sindicato', 'Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
+            string Champoton__Confianza = "select '0' 'Sindicato', '03' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Confianza = "select '0' 'Sindicato', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Confianza = "select '0' '04', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Confianza = "select '0' 'Sindicato', 'Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
+            string Calkini_Confianza = "select '0' 'Sindicato', '05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Confianza = "select '0' 'Sindicato', 'Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
+            string Hecelchakan_Confianza = "select '0' 'Sindicato', '06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Confianza = "select '0' 'Sindicato', 'Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
+            string Hopelchen_Confianza = "select '0' 'Sindicato', '07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
 
 
 
@@ -49,23 +55,23 @@ namespace DAP.Foliacion.Entidades
 
 
             /*Para los de Sindicalizados*/
-            /*Campeche*/
-            string Campeche_Sindicalizados = "select '1' 'Sindicato','Campeche y Mas' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            /*Campeche y Otros*/
+            string Campeche_Sindicalizados = "select '1' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton_Sindicalizados = "select '1' 'Sindicato','Champoton' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
+            string Champoton_Sindicalizados = "select '1' 'Sindicato', '01' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Sindicalizados = "select '1' 'Sindicato','Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Sindicalizados = "select '1' 'Sindicato','04' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Sindicalizados = "select '1' 'Sindicato','Calkini' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
+            string Calkini_Sindicalizados = "select '1' 'Sindicato','05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Sindicalizados = "select '1' 'Sindicato','Hecelchakan' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
+            string Hecelchakan_Sindicalizados = "select '1' 'Sindicato','06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Sindicalizados = "select '1' 'Sindicato','Hopelchen' 'Nom_Deleg' ,count(*) 'Total' from interfaces.dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
+            string Hopelchen_Sindicalizados = "select '1' 'Sindicato','07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
 
 
 
@@ -97,6 +103,94 @@ namespace DAP.Foliacion.Entidades
 
             return consultasPreparadas;
         }
+
+
+
+
+        public static string ObtenerCadenaConsulta_XSindicato(string An , int AnioInterface, string DelegacionesIncluidas, bool Sindicato) 
+        {
+            string Anio = "";
+            if (AnioInterface != Convert.ToInt32(DateTime.Now.Year))
+            {
+                Anio = Convert.ToString(AnioInterface);
+            }
+
+
+            /*Universo de los que deben de estar Foliados*/
+            //string universoDatos = "select NUM   from interfaces2021.dbo.ANSE2120000489  where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in ('05')";
+            string universoDatos;
+            if (Sindicato)
+            {
+                universoDatos = "select NUM   from interfaces" + Anio + ".dbo." + An + "  where sindicato = 1 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in " + DelegacionesIncluidas + " ";
+            }
+            else 
+            {
+                universoDatos = "select NUM   from interfaces" + Anio + ".dbo." + An + "  where sindicato = 0 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in " + DelegacionesIncluidas + " ";
+            }
+
+            return  "SELECT COUNT(*) FROM interfaces"+Anio+".dbo."+An+ " WHERE NUM_CHE = '' AND  banco_x = '' and cuenta_x = '' AND Observa = '' AND NUM IN (" + universoDatos+")";
+        }
+
+
+
+        public static string ObtenerCadenaConsultaReportePDF_XSindicato(string An, int AnioInterface, string DelegacionesIncluidas, bool Sindicato)
+        {
+            string Anio = "";
+            if (AnioInterface != Convert.ToInt32(DateTime.Now.Year))
+            {
+                Anio = Convert.ToString(AnioInterface);
+            }
+
+
+            /*Universo de los que deben de estar Foliados*/
+            //string universoDatos = "select NUM   from interfaces2021.dbo.ANSE2120000489  where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in ('05')";
+            string universoDatos;
+            if (Sindicato)
+            {
+                universoDatos = "select Substring(PARTIDA,2,5), NUM, NOMBRE, DELEG, NUM_CHE, LIQUIDO, BANCO_X, CUENTA_X  from interfaces" + Anio+".dbo."+An+"  where sindicato = 1 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in "+DelegacionesIncluidas+" order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+            }
+            else
+            {
+                universoDatos = "select Substring(PARTIDA,2,5), NUM, NOMBRE, DELEG, NUM_CHE, LIQUIDO, BANCO_X, CUENTA_X  from interfaces" + Anio+".dbo."+An+"  where sindicato = 0 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in  "+DelegacionesIncluidas+" order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+            }
+
+            return universoDatos;
+        }
+
+        public static string ObtenerCadenaConsultaReportePDF_XSindicato_PartidaCompleta(string An, int AnioInterface, string DelegacionesIncluidas, bool Sindicato)
+        {
+            string Anio = "";
+            if (AnioInterface != Convert.ToInt32(DateTime.Now.Year))
+            {
+                Anio = Convert.ToString(AnioInterface);
+            }
+
+
+            /*Universo de los que deben de estar Foliados*/
+            //string universoDatos = "select NUM   from interfaces2021.dbo.ANSE2120000489  where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in ('05')";
+            string universoDatos;
+            if (Sindicato)
+            {
+                universoDatos = "select PARTIDA, NUM, NOMBRE, DELEG, NUM_CHE, LIQUIDO , FolioCFDI, BANCO_X, CUENTA_X, RFC   from interfaces" + Anio + ".dbo." + An + "  where sindicato = 1 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in " + DelegacionesIncluidas + " order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+            }
+            else
+            {
+                universoDatos = "select PARTIDA, NUM, NOMBRE, DELEG, NUM_CHE, LIQUIDO , FolioCFDI, BANCO_X, CUENTA_X, RFC   from interfaces" + Anio + ".dbo." + An + "  where sindicato = 0 and  TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in  " + DelegacionesIncluidas + " order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+            }
+
+            return universoDatos;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -269,7 +363,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de Sindicalizados*/
                         /*Campeche y otros*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG, Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     }
                     else
@@ -277,7 +371,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Campeche*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG, Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' ) order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     }
 
@@ -289,7 +383,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Champoton*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
                     }
@@ -297,7 +391,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Champoton*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
                     }
@@ -312,7 +406,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Escarcega y candelaria*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG ,  Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
 
@@ -322,7 +416,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Escarcega y candelaria*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11') order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
                     }
@@ -335,7 +429,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Calkini*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
 
 
                     }
@@ -344,7 +438,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Calkini*/
-                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select  NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
                     }
                     break;
@@ -355,7 +449,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Hecelchakan*/
-                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
 
@@ -364,7 +458,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Hecelchakan*/
-                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
                     }
 
                     break;
@@ -375,7 +469,7 @@ namespace DAP.Foliacion.Entidades
 
                         /*Para los de Sindicalizados*/
                         /*Hopelchen*/
-                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
+                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS ";
 
 
                     }
@@ -383,7 +477,7 @@ namespace DAP.Foliacion.Entidades
                     {
                         /*Para los de confianza osea NO SINDICALIZADOS*/
                         /*Hopelchen*/
-                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
+                        cadenaConsulta = " select NUM 'NUM', RFC  , NOMBRE , LIQUIDO , DELEG , Partida , FolioCFDI from interfaces.dbo." + AnObtenido + " where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07 order by  IIF(isnull(NOM_ESP, 0) = 1, '1', '2'), DELEG, SUBSTRING(PARTIDA, 2, 8), NOMBRE collate SQL_Latin1_General_CP1_CI_AS";
                     }
 
                     break;

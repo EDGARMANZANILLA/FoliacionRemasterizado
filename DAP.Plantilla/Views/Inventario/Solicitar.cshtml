@@ -1,4 +1,5 @@
-﻿@model List<DAP.Plantilla.Models.SolicitudFormasPagoModel>
+﻿@model Dictionary<int, string>
+
 @{
     ViewBag.Icono = "fas fa-boxes";
     ViewBag.Title = "Solicitar";
@@ -18,12 +19,12 @@
 
 
         <div class="col-12 col-md-6  btn-block">
-            <button id="NuevaSolicitud" type="button" class="btn btn-primary btn-lg  btn-block" >Crear Nueva Solicitud</button>
+            <button id="NuevaSolicitud" type="button" class="btn btn-primary btn-lg  btn-block" onclick="CrearNuevaSolicitudFormasPago()">Crear Nueva Solicitud</button>
 
         </div>
 
         <div class="col-12 col-md-6  btn-block">
-            <button id="Historico" type="button" class="btn btn-primary btn-lg  btn-block">Historico de Solicitudes</button>
+            <button id="Historico" type="button" class="btn btn-primary btn-lg  btn-block" onclick="VerHistoricoSolicitudes()">Historico de Solicitudes</button>
 
         </div>
 
@@ -51,13 +52,13 @@
 
             <div class=" col-12 col-md-6">
                 <div class="form-group">
-                    <select class="form-control" id="SeleccionBanco" name="SeleccionBanco" required>
+                    <select class="form-control" id="SeleccionBancoSolicitud" name="SeleccionBanco" required>
                         <option value="" disabled selected>Selecciona un banco...</option>
-                        @foreach (var banco in ViewBag.ListaNombreBancos)
+                        @foreach (var banco in Model)
                         {
 
 
-                            <option>@banco  </option>
+                            <option value="@banco.Key" >@banco.Value </option>
 
 
                         }
@@ -70,12 +71,7 @@
 
         </div>
 
-        <!-- Muestra el numero de la cuenta filtrado por el banco seleccionado-->
-        <div class="row">
-            <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Cuenta:</label>
-            <span id="NumeroDeCuenta" class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill h4" title="Numero de cuenta activa"></span>
-
-        </div>
+   
 
         <!--Input para la cantidad de formas que desea solicitar el usuario-->
         <div class="row">
@@ -88,13 +84,11 @@
         <!--- Input para el folio inicial -->
         <div class="row ">
             <label class="col-12 text-center offset-md-0 col-md-4 text-md-right">A partir del folio:</label>
-            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="text" pattern="[A-Za-z0-9]" onkeypress="return event.charCode >= 48 && event.charCode <= 122 && event.charCode != 91 " />
+            <input id="FInicial" class="offset-1 col-10 offset-md-0 col-md-6" placeholder="Ingrese inicio del folio a solicitar" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" name="itemConsumption" onkeypress="return event.charCode >= 48 && event.charCode <= 57 " />
         </div>
 
         <br />
-        <a id="AgregarBancoSolicitud" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success">
-            Agregar Banco a la solicitud
-        </a>
+        <button type="button" class="col-12 text-center offset-md-3 col-md-6 btn btn-outline-success"  onclick="Anexar_Solicitud()"> Anexar a solicitud </button>
 
     </form>
 
@@ -142,7 +136,7 @@
 
 <br />
 <br />
-<button type="button" id="CrearSolicitud" class="btn btn-primary col-10 offset-1" style="display:none" >Crear nueva solicitud</button>
+<button type="button" id="CrearSolicitud" class="btn btn-primary col-10 offset-1" style="display:none" onclick="CrearSolicitudFormasPago()" >Crear nueva solicitud</button>
 
 
 
@@ -260,11 +254,11 @@
                         <div class="form-group">
                             <select class="form-control" id="EditarSeleccionNombreBanco" name="EditSeleccionBanco" required>
                                 <option value="" selected>Selecciona un banco...</option>
-                                @foreach (var banco in ViewBag.ListaNombreBancos)
+                                @foreach (var banco in Model)
                                 {
 
 
-                                    <option value="@banco">@banco  </option>
+                                    <option value="@banco.Key">@banco.Value </option>
 
 
                                 }
@@ -277,12 +271,7 @@
 
                 </div>
 
-                <!-- Muestra el numero de la cuenta filtrado por el banco seleccionado-->
-                <div class="row">
-                    <label class=" col-12 text-center offset-md-1 col-md-3 text-md-right ">Cuenta:</label>
-                    <label id="EditarNumeroDeCuenta" class=" offset-1 col-10 text-center offset-md-0 col-md-6  border border-primary rounded-pill h4" title="Numero de cuenta activa"></label>
 
-                </div>
 
                 <!--Input para la cantidad de formas que desea solicitar el usuario-->
                 <div class="row">
@@ -335,7 +324,7 @@
 
 
             <div class="modal-body text-center">
-                <a class="btn btn-success btn-lg text-center" id="DlReport" href="@Url.Action("GenerarReporteSolicitud", "Inventario", new {NumMemorandum = "0"})">Descargar solicitud creada</a>
+                <a class="btn btn-success btn-lg text-center" id="DlReport" href="@Url.Action("GenerarReporteSolicitud", "Inventario", new { NumMemorandum = "0" })">Descargar solicitud creada</a>
 
             </div>
 
@@ -423,17 +412,18 @@
 
 
 
-<script>
+<!--<script>
 
-    //funcionalidad de los primeros botones de crea solicitud y historico de solicitudes
-
-
-
+  
+    ////funcionalidad de los primeros botones de crea solicitud y historico de solicitudes
 
 
 
 
-     //El siguiente par es para el CRUD de los bancos agregados a la solicitud
+
+
+
+    // //El siguiente par es para el CRUD de los bancos agregados a la solicitud
     function DibujarTablaAjax() {
         $("#divTablaCrud").append(
 
@@ -443,6 +433,7 @@
 
             "<tr>" +
             "<th>Id </th>" +
+            "<th>IdBanco </th>" +
             "<th>Banco </th>" +
             "<th>Cuenta</th>" +
             "<th>Cantidad</th>" +
@@ -454,6 +445,7 @@
             "</table>"
         );
     };
+
     let listar;
     function PintarConsultas(datos) {
 
@@ -483,7 +475,8 @@
             "data": datos,
             "columns": [
                 { "data": "Id" },
-                { "data": "nombreBanco" },
+                { "data": "IdBanco" },
+                { "data": "cadenaNombreBanco" },
                 { "data": "cuentaBanco" },
                 { "data": "cantidadFormas" },
                 { "data": "fInicial" },
@@ -495,7 +488,7 @@
         });
     };
 
-      //El siguiente par es para el historico de las solicitudes
+    //  //El siguiente par es para el historico de las solicitudes
 
     function DibujarTablaSolicitudesCreadasAjax() {
         $("#TablaHistorica").append(
@@ -519,6 +512,8 @@
             "</table>"
         );
     };
+
+
     let historioSolicitudes;
     function PintarConsultaTablaSolicitud(datos) {
 
@@ -588,7 +583,6 @@
 
     function PintarConsultaDetalleSolicitud(datos) {
 
-
         $('#tbDetalleSolicitud').DataTable({
             "ordering": false,
             "info": false,
@@ -627,148 +621,94 @@
 
 
 
+    ///***********************       FUNCIONES PARA CREAR UNA SOLICITUD DE CUENTAS BANCARIAS  *******************************/
+    listaBancosSolicitados = new Array();
+    function CrearNuevaSolicitudFormasPago()
+    {
+        $("#TablaHistorica").empty();
+        ////pintar de nuevo la tabla +
+
+        DibujarTablaAjax();
+
+        //PintarConsultas(listaBancosSolicitados);
+
+        let nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.remove('btn-outline-primary');
+        nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.add('btn-primary');
+
+        let inhabilitarContenedor = document.getElementById('Historico').classList.remove('btn-primary');
+        inhabilitarContenedor = document.getElementById('Historico').classList.add('btn-outline-primary');
+
+        //let InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.remove('btn-primary');
+        //InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.add('btn-outline-primary');
 
 
-    $(document).ready(function () {
+        //document.getElementById("IFolios").style.display = "none";
+        document.getElementById("AgregarBancosASolicitud").style.display = "block";
+        document.getElementById("CrearSolicitud").style.display = "block";
 
-        listaBancosSolicitados = new Array();
-        const MenuCrearNuevaSolicitud = document.getElementById("NuevaSolicitud");
-        MenuCrearNuevaSolicitud.addEventListener("click",
-            function () {
+    }
 
-              ///////
-                $("#TablaHistorica").empty();
-                //pintar de nuevo la tabla +
 
+
+    let bancoSeleccionado = null;
+    let cuentaBanco = null;
+    let cantidadFormas = null;
+    let fInicial = null;
+    let Id = 0;
+    let texto;
+
+    function Anexar_Solicitud()
+    {-->
+        @*let ListaVista = @Model;
+
+        console.log(ListaVista);*@
+
+        <!--cantidadFormas = document.getElementById('CantidadFormas').value;
+        fInicial = document.getElementById("FInicial").value;
+        bancoSeleccionado = document.getElementById("SeleccionBancoSolicitud");
+
+        texto = bancoSeleccionado.options[bancoSeleccionado.selectedIndex].innerText;
+        
+        let cadenaSeparada = texto.split("||");
+
+
+        let cadenaNombreBanco = cadenaSeparada[0];
+        cuentaBanco =  cadenaSeparada[1];
+
+
+
+        if (bancoSeleccionado.value != 0) {
+            if (cantidadFormas != null && cantidadFormas != "") {
+                Id += 1;
+                let IdBanco = bancoSeleccionado.value;
+
+                listaBancosSolicitados.push({ Id, IdBanco  , cadenaNombreBanco, cuentaBanco, cantidadFormas, fInicial });
+
+             //   console.log(Id, cadenaSeparada[0], cadenaSeparada[1], cantidadFormas, fInicial);
+
+
+                $("#divTablaCrud").empty();
                 DibujarTablaAjax();
-
                 PintarConsultas(listaBancosSolicitados);
 
-                let nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.remove('btn-outline-primary');
-                nuevaSolicitud = document.getElementById('NuevaSolicitud').classList.add('btn-primary');
-
-                let inhabilitarContenedor = document.getElementById('Historico').classList.remove('btn-primary');
-                inhabilitarContenedor = document.getElementById('Historico').classList.add('btn-outline-primary');
-
-                //let InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.remove('btn-primary');
-                //InhabilitarFolios = document.getElementById('InhabilitarFolios').classList.add('btn-outline-primary');
 
 
-                //document.getElementById("IFolios").style.display = "none";
-                document.getElementById("AgregarBancosASolicitud").style.display = "block";
-                document.getElementById("CrearSolicitud").style.display = "block";
+            } else {
 
-
+                MensajeWarningSweet('Ingrese una cantidad de formas');
             }
-        );
+
+        } else {
+
+            MensajeWarningSweet('Seleccione un banco');
+        }
+
+    }
 
 
 
 
-
-
-        let bancoSeleccionado;
-        let cuentaBanco;
-
-        var seleccionBanco = document.getElementById("SeleccionBanco");
-     //   console.log(seleccionBanco);
-        seleccionBanco.addEventListener("change",
-            function () {
-                bancoSeleccionado = this.options[seleccionBanco.selectedIndex];
-               // console.log(bancoSeleccionado.value);
-               var DatosEnviar = "{'BancoSeleccionado': '"+bancoSeleccionado.value+"' }";
-               $.ajax({
-                   url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
-                   data: DatosEnviar,
-                  type: "POST",
-                  contentType: "application/json; charset=utf-8",
-                   success: function (msg)
-                   {
-
-                       //    console.log(msg);
-                           cuentaBanco = msg;
-                       document.getElementById('NumeroDeCuenta').innerHTML = msg;
-
-                   },error: function (msg) {
-                       Swal.fire({
-                           icon: 'error',
-                           title: 'Oops...',
-                           text: 'Esto no deberia pasar intentelo de nuevo por favor!',
-                           footer: '<a>Si necesita ayuda pongase en contacto con el administrador</a>'
-                       })
-                   }
-               });
-            }
-        );
-
-
-
-
-
-
-
-        let cantidadFormas = null;
-        let fInicial = null;
-        let Id = 0;
-
-        const agregarBancoSolicitud = document.getElementById("AgregarBancoSolicitud");
-        agregarBancoSolicitud.addEventListener("click",
-            function () {
-                cantidadFormas = document.getElementById("CantidadFormas").value;
-                fInicial = document.getElementById("FInicial").value;
-
-
-                if (bancoSeleccionado != null)
-                {
-                    if (cantidadFormas != null && cantidadFormas != "")
-                    {
-                        Id += 1;
-                        let nombreBanco = bancoSeleccionado.value;
-
-                        listaBancosSolicitados.push({ Id, nombreBanco, cuentaBanco, cantidadFormas, fInicial });
-
-                        // console.log(Id, seleccionBanco.value, cuentaBanco, cantidadFormas, fInicial);
-
-
-                        $("#divTablaCrud").empty();
-
-                        DibujarTablaAjax();
-
-                        PintarConsultas(listaBancosSolicitados);
-
-                        //OcultarMensajeCargando();
-
-                       // console.log(listaBancosSolicitados);
-
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops...',
-                            text: 'Ingrese una cantidad de formas'
-                        })
-                    }
-
-                } else
-                {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops...',
-                        text: 'Seleccione un banco!'
-                    })
-                }
-
-            }
-        );
-
-
-
-
-
-
-
-
-    //Inicio CRUD
-        //Click para eliminar el elemento seleccionado de la tabla
+         //Click para eliminar el elemento seleccionado de la tabla
         $(document).on("click", ".eliminar", function () {
 
 
@@ -794,6 +734,7 @@
         $(document).on("click", ".editar", function () {
 
             datoAEditar = listar.row($(this).parents("tr")).data();
+           // console.log(datoAEditar);
             var i = listaBancosSolicitados.indexOf(datoAEditar);
 
            // console.log(listaBancosSolicitados[i].nombreBanco);
@@ -801,79 +742,10 @@
             let nBanco = listaBancosSolicitados[i].nombreBanco;
 
             document.getElementById("IdEdicion").innerHTML = listaBancosSolicitados[i].Id;
-            $("#EditarSeleccionNombreBanco").val(listaBancosSolicitados[i].nombreBanco);
+            $("#EditarSeleccionNombreBanco").val(listaBancosSolicitados[i].IdBanco);
            //$('#EditarSeleccionNombreBanco').change();
-            document.getElementById("EditarNumeroDeCuenta").innerHTML = listaBancosSolicitados[i].cuentaBanco;
             document.getElementById("EditarCantidadFormas").value = listaBancosSolicitados[i].cantidadFormas;
             document.getElementById("EditarFInicial").value = listaBancosSolicitados[i].fInicial;
-
-
-
-
-
-
-
-            //metodo para cambiar la seleccion del banco
-            let editarnombreBancoSeleccionado = null;
-            let editarcuentaBanco = null;
-
-            const editarseleccionBanco = document.getElementById("EditarSeleccionNombreBanco");
-                editarseleccionBanco.addEventListener("change",
-                function () {
-
-                let bancoSeleccionadoEdit = this.options[editarseleccionBanco.selectedIndex];
-                editarnombreBancoSeleccionado = bancoSeleccionadoEdit.value;
-
-
-                var datoEnviar = "{'BancoSeleccionado':'" + bancoSeleccionadoEdit.value + "'}";
-
-
-                    $.ajax({
-                        url: '@Url.Action("ObtenerCuentaBancaria", "Inventario")',
-                        data: datoEnviar,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-
-                        success: function (msg) {
-
-
-                            //se msg es falso es porque la variable cuenta bancaria esta vacia
-                            if (msg.length == 0) {
-                                Swal.fire({
-                                    backdrop: true,
-
-                                    allowEnterKey: false,
-                                    icon: 'error',
-                                    title: 'Problema al obtener la cuenta del banco seleccionado',
-                                    text: 'No se pudo cargar el numero de la cuenta intentelo mas tarde o pongase en contacto con el administrador del sistema',
-
-                                })
-
-                            } else {
-
-                                document.getElementById('EditarNumeroDeCuenta').innerHTML = msg;
-
-                            }
-
-
-
-
-                        }, error: function (msg) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Esto no deberia pasar intentelo de nuevo por favor!',
-                                footer: '<a>Si necesita ayuda pongase en contacto con el administrador</a>'
-                            })
-                        }
-                    });
-
-
-                });
-
-
-
-
 
 
 
@@ -893,18 +765,32 @@
 
 
                     let indice = listaBancosSolicitados.findIndex(y => y.Id == datoAEditar.Id);
-                    console.log("asdf");
-                    console.log(indice);
+                  //  console.log("asdf");
+                  //  console.log(indice);
+
+
+
+
+                    let bancoEditado = document.getElementById("EditarSeleccionNombreBanco");
+                    let htmlObtendidoDeSeleccion = bancoEditado.options[bancoEditado.selectedIndex].innerText;
+                    let cadenaSeparadaSplit = htmlObtendidoDeSeleccion.split("||");
+
+
+                    let cadenaNombreBancoEditado = cadenaSeparadaSplit[0];
+                    let cuentaBancoEditado = cadenaSeparadaSplit[1];
+
+
+
 
                     //Obtiene los datos modificados del modal
-                    let bancoSeleccionadoEdicion = document.getElementById("EditarSeleccionNombreBanco").value;
-                    let cuentaEdicion = document.getElementById("EditarNumeroDeCuenta").innerText;
                     let cantidadFormasEdicion = document.getElementById('EditarCantidadFormas').value;
                     let folioInicialEdicion = document.getElementById('EditarFInicial').value;
 
                     //se actualizan los varlores dentro del arreglo
-                    listaBancosSolicitados[indice].nombreBanco = bancoSeleccionadoEdicion;
-                    listaBancosSolicitados[indice].cuentaBanco = cuentaEdicion;
+
+                    listaBancosSolicitados[indice].IdBanco = bancoEditado.value;
+                    listaBancosSolicitados[indice].cadenaNombreBanco = cadenaNombreBancoEditado;
+                    listaBancosSolicitados[indice].cuentaBanco = cuentaBancoEditado;
                     listaBancosSolicitados[indice].cantidadFormas = cantidadFormasEdicion;
                     listaBancosSolicitados[indice].fInicial = folioInicialEdicion;
 
@@ -933,15 +819,7 @@
 
 
 
-        ///verificar metodo hasta despues de asegurar que el pdf este correcto
-
-
-        //click en "Crear Nueva solicitud" para enviar los datos de la solicitud
-        const CrearSolicitudBanco = document.getElementById("CrearSolicitud");
-        CrearSolicitudBanco.addEventListener("click", function () {
-
-           // console.log("dff");
-
+        function CrearSolicitudFormasPago() {
 
             if (listaBancosSolicitados.length > 0) {
                 MensajeCargando();
@@ -1005,60 +883,70 @@
 
 
 
+        }
+
+
+
+
+
+
+
+
+
+
+    /*******************************************************************************************************************************************/
+    /*******************************************************************************************************************************************/
+    /**************************         Metodos para mostrar el historico de las solicitudes creadas         ***********************************/
+
+
+    function VerHistoricoSolicitudes() {
+
+        $("#divTablaCrud").empty();
+        let nuevaSolicitud = document.getElementById('Historico').classList.remove('btn-outline-primary');
+        nuevaSolicitud = document.getElementById('Historico').classList.add('btn-primary');
+
+        let inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.remove('btn-primary');
+        inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.add('btn-outline-primary');
+
+        document.getElementById("AgregarBancosASolicitud").style.display = "none";
+        document.getElementById("CrearSolicitud").style.display = "none";
+
+
+        MensajeCargando();
+        $.ajax({
+            url: 'ObtenerHistoricoSolicitudes',
+            data: JSON.stringify(listaBancosSolicitados),
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (resultado) {
+                OcultarMensajeCargando();
+
+                $("#TablaHistorica").empty();
+
+                DibujarTablaSolicitudesCreadasAjax();
+                PintarConsultaTablaSolicitud(resultado);
+
+
+            },
+            error: function (msg) {
+
+                OcultarMensajeCargando();
+                //Swal.fire({
+                //    backdrop: true,
+                //    allowEnterKey: false,
+                //    allowOutsideClick: false,
+                //    icon: 'error',
+                //    title: 'Ocurrio un problema intente de nuevo',
+
+                //})
+
+
+                MensajeErrorSweet('', 'Ocurrio un problema intente de nuevo')
+            }
         });
 
+    }
 
-
-
-
-
-        //Metodos para mostrar el historico de las solicitudes creadas
-        const historico = document.getElementById("Historico");
-        historico.addEventListener("click", function () {
-
-            $("#divTablaCrud").empty();
-            let nuevaSolicitud = document.getElementById('Historico').classList.remove('btn-outline-primary');
-            nuevaSolicitud = document.getElementById('Historico').classList.add('btn-primary');
-
-            let inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.remove('btn-primary');
-            inhabilitarContenedor = document.getElementById('NuevaSolicitud').classList.add('btn-outline-primary');
-
-            document.getElementById("AgregarBancosASolicitud").style.display = "none";
-            document.getElementById("CrearSolicitud").style.display = "none";
-
-
-                MensajeCargando();
-                $.ajax({
-                    url: '@Url.Action("ObtenerHistoricoSolicitudes", "Inventario")',
-                    data: JSON.stringify(listaBancosSolicitados),
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (resultado) {
-                        OcultarMensajeCargando();
-
-                        $("#TablaHistorica").empty();
-
-                        DibujarTablaSolicitudesCreadasAjax();
-                        PintarConsultaTablaSolicitud(resultado);
-
-
-                    },
-                    error: function (msg) {
-
-                        OcultarMensajeCargando();
-                        Swal.fire({
-                            backdrop: true,
-                            allowEnterKey: false,
-                            allowOutsideClick: false,
-                            icon: 'error',
-                            title: 'Ocurrio un problema intente de nuevo',
-
-                        })
-                    }
-                });
-
-
-        });
 
 
 
@@ -1076,7 +964,7 @@
 
             let EnviarNumeroMemo = "{'NumeroMemo':'"+datosFilaSeleccionada.NumeroMemo+"'}";
                 $.ajax({
-                    url: '@Url.Action("ObtenerSolicitudPorMemo", "Inventario")',
+                    url: 'ObtenerSolicitudPorMemo',
                     data: EnviarNumeroMemo,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -1149,43 +1037,30 @@
             let filaHistoricoEliminar = historioSolicitudes.row($(this).parents("tr")).data();
 
             historioSolicitudes.row($(this).parents("tr")).remove().draw();
-       
+
             console.log(filaHistoricoEliminar.NumeroMemo);
 
 
             let NumeroMemoEliminar = "{'NumeroMemorandum':'" + filaHistoricoEliminar.NumeroMemo +"'}";
 
-     
+
                 $.ajax({
-                    url: '@Url.Action("RemoverSolicitudCreada", "Inventario")',
+                    url: 'RemoverSolicitudCreada',
                     data: NumeroMemoEliminar,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (resultado) {
                         OcultarMensajeCargando();
 
-                        OcultarMensajeCargando();
-                        Swal.fire({
-                            backdrop: true,
-                            allowEnterKey: false,
-                            allowOutsideClick: false,
-                            icon: 'success',
-                            title: `Memorandum numero ${filaHistoricoEliminar.NumeroMemo} eliminado`,
 
-                        })
+                        MensajeCorrectoSweet("Memorandum numero  "+filaHistoricoEliminar.NumeroMemo+" eliminado" );
 
                     },
                     error: function (msg) {
 
                         OcultarMensajeCargando();
-                        Swal.fire({
-                            backdrop: true,
-                            allowEnterKey: false,
-                            allowOutsideClick: false,
-                            icon: 'error',
-                            title: 'Ocurrio un problema intente de nuevo',
-
-                        })
+                    
+                        MensajeErrorSweet('', 'Ocurrio un problema intente de nuevo' )
                     }
                 });
 
@@ -1197,21 +1072,24 @@
 
 
 
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+    ///////////////////////////////////////////////////**************************/////////////////
+ 
 
 
-    });
 
 
 
 
 
 
-
-
-
-
-
-</script>
+</script>-->
 
 
 

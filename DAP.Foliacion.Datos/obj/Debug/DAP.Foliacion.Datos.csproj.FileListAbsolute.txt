@@ -10,3 +10,31 @@ C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacio
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csproj.CopyComplete
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.dll
 C:\Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.pdb
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.dll.config
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.dll
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.pdb
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.dll
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.xml
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csproj.CoreCompileInputs.cache
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csproj.CopyComplete
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.dll
+C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.dll.config
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Datos.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.xml
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csproj.CoreCompileInputs.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.csproj.CopyComplete
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Datos\obj\Debug\DAP.Foliacion.Datos.pdb

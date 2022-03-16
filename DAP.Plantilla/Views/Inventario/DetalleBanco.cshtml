@@ -7,23 +7,27 @@
 }
 
 
-<section>
+<section >
+    <div class="col-12 offset-md-2 col-md-8 text-center">
+        <h5 class=" text-uppercase"> Detalles de la cuenta de Banco: </h5>
+    </div>
 
     <div class="col-12">
         <div class="text-center">
-            <h3 class="text-capitalize" id="Banco">BANCO: @ViewBag.NombreBancoSeleccionado</h3>
+            <h3 id="DetalleBancoCuenta" class="text-capitalize">@ViewBag.NombreBancoSeleccionado</h3>
+            <h6 id="IdCuentaBancariaDetalleBanco" style="display:none">@ViewBag.IdBancoSeleccionado</h6>
+
         </div>
 
     </div>
-    <div class="col-12">
-        <div class="text-center">
-            <h3 class="text-capitalize" id="Banco">BANCO: @ViewBag.NumeroCuentaBanco</h3>
-        </div>
-
-    </div>
-
 
 </section>
+
+
+<div class="col-12  text-center  margenSection ">
+    <button id="CargarDetallesFolios" type="button" class="btn btn-outline-info btn-lg col-6 " onclick="CargarDetallesFolios()">Cargar Detalles de Formas de pago</button>
+
+</div>
 
 
 
@@ -33,145 +37,28 @@
 <!-- Generacion de tablas -->
 <section class="margenSection">
     <div>
-        <div class="table-responsive">
-
-            <table id="tbDetalle" class="table table-striped table-bordered table-hover" cellspacing="0" style="width:100%">
-                <caption>CONTROL DEL DETALLE DEL BANCO  @ViewBag.NombreBancoSeleccionado</caption>
-
-                <thead class="tabla">
+        <div class="table-responsive margenSection ">
+            <table id="table_id" class="table table-striped table-bordered table-hover text-center" cellspacing="0" style="width:100%">
+                <thead class="tabla ">
+                    @*<caption>CONTROL DEL DETALLE DEL BANCO  @ViewBag.NombreBancoSeleccionado</caption>*@
                     <tr>
-
                         <th>Numero de Orden</th>
                         <th>Numero de Contenedor</th>
                         <th>Numero Folio</th>
                         <th>Incidencia</th>
                         <th>Empleado Asignado</th>
                         <th>Fecha Incidencia</th>
-
-
                     </tr>
                 </thead>
-                <tfoot>
-                <th class="Filtro">Numero de Orden</th>
-                <th class="Filtro">Numero de Contenedor</th>
-                <th class="Filtro">Numero Folio</th>
-                <th class="Filtro">Incidencia</th>
-                <th class="Filtro">Empleado</th>
-                <th class="Filtro">Fecha Incidencia</th>
-
-
-
-                </tfoot>
-
+                <tbody>
+                </tbody>
             </table>
 
-
-
-
         </div>
-
     </div>
-   
 </section>
 <br />
 <br />
 
 
 
-<script>
-
-
-
-    function PintarConsultas(datos) {
-
-        $('#tbDetalle').find(".Filtro").each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" style="width:100%" onkeypress="return event.keyCode != 13;"  class="form-control input-sm" placeholder="' + title + '" />');
-        });
-        var tablaCargados = $('#tbDetalle').DataTable({
-            "language":
-            {
-                "processing": "Procesando...",
-                "lengthMenu": "Mostrar _MENU_ registros",
-                "zeroRecords": "No se encontraron resultados",
-                "emptyTable": "Ningún dato disponible en esta tabla",
-                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "search": "Buscar:",
-                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            "data": datos,
-            "columns": [
-
-                { "data": "NumeroOrden" },
-                { "data": "NumeroContenedor" },
-                { "data": "NumeroFolio" },
-                { "data": "Incidencia" },
-                { "data": "NombreEmpleado" },
-                { "data": "FechaIncidencia" }
-
-            ],
-            "order": [[1, 'asc']]
-        }).columns().every(function () {
-            var that = this;
-            $('input', this.footer()).on('keyup change', function (e) {
-                var keyCode = e.keyCode || e.which;
-                if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
-        $(".dataTable").find("tfoot tr").appendTo($(".dataTable").find("thead"));
-
-
-        OcultarMensajeCargando();
-    };
-
-
-    $(document).ready(function () {
-
-   
-
-
-
-
-        let verificarFolios = "{'IdInventario':'" + "@ViewBag.IdInventario" + "'}";
-        MensajeCargando();
-          $.ajax({
-             url: '@Url.Action("CargarDetalleBanco", "Inventario")',
-             data: verificarFolios,
-             type: "POST",
-             contentType: "application/json; charset=utf-8",
-              success: function (msg) {
-
-
-               PintarConsultas(msg);
-
-
-              },
-              error: function (msg) {
-                  OcultarMensajeCargando();
-                  Swal.fire({
-                      backdrop: true,
-                      allowEnterKey: true,
-                      allowOutsideClick: false,
-                      allowEscapeKey: false,
-                      icon: 'info',
-                      title: 'No se pudo verificar la disponibilidad de folios intentelo de nuevo mas tarde o pongase en contacto con el administrador del sistema',
-
-
-                  })
-              }
-          });
-
-
-    });
-</script>

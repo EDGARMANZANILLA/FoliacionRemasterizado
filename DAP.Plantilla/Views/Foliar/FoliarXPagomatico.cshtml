@@ -2,12 +2,21 @@
 
 
 <!-- Vista del pagomatico-->
-<seccion id="VistaPagomatico" class="margenSection  card col-12  offset-md-2 col-md-8 text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+<seccion id="VistaPagomatico" class="margenSection  card col-12  offset-md-1 col-md-10 text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <br />
+    <div class="col-5 text-left">
+        <button type="button" class="btn btn-success btn text-center" onclick="RegresarIndexFoliacionDesdePagomatico()"> <i class="fas fa-arrow-left"></i>  Regresar</button>
+    </div>
+    <br />
+    <div class="col-12  text-center">
+
+        <hr class="linea col-10 " />
+    </div>
 
     <div class="margenSection row">
 
         <div class="btn-block">
-            <h5>QUINCENA A FOLIAR EN PAGOMATICO</h5>
+            <h3>QUINCENA A FOLIAR EN PAGOMATICO</h3>
             <h5 id="QuincenaPagoMatico" class="azul">@ViewBag.NumeroQuincena</h5>
             <br />
         </div>
@@ -16,10 +25,10 @@
             <form>
                 <label> Selecciona una opcion : </label>
                 <div>
-                    <label class="btn  btn-outline-primary ">
+                    <label class="btn  btn-outline-primary" onclick="CheckNomina()">
                         <input id="checkNomina" type="checkbox" autocomplete="off"> &nbsp Por Nomina &nbsp
                     </label>
-                    <label class="btn  btn-outline-primary ">
+                    <label class="btn  btn-outline-primary " onclick="CheckTodasNominas()">
                         <input id="checkTodasNominas" type="checkbox" autocomplete="off">&nbsp Todas las Nominas
                     </label>
 
@@ -29,8 +38,8 @@
         </div>
 
         <div class="col-12 offset-md-1 col-md-10 text-center">
-            
-            <div id="mainselection"  class="form-group">
+
+            <div id="mainselection" class="form-group">
                 <select class="form-control " id="SeleccionarNominaFoliar" required style="display: none;  ">
                     <option value="" disabled selected>Selecciona una Nomina...</option>
                     @foreach (var nuevaNomina in Model)
@@ -42,7 +51,7 @@
         </div>
 
 
-     
+
 
 
 
@@ -62,6 +71,7 @@
                                 <th>Adicional</th>
                                 <th>Nombre nomina</th>
                                 <th>Registros a foliar</th>
+                                <th>Esta Foliada</th>
                                 <th>Esta Foliada</th>
 
                             </tr>
@@ -85,52 +95,20 @@
 
 
     <div class="col-12 text-center" id="DetalleTodasLasNominas" style="display:none">
-        <button id="VerDetallesDeNominas" type="button" class="btn btn-lg btn-success"><i class="fas fa-poll"></i>  Ver detalles de nominas  <i class="fas fa-poll"></i></button>
+        <button type="button" class="btn btn-lg btn-success" onclick="VerificarPagomaticoTodasNominas()"><i class="fas fa-poll"></i>  Ver detalles de nominas  <i class="fas fa-poll"></i></button>
 
+    </div>
+
+    <div class="col-12 text-center" id="VerificarNomina" style="display:none">
+        <button type="button" class="btn btn-lg btn-success" onclick="VerificarNominaPagomatico()">  Ver detalle de nomina  <i class="fas fa-poll"></i>  </button>
     </div>
     </br>
 
-    <div class="col-12 text-center">
-        <button id="Revisar" type="button" class="btn btn-lg btn-success"> <i class="far fa-eye"></i>  Verificar  </i></button>
-        <button id="RealizarFoliacion" type="button" class="btn btn-lg btn-success"><i class="fas fa-check-double"></i>  Foliar  <i class="fas fa-check-double"></i></button>
-
-    </div>
 
     <br>
 
 
     <hr class="linea" />
-
-    <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
-    <!--<div class="margenSection" id="DetalleAsignacion">
-        <div class="table-responsive">
-
-            <div id="TablaActualizada">
-
-                <table id="AsignarFormas" class='table table-striped table-bordered table-hover' style="display: none;">
-                    <caption class="text-uppercase"> Detalles o problemas con nominassss </caption>
-                    <thead class="tabla">
-                        <tr>
-
-                            <th>Nomina foliada</th>
-                            <th>Revisar</th>
-                        </tr>
-                    </thead>
-
-                    <tfoot>
-                        <tr>
-
-                            <th class='Filtro'>Id</th>
-                            <th class='Filtro'>Expediente</th>
-
-                        </tr>
-                    </tfoot>
-                </table>
-
-            </div>
-        </div>
-    </div>-->
-
 
 
 
@@ -139,72 +117,6 @@
 </seccion>
 
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="DetallesConNominasFoliadasPagomatico" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title col-11 text-capitalize text-center " id="NombreNominaDelegacion">Resumen del proceso finalizado</h5>
-                <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-
-                <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
-                <div class="margenSection">
-                    <div class="table-responsive">
-
-                        <div id="TablaDetalleNominas">
-
-                            <table id="TblDetallesNominasFoleadas" class='table table-striped table-bordered table-hover' style="display:none">
-                                <caption class="text-uppercase"> Resumen de Nomina </caption>
-                                <thead class="tabla">
-                                    <tr class="text-center text-uppercase">
-
-                                        <th>Detalles o problemas con nominas </th>
-                                    </tr>
-                                </thead>
-
-
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <dl>
-                    <dt>Detalles:</dt>
-                    <dd> - "SIN PAGOMATICOS" ==> NO HAY EMPLEADOS CON TARJETAS PARA FOLIAR EN PAGOMATICO</dd>
-                    <dt>Solucion:</dt>
-                    <dd> - F/FP ==> INTENTE FOLIAR POR FORMAS DE PAGO</dd>
-                    <dd> - IFNN ==> INTENTE FOLIAR LA NOMINA DE NUEVO</dd>
-                </dl>
-
-
-            </div>
-            <div class="modal-footer">
-
-
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-<!-- El modal que se muestra en esta pestaña se encuantra en el index ya que hasta que se renderiza se puede usar en esta vista parcial-->
 
 <style>
     dd {
@@ -231,586 +143,3 @@
 
 
 
-
-<script>
-    /********* Detalle de si la nomina esta foliado de la nomina selecionada         **********/
-
-
-    function DibujarTablaEsFoliada() {
-        $("#TablaEsFoliada").append(
-
-            "<table id='DetallesSiEstaFoliadaNominas'    class='table table-striped table-bordered table-hover' cellspacing='0' style='width:100%'     >" +
-            " <caption class='text-uppercase'>Resumen de la foliacion realizada</caption>" +
-            "<thead class='tabla'>" +
-
-            "<tr>" +
-            "<th>Id Nom</th>" +
-            "<th>N nomina</th>" +
-            "<th>Adicional</th>" +
-            "<th>Nombre nomina</th>" +
-            "<th>Registros a foliar</th>" +
-            "<th>Esta Foliada</th>" +
-            "</tr>" +
-
-            "</thead>" +
-            "</table>"
-        );
-    };
-
-
-
-
-
-
-    function PintarResultadoEsFoliada(datos) {
-
-        $('#DetallesSiEstaFoliadaNominas').DataTable({
-            "ordering": true,
-            "info": true,
-            "searching": true,
-            "paging": true,
-            "lengthMenu": [10, 15],
-            "language":
-            {
-                "processing": "Procesando...",
-                "lengthMenu": "Mostrar _MENU_ registros",
-                "zeroRecords": "No se encontraron resultados",
-                "emptyTable": "Ningún dato disponible en esta tabla",
-                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "search": "Buscar:",
-                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            "data": datos,
-            "columns": [
-
-
-                { "data": "Id_Nom" },
-                { "data": "NumeroNomina" },
-                { "data": "Adicional" },
-                { "data": "NombreNomina" },
-                { "data": "NumeroRegistrosAFoliar" },
-                {
-                    "data": "IdEstaFoliada",
-                    render: function (data, type, row) {
-                        console.log("hola :" + typeof data);
-                        console.log( data);
-                       //  console.log( data.row.IdAtencion);
-                        if (data == 0) {
-                            return '<h4 class=" bg-danger btn text-uppercase text-light" >SIN FOLIAR</h4>';
-                        }
-                        else if (data == 1) {
-
-                            return '<h4 class=" bg-success btn text-uppercase text-light"  > ESTA FOLIADO  </h4>';
-                        } else if (data == 2)
-                        {
-
-                            return '<h4 class=" bg-warning btn text-uppercase text-light"  > NO HAY PAGOMATICOS POR FOLIAR  </h4>';
-                        }
-                    }
-                }
-
-            ],
-            "columnDefs": [
-
-
-                { className: "text-center col-1", visible: true, "targets": 0, },
-                { className: "text-center col-1", visible: true, "targets": 1, },
-                { className: "text-center col-2", visible: true, "targets": 2, },
-                { className: "text-center col-4", visible: true, "targets": 3, },
-                { className: "text-center col-1", visible: true, "targets": 4, },
-                { className: "text-center col-3", visible: true, "targets": 5, },
-
-            ],
-
-            "order": [[0, 'asc']]
-
-
-        });
-
-    };
-
-
-
-
-
-    /***************************************************************************************** */
-
-    function DibujarTablaDetalleNominasFoleadas() {
-        $("#TablaDetalleNominas").append(
-
-            "<table id='TblDetallesNominasFoleadas'  class='table  table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%' >" +
-            " <caption class='text-uppercase'>Resumen de la foliacion realizada</caption>"+
-            "<thead class='tabla'>" +
-
-            "<tr>" +
-            "<th>Tipo Advertencia </th>" +
-            "<th>Numero Nomina</th>" +
-            "<th>Nomina</th>" +
-            "<th>Detalle</th>" +
-            "<th>Regitros Foliados</th>" +
-            "<th>Solucion</th>" +
-            "<th>Id</th>" +
-
-            "</tr>" +
-
-            "</thead>" +
-            "</table>"
-        );
-    };
-
-
-
-
-    function PintarResultadoNominasFoleadas(datos) {
-
-        $('#TblDetallesNominasFoleadas').DataTable({
-            "language":
-            {
-                "processing": "Procesando...",
-                "lengthMenu": "Mostrar _MENU_ registros",
-                "zeroRecords": "No se encontraron resultados",
-                "emptyTable": "Ningún dato disponible en esta tabla",
-                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "search": "Buscar:",
-                "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            "data": datos,
-            "columns": [
-
-                {
-                    "data": "IdAtencion",
-                    render: function (data, type, row) {
-                        console.log("hola :"+ typeof data);
-                       //  console.log( data.row.IdAtencion);
-                        if (data == 0) {
-                            return '<h4 class=" bg-success btn text-uppercase text-light"  > FOLIADO CORRECTAMENTE  </h4>';
-                        }
-                        else {
-                            return '<h4 class=" bg-danger btn text-uppercase text-light" >SIN FOLIAR</h4>';
-                        }
-                    }
-                },
-                { "data": "NumeroNomina"},
-                { "data": "NombreNomina"},
-                { "data": "Detalle"},
-                { "data": "RegistrosFoliados"},
-                { "data": "Solucion"},
-                { "data": "Id_Nom"},
-
-            ],
-            "columnDefs": [
-
-
-                { className: "text-center col-2", visible: true, "targets": 0, },
-                { className: "text-center col-1", visible: true, "targets": 1, },
-                { className: "text-center col-3", visible: true, "targets": 2, },
-                { className: "text-center col-3", visible: true, "targets": 3, },
-                { className: "text-center col-1", visible: true, "targets": 4, },
-                { className: "text-center col-1", visible: true, "targets": 5, },
-                { className: "text-center col-1", visible: true, "targets": 6, },
-
-            ],
-
-            "order": [[1, 'asc']]
-
-
-        });
-
-    };
-
-
-
-
-
-
-
-
-
-    $(document).ready(function () {
-
-
-        let seleccionNomina = false;
-        const checkboxNomina = document.getElementById('checkNomina');
-        checkboxNomina.addEventListener('change', function () {
-            if (this.checked) {
-                document.getElementById('SeleccionarNominaFoliar').style.display = "block";
-
-                $('#TablaEsFoliada').empty();
-                document.getElementById('DetalleTodasLasNominas').style.display = 'none';
-                $('#checkTodasNominas').prop('checked', false);
-                seleccionNomina = true;
-
-
-
-            } else {
-                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
-
-            }
-        });
-
-
-
-        let nominasFoliadas = new Array();
-        let seleccionTodasNominas = false;
-        const checkboxTodasNominas = document.getElementById('checkTodasNominas');
-        checkboxTodasNominas.addEventListener('change', function () {
-            if (this.checked) {
-               document.getElementById('SeleccionarNominaFoliar').style.display = "none";
-
-                document.getElementById('DetalleTodasLasNominas').style.display = 'Block';
-                $('#TablaEsFoliada').empty();
-                $('#checkNomina').prop('checked', false);
-                seleccionTodasNominas = true;
-
-                //console.log(seleccionTodasNominas);
-            } else {
-                document.getElementById('SeleccionarNominaFoliar').style.display = "none";
-                seleccionTodasNominas = false;
-
-
-                //console.log(seleccionTodasNominas);
-            }
-        });
-
-
-        let nominaSeleccionadaFoliar = null;
-        const SeleccionNomina = document.getElementById("SeleccionarNominaFoliar");
-        SeleccionNomina.addEventListener("change",
-            function () {
-
-                nominaSeleccionadaFoliar = null;
-                nominaSeleccionadaFoliar = this.options[SeleccionNomina.selectedIndex];
-                console.log(nominaSeleccionadaFoliar.value);
-
-
-                MensajeCargando();
-
-                let EnviaIdNom = "{'IdNom': '"+nominaSeleccionadaFoliar.value+"'}";
-
-
-                $.ajax({
-                    url: '@Url.Action("EstaFoliadaIdNominaPagomatico", "Foliar")',
-                    data: EnviaIdNom,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (response) {
-                        //console.log(response);
-
-                        if (response.RespuestaServidor == "201") {
-                            $('#TablaEsFoliada').empty();
-                            DibujarTablaEsFoliada();
-                            PintarResultadoEsFoliada(response.DetalleTabla);
-                        } else if (response.RespuestaServidor == "500")
-                        {
-                            MensajeErrorSweet(response.Error);
-                        }
-
-
-
-                        OcultarMensajeCargando();
-
-                    },
-                    error: function (jqXHR, textStatus) {
-                        MensajeErrorSweet("Ocurrio un error intente seleccionar la nomina de nuevo" + textStatus)
-                        //alert('Error occured: ' + textStatus);
-                    }
-
-                });
-
-
-
-            }
-        );
-
-
-        //Captura los cambios de la cuenta bancaria
-
-        const VerDetallesDeNominas = document.getElementById("VerDetallesDeNominas");
-        VerDetallesDeNominas.addEventListener("click",
-            function () {
-
-                MensajeCargando();
-
-                let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"'}";
-
-
-                $.ajax({
-                    url: '@Url.Action("EstanFoliadasTodasNominaPagomatico", "Foliar")',
-                    data: EnviarQuincenaPagomatico,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (response) {
-
-                        if (response.RespuestaServidor == "201") {
-                            $('#TablaEsFoliada').empty();
-                            DibujarTablaEsFoliada();
-                            PintarResultadoEsFoliada(response.DetalleTabla);
-                        } else if (response.RespuestaServidor == "500") {
-                            MensajeErrorSweet(response.Error);
-                        }
-
-
-
-                        OcultarMensajeCargando();
-
-                    }, error: function (jqXHR, textStatus) {
-                        MensajeErrorSweet("Ocurrio un error intente de nuevo " + textStatus)
-
-                    }
-                });
-
-            }
-        );
-
-
-
-
-
-        const Revisar = document.getElementById('Revisar');
-        Revisar.addEventListener('click', function () {
-           // console.log(checkboxNomina.checked);
-            //console.log(checkboxTodasNominas.checked);
-            ///console.log(nominaSeleccionadaFoliar);
-
-            document.getElementById('NombreNominaDelegacion').innerHTML = "Vista previa";
-
-
-            if (checkboxNomina.checked) {
-
-                //console.log(nominaSeleccionadaFoliar);
-
-                if (nominaSeleccionadaFoliar != null) {
-                    //Enviar datos al servidor x nomina
-                    //
-                    //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
-                    // con el pdf
-                    //peticion ajax
-                    // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
-                    // PintarTablaNominasFoliadas(nominasFoliadas);
-                    let EnviarRevicion = "{'IdNomina': '" + nominaSeleccionadaFoliar.value + "'}";
-
-                    MensajeCargando();
-                    $.ajax({
-                        url: '@Url.Action("RevisarPorIdNomina", "Foliar")',
-                        data: EnviarRevicion,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-
-                            //  alert(response);
-                            $("example").empty();
-                            PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionNomina" + nominaSeleccionadaFoliar.value + ".pdf", "#example");
-                            $('#ModalPDFVisualizador').modal('show');
-                            OcultarMensajeCargando();
-                        }
-                    });
-
-
-                } else {
-
-                    MensajeWarningSweet(`Elija un tipo de NOMINA y una CUENTA BANCARIA para continuar`)
-                }
-
-
-            } else if (checkboxTodasNominas.checked) {
-                //Enviar datos al servidor para la creacion de PDFs en la vista del usuario
-
-                MensajeCargando();
-
-                let EnviarQuincenaPagomatico = "{'NumeroQuincena': '" +@ViewBag.NumeroQuincena+"'}";
-
-
-                $.ajax({
-                    url: '@Url.Action("RevisarTodasNominas", "Foliar")',
-                    data: EnviarQuincenaPagomatico,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (response) {
-
-                        $("example").empty();
-                        PDFObject.embed("../Reportes/ReportesPDFSTemporales/RevicionGeneralNominas" +@ViewBag.NumeroQuincena+".pdf", "#example");
-                        $('#ModalPDFVisualizador').modal('show');
-                        OcultarMensajeCargando();
-
-                    }
-                });
-            } else
-            {
-                MensajeErrorSweet("Eliga una opcion")
-            }
-
-
-            });
-
-
-        /*************************************************************************************************/
-        /*************************************************************************************************/
-        /*************************************************************************************************/
-
-
-        const Foliar = document.getElementById('RealizarFoliacion');
-        Foliar.addEventListener('click', function () {
-           // console.log(checkboxNomina.checked);
-            //console.log(checkboxTodasNominas.checked);
-            ///console.log(nominaSeleccionadaFoliar);
-
-
-            if (checkboxNomina.checked || checkboxTodasNominas.checked) {
-
-
-                document.getElementById('NombreNominaDelegacion').innerHTML = "Vista previa";
-
-
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-
-                swalWithBootstrapButtons.fire({
-                    title: 'Estas seguro de querer foliar?',
-                    text: "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Si, continuar!',
-                    cancelButtonText: 'No, cancelar!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        if (checkboxNomina.checked) {
-
-                            //console.log(nominaSeleccionadaFoliar);
-
-                            if (nominaSeleccionadaFoliar != null) {
-                                //Enviar datos al servidor x nomina
-                                //
-                                //Crear pdf, ponerlo en una carpeta temporal y mostrarle un visualizador para que lo vea y decida que hacer
-                                // con el pdf
-                                //peticion ajax
-                                // nominasFoliadas.push(nominaSeleccionadaFoliar.value);
-                                // PintarTablaNominasFoliadas(nominasFoliadas);
-                                //IdNomina, string NumeroQuincena, int  IdBanco
-                                let EnviarRevicion = "{'IdNomina': '" + nominaSeleccionadaFoliar.value + "','NumeroQuincena': '" +@ViewBag.NumeroQuincena+"'}";
-
-                                MensajeCargando();
-                                $.ajax({
-                                    url: '@Url.Action("FoliarPorIdNominaPagomatico", "Foliar")',
-                                    data: EnviarRevicion,
-                                    type: "POST",
-                                    contentType: "application/json; charset=utf-8",
-                                    success: function (response) {
-
-                                        console.log(response);
-
-
-
-                                        $('#TablaDetalleNominas').empty();
-
-                                        DibujarTablaDetalleNominasFoleadas();
-
-                                        PintarResultadoNominasFoleadas(response);
-
-
-                                        $('#DetallesConNominasFoliadasPagomatico').modal('show');
-
-                                        MensajeCorrectoSweet("Se ha foliado la base correctamente ");
-                                        OcultarMensajeCargando();
-
-
-                                    }
-                                });
-
-
-                            } else {
-
-                                MensajeWarningSweet(`Elija un tipo de NOMINA y para continuar`)
-                            }
-
-
-                        }
-                        else if (checkboxTodasNominas.checked) {
-                            //Enviar datos al servidor para la creacion de PDFs en la vista del usuario
-
-                            MensajeCargando();
-
-                            let EnviarQuincenaPagomatico = "{'NumeroQuincena':'" +@ViewBag.NumeroQuincena+"'}";
-
-
-                            $.ajax({
-                                url: '@Url.Action("FoliarTodasNominas", "Foliar")',
-                                data: EnviarQuincenaPagomatico,
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (response) {
-                                    console.log(response)
-
-
-
-                                    $('#TablaDetalleNominas').empty();
-
-                                    DibujarTablaDetalleNominasFoleadas();
-                                    PintarResultadoNominasFoleadas(response);
-
-                                    $('#DetallesConNominasFoliadasPagomatico').modal('show');
-
-                                    OcultarMensajeCargando();
-
-                                }
-                            });
-                        }
-                        else {
-                            MensajeWarningSweet("Seleccione una opcion para continuar...");
-                        }
-
-
-
-
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelado con exito',
-                            'La base esta a salvo sin ninguna modificacion:)',
-                            'error'
-                        )
-                    }
-                });
-
-
-
-            }
-            else
-            {
-                MensajeWarningSweet("Seleccione una opcion para foliar...")
-            }
-
-
-        });
-
-
-
-
-
-
-    });
-
-
-</script>

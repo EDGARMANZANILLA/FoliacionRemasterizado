@@ -20,5 +20,7 @@ namespace DAP.Plantilla.Models.BuscardorChequeModels
         public decimal Liquido { get; set; }
         public string EstadoCheque { get; set; }
 
+        public string TipoPago { get; set; }
+
     }
 }

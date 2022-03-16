@@ -6,7 +6,10 @@ using System.Web.Mvc;
 using DAP.Foliacion.Entidades.DTO;
 using DAP.Plantilla.ObjetosExtras;
 using DAP.Plantilla.Models;
-
+using DAP.Plantilla.Models.ConfiguracionesModels.FormaPagosDesinhabilitarModels;
+using DAP.Foliacion.Negocios;
+using AutoMapper;
+using DAP.Foliacion.Entidades.DTO.ConfiguracionesDTO;
 
 namespace DAP.Plantilla.Controllers
 {
@@ -53,14 +56,14 @@ namespace DAP.Plantilla.Controllers
 
         public ActionResult CuentaBancaria_MostrarEdicionBanco()
         {
-            List<string> cuentasEncontradas = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerCuentasBancariasActivas();
+            Dictionary<int, string> cuentasEncontradas = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerCuentasBancariasActivas();
 
             return PartialView(cuentasEncontradas);
         }
 
         public ActionResult CuentaBancaria_EliminacionCuenta()
         {
-            List<string> cuentasEncontradas = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerCuentasBancariasActivas();
+            Dictionary<int, string> cuentasEncontradas = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerCuentasBancariasActivas();
 
             return PartialView(cuentasEncontradas);
         }
@@ -104,12 +107,21 @@ namespace DAP.Plantilla.Controllers
             ViewBag.CuentaBanco = cuentaEncontrada.Cuenta.Trim().ToUpper();
             ViewBag.IdInventario = cuentaEncontrada.IdInventario;
             
-
-
-
-
             return PartialView();
         }
+
+
+
+
+        public ActionResult FormasPagoExcepcionales_DesinhabilitarInhabilitados()
+        {
+            Dictionary<int,string> cuentasEncontradas = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerCuentasConchequeraActivas();
+
+            return PartialView(cuentasEncontradas);
+        }
+
+
+
         #endregion
 
 
@@ -196,9 +208,9 @@ namespace DAP.Plantilla.Controllers
         }
 
 
-        public ActionResult ObtenerInfoCuentaBancaria(string NumeroCuenta)
+        public ActionResult ObtenerInfoCuentaBancaria(int IdCuentaBancaria)
         {
-            var detalleCuentaObtenida = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerDetallesCuentaBancaria(NumeroCuenta);
+            var detalleCuentaObtenida = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.ObtenerDetallesCuentaBancaria(IdCuentaBancaria);
 
             CuentaBancariaModel detallesCuenta = new CuentaBancariaModel();
             detallesCuenta.Id = detalleCuentaObtenida.Id;
@@ -214,20 +226,17 @@ namespace DAP.Plantilla.Controllers
         }
 
 
-        public ActionResult EditarCuentaBancaria(int IdCuenta, string NumeroCuenta, string NombreCuenta, string Abreviatura, int TipoPago)
+        public ActionResult EditarCuentaBancaria( int IdCuentaBancaria, string NombreCuenta, string Abreviatura, int TipoPago)
         {
-           bool bandera = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.EditarCuentaBancariaActiva(IdCuenta, NumeroCuenta, NombreCuenta, Abreviatura, TipoPago);
-
+           bool bandera = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.EditarCuentaBancariaActiva( IdCuentaBancaria, NombreCuenta, Abreviatura, TipoPago);
 
             return Json(bandera, JsonRequestBehavior.AllowGet);
         }
 
 
-        public ActionResult EliminarCuentaBancaria(string NumeroCuenta)
+        public ActionResult EliminarCuentaBancaria(int IdCuentaBancaria)
         {
-            bool bandera = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.EliminarCuentaBancariaActiva(NumeroCuenta, ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
-
-
+            bool bandera = Foliacion.Negocios.Configuraciones_InventarioYCuentasNegocios.EliminarCuentaBancariaActiva(IdCuentaBancaria, ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
 
 
             return Json(bandera, JsonRequestBehavior.AllowGet);
@@ -248,6 +257,70 @@ namespace DAP.Plantilla.Controllers
 
             return Json(bandera, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult DesinhabilitarFoliosInhabiliados(int IdInventario, int FInicialInhabilitado, int FFinalInhabilitado)
+        {
+            var resultadoMapper = Mapper.Map<List<ResumenFoliosDesinhabilitarDTO>, List<DesinhabilitarFormasPagoVerificarModels>>(Configuraciones_InventarioYCuentasNegocios.verificarFoliosInhabiltadosEnInventarioDetalle(IdInventario, FInicialInhabilitado, FFinalInhabilitado));
+
+
+           if (resultadoMapper.Count() > 0)
+           {
+                return Json(new
+                {
+                    RespuestaServidor = 200,
+                    DatosObtenidos = resultadoMapper
+                });
+            }
+            else 
+            {
+
+                return Json(new
+                {
+                    RespuestaServidor = 500,
+                    MensajeError = "Ocurrio un error verifique que la quincena sea correcta"
+                });
+
+            }
+
+
+        }
+
+
+
+        //********** Guardar Desinhabilitacion Del usuario por cada uno de los folios de cheque *******************************/
+
+        public ActionResult DesinhabilitarFolioPorId(int IdDetalle, int IdContenedor , int Folio)
+        {
+            bool seDesInhabilito = Configuraciones_InventarioYCuentasNegocios.desInhabilitarFolo( IdDetalle,  IdContenedor, Folio);
+
+
+            if (seDesInhabilito )
+            {
+                return Json(new
+                {
+                    RespuestaServidor = 200,
+                    DatosObtenidos = seDesInhabilito
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    RespuestaServidor = 500,
+                    MensajeError = "Ocurrio un error intente de nuevo"
+                });
+            }
+     
+
+        }
+
+
+
+
+
+
+
 
         #endregion
 

@@ -1,0 +1,345 @@
+﻿@model List<DAP.Plantilla.Models.CrearReferencia_CanceladosModels.ReferenciaCanceladoModel>
+
+
+@{
+    ViewBag.Icono = "fas fa-folder-plus";
+    ViewBag.Title = "Crear Referencias de Cancelaciones";
+
+
+}
+
+
+
+
+<h3 class="text-center text-uppercase"> CREAR REFERENCIA DE CANCELACION </h3>
+
+
+
+<div class="margenSection row  ">
+
+    <div class="col-12 text-center ">
+        <input id="InputNumeroReferencia" placeholder="Ingrese el numero de referencia" class="inputCrearReferencia col-12 text-center" pattern=" 0+\.[0-9]*[1-9][0-9]*$" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required autofocus>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div class="col-12  text-center">
+        <button id="btnCrearReferenciaCancelados" class="btn btn-primary btn-lg"> <i class="fa fa-search" aria-hidden="true"></i> Crear</button>
+    </div>
+    <br />
+</div>
+
+
+<br />
+<br />
+<br />
+
+@if (Model.Count > 0)
+{
+
+    <div class="offset-2 col-8 text-center">
+
+
+        <div class="table-responsive text-center">
+
+            <div id="TablaRegistros_ReferenciasCancelados">
+
+                <table id="ReferenciasCancelados" class="table table-striped display table-bordered table-hover" cellspacing="0" style="width:100%; text-align:center;">
+                    <caption class="text-uppercase"> Referencias creadas en el año fiscal en curso </caption>
+                    <thead class="tabla">
+                        <tr class="text-center text-uppercase">
+
+                            <th class="col-1">Id</th>
+                            <th class="col-1">Anio</th>
+                            <th class="col-1"># Referencia</th>
+                            <th class="col-1">Fecha de Creacion</th>
+
+                            <th class="col-2">Creado por:</th>
+                            <th class="col-2">Formas dentro de Referencia</th>
+                            <th class="col-1">Activo</th>
+
+                            <th class="col-1"></th>
+
+                        </tr>
+
+
+                    </thead>
+
+                    <tbody>
+
+
+
+                        @foreach (var modelo in Model)
+                        {
+                            <tr>
+
+                                <td>@modelo.Id_Iterador</td>
+                                <td>@modelo.Anio</td>
+                                <td>@modelo.Numero_Referencia</td>
+                                <td>@modelo.Fecha_Creacion</td>
+                                <td>@modelo.Creado_Por</td>
+                                <td>@modelo.FormasPagoCargadas</td>
+                                <td>@modelo.Activo</td>
+
+                                @if (@modelo.Activo)
+                                {
+                                    <th>
+                                        <button type="button" class=" btn btn-danger" onclick="EliminarNumeroReferencia(@modelo.Id, @modelo.Numero_Referencia, @modelo.Anio)">Eliminar </button>
+                                    </th>
+                                }
+
+
+                            </tr>
+
+
+                        }
+
+
+                    </tbody>
+
+
+
+                </table>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+}
+
+
+
+<style>
+
+    .inputCrearReferencia {
+        width: 350px;
+        height: 55px;
+        background: #f8f8f86b;
+        border: 2px solid;
+        border-color: #4d4b4b;
+        font-size: 14pt;
+        -webkit-border-radius: .1px;
+        -moz-border-radius: .1px;
+        border-radius: 8px;
+    }
+
+
+    input:focus {
+        border: 6px solid;
+        border-color: #1e77fd;
+        color: #1e77fd;
+    }
+</style>
+
+
+
+
+<script>
+
+
+    function EliminarNumeroReferencia(IdRegistroAInactivar, NumeroReferencia, Anio) {
+
+
+
+
+        Swal.fire({
+            title: '¿DESEA ELIMINAR LA REFERENCIA # ' + NumeroReferencia + ' DEL AÑO ' + Anio + ' ?',
+            text: "¡Si elimina una referencia todas las formas de pago cargadas a esta misma, se saldran de la referencia y tendria que volverlas a cargar una a una!",
+            icon: 'warning',
+
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#17a2b8',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: `Cancelar `
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+
+
+
+
+
+                Swal.fire({
+                    title: '¿ESTA SEGURO DE ELIMINAR LA REFERENCIA?',
+                    text: "¡Se guardara un registro de este movimiento y podria no revertirse!",
+                    icon: 'warning',
+
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#17a2b8',
+                    confirmButtonText: 'Eliminar Referencia',
+                    cancelButtonText: `Cancelar `
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+
+
+                        MensajeCargando();
+
+                        let eliminarIdReferencia = "{'Eliminar_IdReferenciaCancelacion':'"+IdRegistroAInactivar+"'}";
+
+                        $.ajax({
+                            url: 'CrearReferencia_Cancelados/InactivarReferenciaCancelado',
+                            data: eliminarIdReferencia,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+
+                                MensajeCorrectoConRecargaPagina("Se a eliminado exitosamente la referencia #" + NumeroReferencia + " seleccionada y se han revocado " + response + " registros cargados dentro de la referencia");
+
+                                OcultarMensajeCargando();
+
+                            }, error: function (jqXHR, textStatus) {
+                                MensajeErrorSweet("Ocurrio un error intente de nuevo " + textStatus)
+                                OcultarMensajeCargando();
+                            }
+                        });
+
+
+
+                    } else if (result.dismiss) {
+                        MensajeInformacionSweet("No se realizara ningún cambio");
+
+                    }
+
+
+
+                })
+
+
+
+
+
+            } else if (result.dismiss) {
+                MensajeInformacionSweet("No se realizara ningún cambio");
+
+            }
+
+
+
+        })
+
+
+
+
+    }
+
+
+
+
+    $(document).ready(function () {
+
+
+        document.getElementById("InputNumeroReferencia").focus();
+
+        let datoObtenidoDel_InputNumeroReferencia = '';
+        const CrearReferencia = document.getElementById("btnCrearReferenciaCancelados");
+        CrearReferencia.addEventListener("click",
+            function () {
+
+                datoObtenidoDel_InputNumeroReferencia = document.getElementById("InputNumeroReferencia").value;
+
+
+                if (datoObtenidoDel_InputNumeroReferencia != '') {
+
+
+
+
+
+                    Swal.fire({
+                        title: '¿Seguro que desea crear la referencia numero ' + datoObtenidoDel_InputNumeroReferencia + ' del año en curso ?',
+                        text: "¡Se guardara un registro de este movimiento y podria no revertirse!",
+                        icon: 'warning',
+
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#17a2b8',
+                        confirmButtonText: 'Crear Referencia',
+                        cancelButtonText: `Cancelar `
+
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+
+
+                            MensajeCargando();
+
+                            //let BuscarElementoSeleccionado = "{'BuscarElemento_id': '"+datoSeleccionadoSelect2.id+"', 'BuscarElemento_text': '"+datoSeleccionadoSelect2.text+"'}";
+                            let crearReferenciaCancelacion = "{'NuevoNumeroReferencia':'" + datoObtenidoDel_InputNumeroReferencia + "'}";
+
+
+
+                            $.ajax({
+                                url: 'CrearReferencia_Cancelados/CrearReferenciaCancelado',
+                                data: crearReferenciaCancelacion,
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (response) {
+
+                                    if (response) {
+                                        MensajeCorrectoConRecargaPagina("Se a creado exitosamente la nueva referencia");
+                                    }
+                                    else {
+                                        MensajeErrorSweet("Cambie el numero de referencia, ya que se repite con otro activo", "No se puede crear un numero de referencia repetida en un mismo año")
+                                    }
+
+
+                                    OcultarMensajeCargando();
+
+                                }, error: function (jqXHR, textStatus) {
+                                    MensajeErrorSweet("Ocurrio un error intente de nuevo " + textStatus)
+                                    OcultarMensajeCargando();
+                                }
+                            });
+
+
+
+                        }
+                    })
+
+
+
+
+                }
+                else {
+                    MensajeErrorSweet("Ingrese un numero", "No se ingreso ninguna dato");
+                }
+
+
+
+
+
+
+
+            }
+        );
+
+
+    });
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -219,3 +219,84 @@ function MensajeCorrectoSweet(Texto)
 
 }
 
+
+
+
+function MensajeCorrectoConRecargaPagina(Texto)
+{
+
+    Swal.fire({
+     
+        title: '',
+        text: Texto,
+        icon: 'success',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK',
+        footer: '<a href="#">Contactar al desarrollador?</a>'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.reload(); 
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function MensajeInformacionSweet(Titulo, Texto)
+{
+    Swal.fire({
+        backdrop: true,
+        allowEnterKey: true,
+        allowOutsideClick: true,
+        allowEscapeKey: true,
+        icon: 'info',
+        title: Titulo,
+        text: Texto,
+        footer: '<a href="#">Contactar al desarrollador?</a>'
+    });
+
+}
+
+
+
+function MensajeGuardar_NoGuardar_Cancelar( TextoAguardar , ConfirmacionDeGuardado , ConfirmacionDeNoSeraGuardado )
+{
+    Swal.fire({
+        title: TextoAguardar/*'Do you want to save the changes?'*/,
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+
+
+
+
+
+
+
+
+            MensajeCorrectoSweet(ConfirmacionDeGuardado);
+            /*Swal.fire('Saved!', '', 'success')*/
+        } else if (result.isDenied) {
+
+            MensajeInformacionSweet(ConfirmacionDeNoSeraGuardado)
+           /* Swal.fire('Changes are not saved', '', 'info')*/
+        }
+    })
+
+}

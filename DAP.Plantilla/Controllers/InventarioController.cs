@@ -29,6 +29,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
                 InventarioModel NuevoBanco = new InventarioModel();
 
               
+                NuevoBanco.IdCuentaBancaria = inventarioBanco.Id;
                 NuevoBanco.NombreBanco = inventarioBanco.NombreBanco;
                 NuevoBanco.Cuenta = inventarioBanco.Cuenta;
                 NuevoBanco.FormasDisponibles = inventarioBanco.Tbl_Inventario.FormasDisponibles;
@@ -45,146 +46,94 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
-        public ActionResult Agregar(string NombreBanco)
+        public ActionResult Solicitar()
         {
 
-            ViewBag.NombreBancoSeleccionado = NombreBanco;
+
+            return View(Negocios.InventarioNegocios.ObtenerBancosConChequera());
+        }
+
+
+        public ActionResult Agregar(int IdCuentaBancaria)
+        {
+            ViewBag.NombreBancoSeleccionado = Negocios.InventarioNegocios.ObtenerNombreBanco(IdCuentaBancaria);
+
+            ViewBag.IdBancoSeleccionado = IdCuentaBancaria;
 
             return View();
         }
 
 
-
-        public ActionResult Incidencias(string NombreBanco) 
+        public ActionResult Incidencias(int IdCuentaBancaria) 
         {
-            ViewBag.NombreBancoSeleccionado = NombreBanco;
+            ViewBag.NombreBancoSeleccionado = Negocios.InventarioNegocios.ObtenerNombreBanco(IdCuentaBancaria);
+
+            ViewBag.IdBancoSeleccionado = IdCuentaBancaria;
 
             return View();
         }
-
-
-        public ActionResult DetalleBanco(string NombreBanco)
+        public ActionResult Inhabilitar(int IdCuentaBancaria)
         {
+            //  ViewBag.NombreBanco = NombreBanco;
 
-            ViewBag.NombreBancoSeleccionado = NombreBanco;
+            ViewBag.NombreBancoSeleccionado = Negocios.InventarioNegocios.ObtenerNombreBanco(IdCuentaBancaria);
 
-            ViewBag.NumeroCuentaBanco = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
-
-             int IdInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
-            ViewBag.IdInventario = IdInventario;
+            ViewBag.IdBancoSeleccionado = IdCuentaBancaria;
 
 
-           var detallesObtenidos = Negocios.InventarioNegocios.obtenerDetallesTabla(IdInventario).ToList();
 
-            List<DetalleBancoModel> listaDetalle = new List<DetalleBancoModel>();
-
-            foreach (var detalle in detallesObtenidos)
-            {
-                DetalleBancoModel nuevoDetalle = new DetalleBancoModel();
-
-                nuevoDetalle.NumeroOrden = detalle.Tbl_InventarioContenedores.NumOrden;
-                nuevoDetalle.NumeroContenedor = detalle.Tbl_InventarioContenedores.NumContenedor;
-                nuevoDetalle.NumeroFolio = detalle.NumFolio;
-
-                if (detalle.IdIncidencia != null)
-                    nuevoDetalle.Incidencia = detalle.Tbl_InventarioTipoIncidencia.Descrip_Incidencia;
-
-                if(detalle.IdEmpleado != null)
-                nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
-
-                if (detalle.FechaIncidencia != null)
-                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia.ToString();
-
-                listaDetalle.Add(nuevoDetalle);
-            }
+            /*Pendiente*/
+            ViewBag.OrdenesEncontradas = Negocios.InventarioNegocios.ObtenerNumeroOrdenesBancoActivo(1);
 
 
-            return View(listaDetalle);
+            return View();
         }
-
-
-        public ActionResult Asignar(string NombreBanco)
+        public ActionResult Asignar(int IdCuentaBancaria)
         {
+            ViewBag.NombreBancoSeleccionado = Negocios.InventarioNegocios.ObtenerNombreBanco(IdCuentaBancaria);
 
-            ViewBag.NombreBanco = NombreBanco;
+            ViewBag.IdBancoSeleccionado = IdCuentaBancaria;
 
 
-           // int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
-
-            string numeroCuenta = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
-
-            int idInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
-
-            ViewBag.NumeroCuentaBanco = numeroCuenta;
-            ViewBag.IdInventario = idInventario;
+            int idInventario = InventarioNegocios.ObtenerIdInventarioPorIdCuentaBancaria(IdCuentaBancaria);
 
             ViewBag.OrdenesEncontradas = Negocios.InventarioNegocios.ObtenerNumeroOrdenesBancoActivo(idInventario);
 
 
             ViewBag.ListaNombrePersonal = Negocios.InventarioNegocios.ObtenerPersonalActivo();
 
-            
-
-
             return View();
         }
 
 
-        public ActionResult Solicitar()
+
+
+        public ActionResult DetalleBanco(int IdCuentaBancaria)
         {
-            //pasar nombre de bancos activos
-            List<string> nombresBancos = new List<string>();
 
-            var bancosActivos = Negocios.InventarioNegocios.ObtenerBancosConChequera();
-            int numeroBancos = 0;
-            foreach (var banco in bancosActivos)
-            {
-                numeroBancos += 1;
-                nombresBancos.Add(banco.NombreBanco);
-            }
+            ViewBag.NombreBancoSeleccionado = Negocios.InventarioNegocios.ObtenerNombreBanco(IdCuentaBancaria);
 
-            ViewBag.NumeroBancos = numeroBancos;
-            ViewBag.ListaNombreBancos = nombresBancos;
+            ViewBag.IdBancoSeleccionado = IdCuentaBancaria;
 
 
+            int idInventario = InventarioNegocios.ObtenerIdInventarioPorIdCuentaBancaria(IdCuentaBancaria);
+            ViewBag.IdInventario = idInventario;
 
-            return View();
+            Session["IdCuentaBancaria"] = null;
+
+            Session["IdCuentaBancaria"] = IdCuentaBancaria;
+
+       
+            return View(/*listaDetalle*/);
         }
+
 
         
-        public ActionResult Inhabilitados()
-        {
-            //pasar nombre de bancos activos
-            //List<string> nombresBancos = new List<string>();
-
-            //var bancosActivos = Negocios.InventarioNegocios.ObtenerBancos();
-
-            //foreach (var banco in bancosActivos)
-            //{
-            //    string nuevoBanco;
-
-            //    int idNuevoBanco;
-
-            //    idNuevoBanco = banco.IdCuentaBancaria;
-
-            //    string Nuevobanco = Negocios.InventarioNegocios.ObtenerNombreBancoXId(idNuevoBanco);
-
-
-            //    nombresBancos.Add(Nuevobanco);
-
-
-            //}
-
-
-            //ViewBag.ListaNombreBancos = nombresBancos;
-
-            return View();
-        }
-
+      
         public ActionResult Ajustar(string NombreBanco)
         {
 
-            ViewBag.NombreBanco = NombreBanco;
+            ViewBag.NombreBanco = "SANTANDER";
 
 
             // int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
@@ -204,25 +153,6 @@ namespace DAP.Foliacion.Plantilla.Controllers
             return View();
         }
 
-        public ActionResult Inhabilitar(string NombreBanco)
-        {
-            ViewBag.NombreBanco = NombreBanco;
-
-
-            //int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
-
-            ViewBag.NumeroCuentaBanco = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
-
-            ViewBag.IdInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
-
-           
-
-
-            ViewBag.OrdenesEncontradas = Negocios.InventarioNegocios.ObtenerNumeroOrdenesBancoActivo(ViewBag.IdInventario);
-
-
-            return View();
-        }
 
 
       
@@ -231,30 +161,23 @@ namespace DAP.Foliacion.Plantilla.Controllers
         //metodos por post
         [HttpPost]
 
-        //Metodo Para Agregar contenedores 
-        //Revisado
-        public JsonResult GuardarInventarioAgregado(List<AgregarInventarioModel> listaContenedores, string NumOrden, string banco)
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /*********************************************************                Agregar              ******************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        public JsonResult GuardarInventarioAgregado(List<AgregarInventarioModel> listaContenedores, string NumOrden, int IdBanco)
         {
             bool bandera = false;
-
-           // var contenedores = listaDeContenedores;
             try
             {
-                //int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(banco);
-
-             //   string fechaExterna = Convert.ToString(ObtenerFechaServerGoogle());
-               
-
-
-                int idInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(banco);
 
                 foreach (AgregarInventarioModel nuevoContenedor in listaContenedores.OrderBy( x => x.iteradorContenedor)) 
                 {
-                    bandera = Negocios.InventarioNegocios.GuardarInventarioContenedores(idInventario, NumOrden, nuevoContenedor.iteradorContenedor, nuevoContenedor.folioInicial, nuevoContenedor.folioFinal, nuevoContenedor.TotalFormas, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
+                    bandera = Negocios.InventarioNegocios.GuardarInventarioContenedores( IdBanco, NumOrden, nuevoContenedor.iteradorContenedor, nuevoContenedor.folioInicial, nuevoContenedor.folioFinal, nuevoContenedor.TotalFormas, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
                 }
 
-
-              }
+            }
             catch (Exception e)
             {
                 bandera = false;
@@ -265,44 +188,119 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
+
+    
+
+
+        ////Metodos para Solicitar Formas de pago para uno o mas de un banco
+        //public JsonResult ObtenerCuentaBancaria(string BancoSeleccionado) 
+        //{
+        //    return Json(Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(BancoSeleccionado), JsonRequestBehavior.AllowGet);
+        //}
+
+
+
+
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************              Ver tablaDetalles para Inhabilitados y Asignados           ***********************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
         //Metodo Para crear tablas de Info de la tabla Inventariocontenedores
-        public ActionResult CrearTablaInhabilitadosOAsignacion(string NombreBanco)
+        public ActionResult CrearTablaInhabilitadosOAsignacion(int IdCuentaBancaria)
         {
-            //int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
-
-            //int IdInventarioBanco = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
-
-            var contenedoresEncontrados = Negocios.InventarioNegocios.ObtenerInfoContendoresPorBanco(NombreBanco);
-
-
-          
-
+            var contenedoresEncontrados = Negocios.InventarioNegocios.ObtenerInfoContendoresPorBanco(IdCuentaBancaria).ToList();
 
             return Json(contenedoresEncontrados, JsonRequestBehavior.AllowGet);
         }
 
 
-        //Metodo para Obtener Numeros de orden de la tabla InventarioContenedores funciona para Inhabilitar o Asignar por contenedor 
-        public JsonResult ObtenerNumerosContenedores(int IdInventario, string OrdenSeleccionada)
-        {
-            List<string> numeroDeContenedores = new List<string>();
-            var contenedoresEncontrados = InventarioNegocios.ObtenerContenedoresActivosPorIdInventario(IdInventario, OrdenSeleccionada);
 
-            foreach (var contenedor in contenedoresEncontrados)
+
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************              Verificacion de folios para Inhabilitar y Asignar          ***********************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+
+        //Metodos para verificar disponibilidad de folios para poder saber si se puede inhabilitar o Asignar PD: se utiliza tambien en configuraciones para 
+        //las cuentas bancarias que alguna vez tuvieron cheques pero ahora solo se paga con tarjetas
+        public JsonResult VerificarDisponibilidadFolios(int IdCuentaBancaria, int FolioInicial, int FolioFinal  /*int IdInventario,string FolioInicial, string FolioFinal*/)
+        {
+            var prueba = Negocios.InventarioNegocios.ValidarFoliosFormasPago(IdCuentaBancaria, FolioInicial, FolioFinal);
+
+            return Json(prueba, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult VerificarDisponibilidadContenedor(int IdContenedor)
+        {
+            List<InventarioValidaFoliosDTO> foliosNoDisponiblesContenedor = Negocios.InventarioNegocios.ValidarFoliosPorContenedor(IdContenedor);
+
+            if (foliosNoDisponiblesContenedor.Count() > 0)
             {
-                numeroDeContenedores.Add(Convert.ToString(contenedor.NumContenedor));
+                return Json(new
+                {
+                    bandera = true,
+                    TotalFoliosNoDisponibles = foliosNoDisponiblesContenedor
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    bandera = false
+                });
             }
 
+        }
 
-            if (numeroDeContenedores.Count < 1 || numeroDeContenedores == null)
+
+        //Metodo para Obtener Numeros de orden de la tabla InventarioContenedores funciona para Inhabilitar o Asignar por contenedor 
+        public JsonResult ObtenerNumerosContenedores(int IdBanco, string OrdenSeleccionada)
+        {
+            List<InventarioClaveValorGenericaModel> numeroDeContenedores = new List<InventarioClaveValorGenericaModel>();
+
+            // Dictionary<string, string> numeroDeContenedores = new Dictionary<string, string>();
+
+            int idInventario = InventarioNegocios.ObtenerIdInventarioPorIdCuentaBancaria(IdBanco);
+
+
+            var contenedoresEncontrados = InventarioNegocios.ObtenerContenedoresActivosPorIdInventario(idInventario, OrdenSeleccionada);
+
+
+            if (contenedoresEncontrados.Count < 1 || numeroDeContenedores == null)
             {
-                numeroDeContenedores.Add("Error al Obtener los contenedores, INTENTELO DE NUEVO");
+                numeroDeContenedores = null;
+            }
+            else
+            {
+
+                foreach (var contenedor in contenedoresEncontrados)
+                {
+                    InventarioClaveValorGenericaModel nuevoContenedorEncontrado = new InventarioClaveValorGenericaModel();
+                    nuevoContenedorEncontrado.Llave = contenedor.Id;
+                    nuevoContenedorEncontrado.Valor = Convert.ToString(contenedor.NumContenedor);
+                    numeroDeContenedores.Add(nuevoContenedorEncontrado);
+                }
+
             }
 
             return Json(numeroDeContenedores, JsonRequestBehavior.AllowGet);
         }
 
 
+
+
+
+
+
+
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************              Inhabilitar             ************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
 
         //Metodo para Obtener Los numeros de folios del contenedor seleccionado de la tabla InventarioContenedores funciona para Inhabilitar  o Asignar por contenedor 
         public JsonResult ObtenerFoliosDelContenedor(int IdInventario, string OrdenSeleccionada, int ContenedorSeleccionado)
@@ -320,257 +318,166 @@ namespace DAP.Foliacion.Plantilla.Controllers
             return Json(foliosContenedor, JsonRequestBehavior.AllowGet);
         }
 
-
-
-        #region
-
-        ////// //Metodos de Inhabilitados
-        //public JsonResult ObtenerNumerosContenedores(string banco,string OrdenSeleccionada)
-        //{
-        //    bool bandera = false;
-
-        //    List<int> NumeroDeContenedores = new List<int>();
-
-        //    int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(banco);
-
-        //    var contenedoresEncontrados = InventarioNegocios.ObtenerContenedoresActivosPorNumeroOrden(idBanco, OrdenSeleccionada);
-
-
-        //    foreach (var contenedor in contenedoresEncontrados) 
-        //    {
-        //        int nuevoContenedor = contenedor.NumContenedor;
-
-        //        NumeroDeContenedores.Add(nuevoContenedor);
-        //    }
-
-
-        //    return Json(NumeroDeContenedores, JsonRequestBehavior.AllowGet);
-        //}
-
-
-
-
-
-        //public JsonResult GuardarInhabilitaciones(int idInventarioDetalle, string banco, string cuenta, string OrdenSeleccionada, int ContenedorSeleccionado, string FolioInicial, string FolioFinal) 
-        //{
-        //    bool bandera= false;
-
-        //    int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(banco);
-
-
-
-        //     var inventarioAgregado = Negocios.InventarioNegocios.AgregarFoliosInhabilitados(idInventarioDetalle,idBanco, cuenta, OrdenSeleccionada, ContenedorSeleccionado, FolioInicial, FolioFinal );
-
-        //    if (inventarioAgregado.Id > 0)
-        //        bandera = true;
-
-
-
-
-        //    return Json(bandera, JsonRequestBehavior.AllowGet);
-        //}
-
-
-        //////Metodo para Ajustar puede recibir 1, 2, o 3 parametros segun el caso
-        //public JsonResult ObtenerNumerosOrden(string BancoSeleccionado, string OrdenSeleccionado, string ContenedorSeleccionado)
-        //{
-        //    int caso = 0;
-        //    int idBanco;
-        //    List<string> listaTemporal = new List<string>();
-
-        //    if (OrdenSeleccionado == null) 
-        //        caso = 1;
-
-
-        //    if (BancoSeleccionado != null && OrdenSeleccionado != null && ContenedorSeleccionado == null)
-        //        caso = 2;
-
-        //    if (BancoSeleccionado != null && OrdenSeleccionado != null && ContenedorSeleccionado != null)
-        //        caso = 3;
-
-        //    idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(BancoSeleccionado);
-        //    switch (caso)
-        //    {
-        //        case 1:
-        //            //devuelve el numero de ordenes activas por el banco
-
-
-        //            listaTemporal = Negocios.InventarioNegocios.ObtenerNumeroOrdenesBancoActivo(idBanco);
-        //            return Json(listaTemporal, JsonRequestBehavior.AllowGet);
-        //            break;
-        //        case 2:
-        //            //devulve el numero de contenedores por el numero de orden anteriormente obtenido y filtrado en la vista
-
-        //            var contenedoresEncontrados = Negocios.InventarioNegocios.ObtenerContenedoresActivosPorNumeroOrden(idBanco, OrdenSeleccionado);
-        //            foreach (var contenedor in contenedoresEncontrados)
-        //            {
-        //                listaTemporal.Add(Convert.ToString(contenedor.NumContenedor));
-        //            }
-
-
-        //            return Json(listaTemporal, JsonRequestBehavior.AllowGet);
-        //            break;
-        //        case 3:
-        //            //devulve los folios tanto inicial como el final de acuerdo con el contenedor filtrado
-
-        //            var FoliosEncontrados = Negocios.InventarioNegocios.ObtenerFoliosPorContenedor(idBanco, OrdenSeleccionado, Convert.ToInt32(ContenedorSeleccionado));
-        //            listaTemporal.Add(Convert.ToString( FoliosEncontrados.Id));
-        //            listaTemporal.Add(Convert.ToString((Convert.ToInt32(FoliosEncontrados.FolioFinal) - FoliosEncontrados.FormasDisponiblesActuales) + 1));
-        //            listaTemporal.Add(FoliosEncontrados.FolioFinal);
-
-        //            return Json(listaTemporal, JsonRequestBehavior.AllowGet);
-        //            break;
-
-        //    }
-        //    // int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(BancoSeleccionado);
-
-        //    // List<string> listaTemporal = Negocios.InventarioNegocios.ObtenerNumeroOrdenesBancoActivo(idBanco);
-
-        //    return Json(listaTemporal, JsonRequestBehavior.AllowGet);
-        //}
-
-
-        //public JsonResult GuardarAjuste(int IdContenedor, string PersonalSeleccionado, string FolioInicial,string FolioFinal, int TotalFormasAsignadas)
-        //{
-        //    bool bandera = false;
-
-
-        //    bandera =  Negocios.InventarioNegocios.AgregarNuevaAsignacion(IdContenedor, PersonalSeleccionado, FolioInicial, FolioFinal, TotalFormasAsignadas);
-
-        //    return Json(bandera, JsonRequestBehavior.AllowGet);
-        //}
-        #endregion
-
-
-
-        //Metodos para Solicitar Formas de pago para uno o mas de un banco
-        public JsonResult ObtenerCuentaBancaria(string BancoSeleccionado) 
+     
+        public JsonResult InhabilitarRango(int IdCuentaBancaria, int FolioInicial, int FolioFinal  )
         {
-          // bool bandera = false;
+            return Json(Negocios.InventarioNegocios.InhabilitarRangoFolios(IdCuentaBancaria, FolioInicial, FolioFinal), JsonRequestBehavior.AllowGet);
+        }
 
+        
 
-            string cuentaBancaria = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(BancoSeleccionado);
-          
-
-            return Json(cuentaBancaria, JsonRequestBehavior.AllowGet);
+        public JsonResult InhabilitarContenedor(int IdContenedor)
+        {
+            return Json(Negocios.InventarioNegocios.InhabilitarContenedor(IdContenedor), JsonRequestBehavior.AllowGet);
         }
 
 
 
 
-        //Metodos para verificar disponibilidad de folios para poder saber si se puede inhabilitar o Asignar PD: se utiliza tambien en configuraciones para 
-        //las cuentas bancarias que alguna vez tuvieron cheques pero ahora solo se paga con tarjetas
-        public JsonResult VerificarDisponibilidadFolios(int IdInventario,string FolioInicial, string FolioFinal) 
-        {
-            List<String> foliosNoDisponibles = Negocios.InventarioNegocios.ValidarFoliosDisponibles(IdInventario, Convert.ToInt32(FolioInicial.Trim()), Convert.ToInt32( FolioFinal.Trim()));
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /******************************************************              Asignar           *************************************************************************************/
+        /****************************************************************************************************************************************************************************/
+        /****************************************************************************************************************************************************************************/
 
-            return Json(foliosNoDisponibles, JsonRequestBehavior.AllowGet);
+        public JsonResult AsignarRango(int IdPersonal,  int IdCuentaBancaria, int FolioInicial, int FolioFinal)
+        {
+            return Json(Negocios.InventarioNegocios.AsignarRangoFolios(IdPersonal,IdCuentaBancaria, FolioInicial, FolioFinal), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult AsignarContenedor(int IdPersonal,  int IdContenedor)
+        {
+            return Json(Negocios.InventarioNegocios.AsignarContenedor( IdPersonal, IdContenedor), JsonRequestBehavior.AllowGet);
         }
 
 
 
 
-        public JsonResult VerificarDisponibilidadContenedor(int IdContenedor, string FolioInicial, string FolioFinal) 
+
+
+
+
+
+        /*************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /*************************************************************          DetalleBanco         **************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+
+        //Carga de datos al datatable por medio de httpRequest: POST (De esa manera data table nos envia su info como draw, start)
+   
+        public JsonResult Paginar_CargarDetalleBanco() 
         {
-            List<string> foliosNoDisponiblesContenedor = Negocios.InventarioNegocios.ValidarFoliosPorContenedor(IdContenedor,Convert.ToInt32( FolioInicial), Convert.ToInt32( FolioFinal));
+            int IdCuentaBancaria = (int)Session["IdCuentaBancaria"];
+            int idInventario = InventarioNegocios.ObtenerIdInventarioPorIdCuentaBancaria(IdCuentaBancaria);
+
+
+            //logistica datatable
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+        //    string sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            string searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
            
-            return Json(foliosNoDisponiblesContenedor, JsonRequestBehavior.AllowGet);
-        }
+             int pageSize, skip, recordsTotal;
+
+            pageSize = length != null ? Convert.ToInt32(length) : 0;
+            skip = start != null ? Convert.ToInt32(start) : 0;
+            recordsTotal = 0;
+
+
+            var queryable_Tbl_InventarioDetalle = Negocios.InventarioNegocios.Obtener_TodosLosDetallesCargarDetalleBanco(idInventario);
+            recordsTotal = queryable_Tbl_InventarioDetalle.Count();
 
 
 
 
-        public JsonResult CrearIncidencias(int IdInventario, string FolioInicial, string FolioFinal, int IdIncidencia, string NombreEmpleado) 
-        {//si el NombreEmpleado es null es por que es una inhabilitacion y no se necesita
-            int IdEmpleado = 0;
-            if (NombreEmpleado != null) 
-            {
-                IdEmpleado = Negocios.InventarioNegocios.ObtenerIdPersonal(NombreEmpleado);
-            }
-
-           
-            //string  fechaServerExterno =  Convert.ToString(ObtenerFechaServerGoogle());
-
-           // DateTime A = Convert.ToDateTime(fechaServerExterno);
-
-
-
-            List<string>foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFolios( IdInventario, Convert.ToInt32(FolioInicial), Convert.ToInt32( FolioFinal), IdIncidencia, IdEmpleado, DAP.Plantilla.ObjetosExtras.ObtenerHoraReal.ObtenerDateTimeFechaReal());
-
-            return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult CrearIncidenciasContenedor(int IdInventario, string NumeroOrden, int IdContenedor, string FolioInicial, string FolioFinal, int IdIncidencia, string NombreEmpleado)
-        {//si el NombreEmpleado es null es por que es una inhabilitacion y no se necesita
-            int IdEmpleado = 0;
-            if (NombreEmpleado != null)
-            {
-                IdEmpleado = Negocios.InventarioNegocios.ObtenerIdPersonal(NombreEmpleado);
-            }
-
-
-            List<string> foliosConProblemas = Negocios.InventarioNegocios.CrearIncidenciasFoliosContenedor(IdInventario, NumeroOrden, IdContenedor,Convert.ToInt32( FolioInicial), Convert.ToInt32( FolioFinal ), IdIncidencia, IdEmpleado);
-
-            return Json(foliosConProblemas, JsonRequestBehavior.AllowGet);
-        }
-
-
-
-
-
-        //crear tabla del detalle banco 
-        public JsonResult CargarDetalleBanco(int IdInventario) 
-        {
-            var detallesObtenidos = Negocios.InventarioNegocios.obtenerDetallesTabla(IdInventario);
 
             List<DetalleBancoModel> listaDetalle = new List<DetalleBancoModel>();
 
-            foreach (var detalle  in detallesObtenidos) 
+
+            //Filtra una busqueda por el numero de Folio
+            if (searchValue != "")
             {
-                DetalleBancoModel nuevoDetalle = new DetalleBancoModel();
+                try
+                {
+                    int buscarFolio = Convert.ToInt32(searchValue);
 
-                nuevoDetalle.NumeroOrden = detalle.Tbl_InventarioContenedores.NumOrden;
-                nuevoDetalle.NumeroContenedor = detalle.Tbl_InventarioContenedores.NumContenedor;
-                nuevoDetalle.NumeroFolio = detalle.NumFolio;
+                    queryable_Tbl_InventarioDetalle = queryable_Tbl_InventarioDetalle.Where(d => d.NumFolio == buscarFolio);
+                }
+                catch (Exception E) 
+                {
 
-                if (detalle.IdIncidencia != null)
-                    nuevoDetalle.Incidencia = detalle.Tbl_InventarioTipoIncidencia.Descrip_Incidencia;
+                    return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = listaDetalle });
+                }
 
-                if (detalle.IdEmpleado != null)
-                    nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
-
-                if (detalle.FechaIncidencia != null)
-                    nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia?.ToString("dd/MM/yyyy");
-
-                listaDetalle.Add(nuevoDetalle);
             }
 
 
-            return Json(listaDetalle, JsonRequestBehavior.AllowGet);
+
+
+            var listaDetalleFiltrada = queryable_Tbl_InventarioDetalle.OrderBy(x => x.NumFolio).Skip(skip).Take(pageSize).ToList();
+
+
+
+
+                foreach (var detalle in listaDetalleFiltrada)
+                {
+                    DetalleBancoModel nuevoDetalle = new DetalleBancoModel();
+
+                    nuevoDetalle.NumeroOrden = detalle.Tbl_InventarioContenedores.NumOrden;
+                    nuevoDetalle.NumeroContenedor = detalle.Tbl_InventarioContenedores.NumContenedor;
+                    nuevoDetalle.NumeroFolio = detalle.NumFolio;
+
+                    if (detalle.IdIncidencia != null)
+                        nuevoDetalle.Incidencia = detalle.Tbl_InventarioTipoIncidencia.Descrip_Incidencia;
+
+                    if (detalle.IdEmpleado != null)
+                        nuevoDetalle.NombreEmpleado = detalle.Tbl_InventarioAsignacionPersonal.NombrePersonal;
+
+                    if (detalle.FechaIncidencia != null)
+                        nuevoDetalle.FechaIncidencia = detalle.FechaIncidencia?.ToString("dd/MM/yyyy");
+
+                    listaDetalle.Add(nuevoDetalle);
+                }
+          
+
+            return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = listaDetalle });
+
         }
 
 
+
+
+
+
+        /*************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /*************************************************************            Solicitar             **************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+
         //crea y Guarda la solicitud en la base de datos 
-        public ActionResult CrearNuevaSolicitud(List<SolicitudCreadaDTO> listaBancosSolicitados) 
+        public ActionResult CrearNuevaSolicitud(List<SolicitudCreadaDTO> listaBancosSolicitados)
         {
-            bool bandera= false;
-            Session["ListaBancosSolicitados"] = null;
-            Session["NumeroMemo"] = null;
+            bool bandera = false;
+            //Session["ListaBancosSolicitados"] = null;
+            //Session["NumeroMemo"] = null;
 
             int numMemoDevuelto = Negocios.InventarioNegocios.GuardarSolicitudCreada(listaBancosSolicitados);
 
 
             if (numMemoDevuelto > 0)
             {
-                Session["ListaBancosSolicitados"] = listaBancosSolicitados;
-                Session["NumeroMemo"] = numMemoDevuelto;
+                //    Session["ListaBancosSolicitados"] = listaBancosSolicitados;
+                //    Session["NumeroMemo"] = numMemoDevuelto;
                 bandera = true;
             }
 
             return Json(bandera, JsonRequestBehavior.AllowGet);
         }
-
 
         //obtiene las solicitudes para el historico de las solicitudes
         public ActionResult ObtenerHistoricoSolicitudes() 
@@ -601,15 +508,10 @@ namespace DAP.Foliacion.Plantilla.Controllers
             return Json(bandera, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
-
-
         //obtiene la solicitud realizada por el numero de memorandum
         public ActionResult ObtenerSolicitudPorMemo(int NumeroMemo)
         {
-            var solicitudEncontrada = Negocios.InventarioNegocios.ObtenerSolicitudesPorNumeroMemo(NumeroMemo);
+            var solicitudEncontrada = Negocios.InventarioNegocios.ObtenerSolicitudesPorNumeroMemo(NumeroMemo).ToList();
 
             List<SolicitudDetalleModel> detalleSolicitud = new List<SolicitudDetalleModel>();
 
@@ -632,73 +534,49 @@ namespace DAP.Foliacion.Plantilla.Controllers
         }
 
 
-        #region metododos para descargar PDF de la solicitud y el reporte del inventario
         //exporta el pfd que se guardo anteriormente usando sessiones para guardar datos 
         public FileResult GenerarReporteSolicitud(int NumMemorandum)
         {
 
-            if (NumMemorandum > 0) 
-            {
+           
                 var solicitudesMemoEncontradas =  Negocios.InventarioNegocios.ObtenerSolicitudesPorNumeroMemo(NumMemorandum).ToList();
 
-                if (solicitudesMemoEncontradas.Count() > 0)
+            List<SolicitudCreadaDTO> solicitudDescargar = new List<SolicitudCreadaDTO>();
+            if (solicitudesMemoEncontradas.Count() > 0)
+            {
+                foreach (var solicitud in solicitudesMemoEncontradas) 
                 {
-                    Session["ListaBancosSolicitados"] = null;
-                    Session["NumeroMemo"] = null;
-
-                    List<SolicitudCreadaDTO> solicitudDescargar = new List<SolicitudCreadaDTO>();
-
-                    foreach (var solicitud in solicitudesMemoEncontradas) {
                         SolicitudCreadaDTO nuevaSolicitud = new SolicitudCreadaDTO();
 
-                        nuevaSolicitud.nombreBanco = solicitud.Tbl_CuentasBancarias.NombreBanco;
+                        nuevaSolicitud.cadenaNombreBanco = solicitud.Tbl_CuentasBancarias.NombreBanco;
                         nuevaSolicitud.cuentaBanco = solicitud.Tbl_CuentasBancarias.Cuenta;
                         nuevaSolicitud.fInicial = solicitud.FolioInicial;
                         nuevaSolicitud.cantidadFormas = Convert.ToString( solicitud.Cantidad);
 
                         solicitudDescargar.Add(nuevaSolicitud);
-                    }
-
-
-
-                    Session["ListaBancosSolicitados"] = solicitudDescargar;
-                    Session["NumeroMemo"] = NumMemorandum;
                 }
 
-
             }
-
-
-
-
 
 
            // List<SolicitudFormasPagoModel> listaBancosSolicitadosSolictudReciente = new List<SolicitudFormasPagoModel>();
             DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago dtsSolicitusFormasPago = new DAP.Plantilla.Reportes.Datasets.SolicitudFormasPago();
 
-            if (Session["ListaBancosSolicitados"] != null && Session["NumeroMemo"] != null)
-            {
-                List<SolicitudCreadaDTO> listaBancosSolicitadosSolictudReciente = (List<SolicitudCreadaDTO>)Session["ListaBancosSolicitados"];
-                int numeroMemoRegistrado = (int)Session["NumeroMemo"];
+           
+                int numeroMemoRegistrado = solicitudesMemoEncontradas.Select(x => x.NumeroMemo).FirstOrDefault();
 
                 //Cargar el numero del memo
                 dtsSolicitusFormasPago.NumeroMemo.AddNumeroMemoRow(Convert.ToString(numeroMemoRegistrado));
 
 
                 //cargar datos al dataset para el reporte
-                foreach (var solicitudRecuperada in listaBancosSolicitadosSolictudReciente)
+                foreach (var solicitudRecuperada in solicitudDescargar)
                 {
                    // solicitudRecuperada.fInicial = solicitudRecuperada.fInicial != null ? solicitudRecuperada.fInicial : " . ";
                  
-                    dtsSolicitusFormasPago.FormaPago.AddFormaPagoRow(solicitudRecuperada.nombreBanco, solicitudRecuperada.cuentaBanco, solicitudRecuperada.fInicial, solicitudRecuperada.cantidadFormas);
+                    dtsSolicitusFormasPago.FormaPago.AddFormaPagoRow(solicitudRecuperada.cadenaNombreBanco, solicitudRecuperada.cuentaBanco, solicitudRecuperada.fInicial, solicitudRecuperada.cantidadFormas);
 
                  }
-
-                //  C: \Users\Israel\source\repos\EDGARMANZANILLA\FoliacionRemasterizado\DAP.Plantilla\ReportesSolicitarFormasDePagoBancos.rpt
-
-                Session.Remove("ListaBancosSolicitados");
-            }
-
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/SolicitarFormasDePagoBancos.rpt"));
@@ -718,6 +596,14 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
+
+
+
+        /*************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /*************************************************************         BTN descargar reporte de Inventario            **************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************************************/
 
 
         public FileResult GenerarReporteFormasChequesExistentes(int MesSelecionado)
@@ -809,7 +695,6 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
-        #endregion
 
 
 
@@ -835,14 +720,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
 
 
-
-
-
     }
-
-
-
-
 
 
 

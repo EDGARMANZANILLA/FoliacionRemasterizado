@@ -7,6 +7,8 @@ using System.Data.Objects.SqlClient;
 using DAP.Foliacion.Datos;
 using DAP.Foliacion.Entidades;
 using DAP.Foliacion.Entidades.DTO;
+using DAP.Foliacion.Entidades.DTO.FoliarDTO;
+using DAP.Foliacion.Entidades.DTO.ConfiguracionesDTO;
 
 namespace DAP.Foliacion.Negocios
 {
@@ -194,7 +196,7 @@ namespace DAP.Foliacion.Negocios
 
                 Tbl_CuentasBancarias NuevaCuenta = new Tbl_CuentasBancarias();
                 NuevaCuenta.NombreBanco = NombreCuenta.ToUpper();
-                NuevaCuenta.Abreviatura = Abreviatura.ToUpper().Substring(0,5);
+                NuevaCuenta.Abreviatura = Abreviatura.ToUpper();
                 NuevaCuenta.Cuenta = NumeroCuenta;
                 NuevaCuenta.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
                 NuevaCuenta.IdInventario = null;
@@ -230,7 +232,7 @@ namespace DAP.Foliacion.Negocios
 
                 Tbl_CuentasBancarias NuevaCuenta = new Tbl_CuentasBancarias();
                 NuevaCuenta.NombreBanco = NombreCuenta.ToUpper();
-                NuevaCuenta.Abreviatura = Abreviatura.ToUpper().Substring(0, 5);
+                NuevaCuenta.Abreviatura = Abreviatura.ToUpper();
                 NuevaCuenta.Cuenta = NumeroCuenta;
                 NuevaCuenta.IdCuentaBancaria_TipoPagoCuenta = TipoPago;
                 NuevaCuenta.IdInventario = inventarioAgregado.Id;
@@ -250,32 +252,39 @@ namespace DAP.Foliacion.Negocios
         }
 
 
-        public static List<string> ObtenerCuentasBancariasActivas()
+        public static Dictionary<int, string> ObtenerCuentasBancariasActivas()
         {
             var transaccion = new Transaccion();
             var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
 
+            var cuentasEncontradas = repositorio.ObtenerPorFiltro(x => x.Activo == true).Select(y => new { y.Id, y.NombreBanco, y.Cuenta , y.FechaCreacion }).ToList();
 
-            return repositorio.ObtenerPorFiltro(x => x.Activo == true).Select(y => y.Cuenta).ToList();
+            Dictionary<int, string> cuentasActivas = new Dictionary<int, string>();
+            foreach (var nuevoItem in cuentasEncontradas) 
+            {
+                cuentasActivas.Add(nuevoItem.Id, nuevoItem.FechaCreacion.Date.Year +" || "+ nuevoItem.NombreBanco+" || "+nuevoItem.Cuenta);
+            }
+
+            return cuentasActivas;
         }
 
 
-        public static Tbl_CuentasBancarias ObtenerDetallesCuentaBancaria(string NumeroCuenta)
+        public static Tbl_CuentasBancarias ObtenerDetallesCuentaBancaria(int IdCuentaBancaria )
         {
             var transaccion = new Transaccion();
             var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
 
 
-            return repositorio.Obtener(x => x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
+            return repositorio.Obtener(x => x.Id == IdCuentaBancaria && x.Activo == true);
         }
 
 
-        public static bool EditarCuentaBancariaActiva(int IdCuenta, string NumeroCuenta, string NombreCuenta, string Abreviatura, int TipoPago)
+        public static bool EditarCuentaBancariaActiva(int IdCuentaBancaria, string NombreCuenta, string Abreviatura, int TipoPago)
         {
             var transaccion = new Transaccion();
             var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
 
-            var bancoEncontrado = repositorio.Obtener(x => x.Id == IdCuenta && x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
+            var bancoEncontrado = repositorio.Obtener(x => x.Id == IdCuentaBancaria && x.Activo == true);
             bool bandera = false;
 
             var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
@@ -573,7 +582,7 @@ namespace DAP.Foliacion.Negocios
         }
 
 
-        public static bool EliminarCuentaBancariaActiva(string NumeroCuenta , DateTime FechaBaja)
+        public static bool EliminarCuentaBancariaActiva(int IdCuentaBancaria, DateTime FechaBaja)
         {
             bool bandera = false;
             var transaccion = new Transaccion();
@@ -582,12 +591,12 @@ namespace DAP.Foliacion.Negocios
             var repositorioContenedores = new Repositorio<Tbl_InventarioContenedores>(transaccion);
             var repositorioDetalles = new Repositorio<Tbl_InventarioDetalle>(transaccion);
 
-            var bancoEncontrado = repositorio.Obtener(x =>  x.Cuenta.Trim() == NumeroCuenta.Trim() && x.Activo == true);
+            var bancoEncontrado = repositorio.Obtener(x =>  x.Id == IdCuentaBancaria && x.Activo == true);
             bancoEncontrado.Activo = false;
             bancoEncontrado.FechaBaja = FechaBaja;
             var entidadModificada =repositorio.Modificar(bancoEncontrado);
 
-            if (entidadModificada != null) {
+            if (entidadModificada != null && bancoEncontrado.IdInventario != null) {
                 var inventarioEncontrado = repositorioInventario.Obtener(x => x.Id == bancoEncontrado.IdInventario && x.Activo == true);
                 inventarioEncontrado.Activo = false;
                 var entidadInventarioModificada = repositorioInventario.Modificar(inventarioEncontrado);
@@ -622,6 +631,12 @@ namespace DAP.Foliacion.Negocios
                
 
             }
+            
+            
+            if(entidadModificada != null) 
+            {
+                bandera = true;
+            }
      
 
             return bandera;
@@ -654,9 +669,192 @@ namespace DAP.Foliacion.Negocios
         }
 
 
+        public static Dictionary<int, string> ObtenerCuentasConchequeraActivas()
+        {
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+
+
+            var seleccionados = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta == 2 || x.IdCuentaBancaria_TipoPagoCuenta == 3 && x.Activo == true).Select(y => new {y.IdInventario, y.NombreBanco, y.Cuenta }).ToList();
+
+            Dictionary<int, string> cuentasFiltradas = new Dictionary<int, string>();
+
+            foreach (var nuevaSeleccion in seleccionados) 
+            {
+                cuentasFiltradas.Add(Convert.ToInt32( nuevaSeleccion.IdInventario), nuevaSeleccion.NombreBanco +"+ [ "+nuevaSeleccion.Cuenta+" ] ");    
+            }
+
+
+            return cuentasFiltradas;
+        }
 
 
 
+
+
+        //*** VERIFICAR DISPONIBILIDAD DE FOLIOS INABILI ***//
+        public static List<ResumenFoliosDesinhabilitarDTO> verificarFoliosInhabiltadosEnInventarioDetalle(int IdInventario, int FInicialInhabilitado, int FFinalInhabilitado)
+        {
+            List<ResumenFoliosDesinhabilitarDTO> listaFoliosVerificados = new List<ResumenFoliosDesinhabilitarDTO>();
+
+
+
+            var transaccion = new Transaccion();
+
+            //var repositorioTblBanco = new Repositorio<Tbl_CuentasBancarias>(transaccion);
+            //Tbl_CuentasBancarias bancoEncontrado = repositorioTblBanco.Obtener(x => x.Id == IdBanco && x.IdCuentaBancaria_TipoPagoCuenta != 1 && x.Activo == true);
+
+
+
+
+
+            //obtiene los numero de folios como deben de encontrarse en la tabla inventarios
+           // List<int> foliosEnordenRecuperados = FoliarConsultasDBSinEntity.ObtenerListaDefolios(FInicial, FFinal, Inhabilitado, InhabilitadoInicial, InhabilitadoFinal);
+
+
+
+
+
+            //obtiene todos los contenedores activos del banco seleccionado
+            var repositorio = new Repositorio<Tbl_InventarioContenedores>(transaccion);
+            var contenedoresEncontrados = repositorio.ObtenerPorFiltro(x => x.IdInventario == IdInventario && x.FormasDisponiblesActuales > 0 && x.Activo);
+            List<int> idsContenedoresEncontrados = new List<int>();
+
+            foreach (Tbl_InventarioContenedores contenedor in contenedoresEncontrados)
+            {
+                idsContenedoresEncontrados.Add(contenedor.Id);
+            }
+
+
+
+            var repositorioDetalle = new Repositorio<Tbl_InventarioDetalle>(transaccion);
+
+
+          //  foreach (int folioObtenido in foliosEnordenRecuperados)
+           // {
+                Tbl_InventarioDetalle folioEncontradoEnInventario = null;
+                Tbl_InventarioDetalle folioFinalEncontradoEnInventario = null;
+
+            foreach (int contenedor in idsContenedoresEncontrados)
+                {
+                    //busca el folio inicial
+                    if (folioEncontradoEnInventario == null)
+                    {
+                        folioEncontradoEnInventario = repositorioDetalle.Obtener(x => x.IdContenedor == contenedor && x.NumFolio == FInicialInhabilitado && x.Activo == true) ;
+                    }
+
+                    //busca el folio final 
+                    if (folioFinalEncontradoEnInventario == null)
+                    {
+                        folioFinalEncontradoEnInventario = repositorioDetalle.Obtener(x => x.IdContenedor == contenedor && x.NumFolio == FFinalInhabilitado && x.Activo == true);
+                    }
+
+
+                //si trae un id mayor o diferente a 0 es que existe el regsitro y por ende contiene datos 
+            }
+
+
+                if (folioEncontradoEnInventario != null && folioFinalEncontradoEnInventario != null)
+                {
+
+                int idFolioincial = folioEncontradoEnInventario.Id - 1;
+                int idFolioFinal = folioFinalEncontradoEnInventario.Id + 1;
+
+                    var foliosComletosEncontrados = repositorioDetalle.ObtenerPorFiltro(x => x.Id >= folioEncontradoEnInventario.Id && x.Id <= folioFinalEncontradoEnInventario.Id && x.Activo == true );
+
+                    foreach (var folioEncontrado in foliosComletosEncontrados)
+                      {
+                        ResumenFoliosDesinhabilitarDTO nuevoFolioDesinhabilitar = new ResumenFoliosDesinhabilitarDTO();
+                        nuevoFolioDesinhabilitar.Id = folioEncontrado.Id;
+                        nuevoFolioDesinhabilitar.Folio = folioEncontrado.NumFolio;
+
+                    if (folioEncontrado.IdIncidencia == 1 || folioEncontrado.IdIncidencia == 4)
+                    {
+                        nuevoFolioDesinhabilitar.Incidencia = folioEncontrado.Tbl_InventarioTipoIncidencia.Descrip_Incidencia.Trim();
+                        nuevoFolioDesinhabilitar.Error = 0;
+                    }
+                    else 
+                    {
+                       
+                        nuevoFolioDesinhabilitar.Incidencia = folioEncontrado.IdIncidencia == null ? "DISPONIBLE" : folioEncontrado.Tbl_InventarioTipoIncidencia.Descrip_Incidencia.Trim();
+                        nuevoFolioDesinhabilitar.Error = 1;
+
+                    }
+
+                    nuevoFolioDesinhabilitar.IdContenedor = folioEncontrado.IdContenedor;
+
+                    nuevoFolioDesinhabilitar.FechaIncidencia = folioEncontrado.FechaIncidencia?.ToString("dd/MM/yyyy");
+
+
+                        listaFoliosVerificados.Add(nuevoFolioDesinhabilitar);
+    
+                    }
+                  
+
+                }
+                else
+                {
+                    //entra si el folio inicial no fue encontrado en los contenedore lo que quieredecir que no hay un registro de ese folio por lo tnato no existe
+                    return listaFoliosVerificados;
+                }
+
+         //   }
+            return listaFoliosVerificados;
+        }
+
+       
+        /**  Desinhabilita el folio inhabilitado y suma al contenedor y al inventario  **/
+        public static bool desInhabilitarFolo(int IdDetalle, int IdContenedor, int Folio) 
+        {
+            bool bandera = false;
+
+            var transaccion = new Transaccion();
+            var repositorio = new Repositorio<Tbl_InventarioDetalle>(transaccion);
+
+
+
+            Tbl_InventarioDetalle registroDetalleFolioObtenido = repositorio.Obtener(x => x.Id == IdDetalle && x.IdContenedor == IdContenedor && x.NumFolio == Folio && x.Activo == true);
+            registroDetalleFolioObtenido.IdIncidencia = null;
+            registroDetalleFolioObtenido.FechaIncidencia = null;
+            registroDetalleFolioObtenido.IdEmpleado = null;
+
+            
+            //repositorio.Modificar(registroFolioObtenido);
+
+
+
+            var repositorioContenedores = new Repositorio<Tbl_InventarioContenedores>(transaccion);
+            Tbl_InventarioContenedores registroContenedorObtenido = repositorioContenedores.Obtener(x => x.Id == registroDetalleFolioObtenido.IdContenedor && x.Activo == true);
+            registroContenedorObtenido.FormasInhabilitadas -= 1;
+            registroContenedorObtenido.FormasDisponiblesActuales += 1;
+
+            //repositorioContenedores.Modificar(registroContenedorObtenido);
+
+
+
+
+            var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
+            Tbl_Inventario registroInventarioObtenido = repositorioInventario.Obtener( x => x.Id == registroContenedorObtenido.IdInventario && x.Activo == true);
+            registroInventarioObtenido.FormasDisponibles += 1 ;
+
+            //repositorioInventario.Modificar(registroInventarioObtenido);
+
+
+
+
+            if (registroDetalleFolioObtenido != null && registroContenedorObtenido != null && registroInventarioObtenido != null)
+            {
+                transaccion.GuardarCambios();
+                return bandera = true;
+            }
+            else 
+            {
+                transaccion.Dispose();
+                return bandera = false;
+            }
+
+            return bandera;
+        }
 
 
         #endregion

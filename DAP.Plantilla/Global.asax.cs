@@ -1,5 +1,12 @@
+using DAP.Foliacion.Entidades;
 using DAP.Foliacion.Entidades.DTO.BuscardorChequeDTO;
+using DAP.Foliacion.Entidades.DTO.ConfiguracionesDTO;
+using DAP.Foliacion.Entidades.DTO.CrearReferencia_CanceladosDTO;
+using DAP.Foliacion.Entidades.DTO.FoliarDTO;
 using DAP.Plantilla.Models.BuscardorChequeModels;
+using DAP.Plantilla.Models.ConfiguracionesModels.FormaPagosDesinhabilitarModels;
+using DAP.Plantilla.Models.CrearReferencia_CanceladosModels;
+using DAP.Plantilla.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +32,10 @@ namespace DAP.Plantilla
                 cfg.CreateMap<ResultadoObtenidoParaSelect2, ElementosBuscador>();
                 cfg.CreateMap<DetallesBusqueda, DetallesBusquedaModels>();
                 cfg.CreateMap<DetallesRegistroDTO, DetallesInformativosCheque>();
+                cfg.CreateMap<ResumenFoliosDesinhabilitarDTO, DesinhabilitarFormasPagoVerificarModels>();
+                cfg.CreateMap<CrearReferenciaDTO, ReferenciaCanceladoModel> ();
+                cfg.CreateMap<ResumenRevicionNominaPDFDTO, Models.FoliacionModels.ResumenRevicionNominaPDFModel>();
+               
             
             });
 

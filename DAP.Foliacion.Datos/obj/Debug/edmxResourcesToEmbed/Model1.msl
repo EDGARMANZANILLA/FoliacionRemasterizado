@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="FoliacionModelStoreContainer" CdmEntityContainer="FoliacionEntities">
+  <EntityContainerMapping StorageEntityContainer="FoliacionInterfacesCargadasPruebaDBModelStoreContainer" CdmEntityContainer="FoliacionInterfacesCargadasPruebaDBEntities">
     <EntitySetMapping Name="Cat_EstadoCancelados_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.Cat_EstadoCancelados_Pagos">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Cat_EstadoCancelados_Pagos">
         <MappingFragment StoreEntitySet="Cat_EstadoCancelados_Pagos">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="Descrip" ColumnName="Descrip" />
@@ -12,7 +12,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Cat_EstadosPago_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.Cat_EstadosPago_Pagos">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Cat_EstadosPago_Pagos">
         <MappingFragment StoreEntitySet="Cat_EstadosPago_Pagos">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="Descrip" ColumnName="Descrip" />
@@ -21,7 +21,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Cat_FormasPago_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.Cat_FormasPago_Pagos">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Cat_FormasPago_Pagos">
         <MappingFragment StoreEntitySet="Cat_FormasPago_Pagos">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="Descrip" ColumnName="Descrip" />
@@ -29,19 +29,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="IdReferenciaCancelados_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.IdReferenciaCancelados_Pagos">
-        <MappingFragment StoreEntitySet="IdReferenciaCancelados_Pagos">
-          <ScalarProperty Name="Activo" ColumnName="Activo" />
-          <ScalarProperty Name="AnioFiscal" ColumnName="AnioFiscal" />
+    <EntitySetMapping Name="ExepcionesCargaInterfaces">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.ExepcionesCargaInterface">
+        <MappingFragment StoreEntitySet="ExepcionesCargaInterfaces">
+          <ScalarProperty Name="AnioInterfas" ColumnName="AnioInterfas" />
+          <ScalarProperty Name="Quincena" ColumnName="Quincena" />
+          <ScalarProperty Name="RegFoliados" ColumnName="RegFoliados" />
+          <ScalarProperty Name="RegTotales" ColumnName="RegTotales" />
+          <ScalarProperty Name="DiferenciaNoFoliados" ColumnName="DiferenciaNoFoliados" />
+          <ScalarProperty Name="diferenciasDeRegistros" ColumnName="diferenciasDeRegistros" />
+          <ScalarProperty Name="Problema" ColumnName="Problema" />
+          <ScalarProperty Name="Coment" ColumnName="Coment" />
           <ScalarProperty Name="Adicional" ColumnName="Adicional" />
-          <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+          <ScalarProperty Name="Id_nom" ColumnName="Id_nom" />
+          <ScalarProperty Name="TipoExcepcion" ColumnName="TipoExcepcion" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="LOG_EXCEPCIONES">
-      <EntityTypeMapping TypeName="FoliacionModel.LOG_EXCEPCIONES">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.LOG_EXCEPCIONES">
         <MappingFragment StoreEntitySet="LOG_EXCEPCIONES">
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Comentario" ColumnName="Comentario" />
@@ -54,7 +61,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="FoliacionModel.sysdiagrams">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
           <ScalarProperty Name="definition" ColumnName="definition" />
           <ScalarProperty Name="version" ColumnName="version" />
@@ -64,22 +71,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tbl_ChequesRefoliados_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_ChequesRefoliados_Pagos">
-        <MappingFragment StoreEntitySet="Tbl_ChequesRefoliados_Pagos">
-          <ScalarProperty Name="Activo" ColumnName="Activo" />
-          <ScalarProperty Name="RefoliadoPor" ColumnName="RefoliadoPor" />
-          <ScalarProperty Name="MotivoRefoliacion" ColumnName="MotivoRefoliacion" />
-          <ScalarProperty Name="ChequeNuevo" ColumnName="ChequeNuevo" />
-          <ScalarProperty Name="ChequeAnterior" ColumnName="ChequeAnterior" />
-          <ScalarProperty Name="FechaCambio" ColumnName="FechaCambio" />
-          <ScalarProperty Name="IdTbl_Pagos" ColumnName="IdTbl_Pagos" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Tbl_CuentaBancarias_TipoPagoCuenta">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_CuentaBancarias_TipoPagoCuenta">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_CuentaBancarias_TipoPagoCuenta">
         <MappingFragment StoreEntitySet="Tbl_CuentaBancarias_TipoPagoCuenta">
           <ScalarProperty Name="TipoPago" ColumnName="TipoPago" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -87,7 +80,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_CuentasBancarias">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_CuentasBancarias">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_CuentasBancarias">
         <MappingFragment StoreEntitySet="Tbl_CuentasBancarias">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
@@ -102,7 +95,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_HistoricoQuincenasRegistradas">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_HistoricoQuincenasRegistradas">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_HistoricoQuincenasRegistradas">
         <MappingFragment StoreEntitySet="Tbl_HistoricoQuincenasRegistradas">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="QuincenaRegistrada" ColumnName="QuincenaRegistrada" />
@@ -111,7 +104,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_Inventario">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Inventario">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_Inventario">
         <MappingFragment StoreEntitySet="Tbl_Inventario">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="EstimadoMeses" ColumnName="EstimadoMeses" />
@@ -123,7 +116,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_InventarioAsignacionPersonal">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioAsignacionPersonal">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_InventarioAsignacionPersonal">
         <MappingFragment StoreEntitySet="Tbl_InventarioAsignacionPersonal">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaHabilitacion" ColumnName="FechaHabilitacion" />
@@ -134,7 +127,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_InventarioContenedores">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioContenedores">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_InventarioContenedores">
         <MappingFragment StoreEntitySet="Tbl_InventarioContenedores">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
@@ -153,7 +146,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_InventarioDetalle">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioDetalle">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_InventarioDetalle">
         <MappingFragment StoreEntitySet="Tbl_InventarioDetalle">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -166,7 +159,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_InventarioTipoIncidencia">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_InventarioTipoIncidencia">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_InventarioTipoIncidencia">
         <MappingFragment StoreEntitySet="Tbl_InventarioTipoIncidencia">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="Descrip_Incidencia" ColumnName="Descrip_Incidencia" />
@@ -175,19 +168,19 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Tbl_Pagos">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Pagos">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_Pagos">
         <MappingFragment StoreEntitySet="Tbl_Pagos">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
-          <ScalarProperty Name="EsRefoliado" ColumnName="EsRefoliado" />
-          <ScalarProperty Name="IdCat_EstadoCancelados_Pagos" ColumnName="IdCat_EstadoCancelados_Pagos" />
-          <ScalarProperty Name="IdReferenciaCancelados_Pagos" ColumnName="IdReferenciaCancelados_Pagos" />
-          <ScalarProperty Name="Integridad_HashMD5" ColumnName="Integridad_HashMD5" />
+          <ScalarProperty Name="TieneSeguimientoHistorico" ColumnName="TieneSeguimientoHistorico" />
+          <ScalarProperty Name="IdTbl_Referencias_Cancelaciones" ColumnName="IdTbl_Referencias_Cancelaciones" />
+          <ScalarProperty Name="IdTbl_InventarioDetalle" ColumnName="IdTbl_InventarioDetalle" />
           <ScalarProperty Name="IdCat_EstadoPago_Pagos" ColumnName="IdCat_EstadoPago_Pagos" />
           <ScalarProperty Name="IdCat_FormaPago_Pagos" ColumnName="IdCat_FormaPago_Pagos" />
-          <ScalarProperty Name="ImporteLiquido" ColumnName="ImporteLiquido" />
-          <ScalarProperty Name="FolioCheque" ColumnName="FolioCheque" />
           <ScalarProperty Name="IdTbl_CuentaBancaria_BancoPagador" ColumnName="IdTbl_CuentaBancaria_BancoPagador" />
-          <ScalarProperty Name="IdTbl_InventarioDetalle" ColumnName="IdTbl_InventarioDetalle" />
+          <ScalarProperty Name="Integridad_HashMD5" ColumnName="Integridad_HashMD5" />
+          <ScalarProperty Name="FolioCFDI" ColumnName="FolioCFDI" />
+          <ScalarProperty Name="FolioCheque" ColumnName="FolioCheque" />
+          <ScalarProperty Name="ImporteLiquido" ColumnName="ImporteLiquido" />
           <ScalarProperty Name="NumBeneficiario" ColumnName="NumBeneficiario" />
           <ScalarProperty Name="BeneficiarioPenA" ColumnName="BeneficiarioPenA" />
           <ScalarProperty Name="EsPenA" ColumnName="EsPenA" />
@@ -195,9 +188,11 @@
           <ScalarProperty Name="NumEmpleado" ColumnName="NumEmpleado" />
           <ScalarProperty Name="RfcEmpleado" ColumnName="RfcEmpleado" />
           <ScalarProperty Name="Delegacion" ColumnName="Delegacion" />
+          <ScalarProperty Name="Partida" ColumnName="Partida" />
           <ScalarProperty Name="ReferenciaBitacora" ColumnName="ReferenciaBitacora" />
           <ScalarProperty Name="Quincena" ColumnName="Quincena" />
           <ScalarProperty Name="Mes" ColumnName="Mes" />
+          <ScalarProperty Name="Anio" ColumnName="Anio" />
           <ScalarProperty Name="Adicional" ColumnName="Adicional" />
           <ScalarProperty Name="An" ColumnName="An" />
           <ScalarProperty Name="Nomina" ColumnName="Nomina" />
@@ -206,8 +201,38 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_Referencias_Cancelaciones">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_Referencias_Cancelaciones">
+        <MappingFragment StoreEntitySet="Tbl_Referencias_Cancelaciones">
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="FormasPagoDentroReferencia" ColumnName="FormasPagoDentroReferencia" />
+          <ScalarProperty Name="Creado_Por" ColumnName="Creado_Por" />
+          <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+          <ScalarProperty Name="Numero_Referencia" ColumnName="Numero_Referencia" />
+          <ScalarProperty Name="Anio" ColumnName="Anio" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_SeguimientoHistoricoFormas_Pagos">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_SeguimientoHistoricoFormas_Pagos">
+        <MappingFragment StoreEntitySet="Tbl_SeguimientoHistoricoFormas_Pagos">
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="IdCat_EstadoCancelado" ColumnName="IdCat_EstadoCancelado" />
+          <ScalarProperty Name="ReferenciaCancelado" ColumnName="ReferenciaCancelado" />
+          <ScalarProperty Name="EsCancelado" ColumnName="EsCancelado" />
+          <ScalarProperty Name="RefoliadoPor" ColumnName="RefoliadoPor" />
+          <ScalarProperty Name="MotivoRefoliacion" ColumnName="MotivoRefoliacion" />
+          <ScalarProperty Name="ChequeNuevo" ColumnName="ChequeNuevo" />
+          <ScalarProperty Name="ChequeAnterior" ColumnName="ChequeAnterior" />
+          <ScalarProperty Name="FechaCambio" ColumnName="FechaCambio" />
+          <ScalarProperty Name="IdTbl_Pagos" ColumnName="IdTbl_Pagos" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Tbl_Solicitudes">
-      <EntityTypeMapping TypeName="FoliacionModel.Tbl_Solicitudes">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_Solicitudes">
         <MappingFragment StoreEntitySet="Tbl_Solicitudes">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
@@ -215,6 +240,28 @@
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
           <ScalarProperty Name="NumeroMemo" ColumnName="NumeroMemo" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cat_FiltroConsultaDatosPersonalesNomina">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroConsultaDatosPersonalesNomina">
+        <MappingFragment StoreEntitySet="cat_FiltroConsultaDatosPersonalesNomina">
+          <ScalarProperty Name="Consulta" ColumnName="Consulta" />
+          <ScalarProperty Name="Delegacion" ColumnName="Delegacion" />
+          <ScalarProperty Name="Cheque" ColumnName="Cheque" />
+          <ScalarProperty Name="EsPagomatico" ColumnName="EsPagomatico" />
+          <ScalarProperty Name="EsPena" ColumnName="EsPena" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cat_FiltroGrupoImpresionDelegaciones">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroGrupoImpresionDelegaciones">
+        <MappingFragment StoreEntitySet="cat_FiltroGrupoImpresionDelegaciones">
+          <ScalarProperty Name="NombreComun" ColumnName="NombreComun" />
+          <ScalarProperty Name="DelegacionesIncluidas" ColumnName="DelegacionesIncluidas" />
+          <ScalarProperty Name="GrupoImpresionDelegacion" ColumnName="GrupoImpresionDelegacion" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

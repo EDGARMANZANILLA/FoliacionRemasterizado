@@ -20,9 +20,26 @@ namespace DAP.Foliacion.Datos
         }
 
 
-        public static string obtenerCadenaConexion251Nomina()
+        //cambiar cadena de conexion por la de interafces en alpha (actualmente apunta en local por que esta en pruebas) 
+        public static string obtenerCadenaConexionInterfacesAlpha()
         {
-            return @"Data Source=172.19.2.251; Initial Catalog=Nomina; User=sa; PassWord=s3funhwonre2";
+            return @"Data Source=172.19.62.71; Initial Catalog=Interfaces; User=sa; PassWord=dbadmin";
         }
+
+
+        /************************************************************************************************/
+        /**********************     al subir el proyecto hay que ********************************************************/
+        /************************************************************************************************/
+
+        public static string obtenerCadenaConexionProductiva()
+        {
+            return @"Data Source=172.19.3.31; Initial Catalog=Nomina; User=sa; PassWord=s3funhwonre2";
+        }
+
+               public static string obtenerCadenaConexionDeploy()
+        {
+            return @"Data Source=172.19.3.170; Initial Catalog=Nomina; User=sa; PassWord=dbadmin";
+        }
+
     }
 }
