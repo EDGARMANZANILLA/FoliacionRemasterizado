@@ -130,29 +130,7 @@ namespace DAP.Foliacion.Plantilla.Controllers
 
         
       
-        public ActionResult Ajustar(string NombreBanco)
-        {
-
-            ViewBag.NombreBanco = "SANTANDER";
-
-
-            // int idBanco = Negocios.InventarioNegocios.ObtenerIdBanco(NombreBanco);
-
-            string numeroCuenta = Negocios.InventarioNegocios.ObtenerCuentaBancariaPorNombreBanco(NombreBanco);
-
-            
-            ViewBag.NumeroCuentaBanco = numeroCuenta;
-
-
-            int idInventario = Negocios.InventarioNegocios.ObtenerIdInventarioPorNombreBanco(NombreBanco);
-
-            ViewBag.IdInventario = idInventario;
-
-
-
-            return View();
-        }
-
+      
 
 
       

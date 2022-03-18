@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using DAP.Foliacion.DatosFox;
 
 namespace DAP.Foliacion.Negocios.FoliarDBF
 {
@@ -99,7 +100,8 @@ namespace DAP.Foliacion.Negocios.FoliarDBF
                 datosNominaCompleto.Ruta = pathBasesServidor47 + datosNominaCompleto.Ruta; //\\172.19.3.173\F\SAGITARI\AYUDAS\ARCHIVOS\
 
 
-                resultado_ActualizacionDBF = ActualizacionDFBS.SuspenderPagomatico(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, suspenderPago, datosNominaCompleto.EsPenA, CadenaNumEmpleado);
+                //resultado_ActualizacionDBF = ActualizacionDFBS.SuspenderPagomatico(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, suspenderPago, datosNominaCompleto.EsPenA, CadenaNumEmpleado);
+                resultado_ActualizacionDBF = NuevaActualizacionDFBS.SuspenderPagomatico(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, suspenderPago, datosNominaCompleto.EsPenA, CadenaNumEmpleado);
               
             }
 
@@ -179,7 +181,8 @@ namespace DAP.Foliacion.Negocios.FoliarDBF
                 rutaRedServidor = pathBasesServidor47 + rutaRedServidor; //\\172.19.3.173\F\SAGITARI\AYUDAS\ARCHIVOS\
 
 
-                resultado_ActualizacionDBF = ActualizacionDFBS.ReponerFormaPago(rutaRedServidor, ExecutarQuery);
+                //resultado_ActualizacionDBF = ActualizacionDFBS.ReponerFormaPago(rutaRedServidor, ExecutarQuery);
+                resultado_ActualizacionDBF = NuevaActualizacionDFBS.ReponerFormaPago(rutaRedServidor, ExecutarQuery);
 
             }
 

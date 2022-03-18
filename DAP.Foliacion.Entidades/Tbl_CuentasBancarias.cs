@@ -30,6 +30,7 @@ namespace DAP.Foliacion.Entidades
         public System.DateTime FechaCreacion { get; set; }
         public Nullable<System.DateTime> FechaBaja { get; set; }
         public Nullable<bool> Activo { get; set; }
+        public Nullable<bool> InicioBaja { get; set; }
     
         public virtual Tbl_CuentaBancarias_TipoPagoCuenta Tbl_CuentaBancarias_TipoPagoCuenta { get; set; }
         public virtual Tbl_Inventario Tbl_Inventario { get; set; }

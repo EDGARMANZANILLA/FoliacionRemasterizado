@@ -48,25 +48,7 @@ namespace DAP.Foliacion.Negocios
             return idInventario;
         }
 
-        public static int ObtenerIdInventarioPorNombreBanco(string banco)
-        {
-
-            int idInventario = 0;
-
-            var transaccion = new Transaccion();
-
-            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
-
-            var InventarioActivos = repositorio.Obtener(x => x.NombreBanco.Trim() == banco.Trim() && x.Activo == true);
-
-            if (InventarioActivos != null)
-            {
-                idInventario = Convert.ToInt32(InventarioActivos.IdInventario);
-            }
-
-
-            return idInventario;
-        }
+     
 
         public static bool GuardarInventarioContenedores(int idBanco, string numeroOrden, int numeroContenedor, string FInicial, string FFinal, int TotalFormas, DateTime fechaExterna)
         {
@@ -186,18 +168,7 @@ namespace DAP.Foliacion.Negocios
 
         #region solicitar formas de pago
         //un medoto para asignar , 
-        public static string ObtenerCuentaBancariaPorNombreBanco(string Nombrebanco)
-        {
-
-            var transaccion = new Transaccion();
-
-
-            var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
-            var NumeroDeCuenta = repositorio.Obtener(x => x.NombreBanco.Trim() == Nombrebanco.Trim() && x.Activo == true);
-
-            string cuenta = NumeroDeCuenta.Cuenta;
-            return cuenta;
-        }
+     
 
         //regresa el id de un registro del inventario filtrado por IdCuentaBancaria
         public static int ObtenerIdInventarioPorIdCuentaBancaria(int Idbanco)
@@ -420,7 +391,7 @@ namespace DAP.Foliacion.Negocios
             //Encontrar idInventrio en cuanta bancaria
             var transaccion = new Transaccion();
             var repositorioCuentaBancaria = new Repositorio<Tbl_CuentasBancarias>(transaccion);
-            int IdInventario = repositorioCuentaBancaria.Obtener(x => x.Id == IdCuentaBancaria && x.Activo == true).IdInventario.GetValueOrDefault();
+            int IdInventario = repositorioCuentaBancaria.Obtener(x => x.IdInventario == IdCuentaBancaria && x.Activo == true).IdInventario.GetValueOrDefault();
 
 
             if (IdInventario > 0)

@@ -109,6 +109,7 @@
           <Property Name="FechaCreacion" Type="date" Nullable="false" />
           <Property Name="FechaBaja" Type="date" />
           <Property Name="Activo" Type="bit" />
+          <Property Name="InicioBaja" Type="bit" />
         </EntityType>
         <EntityType Name="Tbl_HistoricoQuincenasRegistradas">
           <Key>
@@ -650,6 +651,7 @@
           <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Inventario" />
           <NavigationProperty Name="Tbl_Pagos" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Pagos_Tbl_CuentasBancarias" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Pagos" />
           <NavigationProperty Name="Tbl_Solicitudes" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Solicitudes_Tbl_CuentasBancarias" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Solicitudes" />
+          <Property Name="InicioBaja" Type="Boolean" />
         </EntityType>
         <EntityType Name="Tbl_HistoricoQuincenasRegistradas">
           <Key>
@@ -1072,6 +1074,7 @@
           <EntitySetMapping Name="Tbl_CuentasBancarias">
             <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_CuentasBancarias">
               <MappingFragment StoreEntitySet="Tbl_CuentasBancarias">
+                <ScalarProperty Name="InicioBaja" ColumnName="InicioBaja" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />

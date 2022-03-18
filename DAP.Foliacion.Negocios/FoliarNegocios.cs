@@ -14,6 +14,7 @@ using System.Threading;
 using DAP.Foliacion.Datos.ClasesParaDBF;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
+using DAP.Foliacion.DatosFox;
 
 namespace DAP.Foliacion.Negocios
 {
@@ -90,7 +91,7 @@ namespace DAP.Foliacion.Negocios
 
             var repositorio = new Repositorio<Tbl_CuentasBancarias>(transaccion);
 
-            var bancosEncontrados = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 1 && x.Activo == true);
+            var bancosEncontrados = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 1 && x.Activo == true && x.InicioBaja == null);
 
             Dictionary<int, string> bancosMostrar = new Dictionary<int, string>();
 
@@ -134,24 +135,29 @@ namespace DAP.Foliacion.Negocios
 
             var repositorioInventario = new Repositorio<Tbl_Inventario>(transaccion);
 
-            var Inventario = repositorioInventario.ObtenerPorFiltro( x => x.Activo == true).ToList();
+            List<Tbl_Inventario> inventarioActivo = repositorioInventario.ObtenerPorFiltro( x => x.Activo == true).ToList();
 
-            List<Tbl_CuentasBancarias> cuentasViaChequera = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 1 && x.Activo == true).ToList();
+            List<Tbl_CuentasBancarias> cuentasViaChequera = repositorio.ObtenerPorFiltro(x => x.IdCuentaBancaria_TipoPagoCuenta != 1 && x.Activo == true && x.InicioBaja == null).ToList();
 
 
-            foreach (Tbl_Inventario inventarioSeleccionado in Inventario)
+
+            foreach (Tbl_Inventario inventarioSeleccionado in inventarioActivo)
             {
                 BancosConChequeraDTO InventarioBanco = new BancosConChequeraDTO();
 
 
-                Tbl_CuentasBancarias bancoEncontrado = cuentasViaChequera.Where(x => x.IdInventario == inventarioSeleccionado.Id).FirstOrDefault(); ;
+                Tbl_CuentasBancarias bancoEncontrado = cuentasViaChequera.Where(x => x.IdInventario == inventarioSeleccionado.Id).FirstOrDefault(); 
 
-                InventarioBanco.NombreBanco = bancoEncontrado.NombreBanco;
-                InventarioBanco.Cuenta = bancoEncontrado.Cuenta ;
-                InventarioBanco.FormasDisponiblesInventario = inventarioSeleccionado.FormasDisponibles;
-                InventarioBanco.UltimoFolioUtilizadoInventario = inventarioSeleccionado.UltimoFolioUtilizado;
+                if(bancoEncontrado != null) 
+                {
+                    InventarioBanco.NombreBanco = bancoEncontrado.NombreBanco;
+                    InventarioBanco.Cuenta = bancoEncontrado.Cuenta;
+                    InventarioBanco.FormasDisponiblesInventario = inventarioSeleccionado.FormasDisponibles;
+                    InventarioBanco.UltimoFolioUtilizadoInventario = inventarioSeleccionado.UltimoFolioUtilizado;
 
-                InventariosBancosFiltradosActivos.Add(InventarioBanco);
+                    InventariosBancosFiltradosActivos.Add(InventarioBanco);
+                }
+              
 
             }
 
@@ -668,8 +674,8 @@ namespace DAP.Foliacion.Negocios
 
                     Task<string> task_resultadoRegitrosActualizadosDBF_Cadena = Task.Run(() =>
                     {
-                        //return ActualizacionDFBS.ActualizarDBF_Sagitari_A_N_(Path.GetFullPath(datosCompletosNomina.Ruta), datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
-                        return ActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
+                       // return  ActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
+                        return NuevaActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
                     });
 
 
@@ -1091,7 +1097,8 @@ namespace DAP.Foliacion.Negocios
 
                 Task<string> task_resultadoRegitrosActualizadosDBF_Cadena = Task.Run(() =>
                 {
-                    return ActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
+                    //return ActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
+                    return NuevaActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
                 });
 
 

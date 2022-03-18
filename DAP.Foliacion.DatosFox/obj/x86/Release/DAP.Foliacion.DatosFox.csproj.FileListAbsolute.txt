@@ -1,0 +1,9 @@
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\bin\x86\Release\DAP.Foliacion.DatosFox.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\bin\x86\Release\DAP.Foliacion.DatosFox.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\bin\x86\Release\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\bin\x86\Release\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\obj\x86\Release\DAP.Foliacion.DatosFox.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\obj\x86\Release\DAP.Foliacion.DatosFox.csproj.CoreCompileInputs.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\obj\x86\Release\DAP.Foliacion.DatosFox.csproj.CopyComplete
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\obj\x86\Release\DAP.Foliacion.DatosFox.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.DatosFox\obj\x86\Release\DAP.Foliacion.DatosFox.pdb

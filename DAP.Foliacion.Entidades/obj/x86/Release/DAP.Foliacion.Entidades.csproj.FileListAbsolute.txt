@@ -1,0 +1,6 @@
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\bin\x86\Release\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\bin\x86\Release\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\x86\Release\DAP.Foliacion.Entidades.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\x86\Release\DAP.Foliacion.Entidades.csproj.CoreCompileInputs.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\x86\Release\DAP.Foliacion.Entidades.dll
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\x86\Release\DAP.Foliacion.Entidades.pdb

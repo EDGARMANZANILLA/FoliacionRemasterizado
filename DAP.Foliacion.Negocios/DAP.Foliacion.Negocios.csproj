@@ -33,6 +33,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -86,6 +104,10 @@
     <Compile Include="Reposicion_SuspencionNegocios.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAP.Foliacion.DatosFox\DAP.Foliacion.DatosFox.csproj">
+      <Project>{6dc96448-c5da-4777-a9ce-0873900a9a4d}</Project>
+      <Name>DAP.Foliacion.DatosFox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAP.Foliacion.Datos\DAP.Foliacion.Datos.csproj">
       <Project>{419f0ec9-901e-4458-aa0e-50d9de9a9eb4}</Project>
       <Name>DAP.Foliacion.Datos</Name>

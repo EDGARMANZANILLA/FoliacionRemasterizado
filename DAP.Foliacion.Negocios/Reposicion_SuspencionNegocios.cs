@@ -206,7 +206,7 @@ namespace DAP.Foliacion.Negocios
 
         public static string SuspenderFormaPago(int IdFormaaPago)
         {
-            string resultadoSuspencion = "" ;
+            string resultadoSuspencion = "Error";
             var transaccion = new Transaccion();
             var repositorioTBlPagos = new Repositorio<Tbl_Pagos>(transaccion);
             var repositorioTBlRefoliados = new Repositorio<Tbl_SeguimientoHistoricoFormas_Pagos>(transaccion);
@@ -222,7 +222,8 @@ namespace DAP.Foliacion.Negocios
 
 
             int registroSuspendidoDBF = 0;
-            ///*************************** ACTUALIZAR DBF EN UNA RUTA DEL SERVIDOR **********************////
+            /*******************************************************************************************************************************************************/
+            ///************************************************ ACTUALIZAR DBF EN UNA RUTA DEL SERVIDOR **********************************************************////
             string resultado_SuspencionDBF = FolearDBFEnServerNegocios.SuspenderPagoEnRutaDBF(datosNominaCompleto, suspenderFormaPago, CadenaNumEmpleado);
             if (resultado_SuspencionDBF.Contains("Cannot open file"))
             {
@@ -238,8 +239,8 @@ namespace DAP.Foliacion.Negocios
             }
 
 
-
-            ///***************************  ACTUALIZA EN ALPHA INTERFACES *******************************////
+            /********************************************************************************************************************************************************/
+            ///*******************************************  ACTUALIZA EN ALPHA INTERFACES **************************************************************************////
             //Actualiza un registro suspendido en Interfaces
             string Anio = "";
             if (suspenderFormaPago.Anio != Convert.ToInt32(DateTime.Now.Year))
@@ -270,7 +271,8 @@ namespace DAP.Foliacion.Negocios
 
             //Actualizacion de la tabla de la DB de interfaces donde se encuentra el registro del empleado (Alcualmente apunta al local porque no esta en produccion)
             //  int registroActualizado = Reposicion_SuspencionDBSinORM.SuspenderDispercion(formaPagoEncontrada.An, NumCompleto);
-            ///***************************  GUARDA UN REGISTRO PARA EL SEGUIMIENTO DE LO QUE SUCEDIO CON ESTE PAGO *******************************////
+            /****************************************************************************************************************************************************/
+            ///***************************  GUARDA UN REGISTRO PARA EL SEGUIMIENTO DE LO QUE SUCEDIO CON ESTE PAGO ********************************************////
             int resultadoDbFoliacion = 0;
             if (resultadoSuspendidoInterfaces == 1)
             {
@@ -341,8 +343,8 @@ namespace DAP.Foliacion.Negocios
             Tbl_Pagos reponerFormaPago = repositorioTBlPagos.Obtener(x => x.Id == IdRegistroPago && x.IdCat_FormaPago_Pagos == 1 && x.Activo == true);
             DatosCompletosBitacoraDTO datosNominaCompleto = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(reponerFormaPago.Id_nom, reponerFormaPago.Anio);
             string CadenaNumEmpleado = ObtenerNumeroEmpleadoCincoDigitos(reponerFormaPago.NumEmpleado);
-
-            ///***************************  VERFICA QUE EL FOLIO ESTE DISPONIBLE PARA SER USADO *******************************////
+            /************************************************************************************************************************************************************/
+            ///***************************  VERFICA QUE EL FOLIO ESTE DISPONIBLE PARA SER USADO ************************************************************************////
             Tbl_InventarioDetalle chequeVerificado = DisponibilidadFolioInventarioDetalle(reponerFormaPago.IdTbl_CuentaBancaria_BancoPagador, ReponerNuevoFolio);
             if (chequeVerificado.IdIncidencia != null )
             {
@@ -353,8 +355,8 @@ namespace DAP.Foliacion.Negocios
                 int registroReposicionDBF = 0;
                 int registroReposicionDBInterfaces = 0;
                 //string NumCompleto5Digitos = ObtenerNumeroEmpleadoCincoDigitos(formaPagoEncontrado.NumEmpleado);
-                /************************************************************************************************************************************/
-                /********************************   MODIFICA LA BASE DBF EN EL SERVIDOR ( CAMBIA EL FOLIO)*******************************************/
+                /**************************************************************************************************************************************************/
+                /**********************************   MODIFICA LA BASE DBF EN EL SERVIDOR ( CAMBIA EL FOLIO)    ***************************************************/
                 string executaQuery;
 
                 if (datosNominaCompleto.EsPenA)
@@ -382,8 +384,8 @@ namespace DAP.Foliacion.Negocios
                 }
 
 
-                /**********************************************************************************************************************************************/
-                /********************************   MODIFICA EL REGISTRO EN DB INTERFACES DE ALPHA (CAMBIA EL FOLIO)*******************************************/
+                /**************************************************************************************************************************************************/
+                /**********************************   MODIFICA EL REGISTRO EN DB INTERFACES DE ALPHA (CAMBIA EL FOLIO)  *******************************************/
                 string Anio = "";
 
                 if (reponerFormaPago.Anio != Convert.ToInt32(DateTime.Now.Year))
@@ -409,7 +411,7 @@ namespace DAP.Foliacion.Negocios
 
 
 
-                /**********************************************************************************************************************************************/
+                /****************************************************************************************************************************************************/
                 /*************************************** GUARDA UN REGISTRO DEL MOVIMIENTO Y MODIFICA EL REGISTRO EN DB FOLIACION (CAMBIA EL FOLIO)   *******************************************/
                 if (registroReposicionDBInterfaces == 1)
                 {
@@ -454,6 +456,7 @@ namespace DAP.Foliacion.Negocios
 
 
                             reponerFormaPago.FolioCheque = ReponerNuevoFolio;
+                            reponerFormaPago.TieneSeguimientoHistorico = true;
                             Tbl_Pagos entidadGuardada = repositorioTBlPagos.Modificar(reponerFormaPago);
 
 

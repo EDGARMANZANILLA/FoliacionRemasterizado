@@ -35,9 +35,6 @@ namespace DAP.Plantilla.Controllers
 
                 int anio = Convert.ToInt32( DateTime.Now.Year.ToString().Substring(0, 2) + NumeroQuincena.Substring(0, 2));
 
-
-
-
                 ViewBag.NumeroQuincena = NumeroQuincena;
                 Dictionary<int, string> ListaNombresQuincena = FoliarNegocios.ObtenerNominasXNumeroQuincena(NumeroQuincena, anio );
                 
@@ -864,94 +861,66 @@ namespace DAP.Plantilla.Controllers
 
         public ActionResult RevisarReportePDFPagomaticoPorIdNomina(int IdNomina, string Quincena)
         {
+            string archivoBase64 = "no entre";
+           
+                    int anio = ObtenerAnioDeQuincena(Quincena);
 
+                    var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(IdNomina, anio);
 
-            int anio = ObtenerAnioDeQuincena(Quincena);
-
-            var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(IdNomina, anio);
-
-            var resumenRevicionNominaReportePDF = FoliarNegocios.ObtenerDatosPersonalesNominaReportePagomatico(datosCompletosNomina.An, anio, datosCompletosNomina.Nomina);
-
-
-
-            //WindowsImpersonationContext impersonationContext = null;
-            //IntPtr userHandle = IntPtr.Zero;
-            //const int LOGON_TYPE_NEW_CREDENTIALS = 9;
-            //const int LOGON32_PROVIDER_WINNT50 = 3;
-            //string domain = @"\\172.19.3.171\";
-            //string user = "finanzas" + @"\" + "diego.ruz";
-            //string password = "Analista101";
-            ////string domain = @"\172.19.3.171\";
-            ////string user = "Administrador";
-            ////string password = "Procesosnomina1";
-
-            //if (domain == "")
-            //    domain = System.Environment.MachineName;
-            //// Llame a LogonUser para obtener un token para el usuario
-            //bool loggedOn = FoliarNegocios.LogonUser(user,
-            //                            domain,
-            //                            password,
-            //                            LOGON_TYPE_NEW_CREDENTIALS,
-            //                            LOGON32_PROVIDER_WINNT50,
-            //                            ref userHandle);
-
-            //if (!loggedOn)
-            //{
-            //    return Json("No tiene permisos", JsonRequestBehavior.AllowGet);
-            //}
+                    var resumenRevicionNominaReportePDF = FoliarNegocios.ObtenerDatosPersonalesNominaReportePagomatico(datosCompletosNomina.An, anio, datosCompletosNomina.Nomina);
 
 
 
-            string archivoBase64;
-            //    using (new Foliacion.Negocios.NetworkConnection(domain, new System.Net.NetworkCredential(user, password)))
-            //   {
+                    DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
 
-            DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-            dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
-            // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
+                    dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
+                    // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
 
 
-            foreach (var resultado in resumenRevicionNominaReportePDF)
-            {
-                //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
-                dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
-            }
+                    foreach (var resultado in resumenRevicionNominaReportePDF)
+                    {
+                        //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
+                        dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
+                    }
 
-            string pathPdf = @"C:\Reporte\FoliacionRevicionPDF";
+                    string pathPdf = "C:\\Reporte\\FoliacionRevicionPDF";
 
-            if (!Directory.Exists(pathPdf))
-            {
-                Directory.CreateDirectory(pathPdf);
-            }
-
-
+                    if (!Directory.Exists(pathPdf))
+                    {
+                        Directory.CreateDirectory(pathPdf);
+                    }
 
 
-            string pathCompleto = pathPdf + "\\" + "RevicionNomina" + IdNomina + ".pdf";
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-            rd.SetDataSource(dtsRevicionFolios);
-            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, pathCompleto);
+                   // string a = Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt");
+                    
+
+                    string pathCompleto = pathPdf + "\\" + "RevicionNomina" + IdNomina + ".pdf";
+
+                    ReportDocument rd = new ReportDocument();
+                    rd.Load(Path.Combine(Server.MapPath("~/Reportes/Crystal"), "RevicionFoliacionNomina.rpt"));
+                    rd.SetDataSource(dtsRevicionFolios);
+                    rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, "C:\\Reporte\\FoliacionRevicionPDF\\"+"RevicionNomina"+IdNomina+".pdf");
 
 
 
-            byte[] archivo = ObtenerBytes(pathCompleto);
+                   byte[] archivo = ObtenerBytes("C:\\Reporte\\FoliacionRevicionPDF\\" + "RevicionNomina"+IdNomina+".pdf");
 
 
-            archivoBase64 = Convert.ToBase64String(archivo);
-
-
-
-            if (System.IO.File.Exists(pathCompleto))
-            {
-                System.IO.File.Delete(pathCompleto);
-            }
-
-            //}
+                   //// if (archivo != null) 
+                   archivoBase64 = Convert.ToBase64String(archivo);
 
 
 
+                    if (System.IO.File.Exists(pathCompleto))
+                    {
+                        System.IO.File.Delete(pathCompleto);
+                    }
+                    rd.Close();
+                    rd.Dispose();
+                    dtsRevicionFolios.Dispose();
+     
+
+        
             return Json(archivoBase64, JsonRequestBehavior.AllowGet);
         }
 
@@ -1064,6 +1033,7 @@ namespace DAP.Plantilla.Controllers
                     resultServer = 1,
                     resultadoFoliacion = resultadoFoliacion
                 });
+
             }
 
 
@@ -1075,4 +1045,4 @@ namespace DAP.Plantilla.Controllers
     }
 
 
-    }
+}

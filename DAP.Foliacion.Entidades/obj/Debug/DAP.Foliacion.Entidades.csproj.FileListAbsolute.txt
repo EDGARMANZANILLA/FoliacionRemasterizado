@@ -15,3 +15,4 @@ C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.E
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.csproj.CoreCompileInputs.cache
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Entidades\obj\Debug\DAP.Foliacion.Entidades.csprojAssemblyReference.cache
