@@ -104,10 +104,6 @@
     <Compile Include="Reposicion_SuspencionNegocios.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAP.Foliacion.DatosFox\DAP.Foliacion.DatosFox.csproj">
-      <Project>{6dc96448-c5da-4777-a9ce-0873900a9a4d}</Project>
-      <Name>DAP.Foliacion.DatosFox</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DAP.Foliacion.Datos\DAP.Foliacion.Datos.csproj">
       <Project>{419f0ec9-901e-4458-aa0e-50d9de9a9eb4}</Project>
       <Name>DAP.Foliacion.Datos</Name>

@@ -76,6 +76,7 @@
     <Compile Include="ClasesParaDBF\ActualizacionDFBS.cs" />
     <Compile Include="ConsultasDBSinEntity.cs" />
     <Compile Include="FoliarConsultasDBSinEntity.cs" />
+    <Compile Include="InventarioConsultasDBSinEntity.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

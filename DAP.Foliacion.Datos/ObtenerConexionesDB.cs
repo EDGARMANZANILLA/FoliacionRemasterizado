@@ -36,10 +36,14 @@ namespace DAP.Foliacion.Datos
             return @"Data Source=172.19.3.31; Initial Catalog=Nomina; User=sa; PassWord=s3funhwonre2";
         }
 
-               public static string obtenerCadenaConexionDeploy()
+        public static string obtenerCadenaConexionDeploy()
         {
             return @"Data Source=172.19.3.170; Initial Catalog=Nomina; User=sa; PassWord=dbadmin";
         }
 
+        public static string ObtenerNombreDBValidacionFoliosDeploy() 
+        {
+            return "FoliacionDeploy";
+        }
     }
 }

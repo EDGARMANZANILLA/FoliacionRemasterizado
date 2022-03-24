@@ -32,7 +32,7 @@ namespace DAP.Plantilla.Controllers
             try
             {
 
-                DetallesInformativosCheque nuevoDetalle = Mapper.Map<DetallesRegistroDTO, DetallesInformativosCheque>(BuscadorChequeNegocios.ObtenerDetallesIdRegistro(IdRegistroBuscar));
+                DetallesInformativosChequeModel nuevoDetalle = Mapper.Map<DetallesRegistroDTO, DetallesInformativosChequeModel>(BuscadorChequeNegocios.ObtenerDetallesIdRegistro(IdRegistroBuscar));
 
                 ViewBag.diccionarioReferenciaCancelacion = BuscadorChequeNegocios.ObtenerReferenciasDeCancelacionPorAnioActivas(DateTime.Now.Year);
 
@@ -40,7 +40,7 @@ namespace DAP.Plantilla.Controllers
 
                 /***********************************************************************************/
 
-                if (nuevoDetalle.Id_nom > 0)
+                if (nuevoDetalle.IdRegistro == IdRegistroBuscar)
                 {
                     return PartialView(nuevoDetalle);
                 }

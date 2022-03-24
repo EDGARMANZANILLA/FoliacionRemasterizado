@@ -23,7 +23,7 @@ namespace DAP.Plantilla.Controllers
         public ActionResult BuscarDetalleSuspencion(int IdRegistroAbuscar)
         {
 
-            DetallesInformativosCheque detalleObtenido = Mapper.Map<DetallesRegistroDTO, DetallesInformativosCheque>(Reposicion_SuspencionNegocios.ObtenerDetalleCompletoIdRegistro(IdRegistroAbuscar));
+            DetallesInformativosChequeModel detalleObtenido = Mapper.Map<DetallesRegistroDTO, DetallesInformativosChequeModel>(Reposicion_SuspencionNegocios.ObtenerDetalleCompletoIdRegistro(IdRegistroAbuscar));
 
 
 
@@ -46,7 +46,7 @@ namespace DAP.Plantilla.Controllers
         public ActionResult BuscarDetalleReponer(int IdRegistroAbuscar)
         {
 
-            DetallesInformativosCheque detalleObtenido = Mapper.Map<DetallesRegistroDTO, DetallesInformativosCheque>(Reposicion_SuspencionNegocios.ObtenerDetalleCompletoIdRegistro(IdRegistroAbuscar));
+            DetallesInformativosChequeModel detalleObtenido = Mapper.Map<DetallesRegistroDTO, DetallesInformativosChequeModel>(Reposicion_SuspencionNegocios.ObtenerDetalleCompletoIdRegistro(IdRegistroAbuscar));
 
 
             if (detalleObtenido.IdRegistro == IdRegistroAbuscar)

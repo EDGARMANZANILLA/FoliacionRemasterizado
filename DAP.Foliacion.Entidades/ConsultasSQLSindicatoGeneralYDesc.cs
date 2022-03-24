@@ -31,22 +31,22 @@ namespace DAP.Foliacion.Entidades
 
             /*Para los de confianza osea NO SINDICALIZADOS*/
             /*Campeche y Otros*/
-            string Campeche_Confianza = "select '0' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            string Campeche_Confianza =             "select '0' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton__Confianza = "select '0' 'Sindicato', '03' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
+            string Champoton__Confianza =           "select '0' 'Sindicato', '03' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Confianza = "select '0' '04', 'Escarcega - Candelaria' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Confianza = "select '0' 'Sindicato', '04' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Confianza = "select '0' 'Sindicato', '05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
+            string Calkini_Confianza =              "select '0' 'Sindicato', '05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Confianza = "select '0' 'Sindicato', '06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
+            string Hecelchakan_Confianza =          "select '0' 'Sindicato', '06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Confianza = "select '0' 'Sindicato', '07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
+            string Hopelchen_Confianza =            "select '0' 'Sindicato', '07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo."+An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 0 and deleg = 07";
 
 
 
@@ -56,22 +56,22 @@ namespace DAP.Foliacion.Entidades
 
             /*Para los de Sindicalizados*/
             /*Campeche y Otros*/
-            string Campeche_Sindicalizados = "select '1' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
+            string Campeche_Sindicalizados =            "select '1' 'Sindicato', '00' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in('00' , '01', '02', '08', '09', '10', '12', '13', '14', '15', '16' )";
 
             /*Champoton*/
-            string Champoton_Sindicalizados = "select '1' 'Sindicato', '01' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
+            string Champoton_Sindicalizados =           "select '1' 'Sindicato', '03' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 03";
 
             /*Escarcega y candelaria*/
-            string EscarcegaYCandelaria_Sindicalizados = "select '1' 'Sindicato','04' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
+            string EscarcegaYCandelaria_Sindicalizados ="select '1' 'Sindicato','04' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg in ('04', '11')";
 
             /*Calkini*/
-            string Calkini_Sindicalizados = "select '1' 'Sindicato','05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
+            string Calkini_Sindicalizados =             "select '1' 'Sindicato','05' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 05";
 
             /*Hecelchakan*/
-            string Hecelchakan_Sindicalizados = "select '1' 'Sindicato','06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
+            string Hecelchakan_Sindicalizados =         "select '1' 'Sindicato','06' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 06";
 
             /*Hopelchen*/
-            string Hopelchen_Sindicalizados = "select '1' 'Sindicato','07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
+            string Hopelchen_Sindicalizados =           "select '1' 'Sindicato','07' 'Nom_Deleg' ,count(*) 'Total' from interfaces"+Anio+".dbo." + An+" where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and sindicato = 1 and deleg = 07";
 
 
 

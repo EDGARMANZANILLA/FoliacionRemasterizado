@@ -14,7 +14,7 @@ using System.Threading;
 using DAP.Foliacion.Datos.ClasesParaDBF;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
-using DAP.Foliacion.DatosFox;
+
 
 namespace DAP.Foliacion.Negocios
 {
@@ -674,8 +674,8 @@ namespace DAP.Foliacion.Negocios
 
                     Task<string> task_resultadoRegitrosActualizadosDBF_Cadena = Task.Run(() =>
                     {
-                       // return  ActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
-                        return NuevaActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
+                        return  ActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
+                       // return NuevaActualizacionDFBS.ActualizarDBF_Pagomaticos(datosCompletosNomina.Ruta, datosCompletosNomina.RutaNomina, resumenPersonalAFoliar, datosCompletosNomina.EsPenA);
                     });
 
 
@@ -1097,8 +1097,8 @@ namespace DAP.Foliacion.Negocios
 
                 Task<string> task_resultadoRegitrosActualizadosDBF_Cadena = Task.Run(() =>
                 {
-                    //return ActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
-                    return NuevaActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
+                    return ActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
+                  //return NuevaActualizacionDFBS.ActualizarDBF_Cheques(datosNominaCompleto.Ruta, datosNominaCompleto.RutaNomina, resumenPersonalFoliar, datosNominaCompleto.EsPenA);
                 });
 
 

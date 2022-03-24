@@ -62,40 +62,40 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/21/2019 13:18:02</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.dll">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>03/24/2022 10:47:51</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.dll.config">
       <publishTime>03/17/2022 11:57:30</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.pdb">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>03/24/2022 10:47:51</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.DatosFox.dll">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.DatosFox.pdb">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Entidades.dll">
-      <publishTime>03/18/2022 13:08:08</publishTime>
+      <publishTime>03/24/2022 10:47:50</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Entidades.pdb">
-      <publishTime>03/18/2022 13:08:08</publishTime>
+      <publishTime>03/24/2022 10:47:50</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.dll">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>03/24/2022 10:54:02</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.dll.config">
       <publishTime>11/22/2021 11:17:10</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.pdb">
-      <publishTime>03/18/2022 12:54:47</publishTime>
+      <publishTime>03/24/2022 10:54:02</publishTime>
     </File>
     <File Include="bin/DAP.Plantilla.dll">
-      <publishTime>03/18/2022 14:01:02</publishTime>
+      <publishTime>03/24/2022 10:54:05</publishTime>
     </File>
     <File Include="bin/DAP.Plantilla.pdb">
-      <publishTime>03/18/2022 14:01:02</publishTime>
+      <publishTime>03/24/2022 10:54:05</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 20:38:42</publishTime>
@@ -5221,6 +5221,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Imagenes/Perfil.png">
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
+    <File Include="Imagenes/Perfil_Redes__DEPENDENCIA.png">
+      <publishTime>03/24/2022 08:19:47</publishTime>
+    </File>
     <File Include="Imagenes/Perfil_Redes__SAIG.jpg">
       <publishTime>10/14/2021 12:23:26</publishTime>
     </File>
@@ -5528,7 +5531,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/23/2022 13:12:04</publishTime>
     </File>
     <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/DetalleBanco.js">
-      <publishTime>02/25/2022 13:32:38</publishTime>
+      <publishTime>03/23/2022 11:31:17</publishTime>
     </File>
     <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Index.js">
       <publishTime>02/01/2022 12:48:03</publishTime>
@@ -6038,16 +6041,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/17/2022 13:46:07</publishTime>
     </File>
     <File Include="Views/Inventario/Inhabilitar.cshtml">
-      <publishTime>03/02/2022 08:55:21</publishTime>
+      <publishTime>03/23/2022 11:00:41</publishTime>
     </File>
     <File Include="Views/Inventario/Solicitar.cshtml">
       <publishTime>02/01/2022 12:33:38</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/BuscarDetalleReponer.cshtml">
-      <publishTime>01/07/2022 14:46:29</publishTime>
+      <publishTime>03/23/2022 12:13:49</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/BuscarDetalleSuspencion.cshtml">
-      <publishTime>01/07/2022 14:46:37</publishTime>
+      <publishTime>03/23/2022 12:03:07</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/Index.cshtml">
       <publishTime>03/16/2022 09:49:56</publishTime>
@@ -6056,7 +6059,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/18/2022 13:59:20</publishTime>
+      <publishTime>03/24/2022 08:50:03</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/19/2021 09:29:35</publishTime>
@@ -6065,7 +6068,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/17/2022 17:16:43</publishTime>
+      <publishTime>03/24/2022 09:48:24</publishTime>
     </File>
   </ItemGroup>
 </Project>

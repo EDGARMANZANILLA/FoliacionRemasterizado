@@ -10,7 +10,7 @@ namespace DAP.Foliacion.Entidades.DTO.BuscardorChequeDTO
     public class DetallesRegistroDTO
     {
         public int IdRegistro { get; set; }
-        public int Id_nom { get; set; }
+        public string Id_nom { get; set; }
         public string ReferenciaBitacora { get; set; }
 
 

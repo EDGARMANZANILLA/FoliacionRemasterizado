@@ -89,8 +89,8 @@ namespace DAP.Foliacion.Negocios
 
             DetallesRegistroDTO nuevoDetalle = new DetallesRegistroDTO();
 
-            nuevoDetalle.IdRegistro = registroEncontrado.Id;
-            nuevoDetalle.Id_nom = registroEncontrado.Id_nom;
+            nuevoDetalle.IdRegistro = registroEncontrado.Id ;
+            nuevoDetalle.Id_nom = " || " + registroEncontrado.Id_nom + " || - || " + registroEncontrado.Nomina + " || ";
             nuevoDetalle.ReferenciaBitacora = registroEncontrado.ReferenciaBitacora;
 
             nuevoDetalle.Quincena = registroEncontrado.Quincena;

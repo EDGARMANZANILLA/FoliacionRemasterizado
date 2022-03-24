@@ -49,6 +49,8 @@ C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CopyComplete
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.dll
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CoreCompileInputs.cache
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Negocios.dll.config
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Negocios.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\DAP.Foliacion.Negocios.pdb
@@ -80,8 +82,6 @@ C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.N
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\es\System.Web.WebPages.resources.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Debug\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csprojAssemblyReference.cache
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CoreCompileInputs.cache
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.csproj.CopyComplete
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Debug\DAP.Foliacion.Negocios.pdb

@@ -147,7 +147,7 @@
     </Compile>
     <Compile Include="Models\AgregarInventarioModel.cs" />
     <Compile Include="Models\BuscardorChequeModels\DetallesBusquedaModels.cs" />
-    <Compile Include="Models\BuscardorChequeModels\DetallesInformativosCheque.cs" />
+    <Compile Include="Models\BuscardorChequeModels\DetallesInformativosChequeModel.cs" />
     <Compile Include="Models\BuscardorChequeModels\ElementosBuscador.cs" />
     <Compile Include="Models\ConfiguracionesModels\FormaPagosDesinhabilitarModels\DesinhabilitarFormasPagoVerificarModels.cs" />
     <Compile Include="Models\CrearReferencia_CanceladosModels\ReferenciaCanceladoModel.cs" />
@@ -1798,6 +1798,7 @@
     <Content Include="Imagenes\Mov.png" />
     <Content Include="Imagenes\Movimientos.png" />
     <Content Include="Imagenes\Perfil.png" />
+    <Content Include="Imagenes\Perfil_Redes__DEPENDENCIA.png" />
     <Content Include="Imagenes\Perfil_Redes__SAIG.jpg" />
     <Content Include="Imagenes\PoderEjecutivo.jpg" />
     <Content Include="Imagenes\posesion.png" />

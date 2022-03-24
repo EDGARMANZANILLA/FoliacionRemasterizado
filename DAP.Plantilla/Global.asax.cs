@@ -31,7 +31,7 @@ namespace DAP.Plantilla
             AutoMapper.Mapper.Initialize(cfg => {
                 cfg.CreateMap<ResultadoObtenidoParaSelect2, ElementosBuscador>();
                 cfg.CreateMap<DetallesBusqueda, DetallesBusquedaModels>();
-                cfg.CreateMap<DetallesRegistroDTO, DetallesInformativosCheque>();
+                cfg.CreateMap<DetallesRegistroDTO, DetallesInformativosChequeModel>();
                 cfg.CreateMap<ResumenFoliosDesinhabilitarDTO, DesinhabilitarFormasPagoVerificarModels>();
                 cfg.CreateMap<CrearReferenciaDTO, ReferenciaCanceladoModel> ();
                 cfg.CreateMap<ResumenRevicionNominaPDFDTO, Models.FoliacionModels.ResumenRevicionNominaPDFModel>();

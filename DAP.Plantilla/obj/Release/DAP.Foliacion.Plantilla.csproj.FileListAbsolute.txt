@@ -114,5 +114,3 @@ C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\o
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Release\DAP.Foliacion.Plantilla.csproj.CopyComplete
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Release\DAP.Plantilla.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Release\DAP.Plantilla.pdb
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\DAP.Foliacion.DatosFox.dll
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\DAP.Foliacion.DatosFox.pdb

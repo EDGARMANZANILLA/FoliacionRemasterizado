@@ -228,6 +228,8 @@ C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Folia
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csproj.CopyComplete
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Plantilla.dll
 C:\Users\Israel\Desktop\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Plantilla.pdb
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csprojAssemblyReference.cache
+C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csproj.CoreCompileInputs.cache
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\DAP.Plantilla.dll.config
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\DAP.Plantilla.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\DAP.Plantilla.pdb
@@ -339,8 +341,6 @@ C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\b
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\es\System.Web.WebPages.resources.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csprojAssemblyReference.cache
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csproj.CoreCompileInputs.cache
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Foliacion.Plantilla.csproj.CopyComplete
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Plantilla.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Plantilla\obj\Debug\DAP.Plantilla.pdb

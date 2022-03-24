@@ -34,5 +34,3 @@ C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.N
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Release\DAP.Foliacion.Negocios.csproj.CopyComplete
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Release\DAP.Foliacion.Negocios.dll
 C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\obj\Release\DAP.Foliacion.Negocios.pdb
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Release\DAP.Foliacion.DatosFox.dll
-C:\Users\Israel\Desktop\RAMA DE FOLIACION\FoliacionRemasterizado\DAP.Foliacion.Negocios\bin\Release\DAP.Foliacion.DatosFox.pdb
