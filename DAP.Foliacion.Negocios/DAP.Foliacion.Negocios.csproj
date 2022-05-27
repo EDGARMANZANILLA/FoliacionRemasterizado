@@ -95,7 +95,6 @@
     <Compile Include="CrearReferencia_CanceladosNegocios.cs" />
     <Compile Include="EncriptarCadena.cs" />
     <Compile Include="Configuraciones_InventarioYCuentasNegocios.cs" />
-    <Compile Include="FinalizarReferencia_CanceladosNegocios.cs" />
     <Compile Include="FoliarDBF\FolearDBFEnServerNegocios.cs" />
     <Compile Include="FoliarNegocios.cs" />
     <Compile Include="InventarioNegocios.cs" />

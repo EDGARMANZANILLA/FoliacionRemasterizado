@@ -9,7 +9,7 @@
 
 
 
-@Scripts.Render("~/Scripts/SCRIPTS_PROYECTO_VISTAS/Reposicion_Suspencion/Index.js")
+@Scripts.Render("~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Reposicion_Suspencion/Index.js")
 
 
 
@@ -160,7 +160,7 @@
 
 <!-- Modal del Historico de Reposiciones   -->
 <div class="modal fade" id="btnHistoricoSeguimiento" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="overflow-y: scroll;">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xll">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title col-11 text-uppercase text-center">SEGUIMIENTO DEL HISTORICO DE La FORMA DE PAGO SELECCIONADA</h5>
@@ -170,9 +170,9 @@
             </div>
             <div class="modal-body">
 
-
+                </br>
                 <!-- Cascaron de tabla para luego llenarla con datos desde la DB -->
-                <div class="margenSection">
+            
                     <div class="table-responsive">
 
                         <div id="TablaHistoricoReposiciones">
@@ -191,10 +191,8 @@
 
                         </div>
                     </div>
-                </div>
+          
 
-                </br>
-                </br>
                 </br>
 
 
@@ -270,137 +268,3 @@
 
 
 
-
-
-@*<script>
-
-        function DibujarLocalizadorFormaPago() {
-            $("#TablaRegistroLocalizadoFormaPago").append(
-
-                "<table id='RegistrosLocalizados'  class='table table-striped display table-bordered table-hover' cellspacing='0'  style='width:100%'>" +
-                " <caption class='text-uppercase'>Registros Encontrados</caption>"
-                + "<thead class='tabla'>" +
-
-                "<tr class='text-center text-uppercase'>" +
-
-
-                "<th>Id_Nom</th>" +
-                "<th>Referencia Bitacora</th>" +
-                "<th>Quincena</th>" +
-                "<th>Num Empleado</th>" +
-                "<th>Nombre Beneficiaro</th>" +
-                "<th>Num Benef</th>" +
-                "<th>Folio Cheque</th>" +
-                "<th>Liquido</th>" +
-                "<th>Estado Cheque</th>" +
-                "<th> </th>" +
-
-                "</tr>" +
-                "</thead>" +
-                "</table>"
-            );
-        };
-
-        let RegistrosTabla;
-        function PintarLocalizadorFormaPago(datos) {
-
-
-
-            RegistrosTabla = $('#RegistrosLocalizados').DataTable({
-                "ordering": true,
-                "info": false,
-                "searching": false,
-                "paging": false,
-                "lengthMenu": [5, 10],
-                "language":
-                {
-                    "processing": "Procesando...",
-                    "lengthMenu": "Mostrar _MENU_ registros",
-                    "zeroRecords": "No se encontraron resultados",
-                    "emptyTable": "Ningún dato disponible en esta tabla",
-                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "search": "Buscar:",
-                    "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Último",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                },
-                "data": datos,
-                "columns": [
-
-                    { "data": "Id_nom" },
-                    { "data": "ReferenciaBitacora" },
-                    { "data": "Quincena" },
-                    { "data": "NumEmpleado" },
-                    { "data": "NombreBeneficiaro" },
-                    { "data": "NumBene" },
-                    { "data": "FolioCheque" },
-                    { "data": "Liquido" },
-                    { "data": "EstadoCheque" },
-                    { "data": "IdRegistro" }
-                ],
-                "columnDefs": [
-
-                    { className: "text-center col-1", visible: true, "targets": 0, },
-                    { className: "text-center col-1", visible: true, "targets": 1, },
-                    { className: "text-center col-1", visible: true, "targets": 2, },
-                    { className: "text-center col-1", visible: true, "targets": 3, },
-                    { className: "text-center col-2", visible: true, "targets": 4, },
-                    { className: "text-center col-1", visible: true, "targets": 5, },
-                    { className: "text-center col-1", visible: true, "targets": 6, },
-                    { className: "text-center col-1", visible: true, "targets": 7, },
-                    { className: "text-center col-1", visible: true, "targets": 8, },
-                    {
-                        className: "text-center col-2",
-                        visible: true,
-                        "targets": [9],
-                        render: function (data, type, row) {
-                            //console.log(typeof data);
-                            //console.log( data);
-                            if (data) {
-                                return '<h4 class="verDetalle bg-success btn  text-uppercase text-light"  > Ver Detalle "' + data + '" </h4>';
-                            }
-
-                        }
-                    }
-
-                ],
-                "order": [[2, 'desc']]
-
-            });
-
-        };
-
-
-
-
-        document.getElementById("OLO").focus();
-
-
-
-
-        $(document).ready(function () {
-
-
-
-            const Localizar = document.getElementById("btnLocalizador");
-            Localizar.addEventListener("click",
-                function () {
-                    console.log("jjj");
-
-
-
-
-                }
-            );
-
-        });
-
-
-
-
-    </script>*@

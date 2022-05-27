@@ -167,7 +167,7 @@ namespace DAP.Plantilla.Controllers
             {
                 //Continua con la suspencion
 
-                string respuesta = Reposicion_SuspencionNegocios.SuspenderFormaPago(IdRegistroPago );
+                string respuesta = Reposicion_SuspencionNegocios.SuspenderFormaPago(IdRegistroPago);
 
                 if (respuesta.Contains("LA BASE"))
                 {
@@ -197,7 +197,11 @@ namespace DAP.Plantilla.Controllers
                 respuestaServidor = 1;
                 solucion = "Este pago ya no forma parte de una dispersion por ende no se puede suspender por sistema, informe al administrativo correspondiente para la retencion del cheque";
             }
-
+            else if (quePuedoHacer.ToUpper().Trim().Equals(("REFERENCIACANCELADO").ToUpper().Trim()))
+            {
+                respuestaServidor = 1;
+                solucion = "Este pago se encuentra es un proceso de cancelacion verifique por favor ";
+            }
 
             return Json(new
             {
@@ -236,7 +240,7 @@ namespace DAP.Plantilla.Controllers
                 else if (respuesta.Contains("CORRECTO"))
                 {
                     respuestaServidor = 2;
-                    solucion = "Se a repuesto de manera exitosa el folio :" + ReponerNuevoFolio;
+                    solucion = "Se a repuesto de manera exitosa el folio : " + ReponerNuevoFolio;
                 }
                 else
                 {
@@ -251,7 +255,7 @@ namespace DAP.Plantilla.Controllers
             else if (quePuedoHacer.ToUpper().Trim().Equals(("REFERENCIACANCELADO").ToUpper().Trim()))
             {
                 respuestaServidor = 1;
-                solucion = "Asegurese de removerlo de la referencia primero antes de reponer " + " ' No se puede reponer porque se encuentra cargado a una referencia de cancelacion'";
+                solucion = "Asegurese de removerlo de la referencia primero antes de reponer " + "  ''No se puede reponer porque se encuentra cargado a una referencia de cancelacion''";
             }
             else if (quePuedoHacer.ToUpper().Trim().Equals(("NO_EXISTE").ToUpper().Trim()))
             {

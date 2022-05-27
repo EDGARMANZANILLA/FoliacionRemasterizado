@@ -1,6 +1,6 @@
 ﻿
 
-@Scripts.Render("~/Scripts/ScriptProyecto/EncontrarCheque/Index.js")
+@Scripts.Render("~/Scripts/SCRIPTS_PROYECTO_VISTAS/CHEQUES_CANCELADOS/EncontrarCheque/Index.js")
 
 @{
     ViewBag.Icono = "fas fa-ban";
@@ -106,8 +106,8 @@
 
 <!-- Modal para cargar una forma de pago a una referencia para su foliacion   -->
 <div class="modal fade" id="Prueba_RenderVista" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+        <div class="modal-content" role="document">
             @*<div class="modal-header">
                     <h4 class="modal-title col-11 text-capitalize text-center">AGREGAR UNA FORMA DE PAGO A UN NUMERO DE REFERENCIA DE CANCELACION</h4>
                     <button type="button" class="close btn-primary" data-dismiss="modal" aria-label="Close">

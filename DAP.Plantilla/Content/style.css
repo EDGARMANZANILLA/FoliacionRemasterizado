@@ -232,6 +232,11 @@ button {
     background: #74BC7C;
 }
 
+.tablaFiltro {
+    text-align: center;
+    background: #fff;
+}
+
 
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
@@ -245,3 +250,25 @@ button {
     color: blue;
 }
 
+.altura {
+    height: 100vh;
+    
+}
+
+
+
+.modal-xll {
+    position: absolute;
+    max-width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 3%;
+    right: 3%;
+}
+
+
+
+
+.margenAlPie {
+    margin-bottom: 60px;
+}

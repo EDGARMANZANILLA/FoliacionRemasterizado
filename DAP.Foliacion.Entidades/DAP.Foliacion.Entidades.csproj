@@ -74,6 +74,9 @@
     <Compile Include="Cat_FormasPago_Pagos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="cat_ReportesCCancelados.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="ConsultasSQLOtrasNominasConCheques.cs" />
     <Compile Include="ConsultasSQLSindicatoGeneralYDesc.cs" />
@@ -83,6 +86,19 @@
     <Compile Include="DTO\ConfiguracionesDTO\ResumenFoliosDesinhabilitarDTO.cs" />
     <Compile Include="DTO\Configuracion_EditarPersonalDTO.cs" />
     <Compile Include="DTO\CrearReferencia_CanceladosDTO\CrearReferenciaDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\DatosAdeducionesIPD_DTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\DatosAnIPD_DTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\DatosApercepcionesIPD_DTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\DatosGeneralesIPD_DTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\DetallesRegistrosDentroReferenciaDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\IPDDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\CuentasBancariasAnualesDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\IPDC\IPDCDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\IPD\DescripcionPPDD_DTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\IPD\RegistrosTGCxNominaDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\IPD\TotalesGeneralesPorConceptoDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\NominasAnualesDTO.cs" />
+    <Compile Include="DTO\CrearReferencia_CanceladosDTO\ReporteCCancelados\PensionAlimenticiaDTO.cs" />
     <Compile Include="DTO\DetallesDeCuentaDTO.cs" />
     <Compile Include="DTO\FinalizarReferencia_CanceladosDTO\DetallePagoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\AlertaDeNominasFoliadasPagomatico.cs" />
@@ -98,6 +114,7 @@
     <Compile Include="DTO\FoliarDTO\NumeroRegistrosFoliarYEsfoliadaNomina.cs" />
     <Compile Include="DTO\FoliarDTO\NumRfcNombreLiquidoDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ObjetoPagoDTO.cs" />
+    <Compile Include="DTO\FoliarDTO\RecuperarFolios\FoliosARecuperarDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ReporteEmpleadosNominaXDelegacionFoliacion.cs" />
     <Compile Include="DTO\FoliarDTO\ReporteFoliacionDTO.cs" />
     <Compile Include="DTO\FoliarDTO\ResumenNominaChequeDTO.cs" />
@@ -172,5 +189,6 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

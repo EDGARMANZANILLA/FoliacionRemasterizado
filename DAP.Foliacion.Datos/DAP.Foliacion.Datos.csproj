@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="ClasesParaDBF\ActualizacionDFBS.cs" />
     <Compile Include="ConsultasDBSinEntity.cs" />
+    <Compile Include="CrearReferencia_CanceladosDbSinEntity.cs" />
     <Compile Include="FoliarConsultasDBSinEntity.cs" />
     <Compile Include="InventarioConsultasDBSinEntity.cs" />
     <Compile Include="Model1.Context.cs">

@@ -268,7 +268,7 @@ namespace DAP.Foliacion.Entidades
            string  universoDatos = "select NUM   from interfaces" + Anio + ".dbo." + An + "  where TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = ''  and deleg in " + DelegacionesIncluidas + " ";
            
 
-            return "SELECT COUNT(*) FROM interfaces" + Anio + ".dbo." + An + " WHERE NUM_CHE = '' AND  banco_x = '' and cuenta_x = '' AND Observa = '' AND NUM IN (" + universoDatos + ")";
+            return "SELECT COUNT(*) FROM interfaces" + Anio + ".dbo." + An + " WHERE TARJETA = '' and SERFIN = '' and BANCOMER = '' and BANORTE = '' and HSBC = '' and NUM_CHE = '' AND  banco_x = '' and cuenta_x = '' AND Observa = '' AND NUM IN (" + universoDatos + ")";
         }
 
 
@@ -493,9 +493,6 @@ namespace DAP.Foliacion.Entidades
         //**********************************************************************************************************************************************************************//
         //**********************************************************************************************************************************************************************//
         //**********************************************************************************************************************************************************************//
-
-
-
 
 
     }

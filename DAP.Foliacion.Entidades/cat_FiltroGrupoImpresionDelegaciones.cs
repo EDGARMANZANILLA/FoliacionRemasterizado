@@ -16,7 +16,7 @@ namespace DAP.Foliacion.Entidades
     {
         public int Id { get; set; }
         public int GrupoImpresionDelegacion { get; set; }
-        public string DelegacionesIncluidas { get; set; }
         public string NombreComun { get; set; }
+        public string DelegacionesIncluidas { get; set; }
     }
 }

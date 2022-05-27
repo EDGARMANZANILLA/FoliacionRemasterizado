@@ -72,6 +72,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -138,7 +144,6 @@
     <Compile Include="Controllers\CrearReferencia_CanceladosController.cs" />
     <Compile Include="Controllers\EncontrarChequeController.cs" />
     <Compile Include="Controllers\Configuraciones_InventarioYCuentasController.cs" />
-    <Compile Include="Controllers\FinalizarReferencia_CanceladosController.cs" />
     <Compile Include="Controllers\FoliarController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\Reposicion_SuspencionController.cs" />
@@ -186,6 +191,30 @@
       <DependentUpon>NominasParaFoliacion.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reportes\Crystal\ReporteCuentaBancariaAnualCC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReporteCuentaBancariaAnualCC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\Crystal\ReporteNominaAnualCC.cs">
+      <DependentUpon>ReporteNominaAnualCC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Reportes\Crystal\ReportePensionAlimenticiaCC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportePensionAlimenticiaCC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\Crystal\ReportesCC\IPD\ReporteTGCxNomina.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReporteTGCxNomina.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reportes\Crystal\RevicionFoliacionNomina.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,6 +226,31 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SolicitarFormasDePagoBancos.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\Datasets\DSCuentaBancariaAnual_CC.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSCuentaBancariaAnual_CC.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Datasets\DsNominaAnual.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsNominaAnual.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Datasets\DsPensionAlimenticiaCC.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsPensionAlimenticiaCC.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNomina.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsTGCxNomina.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNominaDeducciones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsTGCxNominaDeducciones.xsd</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Datasets\FormasChequesExistentes.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1926,6 +1980,61 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Reportes\Datasets\DsNominaAnual.xsc">
+      <DependentUpon>DsNominaAnual.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reportes\Datasets\DSCuentaBancariaAnual_CC.xsc">
+      <DependentUpon>DSCuentaBancariaAnual_CC.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\DSCuentaBancariaAnual_CC.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSCuentaBancariaAnual_CC.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reportes\Datasets\DSCuentaBancariaAnual_CC.xss">
+      <DependentUpon>DSCuentaBancariaAnual_CC.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\DsNominaAnual.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsNominaAnual.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Reportes\Datasets\DsNominaAnual.xss">
+      <DependentUpon>DsNominaAnual.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reportes\Datasets\DsPensionAlimenticiaCC.xsc">
+      <DependentUpon>DsPensionAlimenticiaCC.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\DsPensionAlimenticiaCC.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsPensionAlimenticiaCC.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reportes\Datasets\DsPensionAlimenticiaCC.xss">
+      <DependentUpon>DsPensionAlimenticiaCC.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNomina.xsc">
+      <DependentUpon>DsTGCxNomina.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNomina.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsTGCxNomina.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNomina.xss">
+      <DependentUpon>DsTGCxNomina.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNominaDeducciones.xsc">
+      <DependentUpon>DsTGCxNominaDeducciones.xsd</DependentUpon>
+    </Content>
+    <None Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNominaDeducciones.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsTGCxNominaDeducciones.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Reportes\Datasets\DsReportesCC\DsIPD\DsTGCxNominaDeducciones.xss">
+      <DependentUpon>DsTGCxNominaDeducciones.xsd</DependentUpon>
+    </Content>
     <None Include="Reportes\Datasets\FormasChequesExistentes.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1988,17 +2097,19 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\ScriptProyecto\EncontrarCheque\Index.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Reposicion_Suspencion\Index.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Foliar\FoliarXFormasPago.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Foliar\FoliarXPagomatico.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Foliar\Index.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\Agregar.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\Asignar.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\DetalleBanco.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\Index.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\Inhabilitar.js" />
-    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\Inventario\Solicitar.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\CHEQUES_CANCELADOS\CrearReferencia_Cancelados\Index.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\CHEQUES_CANCELADOS\EncontrarCheque\Index.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Foliar\RecuperarFolios.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Reposicion_Suspencion\Index.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Foliar\FoliarXFormasPago.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Foliar\FoliarXPagomatico.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Foliar\Index.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\Agregar.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\Asignar.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\DetalleBanco.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\Index.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\Inhabilitar.js" />
+    <Content Include="Scripts\SCRIPTS_PROYECTO_VISTAS\FOLIACION\Inventario\Solicitar.js" />
     <Content Include="Scripts\select2-4.1.0-rc.0\css\select2.css" />
     <Content Include="Scripts\select2-4.1.0-rc.0\css\select2.min.css" />
     <Content Include="Scripts\select2-4.1.0-rc.0\js\i18n\af.js" />
@@ -2136,6 +2247,8 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Upload\jquery.uploadfile.min.js" />
+    <Content Include="Scripts\Upload\uploadfile.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2188,7 +2301,7 @@
     <Content Include="Views\Reposicion_Suspencion\BuscarDetalleSuspencion.cshtml" />
     <Content Include="Views\Reposicion_Suspencion\BuscarDetalleReponer.cshtml" />
     <Content Include="Views\CrearReferencia_Cancelados\Index.cshtml" />
-    <Content Include="Views\FinalizarReferencia_Cancelados\Index_FinalizarReferencia.cshtml" />
+    <Content Include="Views\Foliar\RecuperarFolios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2222,6 +2335,22 @@
     <EmbeddedResource Include="Reportes\Crystal\NominasParaFoliacion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>NominasParaFoliacion.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Crystal\ReporteCuentaBancariaAnualCC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteCuentaBancariaAnualCC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Crystal\ReporteNominaAnualCC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteNominaAnualCC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Crystal\ReportePensionAlimenticiaCC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReportePensionAlimenticiaCC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Crystal\ReportesCC\IPD\ReporteTGCxNomina.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteTGCxNomina.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Crystal\RevicionFoliacionNomina.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

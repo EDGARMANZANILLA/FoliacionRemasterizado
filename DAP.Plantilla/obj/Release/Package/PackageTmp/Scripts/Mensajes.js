@@ -300,3 +300,30 @@ function MensajeGuardar_NoGuardar_Cancelar( TextoAguardar , ConfirmacionDeGuarda
     })
 
 }
+
+
+
+
+function MensajeEstamosEnConstrucion()
+{
+    Swal.fire({
+        title: '<strong>  "PROXIMAMENTE DISPONIBLE"</strong>',
+        icon: 'info',
+        html:'<b> Estamos trabajando en este nuevo recurso, Disculpe las molestias. </b>', 
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Genial!',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText:
+            '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down'
+    })
+
+}
+
+
+
+
+

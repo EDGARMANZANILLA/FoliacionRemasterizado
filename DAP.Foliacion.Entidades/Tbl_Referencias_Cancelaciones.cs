@@ -22,10 +22,13 @@ namespace DAP.Foliacion.Entidades
     
         public int Id { get; set; }
         public int Anio { get; set; }
-        public int Numero_Referencia { get; set; }
+        public string Numero_Referencia { get; set; }
         public System.DateTime Fecha_Creacion { get; set; }
         public string Creado_Por { get; set; }
         public int FormasPagoDentroReferencia { get; set; }
+        public bool EsCancelado { get; set; }
+        public string FolioDocumento { get; set; }
+        public byte[] ArchivoSustento { get; set; }
         public bool Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -45,6 +45,18 @@
     <Property Name="Descrip" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="cat_ReportesCCancelados">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Modulo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TipoReporte" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NombreReporte" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Nomina" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Consulta" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Descrip" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="ExepcionesCargaInterfaces">
     <Key>
       <PropertyRef Name="Id" />
@@ -102,6 +114,8 @@
     <Property Name="IdCuentaBancaria_TipoPagoCuenta" Type="int" Nullable="false" />
     <Property Name="IdInventario" Type="int" />
     <Property Name="FechaCreacion" Type="date" Nullable="false" />
+    <Property Name="IdctabancaIPD" Type="int" />
+    <Property Name="IdBancoIPD" Type="int" />
     <Property Name="FechaBaja" Type="date" />
     <Property Name="Activo" Type="bit" />
     <Property Name="InicioBaja" Type="bit" />
@@ -212,10 +226,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Anio" Type="int" Nullable="false" />
-    <Property Name="Numero_Referencia" Type="int" Nullable="false" />
+    <Property Name="Numero_Referencia" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="Fecha_Creacion" Type="date" Nullable="false" />
     <Property Name="Creado_Por" Type="nvarchar" MaxLength="70" />
     <Property Name="FormasPagoDentroReferencia" Type="int" Nullable="false" />
+    <Property Name="EsCancelado" Type="bit" Nullable="false" />
+    <Property Name="FolioDocumento" Type="nvarchar" MaxLength="100" />
+    <Property Name="ArchivoSustento" Type="varbinary(max)" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Tbl_SeguimientoHistoricoFormas_Pagos">
@@ -228,9 +245,9 @@
     <Property Name="ChequeAnterior" Type="int" Nullable="false" />
     <Property Name="ChequeNuevo" Type="int" />
     <Property Name="MotivoRefoliacion" Type="nvarchar" MaxLength="150" />
-    <Property Name="RefoliadoPor" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="RefoliadoPor" Type="nvarchar" MaxLength="100" />
     <Property Name="EsCancelado" Type="bit" Nullable="false" />
-    <Property Name="ReferenciaCancelado" Type="nvarchar" MaxLength="6" />
+    <Property Name="ReferenciaCancelado" Type="nvarchar" MaxLength="10" />
     <Property Name="IdCat_EstadoCancelado" Type="int" />
     <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
@@ -408,6 +425,7 @@
     <EntitySet Name="cat_FiltroConsultaDatosPersonalesNomina" EntityType="Self.cat_FiltroConsultaDatosPersonalesNomina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="cat_FiltroGrupoImpresionDelegaciones" EntityType="Self.cat_FiltroGrupoImpresionDelegaciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cat_FormasPago_Pagos" EntityType="Self.Cat_FormasPago_Pagos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cat_ReportesCCancelados" EntityType="Self.cat_ReportesCCancelados" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ExepcionesCargaInterfaces" EntityType="Self.ExepcionesCargaInterfaces" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LOG_EXCEPCIONES" EntityType="Self.LOG_EXCEPCIONES" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />

@@ -275,6 +275,7 @@ function MensajeGuardar_NoGuardar_Cancelar( TextoAguardar , ConfirmacionDeGuarda
 {
     Swal.fire({
         title: TextoAguardar/*'Do you want to save the changes?'*/,
+        text: 'Something went wrong!',
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Save',
@@ -300,3 +301,83 @@ function MensajeGuardar_NoGuardar_Cancelar( TextoAguardar , ConfirmacionDeGuarda
     })
 
 }
+
+
+
+
+function MensajeEstamosEnConstrucion()
+{
+    Swal.fire({
+        title: '<strong>  "PROXIMAMENTE DISPONIBLE"</strong>',
+        icon: 'info',
+        html:'<b> Estamos trabajando en este nuevo recurso, Disculpe las molestias. </b>', 
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Genial!',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText:
+            '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down'
+    })
+
+}
+
+
+
+
+
+/*Un cuadro de diálogo de confirmación, con una función adjunta al botón "Confirmar"*/
+function MensajeConFuncionAdjuntaDeConfirmar( PreguntaSeguridad , Texto )
+{
+    //Swal.fire({
+    //    title: 'Are you sure?',
+    //    text: "You won't be able to revert this!",
+    //    icon: 'warning',
+    //    showCancelButton: true,
+    //    confirmButtonColor: '#3085d6',
+    //    cancelButtonColor: '#d33',
+    //    confirmButtonText: 'Yes, delete it!'
+    //}).then((result) => {
+    //    if (result.isConfirmed) {
+    //        Swal.fire(
+    //            'Deleted!',
+    //            'Your file has been deleted.',
+    //            'success'
+    //        )
+    //    }
+    //})
+
+
+
+    Swal.fire({
+        title: PreguntaSeguridad,
+        text: Texto,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+

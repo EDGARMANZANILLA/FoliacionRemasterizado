@@ -90,7 +90,7 @@ namespace DAP.Foliacion.Negocios
             DetallesRegistroDTO nuevoDetalle = new DetallesRegistroDTO();
 
             nuevoDetalle.IdRegistro = registroEncontrado.Id ;
-            nuevoDetalle.Id_nom = " || " + registroEncontrado.Id_nom + " || - || " + registroEncontrado.Nomina + " || ";
+            nuevoDetalle.Id_nom = " || " + registroEncontrado.Id_nom + " || - || " + registroEncontrado.Nomina + " || - || "+ registroEncontrado.Adicional+ " || ";
             nuevoDetalle.ReferenciaBitacora = registroEncontrado.ReferenciaBitacora;
 
             nuevoDetalle.Quincena = registroEncontrado.Quincena;
@@ -256,7 +256,7 @@ namespace DAP.Foliacion.Negocios
                 string query;
                 if (datosNominaCompleto.EsPenA)
                 {
-                    query = "UPDATE interfaces"+Anio+".dbo."+datosNominaCompleto.An+" SET NUM_CHE = '11111111', OBSERVA = 'TALON POR CHEQUE', TALONXCH = 1  WHERE NUM = '"+CadenaNumEmpleado+"' and Liquido = "+ suspenderFormaPago.ImporteLiquido+ " and deleg = "+suspenderFormaPago.Delegacion+" and BENEF = "+suspenderFormaPago.NumBeneficiario+"";
+                    query = "UPDATE interfaces"+Anio+".dbo."+datosNominaCompleto.An+" SET NUM_CHE = '11111111', OBSERVA = 'TALON POR CHEQUE', TALONXCH = 1  WHERE NUM = '"+CadenaNumEmpleado+"' and Liquido = "+ suspenderFormaPago.ImporteLiquido+ " and deleg = "+suspenderFormaPago.Delegacion+" and BENEF = '"+suspenderFormaPago.NumBeneficiario+"'";
                 }
                 else
                 {
@@ -546,7 +546,7 @@ namespace DAP.Foliacion.Negocios
                 {
                     if (folioEncontradoEnInventario == null)
                     {
-                     return   folioEncontradoEnInventario = repositorioDetalle.Obtener(x => x.IdContenedor == contenedor && x.NumFolio == verificarFolio);
+                       folioEncontradoEnInventario = repositorioDetalle.Obtener(x => x.IdContenedor == contenedor && x.NumFolio == verificarFolio);
                     }
                 }
 

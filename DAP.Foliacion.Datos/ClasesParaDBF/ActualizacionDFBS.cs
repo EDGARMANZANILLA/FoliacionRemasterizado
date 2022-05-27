@@ -1,4 +1,6 @@
 ﻿using DAP.Foliacion.Entidades;
+using DAP.Foliacion.Entidades.DTO.CrearReferencia_CanceladosDTO;
+using DAP.Foliacion.Entidades.DTO.CrearReferencia_CanceladosDTO.ReporteCCancelados.IPDC;
 using DAP.Foliacion.Entidades.DTO.FoliarDTO;
 using System;
 using System.Collections.Generic;
@@ -363,5 +365,138 @@ namespace DAP.Foliacion.Datos.ClasesParaDBF
             return Convert.ToString(totalActualizado);
         }
 
+
+
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /*************************************************************************************          INSERTAR DATOS PARA IPD e IPDcompensado EN DBF          ***************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        public static string LLenarIPD(string RutaPath, string NombreArchivo, List<IPDDTO> CargarIpd)
+        {
+            string constr = "Provider=VFPOLEDB.1 ;Data Source="+RutaPath+"";
+
+            int totalActualizado = 0;
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(constr))
+                {
+                     con.Open();
+                    foreach (IPDDTO nuevoRegistro in CargarIpd)
+                    {
+                        string ExecutarQuery = "INSERT INTO [" + NombreArchivo + "]  (referencia , tiponom , cve_presup, cvegto , cvepd , monto , tipoclave , adicional , partida , num , nombre , num_che , foliocfdi , deleg , idctabanca , idbanco , pagomat , tipo_pagom , numtarjeta , orden , quincena , nomalpha , fecha , cvegasto , cla_pto) VALUES ('"+nuevoRegistro.Referencia+"' , '"+nuevoRegistro.TipoNom+"' , '"+nuevoRegistro.Cve_presup+"' , '"+nuevoRegistro.Cvegto+"' , '"+nuevoRegistro.Cvepd+"' , "+nuevoRegistro.Monto+" , '"+nuevoRegistro.Tipoclave+"' , '"+nuevoRegistro.Adicional+"' , '"+nuevoRegistro.Partida+"' , '"+nuevoRegistro.Num+"' , '"+nuevoRegistro.Nombre+"' , '"+nuevoRegistro.Num_che+"' , "+nuevoRegistro.Foliocdfi+" , '"+nuevoRegistro.Deleg+"' , "+nuevoRegistro.Idctabanca+" , "+nuevoRegistro.IdBanco+", "+nuevoRegistro.Pagomat+" , '"+nuevoRegistro.Tipo_pagom+"'  ,  '"+nuevoRegistro.Numtarjeta+"' , "+nuevoRegistro.Orden+" , '"+nuevoRegistro.Quincena+"' , '"+nuevoRegistro.Nomalpha+"' , '"+nuevoRegistro.Fecha+"' , '"+nuevoRegistro.Cvegasto+"' , '"+nuevoRegistro.Cla_pto+"')";
+
+                        OleDbCommand cmd = new OleDbCommand(ExecutarQuery, con);
+                        int modificado =  cmd.ExecuteNonQuery();
+
+                        if (modificado == 1)
+                        {
+                            totalActualizado += modificado;
+                        }
+
+                    }
+                    con.Close();
+                }
+            }
+            catch (System.Data.OleDb.OleDbException E)
+            {
+                return E.Message.ToString();
+            }
+            return Convert.ToString(totalActualizado);
+        }
+
+
+
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /*************************************************************************************          INSERTAR DATOS PARA IPDcompensado EN DBF          ***************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        public static string LLenarIPDCompensado(string RutaPath, string NombreArchivo, List<IPDCDTO> CargarIpd)
+        {
+            string constr = "Provider=VFPOLEDB.1 ;Data Source=" + RutaPath + "";
+
+            int totalActualizado = 0;
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(constr))
+                {
+                    con.Open();
+                    foreach (IPDCDTO nuevoRegistro in CargarIpd)
+                    {
+                        string ExecutarQuery = "INSERT INTO ["+NombreArchivo+"]  ( tiponom , cve_presup, cvegto ,  monto , tipoclave , num_che , cvereal, cvecompen , fecha , idctabanca , idbanco ,  num , nomalpha , quincena , adicional , cla_pto , ldf_6d ) VALUES ('"+nuevoRegistro.TipoNom+"' , '"+nuevoRegistro.Cve_presup+"' , '"+nuevoRegistro.CveGto+"' , "+nuevoRegistro.Monto+" , '"+nuevoRegistro.TipoClave+"' , '" + nuevoRegistro.Num_che + "' , '"+nuevoRegistro.CveReal+"', '"+nuevoRegistro.CveCompen+"' , '"+nuevoRegistro.fecha+"' , "+nuevoRegistro.IdctaBanca+" , "+nuevoRegistro.IdBanco+" , '"+nuevoRegistro.Num+"' , '"+nuevoRegistro.NomAlpha+"' , '"+nuevoRegistro.Quincena+"' , '"+nuevoRegistro.Adicional+"' , '"+nuevoRegistro.Cla_pto+"' , "+nuevoRegistro.Ldf_6d+")";
+
+                        OleDbCommand cmd = new OleDbCommand(ExecutarQuery, con);
+                        int modificado = cmd.ExecuteNonQuery();
+
+                        if (modificado == 1)
+                        {
+                            totalActualizado += modificado;
+                        }
+
+                    }
+                    con.Close();
+                }
+            }
+            catch (System.Data.OleDb.OleDbException E)
+            {
+                return E.Message.ToString();
+            }
+            return Convert.ToString(totalActualizado);
+        }
+
+
+
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /*************************************************************************************          Limpiar un registro de la base EN DBF para limpiar campos           ***************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        /**********************************************************************************************************************************************************************************************************************************************/
+        public static string LimpiarUnRegitroCamposFoliacionBaseDBF(string RutaPath, string NombreArchivo, bool EsPena, string numEmpleado5Digitos , decimal ImporteLiquido , string Delegacion , string NumBeneficiario)
+        {
+            string constr = "Provider=VFPOLEDB.1 ;Data Source=" + RutaPath + "";
+
+            int totalActualizado = 0;
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(constr))
+                {
+                    string ExecutarQuery = "";
+                    if (EsPena)
+                    {
+                        ExecutarQuery = "UPDATE [" + NombreArchivo + "] SET NUM_CHE = '' , BANCO_X = '' , CUENTA_X = '' , OBSERVA = ''  WHERE NUM = '"+numEmpleado5Digitos + "' and LIQUIDO = "+ImporteLiquido+" and DELEG = '"+Delegacion+"' and Benef = '"+NumBeneficiario+"' ";
+                    }
+                    else
+                    {
+                        ExecutarQuery = "UPDATE [" + NombreArchivo + "] SET NUM_CHE = '' , BANCO_X = '' , CUENTA_X = '' , OBSERVA = ''   WHERE NUM = '"+numEmpleado5Digitos+"' and LIQUIDO = "+ImporteLiquido+" and DELEG = '"+Delegacion+"' ";
+                    }
+
+
+                    con.Open();
+                        OleDbCommand cmd = new OleDbCommand(ExecutarQuery, con);
+                        int modificado = cmd.ExecuteNonQuery();
+
+                        if (modificado == 1)
+                        {
+                            totalActualizado += modificado;
+                        }
+
+                    con.Close();
+                }
+            }
+            catch (System.Data.OleDb.OleDbException E)
+            {
+                return E.Message.ToString();
+            }
+            return Convert.ToString(totalActualizado);
+        }
+
+
+
+
     }
+
+
 }

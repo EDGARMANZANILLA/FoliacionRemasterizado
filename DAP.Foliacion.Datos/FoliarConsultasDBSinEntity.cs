@@ -9,6 +9,7 @@ using Datos;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data;
+using DAP.Foliacion.Entidades.DTO.FoliarDTO.RecuperarFolios;
 
 namespace DAP.Foliacion.Datos
 {
@@ -2389,6 +2390,119 @@ namespace DAP.Foliacion.Datos
 
 
 
+
+        /*********************************************************************************************************************************************************************************************/
+        /*********************************************************************************************************************************************************************************************/
+        /*****************************************            REGISTROS A RECUPER CHEQUE CUANDO SE HAYA TENIDO UNA INCIDENCIA POR ERROR HUMANO          **********************************************/
+        /*********************************************************************************************************************************************************************************************/
+        /*********************************************************************************************************************************************************************************************/
+        public static List<FoliosARecuperarDTO> ObtenerRegistrosChequesConIncidenciaPorError(string consulta , string CuentaBancaria )
+        {
+            List<FoliosARecuperarDTO> resumenNomina = new List<FoliosARecuperarDTO>();
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionDeploy()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+                    System.Data.SqlClient.SqlDataReader reader = command.ExecuteReader();
+
+                    int iterator = 0;
+                    while (reader.Read())
+                    {
+                        FoliosARecuperarDTO nuevoRegistro = new FoliosARecuperarDTO();
+                        nuevoRegistro.Id = Convert.ToString(++iterator);
+                        nuevoRegistro.IdPago = reader.GetInt32(0); 
+                        nuevoRegistro.Anio = reader[1].ToString().Trim();
+                        nuevoRegistro.Id_nom = reader[2].ToString().Trim();
+                        nuevoRegistro.Nomina = reader[3].ToString().Trim();
+                        nuevoRegistro.Quincena = reader[4].ToString().Trim();
+                        nuevoRegistro.Delegacion = reader[5].ToString().Trim();
+                        nuevoRegistro.Beneficiario = reader[6].ToString().Trim();
+                        nuevoRegistro.NumEmpleado = reader[7].ToString().Trim();
+                        nuevoRegistro.Liquido = reader[8].ToString().Trim();
+                        nuevoRegistro.FolioCheque = reader[9].ToString().Trim();
+                        nuevoRegistro.CuentaBancaria = CuentaBancaria;
+                        
+                        resumenNomina.Add(nuevoRegistro);
+                    }
+                    connection.Close();
+                }
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "ObtenerRegistrosChequesConIncidenciaPorError";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+
+            return resumenNomina;
+        }
+
+
+
+
+        /* Limpiar campos de foliacion del AN de interfaces  */
+        public static int LimpiarUnRegitroCamposFoliacionAN(int anio, string AN , string NumEmpleado5Digitos, decimal ImporteLiquido)
+        {
+            string anioInterfas = "";
+            if (anio != DateTime.Now.Year) 
+            {
+                anioInterfas = ""+anio+"";
+            }
+
+            string consulta = "Update Interfaces"+anioInterfas+".dbo."+AN+" set NUM_CHE = '', BANCO_X = '', CUENTA_X = '', OBSERVA = '' where NUM = '"+NumEmpleado5Digitos+"' and Liquido = "+ImporteLiquido+"";
+
+            List<FoliosARecuperarDTO> resumenNomina = new List<FoliosARecuperarDTO>();
+            try
+            {
+                using (System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(ObtenerConexionesDB.obtenerCadenaConexionDeploy()))
+                {
+                    connection.Open();
+                    System.Data.SqlClient.SqlCommand command = new System.Data.SqlClient.SqlCommand(consulta, connection);
+                    int filasAfectadas = command.ExecuteNonQuery();
+
+                    if (filasAfectadas == 1)
+                    {
+                        return filasAfectadas;
+                    }
+                    
+                    connection.Close();
+                }
+
+            }
+            catch (Exception E)
+            {
+                var transaccion = new Transaccion();
+                var repositorio = new Repositorio<LOG_EXCEPCIONES>(transaccion);
+                LOG_EXCEPCIONES NuevaExcepcion = new LOG_EXCEPCIONES();
+
+                NuevaExcepcion.Clase = "FoliarConsultasDBSinEntity";
+                NuevaExcepcion.Metodo = "LimpiarUnRegitroCamposFoliacionAN";
+                NuevaExcepcion.Usuario = null;
+                NuevaExcepcion.Excepcion = E.Message;
+                NuevaExcepcion.Comentario = "";
+                NuevaExcepcion.Fecha = DateTime.Now;
+
+                repositorio.Agregar(NuevaExcepcion);
+
+            }
+
+
+            return 0;
+        }
 
 
     }

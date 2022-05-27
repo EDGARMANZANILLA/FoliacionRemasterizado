@@ -79,7 +79,7 @@ namespace DAP.Foliacion.Negocios
 
                             ResultadoObtenidoParaSelect2 nuevoResultadoGuarda = new ResultadoObtenidoParaSelect2();
                             nuevoResultadoGuarda.id = datosNumEmpleadoEncontrado.NumEmpleado;
-                            nuevoResultadoGuarda.text = "Num : " + datosNumEmpleadoEncontrado.NumEmpleado + " || NombreEmpleado : " + datosNumEmpleadoEncontrado.NombreEmpleado;
+                            nuevoResultadoGuarda.text = "Num : " + datosNumEmpleadoEncontrado.NumEmpleado + " || Nombre : " + datosNumEmpleadoEncontrado.NombreEmpleado;
                             registrosEncontrados.Add(nuevoResultadoGuarda);
 
                         }
@@ -105,18 +105,10 @@ namespace DAP.Foliacion.Negocios
                  
                 case 3:
                     try
-                    {     // Bloque de codigo para buscar por el nombre del BENEFICIARIO DEL CHEQUE
-                            var beneficiariosEncontrados = repositorio.ObtenerPorFiltro(x => x.Activo == true && x.NombreEmpleado.Contains(BuscarDato)).Select(y => new { y.NumEmpleado, y.NombreEmpleado }).Distinct().ToList();
-
-                            //var beneficiariosEncontrado2s = repositorio.ObtenerPorFiltro(x => x.Activo == true ).Select(y => new { y.NumEmpleado, y.NombreEmpleado }).Distinct().ToList();
-                          //  var beneficiariosEncontrados = repositorio.ObtenerPorFiltro(x => x.NombreEmpleado.Contains( BuscarDato)).ToList();
-
-                           // BuscarDato en los beneficiarios de pension alimenticia
-                           var beneficiariosEncontradosPenA2  = repositorio.ObtenerPorFiltro(x => x.BeneficiarioPenA.Contains( BuscarDato)).Distinct().ToList();
-
-                           var beneficiariosEncontradosPenA = repositorio.ObtenerPorFiltro(x => x.Activo == true && x.BeneficiarioPenA.Contains(BuscarDato)).Select(y => new { y.NumEmpleado, y.BeneficiarioPenA }).Distinct().ToList();
-                        // var beneficiariosEncontradosPenA  = repositorio.ObtenerPorFiltro(x => x.BeneficiarioPenA.Contains( BuscarDato)).ToList();
-
+                    {
+                        int anioAnterior = DateTime.Now.Year - 1;
+                            // Bloque de codigo para buscar por el nombre del BENEFICIARIO DEL CHEQUE
+                            var beneficiariosEncontrados = repositorio.ObtenerPorFiltro(x => x.Anio >= anioAnterior &&  x.Activo == true && x.NombreEmpleado.Contains(BuscarDato)).Select(y => new { y.NumEmpleado, y.NombreEmpleado }).Distinct().ToList();               
                             foreach (var resultado in beneficiariosEncontrados)
                             {
                                 ResultadoObtenidoParaSelect2 nuevoResultadoNombre = new ResultadoObtenidoParaSelect2();
@@ -125,7 +117,8 @@ namespace DAP.Foliacion.Negocios
                                 registrosEncontrados.Add(nuevoResultadoNombre);
                             }
 
-
+                            // BuscarDato en los beneficiarios de pension alimenticia
+                            var beneficiariosEncontradosPenA = repositorio.ObtenerPorFiltro(x => x.Anio >= anioAnterior && x.Activo == true && x.BeneficiarioPenA.Contains(BuscarDato)).Select(y => new { y.NumEmpleado, y.BeneficiarioPenA }).Distinct().ToList();
                             foreach (var resultado in beneficiariosEncontradosPenA)
                             {
                                 ResultadoObtenidoParaSelect2 nuevoResultadoNombre = new ResultadoObtenidoParaSelect2();
@@ -255,7 +248,7 @@ namespace DAP.Foliacion.Negocios
             DetallesRegistroDTO nuevoDetalle = new DetallesRegistroDTO();
 
             nuevoDetalle.IdRegistro =registroEncontrado.Id ;
-            nuevoDetalle.Id_nom = " || " + registroEncontrado.Id_nom + " || - || " + registroEncontrado.Nomina + " || ";
+            nuevoDetalle.Id_nom = " || " + registroEncontrado.Id_nom + " || - || " + registroEncontrado.Nomina + " || - || "+registroEncontrado.Adicional+ " || ";
             nuevoDetalle.ReferenciaBitacora = registroEncontrado.ReferenciaBitacora;
 
             nuevoDetalle.Quincena = registroEncontrado.Quincena;
@@ -319,13 +312,14 @@ namespace DAP.Foliacion.Negocios
             var transaccion = new Transaccion();
             var repositorio = new Repositorio<Tbl_Referencias_Cancelaciones>(transaccion);
 
+            int anioAnterior = AnioActual - 1;
             // List< Dictionary<int, string> > diccionarioaReferenciasCanceladas = new List< Dictionary<int, string>>();
-            var filtradoReferenciasObtenidos = repositorio.ObtenerPorFiltro(x => x.Anio == AnioActual && x.Activo == true).Select(x => new { x.Id, x.Anio, x.Numero_Referencia }).OrderBy(x => x.Numero_Referencia).ToList();
+            var filtradoReferenciasObtenidos = repositorio.ObtenerPorFiltro(x => x.Anio >= anioAnterior && x.EsCancelado == false && x.Activo == true).Select(x => new { x.Id, x.Anio, x.Numero_Referencia }).OrderBy(x => x.Numero_Referencia).ToList();
 
             Dictionary<int, string> diccionarioReferencias_Canceladas = new Dictionary<int, string>();
             foreach (var nuevoRegistro in filtradoReferenciasObtenidos)
             {
-                diccionarioReferencias_Canceladas.Add(nuevoRegistro.Id, "" + nuevoRegistro.Anio + "" + nuevoRegistro.Numero_Referencia + "");
+                diccionarioReferencias_Canceladas.Add(nuevoRegistro.Id, "" + nuevoRegistro.Numero_Referencia + "");
             }
 
             return diccionarioReferencias_Canceladas;
@@ -500,10 +494,10 @@ namespace DAP.Foliacion.Negocios
                         nuevoTracking.FechaCambio = Convert.ToDateTime(DateTime.Now.Date);
                         nuevoTracking.ChequeAnterior = registroPagoEncontrado.FolioCheque;
                         nuevoTracking.ChequeNuevo = null;
-                        nuevoTracking.MotivoRefoliacion = "Agregado a referencia de cancelacion";
-                        nuevoTracking.RefoliadoPor = "*****";
-                        nuevoTracking.EsCancelado = true;
-                        nuevoTracking.ReferenciaCancelado = registroFereciaEncontrado.Anio + "" + registroFereciaEncontrado.Numero_Referencia;
+                        nuevoTracking.MotivoRefoliacion = "Agregado a referencia de cancelacion " + registroFereciaEncontrado.Numero_Referencia ;
+                        nuevoTracking.RefoliadoPor = null;
+                        nuevoTracking.EsCancelado = false;
+                        nuevoTracking.ReferenciaCancelado = null;
                         nuevoTracking.IdCat_EstadoCancelado = 1;
                         nuevoTracking.Activo = true;
 
@@ -542,7 +536,7 @@ namespace DAP.Foliacion.Negocios
                         nuevoTracking.MotivoRefoliacion = "Cambio de referencia de cancelacion";
                         nuevoTracking.RefoliadoPor = "*****";
                         nuevoTracking.EsCancelado = true;
-                        nuevoTracking.ReferenciaCancelado = registroFereciaEncontrado.Anio + "" + registroFereciaEncontrado.Numero_Referencia;
+                        nuevoTracking.ReferenciaCancelado = Convert.ToString(  registroFereciaEncontrado.Numero_Referencia );
                         nuevoTracking.IdCat_EstadoCancelado = 1;
                         nuevoTracking.Activo = true;
 
@@ -633,10 +627,10 @@ namespace DAP.Foliacion.Negocios
                         nuevoTracking.FechaCambio = Convert.ToDateTime(DateTime.Now.Date);
                         nuevoTracking.ChequeAnterior = registroPagoEncontrado.FolioCheque;
                         nuevoTracking.ChequeNuevo = null;
-                        nuevoTracking.MotivoRefoliacion = "Se removio de la referencia ";
-                        nuevoTracking.RefoliadoPor = "*****";
+                        nuevoTracking.MotivoRefoliacion = "Se removio de la referencia "+ registroFereciaEncontrado_Original.Numero_Referencia;
+                        nuevoTracking.RefoliadoPor = null;
                         nuevoTracking.EsCancelado = false;
-                        nuevoTracking.ReferenciaCancelado = registroFereciaEncontrado_Original.Anio + "" + registroFereciaEncontrado_Original.Numero_Referencia;
+                        nuevoTracking.ReferenciaCancelado = null;
                         nuevoTracking.IdCat_EstadoCancelado = null;
                         nuevoTracking.Activo = true;
 
@@ -700,7 +694,7 @@ namespace DAP.Foliacion.Negocios
                 nuevoRegistroDTO.RepuestoPor = registro.RefoliadoPor;
                 nuevoRegistroDTO.EsCancelado = registro.EsCancelado == true? "True" : "" ;
                 nuevoRegistroDTO.ReferenciaCancelado = registro.ReferenciaCancelado;
-                nuevoRegistroDTO.DescripcionCancelado = registro.IdCat_EstadoCancelado == null ? "" : repoEstadoCancelado.Obtener(x => x.Id == registro.IdCat_EstadoCancelado).Descrip;
+                nuevoRegistroDTO.DescripcionCancelado = registro.IdCat_EstadoCancelado == null ? "" : repoEstadoCancelado.Obtener(x => x.Id == registro.IdCat_EstadoCancelado).Estado;
                 historicoDTO.Add(nuevoRegistroDTO);
 
             }
@@ -720,11 +714,11 @@ namespace DAP.Foliacion.Negocios
 
             Tbl_Pagos pagoObtenido = repo_TBlPago.Obtener(x => x.Id == IdRegistro);
 
-            Tbl_Referencias_Cancelaciones referenciaObtenida = repo_ReferenciaCancelados.Obtener(x => x.Id == pagoObtenido.IdTbl_Referencias_Cancelaciones);
+            Tbl_Referencias_Cancelaciones referenciaObtenida = repo_ReferenciaCancelados.Obtener(x => x.Id == pagoObtenido.IdTbl_Referencias_Cancelaciones && x.EsCancelado == false && x.Activo == true);
 
             if (pagoObtenido != null && referenciaObtenida != null)
             {
-                referencia = referenciaObtenida.Anio + "" + referenciaObtenida.Numero_Referencia;
+                referencia = referenciaObtenida.Numero_Referencia;
             }
 
             return referencia;

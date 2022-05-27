@@ -20,6 +20,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="cat_FiltroConsultaDatosPersonalesNomina">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroConsultaDatosPersonalesNomina">
+        <MappingFragment StoreEntitySet="cat_FiltroConsultaDatosPersonalesNomina">
+          <ScalarProperty Name="Consulta" ColumnName="Consulta" />
+          <ScalarProperty Name="Delegacion" ColumnName="Delegacion" />
+          <ScalarProperty Name="Cheque" ColumnName="Cheque" />
+          <ScalarProperty Name="EsPagomatico" ColumnName="EsPagomatico" />
+          <ScalarProperty Name="EsPena" ColumnName="EsPena" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cat_FiltroGrupoImpresionDelegaciones">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroGrupoImpresionDelegaciones">
+        <MappingFragment StoreEntitySet="cat_FiltroGrupoImpresionDelegaciones">
+          <ScalarProperty Name="DelegacionesIncluidas" ColumnName="DelegacionesIncluidas" />
+          <ScalarProperty Name="NombreComun" ColumnName="NombreComun" />
+          <ScalarProperty Name="GrupoImpresionDelegacion" ColumnName="GrupoImpresionDelegacion" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Cat_FormasPago_Pagos">
       <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Cat_FormasPago_Pagos">
         <MappingFragment StoreEntitySet="Cat_FormasPago_Pagos">
@@ -82,6 +104,8 @@
     <EntitySetMapping Name="Tbl_CuentasBancarias">
       <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_CuentasBancarias">
         <MappingFragment StoreEntitySet="Tbl_CuentasBancarias">
+          <ScalarProperty Name="IdBancoIPD" ColumnName="IdBancoIPD" />
+          <ScalarProperty Name="IdctabancaIPD" ColumnName="IdctabancaIPD" />
           <ScalarProperty Name="InicioBaja" ColumnName="InicioBaja" />
           <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
@@ -206,6 +230,9 @@
       <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.Tbl_Referencias_Cancelaciones">
         <MappingFragment StoreEntitySet="Tbl_Referencias_Cancelaciones">
           <ScalarProperty Name="Activo" ColumnName="Activo" />
+          <ScalarProperty Name="ArchivoSustento" ColumnName="ArchivoSustento" />
+          <ScalarProperty Name="FolioDocumento" ColumnName="FolioDocumento" />
+          <ScalarProperty Name="EsCancelado" ColumnName="EsCancelado" />
           <ScalarProperty Name="FormasPagoDentroReferencia" ColumnName="FormasPagoDentroReferencia" />
           <ScalarProperty Name="Creado_Por" ColumnName="Creado_Por" />
           <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
@@ -245,24 +272,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="cat_FiltroConsultaDatosPersonalesNomina">
-      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroConsultaDatosPersonalesNomina">
-        <MappingFragment StoreEntitySet="cat_FiltroConsultaDatosPersonalesNomina">
+    <EntitySetMapping Name="cat_ReportesCCancelados">
+      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_ReportesCCancelados">
+        <MappingFragment StoreEntitySet="cat_ReportesCCancelados">
+          <ScalarProperty Name="Descrip" ColumnName="Descrip" />
           <ScalarProperty Name="Consulta" ColumnName="Consulta" />
-          <ScalarProperty Name="Delegacion" ColumnName="Delegacion" />
-          <ScalarProperty Name="Cheque" ColumnName="Cheque" />
-          <ScalarProperty Name="EsPagomatico" ColumnName="EsPagomatico" />
-          <ScalarProperty Name="EsPena" ColumnName="EsPena" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="cat_FiltroGrupoImpresionDelegaciones">
-      <EntityTypeMapping TypeName="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroGrupoImpresionDelegaciones">
-        <MappingFragment StoreEntitySet="cat_FiltroGrupoImpresionDelegaciones">
-          <ScalarProperty Name="NombreComun" ColumnName="NombreComun" />
-          <ScalarProperty Name="DelegacionesIncluidas" ColumnName="DelegacionesIncluidas" />
-          <ScalarProperty Name="GrupoImpresionDelegacion" ColumnName="GrupoImpresionDelegacion" />
+          <ScalarProperty Name="Nomina" ColumnName="Nomina" />
+          <ScalarProperty Name="NombreReporte" ColumnName="NombreReporte" />
+          <ScalarProperty Name="TipoReporte" ColumnName="TipoReporte" />
+          <ScalarProperty Name="Modulo" ColumnName="Modulo" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

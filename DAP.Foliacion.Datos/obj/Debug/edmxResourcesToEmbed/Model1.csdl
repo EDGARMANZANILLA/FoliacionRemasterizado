@@ -3,6 +3,8 @@
   <EntityContainer Name="FoliacionInterfacesCargadasPruebaDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Cat_EstadoCancelados_Pagos" EntityType="FoliacionInterfacesCargadasPruebaDBModel.Cat_EstadoCancelados_Pagos" />
     <EntitySet Name="Cat_EstadosPago_Pagos" EntityType="FoliacionInterfacesCargadasPruebaDBModel.Cat_EstadosPago_Pagos" />
+    <EntitySet Name="cat_FiltroConsultaDatosPersonalesNomina" EntityType="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroConsultaDatosPersonalesNomina" />
+    <EntitySet Name="cat_FiltroGrupoImpresionDelegaciones" EntityType="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroGrupoImpresionDelegaciones" />
     <EntitySet Name="Cat_FormasPago_Pagos" EntityType="FoliacionInterfacesCargadasPruebaDBModel.Cat_FormasPago_Pagos" />
     <EntitySet Name="ExepcionesCargaInterfaces" EntityType="FoliacionInterfacesCargadasPruebaDBModel.ExepcionesCargaInterface" />
     <EntitySet Name="LOG_EXCEPCIONES" EntityType="FoliacionInterfacesCargadasPruebaDBModel.LOG_EXCEPCIONES" />
@@ -71,8 +73,7 @@
       <End Role="Tbl_Referencias_Cancelaciones" EntitySet="Tbl_Referencias_Cancelaciones" />
       <End Role="Tbl_Pagos" EntitySet="Tbl_Pagos" />
     </AssociationSet>
-    <EntitySet Name="cat_FiltroConsultaDatosPersonalesNomina" EntityType="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroConsultaDatosPersonalesNomina" />
-    <EntitySet Name="cat_FiltroGrupoImpresionDelegaciones" EntityType="FoliacionInterfacesCargadasPruebaDBModel.cat_FiltroGrupoImpresionDelegaciones" />
+    <EntitySet Name="cat_ReportesCCancelados" EntityType="FoliacionInterfacesCargadasPruebaDBModel.cat_ReportesCCancelados" />
   </EntityContainer>
   <EntityType Name="Cat_EstadoCancelados_Pagos">
     <Key>
@@ -92,6 +93,26 @@
     <Property Name="Descrip" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="Activo" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="Tbl_Pagos" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Pagos_Cat_EstadosPago_Pagos" FromRole="Cat_EstadosPago_Pagos" ToRole="Tbl_Pagos" />
+  </EntityType>
+  <EntityType Name="cat_FiltroConsultaDatosPersonalesNomina">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EsPena" Type="Boolean" Nullable="false" />
+    <Property Name="EsPagomatico" Type="Boolean" />
+    <Property Name="Cheque" Type="Boolean" />
+    <Property Name="Delegacion" Type="Int32" />
+    <Property Name="Consulta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="cat_FiltroGrupoImpresionDelegaciones">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GrupoImpresionDelegacion" Type="Int32" Nullable="false" />
+    <Property Name="NombreComun" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+    <Property Name="DelegacionesIncluidas" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Cat_FormasPago_Pagos">
     <Key>
@@ -162,11 +183,13 @@
     <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="FechaBaja" Type="DateTime" Precision="0" />
     <Property Name="Activo" Type="Boolean" />
+    <Property Name="InicioBaja" Type="Boolean" />
     <NavigationProperty Name="Tbl_CuentaBancarias_TipoPagoCuenta" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_CuentasBancarias_Tbl_TipoPagoCuenta" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_CuentaBancarias_TipoPagoCuenta" />
     <NavigationProperty Name="Tbl_Inventario" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_CuentasBancarias_Tbl_Inventario" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Inventario" />
     <NavigationProperty Name="Tbl_Pagos" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Pagos_Tbl_CuentasBancarias" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Pagos" />
     <NavigationProperty Name="Tbl_Solicitudes" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Solicitudes_Tbl_CuentasBancarias" FromRole="Tbl_CuentasBancarias" ToRole="Tbl_Solicitudes" />
-    <Property Name="InicioBaja" Type="Boolean" />
+    <Property Name="IdctabancaIPD" Type="Int32" />
+    <Property Name="IdBancoIPD" Type="Int32" />
   </EntityType>
   <EntityType Name="Tbl_HistoricoQuincenasRegistradas">
     <Key>
@@ -289,10 +312,13 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Anio" Type="Int32" Nullable="false" />
-    <Property Name="Numero_Referencia" Type="Int32" Nullable="false" />
+    <Property Name="Numero_Referencia" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Creado_Por" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+    <Property Name="Creado_Por" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="true" />
     <Property Name="FormasPagoDentroReferencia" Type="Int32" Nullable="false" />
+    <Property Name="EsCancelado" Type="Boolean" Nullable="false" />
+    <Property Name="FolioDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="true" />
+    <Property Name="ArchivoSustento" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="true" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Tbl_Pagos" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_Pagos_Tbl_Referencias_Cancelaciones" FromRole="Tbl_Referencias_Cancelaciones" ToRole="Tbl_Pagos" />
   </EntityType>
@@ -306,9 +332,9 @@
     <Property Name="ChequeAnterior" Type="Int32" Nullable="false" />
     <Property Name="ChequeNuevo" Type="Int32" />
     <Property Name="MotivoRefoliacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="RefoliadoPor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RefoliadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="EsCancelado" Type="Boolean" Nullable="false" />
-    <Property Name="ReferenciaCancelado" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+    <Property Name="ReferenciaCancelado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="IdCat_EstadoCancelado" Type="Int32" />
     <Property Name="Activo" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Cat_EstadoCancelados_Pagos" Relationship="FoliacionInterfacesCargadasPruebaDBModel.FK_Tbl_SeguimientoFormas_Pagos_Cat_EstadoCancelados_Pagos" FromRole="Tbl_SeguimientoHistoricoFormas_Pagos" ToRole="Cat_EstadoCancelados_Pagos" />
@@ -482,24 +508,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="cat_FiltroConsultaDatosPersonalesNomina">
+  <EntityType Name="cat_ReportesCCancelados">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="EsPena" Type="Boolean" Nullable="false" />
-    <Property Name="EsPagomatico" Type="Boolean" />
-    <Property Name="Cheque" Type="Boolean" />
-    <Property Name="Delegacion" Type="Int32" />
-    <Property Name="Consulta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="cat_FiltroGrupoImpresionDelegaciones">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="GrupoImpresionDelegacion" Type="Int32" Nullable="false" />
-    <Property Name="DelegacionesIncluidas" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="NombreComun" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="true" />
+    <Property Name="Modulo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TipoReporte" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NombreReporte" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Nomina" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Consulta" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Descrip" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

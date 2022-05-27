@@ -25,7 +25,7 @@ namespace DAP.Plantilla.Controllers
 
 
         [HttpPost]
-        //devuelve la vista parcial de DetallesInformativosCheques
+        //devuelve la vista parcial de DetallesInformativosCheques es la vista que se abre al picar "Ver Detalles"
         public ActionResult DetallesInformativosCheques(int IdRegistroBuscar)
         {
 
@@ -269,6 +269,10 @@ namespace DAP.Plantilla.Controllers
         }
 
 
+
+        /********************************************************************************************************************************************************************************************/
+        /********************************************************************************************************************************************************************************************/
+        /********************************************************       Verifica si la forma de pago ya esta cargada a una referencia de cancelacion        ******************************************/
         public JsonResult TieneReferenciaIdFormaPago(int IdRegistro)
         {
             string referenciaObtenida = BuscadorChequeNegocios.ObtenerNumeroReferenciaPago(IdRegistro);

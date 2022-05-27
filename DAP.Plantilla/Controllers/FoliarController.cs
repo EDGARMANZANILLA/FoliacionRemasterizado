@@ -101,6 +101,12 @@ namespace DAP.Plantilla.Controllers
             });
         }
 
+        public ActionResult RecuperarFolios()
+        {
+            ViewBag.BancosConTarjeta = FoliarNegocios.ObtenerBancoParaFormasPago();
+            return View();
+        }
+
 
 
 
@@ -195,530 +201,216 @@ namespace DAP.Plantilla.Controllers
 
 
         #region Metodos para la Revicion de la Foliacion por medio de Formas de pago
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //************************************  ****    METODOS PARA FOLIAR DELEGACION DE NOMINA PARA FORMAS DE PAGO (QUECHE)      **************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        public ActionResult FoliarNominaFormasDePago(DatosParaFoliarChequesModel NuevaFoliacionDatos)
-        {
+            //***************************************************************************************************************************************************************************//
+            //***************************************************************************************************************************************************************************//
+            //************************************  ****    METODOS PARA FOLIAR DELEGACION DE NOMINA PARA FORMAS DE PAGO (QUECHE)      **************************************************//
+            //***************************************************************************************************************************************************************************//
+            //***************************************************************************************************************************************************************************//
+            public ActionResult FoliarNominaFormasDePago(DatosParaFoliarChequesModel NuevaFoliacionDatos)
+            {
             
 
 
-            return Json("archivoBase64", JsonRequestBehavior.AllowGet);
-        }
+                return Json("archivoBase64", JsonRequestBehavior.AllowGet);
+            }
 
 
 
-        //*************************************************************************************************************************************************************************************************************************************************//
-        //*************************************************************************************************************************************************************************************************************************************************//
-        //****************************   OBTIENE UN RESUMEN POR DELEGACION DE UNA NOMINA ELEGIDA PARA VISUALIZAR ES UN MODAL CUANTOS REGISTROS HAY POR DELEGACION PARA FORLIAR POR CHEQUERA (CHEQUE)      **************************************************//
-        //************************************************************************************************************************************************************************************************************************************************//
-        //************************************************************************************************************************************************************************************************************************************************//
-        public ActionResult ObtenerResumenxDelegacionNominaCheques(int IdNomina , string Quincena )
-        {
+            //*************************************************************************************************************************************************************************************************************************************************//
+            //*************************************************************************************************************************************************************************************************************************************************//
+            //****************************   OBTIENE UN RESUMEN POR DELEGACION DE UNA NOMINA ELEGIDA PARA VISUALIZAR ES UN MODAL CUANTOS REGISTROS HAY POR DELEGACION PARA FORLIAR POR CHEQUERA (CHEQUE)      **************************************************//
+            //************************************************************************************************************************************************************************************************************************************************//
+            //************************************************************************************************************************************************************************************************************************************************//
+            public ActionResult ObtenerResumenxDelegacionNominaCheques(int IdNomina , string Quincena )
+            {
 
-            int anioInterface = ObtenerAnioDeQuincena(Quincena);
-            //ObtenerDetalleNominaParaCheques
-            // var resumenDatosTablaModal = FoliarNegocios.ObtenerDetallesNominaChequesParaModal(IdNomina).OrderBy(X => X.Delegacion);
-            var resumenDatosTablaModal = FoliarNegocios.ObtenerResumenDelegacionesNominaCheques( IdNomina, anioInterface).OrderBy(X => X.IdDelegacion);
+                int anioInterface = ObtenerAnioDeQuincena(Quincena);
+                //ObtenerDetalleNominaParaCheques
+                // var resumenDatosTablaModal = FoliarNegocios.ObtenerDetallesNominaChequesParaModal(IdNomina).OrderBy(X => X.Delegacion);
+                var resumenDatosTablaModal = FoliarNegocios.ObtenerResumenDelegacionesNominaCheques( IdNomina, anioInterface).OrderBy(X => X.IdDelegacion);
 
-            //string NombreModal = FoliarNegocios.ObtenerNombreModalPorIDNomina(IdNomina);
+                //string NombreModal = FoliarNegocios.ObtenerNombreModalPorIDNomina(IdNomina);
 
          
 
-            //return Json(new
-            //{
-            //    TablaModal = resumenDatosTablaModal
-            //});
+                //return Json(new
+                //{
+                //    TablaModal = resumenDatosTablaModal
+                //});
 
-            return Json(resumenDatosTablaModal, JsonRequestBehavior.AllowGet);
-        }
+                return Json(resumenDatosTablaModal, JsonRequestBehavior.AllowGet);
+            }
 
-        //***************************************************************************************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************************************************************************************//
-        //***********************        GENERA REPORTE EN PDF DE CHEQUES DONDE SE VISUALIZA CADA EMPLEADO COMO SE ENCUENTRA EN SQL PARA VERIFICAR SI ESTA BIEN FOLIADO O NO DE ACUERDO A LOS FOLIOS Y LA CHEQUERA QUE SE UTILIZO    *************************//
-        //***************************************************************************************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************************************************************************************//
-        public ActionResult RevisarReportePDFChequeIdNominaPorDelegacion(GenerarReportePorDelegacionChequeModels GenerarReporteDelegacion) 
-        {
-            int anioInterface = ObtenerAnioDeQuincena(GenerarReporteDelegacion.Quincena);
-
-
-            var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(GenerarReporteDelegacion.IdNomina, anioInterface);
-
-            List<ResumenRevicionNominaPDFModel> ResumenRevicionNominaPDF = new List<ResumenRevicionNominaPDFModel>();
-
-            if (GenerarReporteDelegacion.GrupoFoliacion == 0)
+            //***************************************************************************************************************************************************************************************************************************************************//
+            //***************************************************************************************************************************************************************************************************************************************************//
+            //***********************        GENERA REPORTE EN PDF DE CHEQUES DONDE SE VISUALIZA CADA EMPLEADO COMO SE ENCUENTRA EN SQL PARA VERIFICAR SI ESTA BIEN FOLIADO O NO DE ACUERDO A LOS FOLIOS Y LA CHEQUERA QUE SE UTILIZO    *************************//
+            //***************************************************************************************************************************************************************************************************************************************************//
+            //***************************************************************************************************************************************************************************************************************************************************//
+            public ActionResult RevisarReportePDFChequeIdNominaPorDelegacion(GenerarReportePorDelegacionChequeModels GenerarReporteDelegacion) 
             {
-                //El grupo de foliacion {0} de los cheques pertenece a las nominas GENERAL Y DESCENTRALIZADOS
+                int anioInterface = ObtenerAnioDeQuincena(GenerarReporteDelegacion.Quincena);
 
-                bool EsSindicalizado;
-                if (GenerarReporteDelegacion.Sindicato > 0 && GenerarReporteDelegacion.Confianza == 0)
+
+                var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(GenerarReporteDelegacion.IdNomina, anioInterface);
+
+                List<ResumenRevicionNominaPDFModel> ResumenRevicionNominaPDF = new List<ResumenRevicionNominaPDFModel>();
+
+                if (GenerarReporteDelegacion.GrupoFoliacion == 0)
                 {
-                    EsSindicalizado = true;
-                    ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionNominaGeneralDesce_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, EsSindicalizado, GenerarReporteDelegacion.IdDelegacion));
+                    //El grupo de foliacion {0} de los cheques pertenece a las nominas GENERAL Y DESCENTRALIZADOS
+
+                    bool EsSindicalizado;
+                    if (GenerarReporteDelegacion.Sindicato > 0 && GenerarReporteDelegacion.Confianza == 0)
+                    {
+                        EsSindicalizado = true;
+                        ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionNominaGeneralDesce_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, EsSindicalizado, GenerarReporteDelegacion.IdDelegacion));
                               
+                    }
+                    else if (GenerarReporteDelegacion.Sindicato == 0 && GenerarReporteDelegacion.Confianza > 0) 
+                    {
+                        EsSindicalizado = false;
+                        ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionNominaGeneralDesce_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, EsSindicalizado, GenerarReporteDelegacion.IdDelegacion));
+
+                    }
+
+
                 }
-                else if (GenerarReporteDelegacion.Sindicato == 0 && GenerarReporteDelegacion.Confianza > 0) 
+                else 
                 {
-                    EsSindicalizado = false;
-                    ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionNominaGeneralDesce_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, EsSindicalizado, GenerarReporteDelegacion.IdDelegacion));
-
+                    ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionOtrasNominas_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, GenerarReporteDelegacion.IdDelegacion ));
                 }
 
 
+
+                string archivoBase64;
+                //    using (new Foliacion.Negocios.NetworkConnection(domain, new System.Net.NetworkCredential(user, password)))
+                //   {
+
+                DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+
+                dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
+                // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
+
+
+                foreach (var resultado in ResumenRevicionNominaPDF)
+                {
+                    //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
+                    dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
+                }
+
+                string pathPdf = @"C:\Reporte\FoliacionRevicionPDF";
+
+                if (!Directory.Exists(pathPdf))
+                {
+                    Directory.CreateDirectory(pathPdf);
+                }
+
+
+
+
+                string pathCompleto = pathPdf + "\\" + "RevicionNomina"+datosCompletosNomina.Id_nom+".pdf";
+                ReportDocument rd = new ReportDocument();
+                rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
+                rd.SetDataSource(dtsRevicionFolios);
+                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, pathCompleto);
+
+
+
+                byte[] archivo = ObtenerBytes(pathCompleto);
+
+
+                archivoBase64 = Convert.ToBase64String(archivo);
+
+
+
+                if (System.IO.File.Exists(pathCompleto))
+                {
+                    System.IO.File.Delete(pathCompleto);
+                }
+
+                //}
+
+
+
+                return Json(archivoBase64, JsonRequestBehavior.AllowGet);
             }
-            else 
+
+            public ActionResult RevisarReportePDFChequeIdNomina(int IdNomina , string Quincena)
             {
-                ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(FoliarNegocios.ObtenerDatosPersonalesDelegacionOtrasNominas_ReporteCheque(GenerarReporteDelegacion.IdNomina, anioInterface, GenerarReporteDelegacion.IdDelegacion ));
-            }
+                int anioInterface = ObtenerAnioDeQuincena(Quincena);
 
 
+                var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(IdNomina, anioInterface);
 
-            string archivoBase64;
-            //    using (new Foliacion.Negocios.NetworkConnection(domain, new System.Net.NetworkCredential(user, password)))
-            //   {
-
-            DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-            dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
-            // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
-
-
-            foreach (var resultado in ResumenRevicionNominaPDF)
-            {
-                //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
-                dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
-            }
-
-            string pathPdf = @"C:\Reporte\FoliacionRevicionPDF";
-
-            if (!Directory.Exists(pathPdf))
-            {
-                Directory.CreateDirectory(pathPdf);
-            }
-
-
-
-
-            string pathCompleto = pathPdf + "\\" + "RevicionNomina"+datosCompletosNomina.Id_nom+".pdf";
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-            rd.SetDataSource(dtsRevicionFolios);
-            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, pathCompleto);
-
-
-
-            byte[] archivo = ObtenerBytes(pathCompleto);
-
-
-            archivoBase64 = Convert.ToBase64String(archivo);
-
-
-
-            if (System.IO.File.Exists(pathCompleto))
-            {
-                System.IO.File.Delete(pathCompleto);
-            }
-
-            //}
-
-
-
-            return Json(archivoBase64, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult RevisarReportePDFChequeIdNomina(int IdNomina , string Quincena)
-        {
-            int anioInterface = ObtenerAnioDeQuincena(Quincena);
-
-
-            var datosCompletosNomina = FoliarNegocios.ObtenerDatosCompletosBitacoraPorIdNom_paraControlador(IdNomina, anioInterface);
-
-            List<ResumenRevicionNominaPDFModel> ResumenRevicionNominaPDF = new List<ResumenRevicionNominaPDFModel>();
+                List<ResumenRevicionNominaPDFModel> ResumenRevicionNominaPDF = new List<ResumenRevicionNominaPDFModel>();
 
             
 
-            if (datosCompletosNomina.Nomina == "01" || datosCompletosNomina.Nomina == "02")
-            {
-                ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>( FoliarNegocios.ObtenerDatosPersonalesNominaGENEDESCE_ReporteCheque( IdNomina, anioInterface));
+                if (datosCompletosNomina.Nomina == "01" || datosCompletosNomina.Nomina == "02")
+                {
+                    ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>( FoliarNegocios.ObtenerDatosPersonalesNominaGENEDESCE_ReporteCheque( IdNomina, anioInterface));
+                }
+                else 
+                {
+                    ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(  FoliarNegocios.ObtenerDatosPersonalesOtrasNomina_ReporteCheque(IdNomina, anioInterface) );
+                }
+
+
+
+
+
+                string archivoBase64;
+                //    using (new Foliacion.Negocios.NetworkConnection(domain, new System.Net.NetworkCredential(user, password)))
+                //   {
+
+                DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
+
+                dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
+                // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
+
+
+                foreach (var resultado in ResumenRevicionNominaPDF)
+                {
+                    //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
+                    dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
+                }
+
+                string pathPdf = @"C:\Reporte\FoliacionRevicionPDF";
+
+                if (!Directory.Exists(pathPdf))
+                {
+                    Directory.CreateDirectory(pathPdf);
+                }
+
+
+
+
+                string pathCompleto = pathPdf + "\\" + "RevicionNomina" + datosCompletosNomina.Id_nom + ".pdf";
+                ReportDocument rd = new ReportDocument();
+                rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
+                rd.SetDataSource(dtsRevicionFolios);
+                rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, pathCompleto);
+
+
+
+                byte[] archivo = ObtenerBytes(pathCompleto);
+
+
+                archivoBase64 = Convert.ToBase64String(archivo);
+
+
+
+                if (System.IO.File.Exists(pathCompleto))
+                {
+                    System.IO.File.Delete(pathCompleto);
+                }
+
+                //}
+
+
+
+                return Json(archivoBase64, JsonRequestBehavior.AllowGet);
             }
-            else 
-            {
-                ResumenRevicionNominaPDF = Mapper.Map<List<ResumenRevicionNominaPDFDTO>, List<ResumenRevicionNominaPDFModel>>(  FoliarNegocios.ObtenerDatosPersonalesOtrasNomina_ReporteCheque(IdNomina, anioInterface) );
-            }
-
-
-
-
-
-            string archivoBase64;
-            //    using (new Foliacion.Negocios.NetworkConnection(domain, new System.Net.NetworkCredential(user, password)))
-            //   {
-
-            DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-            dtsRevicionFolios.Ruta.AddRutaRow(datosCompletosNomina.Ruta + datosCompletosNomina.RutaNomina, " ");
-            // dtsRevicionFolios.Ruta.AddRutaRow(FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(IdNomina), " " );
-
-
-            foreach (var resultado in ResumenRevicionNominaPDF)
-            {
-                //dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(resultado.Id), resultado.Partida, resultado.Nombre, resultado.Deleg, resultado.Num_Che, resultado.Liquido, resultado.CuentaBancaria, resultado.Num, resultado.Nom);
-                dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(resultado.Contador, resultado.Partida, resultado.NombreEmpleado, resultado.Delegacion, resultado.NUM_CHE, resultado.Liquido, resultado.Cuenta, resultado.CadenaNumEmpleado, resultado.Nomina);
-            }
-
-            string pathPdf = @"C:\Reporte\FoliacionRevicionPDF";
-
-            if (!Directory.Exists(pathPdf))
-            {
-                Directory.CreateDirectory(pathPdf);
-            }
-
-
-
-
-            string pathCompleto = pathPdf + "\\" + "RevicionNomina" + datosCompletosNomina.Id_nom + ".pdf";
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-            rd.SetDataSource(dtsRevicionFolios);
-            rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, pathCompleto);
-
-
-
-            byte[] archivo = ObtenerBytes(pathCompleto);
-
-
-            archivoBase64 = Convert.ToBase64String(archivo);
-
-
-
-            if (System.IO.File.Exists(pathCompleto))
-            {
-                System.IO.File.Delete(pathCompleto);
-            }
-
-            //}
-
-
-
-            return Json(archivoBase64, JsonRequestBehavior.AllowGet);
-        }
-
-
-      
-
-
-
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***********************************************************MEtodo para ver reporte de nomina cheque **********************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-
-
-        //public ActionResult RevisarNominaFormaPago(RevicionFormasPagoModel NuevaRevicion)
-
-        //{   //el grupo de nomina pertenece a los que se folean por el campo sindizato
-        //    // 1 = le pertenece a las nominas general y descentralizada
-        //    // 2 = le pertenece a cualquier otra nomina que no se folea por sindicato y confianza 
-
-
-
-        //    string ultimoFolioUsar = "";
-        //    int iteradorPersonasFoliadas = 0;
-
-        //    string rutaAlmacenamiento = "C:\\Users\\Israel\\source\\repos\\EDGARMANZANILLA\\FoliacionRemasterizado\\DAP.Plantilla\\Reportes\\ReportesPDFSTemporales\\" + "RevicionNominaFormasDePago" + NuevaRevicion.IdNomina + ".pdf";
-
-
-        //    //obtiene los detalles de una nomina en especifico filtrado por el Id_Nom de bitacora
-        //    var detalleIdNomina = FoliarNegocios.ObtenerQuincenaNominaComentId_nomAnImportadoBitacoraParaCheques(NuevaRevicion.IdNomina);
-
-        //    if (detalleIdNomina.Nomina == "01" && NuevaRevicion.Sindicato == false && NuevaRevicion.Confianza == false || detalleIdNomina.Nomina == "02" && NuevaRevicion.Sindicato == false && NuevaRevicion.Confianza == false)
-        //    {
-        //        //Verifica que si la nomina es General o Descentralizada el usuario haya escogido un tipo de foliacion por SINDICATO o CONFIANZA
-        //        return Json(new
-        //        {
-        //            RespuestaServidor = 99,
-        //            Error = "¿Desea foliar sindicalizados o de confianza?",
-        //            Solucion = "Asegurese de seleccionar un item de sindicato o confianza en el modal Detalles de nomina"
-
-        //        });
-        //    }
-        //    else
-        //    {
-        //        if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial == 0 && NuevaRevicion.RangoInhabilitadoFinal == 0 || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial != 0 && NuevaRevicion.RangoInhabilitadoFinal == 0 || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial == 0 && NuevaRevicion.RangoInhabilitadoFinal != 0)
-        //        {
-        //            //Verifica que ambos campos de inhabilitados esten llenos  
-        //            return Json(new
-        //            {
-        //                RespuestaServidor = 99,
-        //                Error = "Rangos de Inhabilitados no llenados correctamente",
-        //                Solucion = "Asegurese de que los rangos Inabilitados esten llenados ( Tanto el inicial como final)"
-
-        //            });
-        //        }
-        //        else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInhabilitadoInicial > NuevaRevicion.RangoInhabilitadoFinal)
-        //        {
-        //            //verififica que el rango inhabilitado inicial no sea mayor que el final
-        //            return Json(new
-        //            {
-        //                RespuestaServidor = 99,
-        //                Error = "'Revise sus numeros de folios de inhabilitacion'",
-        //                Solucion = "El folio inicial no puede ser mas grande que el final"
-
-        //            });
-
-
-        //        }
-        //        else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoInicial || NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoFinal)
-        //        {
-        //            return Json(new
-        //            {
-        //                RespuestaServidor = 99,
-        //                Error = "El rango inicial de folicion es menor que algun rango inhabilitado ",
-        //                Solucion = " 'Revise sus numeros de folios inhabilitados' "
-        //            });
-        //        }
-        //        else if (NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial >= NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial >= NuevaRevicion.RangoInhabilitadoFinal /*|| NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial > NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoFinal  */)
-        //        {
-        //            //NuevaRevicion.Inhabilitado && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoInicial && NuevaRevicion.RangoInicial < NuevaRevicion.RangoInhabilitadoFinal  &&  NuevaRevicion.RangoInhabilitadoInicial <= NuevaRevicion.RangoInhabilitadoFinal
-
-
-        //            //para que este bien los folios de inhabilitacion el (( RANGOINICIAL < RANGOINHABILITADOINICIAL YY RANGOINHABILITADOFINAL > RANGOINHABILITADOINICIAL))
-        //            return Json(new
-        //            {
-        //                RespuestaServidor = 99,
-        //                Error = "El folio inicial no concuerdan con los folios a inhabilitar ",
-        //                Solucion = " 'Revise sus numeros de folios inhabilitados' "
-        //            });
-
-        //        }
-        //        else
-        //        {
-
-
-        //            string NombreBanco = FoliarNegocios.ObtenerBancoPorID(NuevaRevicion.IdBancoPagador);
-
-        //            //Grupo 1
-        //            if (detalleIdNomina.Nomina == "01" || detalleIdNomina.Nomina == "02")
-        //            {
-
-        //                //Obtener la consulta a la que corresponde la delegacion 
-        //               // ConsultasSQLSindicatoGeneralYDesc nuevaConsulta = new ConsultasSQLSindicatoGeneralYDesc(detalleIdNomina.An);
-        //                //string consulta = nuevaConsulta.ObtenerConsultaSindicatoFormasDePago(NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
-        //                string consulta = ConsultasSQLSindicatoGeneralYDesc.ObtenerConsultaSindicatoFormasDePago(detalleIdNomina.An, NuevaRevicion.Delegacion, NuevaRevicion.Sindicato);
-
-
-        //                //obtiene los datos como quedarian posiblemente al momento de folear 
-        //                List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consulta, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
-
-        //                ///
-        //                //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
-        //                var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaRevicion.IdBancoPagador, NuevaRevicion.RangoInicial, datosRevicionObtenidos.Count(), NuevaRevicion.Inhabilitado, NuevaRevicion.RangoInhabilitadoInicial, NuevaRevicion.RangoInhabilitadoFinal);
-
-        //                var foliosNoDisponibles =  chequesVerificadosFoliar.Where( y => y.Incidencia != "").ToList();
-
-
-        //                //Si todos los folios no tienen incidencias el proceso continua su rumbo 
-        //                if (foliosNoDisponibles.Count == 0)
-        //                {
-
-        //                    //Crear reporte 
-        //                    DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-        //                    //Pasa el nombre de la ruta
-        //                    dtsRevicionFolios.Ruta.AddRutaRow("RUTA " + FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), " LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper());
-
-
-        //                    //cargar datos al reporte 
-        //                    foreach (var dato in datosRevicionObtenidos)
-        //                    {
-        //                        iteradorPersonasFoliadas++;
-        //                        ultimoFolioUsar = dato.Num_Che;
-        //                        dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
-        //                    }
-
-
-        //                    // Materializa el reporte en un pdf que pone en una carpeta 
-        //                    ReportDocument rd = new ReportDocument();
-        //                    rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-
-        //                    rd.SetDataSource(dtsRevicionFolios);
-
-        //                    rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
-
-
-
-        //                }
-        //                else 
-        //                {
-        //                    //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
-        //                    return Json(new
-        //                    {
-        //                        RespuestaServidor = 98,
-        //                        FoliosConIncidencias = foliosNoDisponibles
-        //                    }) ;
-
-        //                }
-
-        //            }
-        //            else /*if (NuevaRevicion.GrupoNomina == 2)*/
-        //            {
-        //                //Grupo2
-        //                //Funciona para cualquier otra nomina que no se folea por sindicato y confianza 
-
-        //                string consultaOtrasNominas = "";
-
-        //                //verifica que si la nomina a verificar es pension "08" entonces selecciona una consulta deacuerdo a la nomina seleccionada
-        //                if (detalleIdNomina.Nomina != "08")
-        //                {
-        //                    ConsultasSQLOtrasNominasConCheques NuevaConsulta = new ConsultasSQLOtrasNominasConCheques();
-        //                    consultaOtrasNominas = NuevaConsulta.ObtenerConsultaConOrdenamientoFormasDePago(NuevaRevicion.Delegacion, detalleIdNomina.An);
-        //                }
-        //                else
-        //                {
-        //                    ConsultasSQLOtrasNominasConCheques NuevaConsultaPension = new ConsultasSQLOtrasNominasConCheques();
-        //                    consultaOtrasNominas = NuevaConsultaPension.ObtenerConsultaConOrdenamientoFormasDePagoPensionAlimenticia(NuevaRevicion.Delegacion, detalleIdNomina.An);
-        //                }
-
-        //                //Si no esta vacia procede obtener los datos y y rellena el pdf  
-        //                if (!string.IsNullOrWhiteSpace(consultaOtrasNominas))
-        //                {
-        //                    List<DatosReporteRevisionNominaDTO> datosRevicionObtenidos = FoliarNegocios.ObtenerDatosRevicionPorDelegacionFormasPago(consultaOtrasNominas, detalleIdNomina.Nomina, Convert.ToInt32(NuevaRevicion.RangoInicial), NombreBanco, NuevaRevicion.Inhabilitado, Convert.ToInt32(NuevaRevicion.RangoInhabilitadoInicial), Convert.ToInt32(NuevaRevicion.RangoInhabilitadoFinal));
-
-        //                    //VERIFICA QUE LOS FOLIOS A USAR ESTEN DISPONIBLES EN EL INVENTARIO 
-        //                    var chequesVerificadosFoliar = FoliarNegocios.verificarFoliosEnInventarioDetalle(NuevaRevicion.IdBancoPagador, NuevaRevicion.RangoInicial, datosRevicionObtenidos.Count(), NuevaRevicion.Inhabilitado, NuevaRevicion.RangoInhabilitadoInicial, NuevaRevicion.RangoInhabilitadoFinal);
-
-        //                    var foliosNoDisponibles = chequesVerificadosFoliar.Where(y => y.Incidencia != "").ToList();
-
-
-
-
-        //                    //Si todos los folios no tienen incidencias el proceso continua su rumbo 
-        //                    if (foliosNoDisponibles.Count == 0 && chequesVerificadosFoliar.Count > 0)
-        //                    {
-
-        //                        //Crear reporte 
-        //                        DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina dtsRevicionFolios = new DAP.Plantilla.Reportes.Datasets.RevicionDeFoliacionPorNomina();
-
-        //                        //Pasa el nombre de la ruta que es parte del encabezado del reporte
-        //                        dtsRevicionFolios.Ruta.AddRutaRow("RUTA" + FoliarNegocios.ObtenerRutaCOmpletaArchivoIdNomina(NuevaRevicion.IdNomina), "LA DELEGACION SELECCIONADA ES : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper());
-
-        //                        //cargar datos al reporte 
-        //                        foreach (var dato in datosRevicionObtenidos)
-        //                        {
-        //                            iteradorPersonasFoliadas++;
-        //                            ultimoFolioUsar = dato.Num_Che;
-        //                            dtsRevicionFolios.DatosRevicion.AddDatosRevicionRow(Convert.ToString(dato.Id), dato.Partida, dato.Nombre, dato.Deleg, dato.Num_Che, dato.Liquido, dato.CuentaBancaria, dato.Num, dato.Nom);
-        //                        }
-
-
-        //                        // Materializa el reporte en un pdf que pone en una carpeta 
-        //                        ReportDocument rd = new ReportDocument();
-        //                        rd.Load(Path.Combine(Server.MapPath("~/"), "Reportes/Crystal/RevicionFoliacionNomina.rpt"));
-
-        //                        rd.SetDataSource(dtsRevicionFolios);
-
-        //                        rd.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, rutaAlmacenamiento);
-        //                    }
-        //                    else if (chequesVerificadosFoliar.Count == 0)
-        //                    {
-        //                        //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
-        //                        return Json(new
-        //                        {
-        //                            RespuestaServidor = 97,
-        //                            Error = "No existe el folio inicial ingresado para la foliacion"
-        //                        });
-        //                    }
-        //                    else 
-        //                    {
-        //                        //retorna la lista de folios que no se pueden utilizar por que tienen una incidencia
-        //                        return Json(new
-        //                        {
-        //                            RespuestaServidor = 98,
-        //                            FoliosConIncidencias = foliosNoDisponibles
-        //                        });
-        //                    }
-        //                }
-
-
-        //            }
-
-        //        }
-
-
-        //    }
-
-
-
-
-
-
-
-
-
-
-
-
-        //    if (System.IO.File.Exists(rutaAlmacenamiento) && ultimoFolioUsar != "")
-        //    {
-
-        //        return Json(new
-        //        {
-        //            RespuestaServidor = 201,
-        //            Delegacion = "VISTA PREVIA DE LA DELGACION : " + FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper(),
-        //            UltimoFolioUsado = ultimoFolioUsar,
-        //            FoliosTotal = iteradorPersonasFoliadas,
-        //            DatosExtras = FoliarNegocios.ObtenerDetalleBancoFormasDePago().Select(y => new { y.NombreBanco, y.Cuenta, y.FormasDisponiblesInventario }).ToList()
-        //        });
-
-        //        // respuestaServer = "201";
-        //    }
-        //    else
-        //    {
-        //        return Json(new
-        //        {
-        //            RespuestaServidor = 500,
-        //            Delegacion = "ERROR AL CARGAR LA DELGACION : " + (FoliarNegocios.ObtenerDelegacionPorId(NuevaRevicion.Delegacion).ToUpper()),
-        //            UltimoFolioUsado = "Error no se puede simular la Foliacion",
-        //            FoliosTotal = 0,
-        //            Error = "No coincide la delegacion con el sindicato"
-        //        });
-        //    }
-
-        //  //  return Json("404", JsonRequestBehavior.AllowGet);
-        //}
-
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-        //***************************************************************************************************************************************************************************//
-
 
         #endregion
 
@@ -730,13 +422,6 @@ namespace DAP.Plantilla.Controllers
 
 
 
-
-
-        ////Guardar NuevaQuincena en la Tbl_historicoQuincenasRegistradas
-        //public ActionResult RegistrarNuevaQuincena(int NuevaQuincesa) 
-        //{
-        //    return Json(NuevaQuincesa, JsonRequestBehavior.AllowGet);
-        //}
 
 
 
@@ -853,11 +538,11 @@ namespace DAP.Plantilla.Controllers
         }
 
 
-        //*********************************************************************************************************************************************************************************************************//
-        //*********************************************************************************************************************************************************************************************************//
-        //************************************          GENERA REPORTE EN PDF DONDE SE VISUALIZA EL CADA EMPLEADO COMO SE ENCUENTRA EN SQL PARA VERIFICAR SI ESTA BIEN FOLIADO O NO    ****************************//
-        //********************************************************************************************************************************************************************************************************//
-        //********************************************************************************************************************************************************************************************************//
+        //*****************************************************************************************************************************************************************************************************************//
+        //*****************************************************************************************************************************************************************************************************************//
+        //************************************          GENERA REPORTE EN PDF DONDE SE VISUALIZA EL CADA EMPLEADO COMO SE ENCUENTRA EN SQL PARA VERIFICAR SI ESTA BIEN FOLIADO O NO    ************************************//
+        //*****************************************************************************************************************************************************************************************************************//
+        //*****************************************************************************************************************************************************************************************************************//
 
         public ActionResult RevisarReportePDFPagomaticoPorIdNomina(int IdNomina, string Quincena)
         {
@@ -926,33 +611,17 @@ namespace DAP.Plantilla.Controllers
 
         public byte[] ObtenerBytes(string path) => System.IO.File.ReadAllBytes(path);
 
-
-
-
-
-
-
-
         public int ObtenerAnioDeQuincena(string Quincena)
         {
             return Convert.ToInt32(DateTime.Now.Year.ToString().Substring(0, 2) + Quincena.Substring(0, 2));
         }
 
 
-
-
-
-
-
-
-
-
-
-        //*********************************************************************************************************************************************************************************************************//
-        //*********************************************************************************************************************************************************************************************************//
-        //****************************************************         Metodos para FOLIAR nominas con cheques(Formas de pagos)    ********************************************************************************//
-        //********************************************************************************************************************************************************************************************************//
-        //********************************************************************************************************************************************************************************************************//
+        //*******************************************************************************************************************************************************************************************************************//
+        //*******************************************************************************************************************************************************************************************************************//
+        //****************************************************         Metodos para FOLIAR nominas con cheques(FORMAS DE PAGO => CHEQUES)    ********************************************************************************//
+        //*******************************************************************************************************************************************************************************************************************//
+        //*******************************************************************************************************************************************************************************************************************//
 
         public async System.Threading.Tasks.Task<ActionResult> FoliarNominaFormaPago(DatosAFoliarNominaConChequeraModel NuevaFoliacionNomina)
         {
@@ -1041,6 +710,33 @@ namespace DAP.Plantilla.Controllers
 
 
 
+        }
+
+
+
+
+
+
+
+        //**********************************************************************************************************************************************************************************************************************//
+        //****************************************************         Metodo para Recuperar Cheques (Recrese el cheque a un estado inicial cuando sucede un error humano de foliacion)         ********************************//
+        //**********************************************************************************************************************************************************************************************************************//
+        public ActionResult BuscarChequesARecuperar(int IdCuentaBancaria , int RangoInicial , int RangoFinal )
+        {
+            return Json(FoliarNegocios.BuscarFormasPagoCoincidentes(IdCuentaBancaria, RangoInicial, RangoFinal).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+        //**********************************************************************************************************************************************************************************************************************//
+        //****************************************************         Restaura el folio de un cheque de un idPago para devolvelo al inventario como si nunca hubo tenido una incidencia       ********************************//
+        public ActionResult RestaurarFolioChequeDeIdPagoSeleccionado(int IdPago)
+        {
+            FoliarNegocios
+            return Json("", JsonRequestBehavior.AllowGet);
         }
     }
 

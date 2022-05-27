@@ -62,13 +62,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/21/2019 13:18:02</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.dll">
-      <publishTime>03/24/2022 10:47:51</publishTime>
+      <publishTime>05/16/2022 13:46:09</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.dll.config">
       <publishTime>03/17/2022 11:57:30</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Datos.pdb">
-      <publishTime>03/24/2022 10:47:51</publishTime>
+      <publishTime>05/16/2022 13:46:09</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.DatosFox.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -77,25 +77,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Entidades.dll">
-      <publishTime>03/24/2022 10:47:50</publishTime>
+      <publishTime>05/16/2022 13:46:09</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Entidades.pdb">
-      <publishTime>03/24/2022 10:47:50</publishTime>
+      <publishTime>05/16/2022 13:46:09</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.dll">
-      <publishTime>03/24/2022 10:54:02</publishTime>
+      <publishTime>05/16/2022 13:46:10</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.dll.config">
       <publishTime>11/22/2021 11:17:10</publishTime>
     </File>
     <File Include="bin/DAP.Foliacion.Negocios.pdb">
-      <publishTime>03/24/2022 10:54:02</publishTime>
+      <publishTime>05/16/2022 13:46:10</publishTime>
     </File>
     <File Include="bin/DAP.Plantilla.dll">
-      <publishTime>03/24/2022 10:54:05</publishTime>
+      <publishTime>05/16/2022 13:46:13</publishTime>
     </File>
     <File Include="bin/DAP.Plantilla.pdb">
-      <publishTime>03/24/2022 10:54:05</publishTime>
+      <publishTime>05/16/2022 13:46:13</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 20:38:42</publishTime>
@@ -350,7 +350,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/08/2021 13:26:29</publishTime>
     </File>
     <File Include="Content/style.css">
-      <publishTime>01/07/2022 14:50:06</publishTime>
+      <publishTime>04/13/2022 11:26:34</publishTime>
     </File>
     <File Include="Content/vendor/animo.js/animo.js">
       <publishTime>06/26/2019 17:33:06</publishTime>
@@ -5245,6 +5245,36 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Imagenes/VERTICAL poder ejecutivo.png">
       <publishTime>08/06/2019 17:56:30</publishTime>
     </File>
+    <File Include="Reportes/Datasets/DSCuentaBancariaAnual_CC.xsc">
+      <publishTime>04/29/2022 17:41:35</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DSCuentaBancariaAnual_CC.xss">
+      <publishTime>04/29/2022 17:41:35</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsNominaAnual.xsc">
+      <publishTime>04/28/2022 12:22:12</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsNominaAnual.xss">
+      <publishTime>04/28/2022 12:22:12</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsPensionAlimenticiaCC.xsc">
+      <publishTime>05/03/2022 10:57:07</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsPensionAlimenticiaCC.xss">
+      <publishTime>05/03/2022 10:57:07</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsReportesCC/DsIPD/DsTGCxNomina.xsc">
+      <publishTime>05/11/2022 09:21:57</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsReportesCC/DsIPD/DsTGCxNomina.xss">
+      <publishTime>05/11/2022 09:21:57</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsReportesCC/DsIPD/DsTGCxNominaDeducciones.xsc">
+      <publishTime>05/09/2022 13:00:48</publishTime>
+    </File>
+    <File Include="Reportes/Datasets/DsReportesCC/DsIPD/DsTGCxNominaDeducciones.xss">
+      <publishTime>05/09/2022 13:00:48</publishTime>
+    </File>
     <File Include="Reportes/Datasets/FormasChequesExistentes.xsc">
       <publishTime>05/25/2021 13:58:36</publishTime>
     </File>
@@ -5459,7 +5489,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Scripts/Mensajes.js">
-      <publishTime>01/13/2022 11:48:44</publishTime>
+      <publishTime>05/11/2022 11:53:30</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.8.3.js">
       <publishTime>04/19/2021 09:29:35</publishTime>
@@ -5513,7 +5543,43 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Scripts/ScriptProyecto/EncontrarCheque/Index.js">
-      <publishTime>01/27/2022 12:06:45</publishTime>
+      <publishTime>03/30/2022 14:58:17</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/CHEQUES_CANCELADOS/CrearReferencia_Cancelados/Index.js">
+      <publishTime>05/13/2022 11:35:57</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/CHEQUES_CANCELADOS/EncontrarCheque/Index.js">
+      <publishTime>04/13/2022 12:45:36</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/FoliarXFormasPago.js">
+      <publishTime>03/18/2022 14:00:55</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/FoliarXPagomatico.js">
+      <publishTime>03/17/2022 16:17:03</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/Index.js">
+      <publishTime>03/14/2022 14:04:12</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Agregar.js">
+      <publishTime>03/16/2022 13:45:59</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Asignar.js">
+      <publishTime>02/23/2022 13:12:04</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/DetalleBanco.js">
+      <publishTime>03/23/2022 11:31:17</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Index.js">
+      <publishTime>02/01/2022 12:48:03</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Inhabilitar.js">
+      <publishTime>03/02/2022 08:55:25</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Solicitar.js">
+      <publishTime>02/01/2022 13:07:49</publishTime>
+    </File>
+    <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Reposicion_Suspencion/Index.js">
+      <publishTime>04/13/2022 12:36:00</publishTime>
     </File>
     <File Include="Scripts/SCRIPTS_PROYECTO_VISTAS/Foliar/FoliarXFormasPago.js">
       <publishTime>03/18/2022 14:00:55</publishTime>
@@ -5971,6 +6037,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/umd/popper.min.js.map">
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
+    <File Include="Scripts/Upload/jquery.uploadfile.min.js">
+      <publishTime>03/31/2022 15:27:53</publishTime>
+    </File>
+    <File Include="Scripts/Upload/uploadfile.css">
+      <publishTime>01/24/2022 14:44:49</publishTime>
+    </File>
     <File Include="Views/Configuraciones_InventarioYCuentas/CuentaBancaria_EliminacionCuenta.cshtml">
       <publishTime>03/03/2022 15:05:44</publishTime>
     </File>
@@ -6005,28 +6077,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/03/2021 12:56:07</publishTime>
     </File>
     <File Include="Views/CrearReferencia_Cancelados/Index.cshtml">
-      <publishTime>01/13/2022 10:48:03</publishTime>
+      <publishTime>05/13/2022 11:34:25</publishTime>
     </File>
     <File Include="Views/EncontrarCheque/DetallesInformativosCheques.cshtml">
-      <publishTime>03/11/2022 10:55:27</publishTime>
+      <publishTime>04/22/2022 12:16:29</publishTime>
     </File>
     <File Include="Views/EncontrarCheque/Index.cshtml">
-      <publishTime>01/10/2022 10:27:35</publishTime>
+      <publishTime>04/22/2022 12:41:04</publishTime>
     </File>
     <File Include="Views/FinalizarReferencia_Cancelados/Index_FinalizarReferencia.cshtml">
       <publishTime>01/13/2022 11:50:21</publishTime>
     </File>
     <File Include="Views/Foliar/FoliarXFormasPago.cshtml">
-      <publishTime>03/15/2022 12:04:49</publishTime>
+      <publishTime>04/13/2022 09:37:17</publishTime>
     </File>
     <File Include="Views/Foliar/FoliarXPagomatico.cshtml">
       <publishTime>03/11/2022 14:58:27</publishTime>
     </File>
     <File Include="Views/Foliar/Index.cshtml">
-      <publishTime>03/11/2022 10:46:55</publishTime>
+      <publishTime>03/31/2022 13:43:20</publishTime>
     </File>
     <File Include="Views/Inventario/Agregar.cshtml">
-      <publishTime>02/04/2022 15:44:51</publishTime>
+      <publishTime>03/31/2022 13:44:33</publishTime>
     </File>
     <File Include="Views/Inventario/Asignar.cshtml">
       <publishTime>02/23/2022 13:11:28</publishTime>
@@ -6038,28 +6110,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/22/2022 13:37:08</publishTime>
     </File>
     <File Include="Views/Inventario/Index.cshtml">
-      <publishTime>03/17/2022 13:46:07</publishTime>
+      <publishTime>03/31/2022 13:46:03</publishTime>
     </File>
     <File Include="Views/Inventario/Inhabilitar.cshtml">
-      <publishTime>03/23/2022 11:00:41</publishTime>
+      <publishTime>03/31/2022 13:46:29</publishTime>
     </File>
     <File Include="Views/Inventario/Solicitar.cshtml">
-      <publishTime>02/01/2022 12:33:38</publishTime>
+      <publishTime>03/31/2022 13:47:01</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/BuscarDetalleReponer.cshtml">
-      <publishTime>03/23/2022 12:13:49</publishTime>
+      <publishTime>03/31/2022 13:47:25</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/BuscarDetalleSuspencion.cshtml">
       <publishTime>03/23/2022 12:03:07</publishTime>
     </File>
     <File Include="Views/Reposicion_Suspencion/Index.cshtml">
-      <publishTime>03/16/2022 09:49:56</publishTime>
+      <publishTime>04/22/2022 12:31:05</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/24/2022 08:50:03</publishTime>
+      <publishTime>04/18/2022 09:51:13</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/19/2021 09:29:35</publishTime>
@@ -6068,7 +6140,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/19/2021 09:29:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/24/2022 09:48:24</publishTime>
+      <publishTime>05/16/2022 13:46:16</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@
 
 
 
-    @*<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 
@@ -35,6 +35,8 @@
     <script src="~/Scripts/Mensajes.js"></script>
     <script src="~/Scripts/jquery.noty.packaged.js"></script>
     <script src="~/Scripts/jquery.dynamicTable-1.0.0.js"></script>
+  
+
 
 
 
@@ -53,6 +55,10 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 
 
+    <!-- =============== DataTable filtros en encabezado ===============-->
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
+
+
 
 
 
@@ -61,6 +67,12 @@
     <link href="~/Scripts/select2-4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="~/Scripts/select2-4.1.0-rc.0/js/select2.min.js"></script>
     <script src="~/Scripts/select2-4.1.0-rc.0/js/i18n/es.js"></script>
+
+
+
+    <!-- =============== UPLOAD ===============-->
+    <link rel="stylesheet" href="~/Scripts/Upload/uploadfile.css">
+    <script src="~/Scripts/Upload/jquery.uploadfile.min.js"></script>
 
 
 
@@ -144,13 +156,16 @@
                             <a href="@Url.Action("Index","Foliar")">Foliar Forma de Pago</a>
                         </li>
                         <li>
+                            <a href="@Url.Action("RecuperarFolios","Foliar")">Recuperar Folios Foliados</a>
+                        </li>
+                        <li>
                             <a href="@Url.Action("Index","Reposicion_Suspencion")">Suspender y/o Reponer Forma de Pago </a>
                         </li>
                     </ul>
                 </li>
 
 
-                @*<li>
+                <li>
                     <a href="#pageSubmenu" title="Pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <em class="fas fa-search-dollar"></em>
                         CANCELAR
@@ -161,17 +176,14 @@
 
                         </li>
                         <li>
-                            <a href="@Url.Action("Index","CrearReferencia_Cancelados")">Crear y/o cancelar referencia</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index_FinalizarReferencia","FinalizarReferencia_Cancelados")">Finalizar referencia</a>
+                            <a href="@Url.Action("Index","CrearReferencia_Cancelados")">Crea, Elimina o Finaliza Referencias</a>
                         </li>
 
                     </ul>
                 </li>
 
 
-                <li>
+                @*<li>
                     <a href="#pageConfiguracion" title="Pages" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <em class="fas fa-tools"></em>
                         CONFIGURACION
@@ -287,16 +299,17 @@
         });
 
     </script>
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Index.js" > </script>
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Solicitar.js" > </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Index.js" > </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Solicitar.js" > </script>
     @*<script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Agregar.js" > </script>*@
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Inhabilitar.js" > </script>
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/Asignar.js" > </script>
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Inventario/DetalleBanco.js" > </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Inhabilitar.js" > </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/Asignar.js" > </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Inventario/DetalleBanco.js" > </script>
     @*FOLIACION*@
     @*<script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Foliar/Index.js"> </script>*@
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Foliar/FoliarXPagomatico.js"> </script>
-    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/Foliar/FoliarXFormasPago.js"> </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/FoliarXPagomatico.js"> </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/FoliarXFormasPago.js"> </script>
+    <script src="~/Scripts/SCRIPTS_PROYECTO_VISTAS/FOLIACION/Foliar/RecuperarFolios.js"> </script>
     @RenderSection("Scripts", required: false)
 
 </body>
